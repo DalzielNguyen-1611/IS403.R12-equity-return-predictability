@@ -1,8 +1,24 @@
-# ĐỒ ÁN MÔN HỌC: PHÂN TÍCH DỮ LIỆU KINH DOANH
+<!-- Header / Banner UIT -->
+<p align="center">
+  <a href="https://www.uit.edu.vn/" title="Trường Đại học Công nghệ Thông tin - ĐHQG TP.HCM" style="border: none;">
+    <img src="https://i.imgur.com/WmMnSRt.png" alt="Trường Đại học Công nghệ Thông tin | University of Information Technology" width="650">
+  </a>
+</p>
 
-## 📊 Đề tài: When Does Equity Return Predictability Decay? A Multi-Horizon and Regime-Dependent Out-of-Sample Analysis
+<h1 align="center"><b>PHÂN TÍCH DỮ LIỆU KINH DOANH (BUSINESS DATA ANALYSIS)</b></h1>
 
-> Kho lưu trữ toàn bộ mã nguồn, dữ liệu, tài liệu và báo cáo phục vụ cho đồ án môn học Phân tích dữ liệu kinh doanh.
+<h3 align="center">📊 Đề tài: When Does Equity Return Predictability Decay? A Multi-Horizon and Regime-Dependent Out-of-Sample Analysis</h3>
+
+<p align="center">
+  <i>Kho lưu trữ toàn bộ mã nguồn, dữ liệu, tài liệu và báo cáo phục vụ cho đồ án môn học Phân tích dữ liệu kinh doanh</i>
+</p>
+
+<p align="center">
+  <a href="https://github.com/DalzielNguyen-1611/IS403.R12-equity-return-predictability"><img src="https://img.shields.io/badge/Course-IS402-0077b6?style=for-the-badge&logo=googlescholar&logoColor=white" alt="Course IS402"></a>
+  <img src="https://img.shields.io/badge/Semester-HK1%20(2026--2027)-0096c7?style=for-the-badge&logo=clockify&logoColor=white" alt="Semester">
+  <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python Version">
+  <img src="https://img.shields.io/badge/Jupyter-Project%20%2F%20Notebook-F37626?style=for-the-badge&logo=jupyter&logoColor=white" alt="Jupyter">
+</p>
 
 ---
 
