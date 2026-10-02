@@ -5,9 +5,9 @@
   </a>
 </p>
 
-<h1 align="center"><b>PHÂN TÍCH DỮ LIỆU KINH DOANH (BUSINESS DATA ANALYSIS)</b></h1>
+<h1 align="center"><b>PHÂN TÍCH DỮ LIỆU KINH DOANH - BUSINESS DATA ANALYSIS</b></h1>
 
-<h3 align="center">📊 Đề tài: When Does Equity Return Predictability Decay? A Multi-Horizon and Regime-Dependent Out-of-Sample Analysis</h3>
+<h3 align="center">When Does Equity Return Predictability Decay? A Multi-Horizon and Regime-Dependent Out-of-Sample Analysis</h3>
 
 <p align="center">
   <i>Kho lưu trữ toàn bộ mã nguồn, dữ liệu, tài liệu và báo cáo phục vụ cho đồ án môn học Phân tích dữ liệu kinh doanh</i>
@@ -26,7 +26,7 @@
 
 | Thuộc tính | Chi tiết |
 | :--- | :--- |
-| **Tên môn học** | Phân tích dữ liệu kinh doanh (Business Data Analysis) |
+| **Tên môn học** | Phân tích dữ liệu kinh doanh - Business Data Analysis |
 | **Mã môn học** | IS402 |
 | **Lớp học phần** | IS402.R12 |
 | **Đề tài đồ án** | **When Does Equity Return Predictability Decay? A Multi-Horizon and Regime-Dependent Out-of-Sample Analysis** |
