@@ -67,30 +67,13 @@ Repository này được tạo ra nhằm phục vụ riêng cho đồ án môn h
 
 ```text
 IS403.R12-equity-return-predictability/
-├── BTTH/                                                                    # Thư mục lưu trữ bài tập thực hành (Lab)
-│   ├── 2/                                                                   # Bài thực hành số 2: Kiểm định thống kê (ANOVA, Levene, Tukey HSD)
-│   │   ├── BT2.225092301_insurance_survey.csv                               # Dữ liệu khảo sát bảo hiểm
-│   │   ├── BT2.html                                                         # Báo cáo HTML bài thực hành 2
-│   │   ├── BT2.ipynb                                                        # Notebook thực hành 2
-│   │   └── BTTH2_Nhom6_23520506_24520500_24521314_24521649_24521732.html   # Báo cáo nộp bài nhóm 6
-│   ├── 3/                                                                   # Bài thực hành số 3: Hồi quy tuyến tính đơn biến (Linear Regression)
-│   │   ├── BT3.310092301_scoring_credit_linear.csv                          # Dữ liệu điểm tín dụng và thu nhập
-│   │   ├── BT3.ipynb                                                        # Notebook thực hành 3
-│   │   └── BTTH3_Nhom6_23520506_24520500_24521314_24521649_24521732.html   # Báo cáo nộp bài nhóm 6
-│   ├── 4/                                                                   # Bài thực hành số 4: Hồi quy tuyến tính đa biến (Multiple Linear Regression)
-│   │   ├── BT4.313092302_satisfaction_level.csv                             # Dữ liệu mức độ hài lòng khách hàng
-│   │   ├── BT4.ipynb                                                        # Notebook thực hành 4
-│   │   └── BTTH4_Nhom6_23520506_24520500_24521314_24521649_24521732.html   # Báo cáo nộp bài nhóm 6
-│   └── 5/                                                                   # Bài thực hành số 5: Hồi quy phi tuyến tính (Polynomial Regression)
-│       ├── BT5.Nonlinear_data.csv                                           # Dữ liệu phi tuyến
-│       ├── BT5.ipynb                                                        # Notebook thực hành 5
-│       └── BTTH5_Nhom6_23520506_24520500_24521314_24521649_24521732.html   # Báo cáo nộp bài nhóm 6
-├── Dataset/                                                                 # Dữ liệu phục vụ đề tài nghiên cứu đồ án
-│   ├── processed/                                                           # Dữ liệu sau khi xử lý & merge
-│   │   ├── handle.ipynb                                                     # Notebook xử lý, merge và kiểm tra chất lượng dữ liệu
-│   │   └── sp500_vix_merged_1990_present.csv                                # Dữ liệu S&P 500 + VIX đã làm sạch (1990 - 2026)
-│   └── raw/                                                                 # Dữ liệu thô thu thập ban đầu
-│       ├── sp500_yahoo_1990_present.csv                                     # Dữ liệu chỉ số S&P 500 từ Yahoo Finance
-│       └── VIXCLS.csv                                                       # Dữ liệu chỉ số biến động VIX từ FRED
-└── README.md                                                                # Tài liệu giới thiệu học phần và đồ án
+├── BTTH/               # Thư mục lưu trữ các bài tập thực hành (Lab)
+│   ├── 2/              # Bài thực hành số 2: Kiểm định thống kê (ANOVA, Levene, Tukey HSD)
+│   ├── 3/              # Bài thực hành số 3: Hồi quy tuyến tính đơn biến (Linear Regression)
+│   ├── 4/              # Bài thực hành số 4: Hồi quy tuyến tính đa biến (Multiple Linear Regression)
+│   └── 5/              # Bài thực hành số 5: Hồi quy phi tuyến tính (Polynomial Regression)
+├── Dataset/            # Thư mục lưu trữ dữ liệu nghiên cứu đồ án
+│   ├── processed/      # Dữ liệu sau khi làm sạch, tiền xử lý và merge
+│   └── raw/            # Dữ liệu thô thu thập ban đầu (Yahoo Finance, FRED)
+└── README.md           # Tài liệu giới thiệu học phần và đồ án
 ```
