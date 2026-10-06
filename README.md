@@ -69,6 +69,9 @@ Repository này được tạo ra nhằm phục vụ riêng cho đồ án môn h
 IS403.R12-equity-return-predictability/
 ├── btth/               # Thư mục lưu trữ các bài tập thực hành (Lab)
 ├── dataset/            # Thư mục lưu trữ dữ liệu nghiên cứu đồ án
-├── src/                # Thư mục lưu trữ mã nguồn và notebook xử lý dữ liệu, mô hình
+├── docs/               # Tài liệu hướng dẫn, kiểm soát chất lượng và checklist
+├── src/                # Thư mục lưu trữ toàn bộ mã nguồn và notebook
+│   ├── preprocessing/  # Notebooks xử lý, làm sạch và chuẩn bị dữ liệu
+│   └── training/       # Mã nguồn và notebook huấn luyện, đánh giá mô hình
 └── README.md           # Tài liệu giới thiệu học phần và đồ án
 ```
