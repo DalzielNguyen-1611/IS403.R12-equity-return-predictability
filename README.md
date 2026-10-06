@@ -67,13 +67,8 @@ Repository này được tạo ra nhằm phục vụ riêng cho đồ án môn h
 
 ```text
 IS403.R12-equity-return-predictability/
-├── BTTH/               # Thư mục lưu trữ các bài tập thực hành (Lab)
-│   ├── 2/              # Bài thực hành số 2: Kiểm định thống kê (ANOVA, Levene, Tukey HSD)
-│   ├── 3/              # Bài thực hành số 3: Hồi quy tuyến tính đơn biến (Linear Regression)
-│   ├── 4/              # Bài thực hành số 4: Hồi quy tuyến tính đa biến (Multiple Linear Regression)
-│   └── 5/              # Bài thực hành số 5: Hồi quy phi tuyến tính (Polynomial Regression)
-├── Dataset/            # Thư mục lưu trữ dữ liệu nghiên cứu đồ án
-│   ├── processed/      # Dữ liệu sau khi làm sạch, tiền xử lý và merge
-│   └── raw/            # Dữ liệu thô thu thập ban đầu (Yahoo Finance, FRED)
+├── btth/               # Thư mục lưu trữ các bài tập thực hành (Lab)
+├── dataset/            # Thư mục lưu trữ dữ liệu nghiên cứu đồ án
+├── src/                # Thư mục lưu trữ mã nguồn và notebook xử lý dữ liệu, mô hình
 └── README.md           # Tài liệu giới thiệu học phần và đồ án
 ```
