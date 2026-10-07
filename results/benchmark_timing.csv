@@ -1,0 +1,15 @@
+Model,Category,Completed_Folds,Total_Folds,Historical_Total_Seconds,Avg_Seconds_Per_Fold,Status,Last_Run_Timestamp
+Historical_Mean,Benchmark,25,25,2.5,0.1,Completed,2026-10-07 16:01:11
+Ridge,Linear Regression,25,25,6.0,0.24,Completed,2026-10-07 16:01:17
+Logistic_Regression,Classification,25,25,16.0,0.64,Completed,2026-10-07 16:01:33
+Elastic_Net,Linear Regression,25,25,12.0,0.48,Completed,2026-10-07 16:01:45
+ARIMA,Statistical Time-Series,25,25,216.0,8.64,Completed,2026-10-07 16:05:21
+ARIMAX,Statistical Time-Series,25,25,122.0,4.88,Completed,2026-10-07 16:07:23
+SARIMA,Statistical Time-Series,25,25,50.0,2.00,Completed,2026-10-07 16:08:13
+LightGBM,Tree Ensemble,25,25,275.0,11.00,Completed,2026-10-07 16:16:21
+SVR,Kernel Method,25,25,2940.0,117.60,Completed,2026-10-07 18:53:14
+Random_Forest,Tree Ensemble,25,25,488.0,19.52,Completed,2026-10-07 19:01:22
+XGBoost,Tree Ensemble,25,25,169.0,6.76,Completed,2026-10-07 19:04:11
+RNN,Deep Learning,0,25,,,Pending,
+LSTM,Deep Learning,0,25,,,Pending,
+Transformer,Deep Learning,0,25,,,Pending,
