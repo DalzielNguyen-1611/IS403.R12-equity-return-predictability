@@ -722,27 +722,23 @@ python run_remaining.py
 *Bảng điều khiển được cập nhật **hoàn toàn tự động từ bên trong code huấn luyện** sau mỗi Fold (Atomic File Swap).*
 """
     # 3. Ghi đè tệp nguyên tử (Atomic File Replace — Tránh xung đột khóa file trên Windows)
-    target_files = [
-        dashboard_path,
-        os.path.join(config.REPO_ROOT, "training_dashboard.md")
-    ]
-    for target in target_files:
-        tmp_target = target + ".tmp"
+    tmp_target = dashboard_path + ".tmp"
+    try:
+        with open(tmp_target, "w", encoding="utf-8") as f:
+            f.write(md)
+        os.replace(tmp_target, dashboard_path)
+    except Exception:
         try:
-            with open(tmp_target, "w", encoding="utf-8") as f:
+            with open(dashboard_path, "w", encoding="utf-8") as f:
                 f.write(md)
-            os.replace(tmp_target, target)
         except Exception:
+            pass
+        if os.path.exists(tmp_target):
             try:
-                with open(target, "w", encoding="utf-8") as f:
-                    f.write(md)
+                os.remove(tmp_target)
             except Exception:
                 pass
-            if os.path.exists(tmp_target):
-                try:
-                    os.remove(tmp_target)
-                except Exception:
-                    pass
+
 
     _LAST_DASHBOARD_FINGERPRINT = current_fingerprint
 
