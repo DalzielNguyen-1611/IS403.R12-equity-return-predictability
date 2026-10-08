@@ -1,41 +1,48 @@
-# Báo Cáo Phân Tích Dữ Liệu: Tổng Hợp Hiệu Năng Dự Báo Đa Mô Hình & Đa Chân Trời (02_model_horizon_summary_report.md)
+# Báo Cáo Kiểm Toán Dữ Liệu: Tổng Hợp Hiệu Năng Đa Mô Hình & Đa Chân Trời (02_model_horizon_summary_report.md)
 
-**Nguồn dữ liệu:** `results/summary/model_horizon_summary.csv`  
-**Thời gian thực hiện:** 2026-10-08 15:18:00 UTC+7  
+**Tập tin nguồn:** `results/summary/model_horizon_summary.csv`  
+**Tập tin đối chiếu:** `results/fold_metrics/all_fold_metrics.csv`  
+**Thời điểm kiểm toán:** 2026-10-08 16:20:00 UTC+7  
 **Vai trò chuyên gia:** Research Data Analyst (Kinh tế lượng tài chính & Học máy)  
-**Đề tài nghiên cứu:** *"When Does Equity Return Predictability Decay? A Multi-Horizon and Regime-Dependent Out-of-Sample Analysis"*
+**Đề tài nghiên cứu:** *"When Does Equity Return Predictability Decay? A Multi-Horizon and Regime-Dependent Out-of-Sample Analysis"*  
+**Trạng thái phiên bản:** Đã kiểm toán phương pháp luận (Methodologically Audited)
 
 ---
 
-## 1. Mô Tả Tập Tin & Mục Đích Nghiên Cứu
+## 1. Mô Tả Tập Tin & Mục Đích Nghiên Cứu (File Description & Scope)
 
-Tập tin `results/summary/model_horizon_summary.csv` tổng hợp hiệu năng dự báo ngoại mẫu (out-of-sample predictive performance) qua 5 fold kiểm định mở rộng Walk-Forward cho từng mô hình và từng chân trời dự báo.
+Tập tin `results/summary/model_horizon_summary.csv` tổng hợp các chỉ số hiệu năng ngoại mẫu qua 5 fold kiểm định mở rộng Walk-Forward cho từng mô hình và từng chân trời dự báo.
 
-Mục tiêu phân tích tập trung giải quyết các câu hỏi so sánh tổng hợp:
-1. Giá trị trung bình và phương sai của năng lực dự báo ngoại mẫu ($OOS\_R^2$) phân bổ như thế nào giữa các họ mô hình?
-2. Năng lực dự báo biến đổi ra sao trên trục liên tục của chân trời: $1\text{D} \to 5\text{D} \to 20\text{D} \to 60\text{D} \to 120\text{D}$?
-3. Những mô hình nào vượt trội hơn chuẩn đối sánh `Historical_Mean`, và tại những chân trời cụ thể nào?
-4. Những đánh đổi cấu trúc nào tồn tại giữa sai số điểm ($MAE, RMSE$), tỷ lệ phương sai giải thích tương đối ($OOS\_R^2$), và khả năng định thời hướng đi ($DA$)?
+Mục tiêu của báo cáo này là kiểm toán và đánh giá các câu hỏi so sánh tổng hợp:
+1. Giá trị trung bình và độ phân tán của năng lực dự báo ngoại mẫu cấp fold (`mean fold-level OOS_R2`) phân bổ như thế nào giữa các họ mô hình?
+2. Mẫu hình hiệu năng biến đổi ra sao trên trục chân trời: $1\text{D} \to 5\text{D} \to 20\text{D} \to 60\text{D} \to 120\text{D}$?
+3. Mô hình nào vượt trội hơn chuẩn đối sánh `Historical_Mean` tại từng chân trời cụ thể?
+4. Đánh đổi cấu trúc giữa sai số độ lớn tuyệt đối ($MAE, RMSE$), tỷ lệ phương sai giải thích ($OOS\_R^2$), và độ chính xác định hướng ($DA$).
+
+> **Giới hạn phương pháp luận:** Báo cáo này là bản tóm lược cấp độ `Model × Horizon Summary`. Các mẫu hình ghi nhận ở đây chỉ mang tính chất sơ bộ (preliminary patterns) và **tuyệt đối không được xem là kết luận nghiên cứu cuối cùng cho RQ1**. Quy luật của RQ1 cần được kiểm chứng chéo với dữ liệu dự báo cấp quan sát (`all_oos_predictions.csv`), hành vi cụ thể từng fold, và các kiểm định suy diễn thống kê.
 
 ---
 
 ## 2. Kích Thước & Lược Đồ Dữ Liệu (Dimensions & Schema)
 
-- **Tổng số hàng:** 70 hàng ($14\text{ Mô hình} \times 5\text{ Chân trời}$)
+- **Tổng số hàng:** 70 hàng ($14\text{ Mô hình} \times 5\text{ Chân trời}$).
 - **Số cột:** 10 cột:
-  - `Model` (`str`): Tên định danh thuật toán
-  - `Horizon` (`str`): `1D`, `5D`, `20D`, `60D`, `120D`
-  - `MAE_Mean`, `MAE_Std` (`float`): Giá trị trung bình và độ lệch chuẩn của MAE qua 5 folds
-  - `RMSE_Mean`, `RMSE_Std` (`float`): Giá trị trung bình và độ lệch chuẩn của RMSE qua 5 folds
-  - `OOS_R2_Mean`, `OOS_R2_Std` (`float`): Giá trị trung bình và độ lệch chuẩn của $OOS\_R^2$ qua 5 folds
-  - `DA_Mean`, `DA_Std` (`float`): Giá trị trung bình và độ lệch chuẩn của Độ chính xác hướng đi qua 5 folds
+  - `Model` (`str`): Tên định danh thuật toán (14 mô hình).
+  - `Horizon` (`str`): `1D`, `5D`, `20D`, `60D`, `120D`.
+  - `MAE_Mean`, `MAE_Std` (`float`): Trung bình cộng và độ lệch chuẩn của MAE qua 5 folds.
+  - `RMSE_Mean`, `RMSE_Std` (`float`): Trung bình cộng và độ lệch chuẩn của RMSE qua 5 folds.
+  - `OOS_R2_Mean`, `OOS_R2_Std` (`float`): Trung bình cộng và độ lệch chuẩn của $OOS\_R^2$ cấp fold qua 5 folds.
+  - `DA_Mean`, `DA_Std` (`float`): Trung bình cộng và độ lệch chuẩn của Directional Accuracy qua 5 folds.
+
+### 2.1 Bản chất toán học của `OOS_R2_Mean` (Fold-Average vs. Pooled)
+- **Xác nhận tính toán:** Cột `OOS_R2_Mean` trong tập tin này là **trung bình cộng số học của 5 giá trị $OOS\_R^2$ cấp fold** ($\frac{1}{5} \sum_{k=1}^5 OOS\_R^2_k$), hoàn toàn không phải là $OOS\_R^2$ tính gộp từ toàn bộ $1,360$ quan sát (`pooled OOS_R2`).
+- **Lưu ý phương pháp luận:** `mean fold-level OOS_R2` không nhất thiết bằng `pooled OOS_R2`. Khi một fold có mẫu số phương sai rất nhỏ (như Fold 2), giá trị $OOS\_R^2$ của fold đó bị âm rất nặng và sẽ kéo lệch trung bình cộng số học của 5 fold, trong khi ở chỉ số gộp (pooled), các sai số bình phương được cộng gộp đồng đều trên toàn bộ mẫu.
 
 ---
 
-## 3. Các Ma Trận Hiệu Năng Toàn Diện
+## 3. Các Ma Trận Hiệu Năng Toàn Diện (Performance Matrices)
 
-### 3.1 Chỉ số chính: $R^2$ Ngoại mẫu trung bình ($OOS\_R^2_{\text{mean}}$)
-*Ghi chú: $OOS\_R^2$ Campbell-Thompson $= 1 - \frac{\sum (y - \hat{y})^2}{\sum (y - \bar{y}_{\text{hist}})^2}$. Giá trị dương biểu thị vượt trội hơn Historical Mean; giá trị âm biểu thị kém hơn Historical Mean.*
+### 3.1 Chỉ số chính: $R^2$ Ngoại mẫu trung bình cấp Fold (`Mean Fold-Level OOS_R2`)
 
 | Họ mô hình | Mô hình | 1D | 5D | 20D | 60D | 120D |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: |
@@ -56,7 +63,7 @@ Mục tiêu phân tích tập trung giải quyết các câu hỏi so sánh tổ
 
 ---
 
-### 3.2 Chỉ số ổn định: Độ lệch chuẩn của $OOS\_R^2$ qua các Fold ($OOS\_R^2_{\text{std}}$)
+### 3.2 Độ lệch chuẩn của $OOS\_R^2$ qua các Fold ($OOS\_R^2_{\text{std}}$)
 | Mô hình | 1D | 5D | 20D | 60D | 120D |
 | :--- | :---: | :---: | :---: | :---: | :---: |
 | **Historical_Mean** | 0.0013 | 0.0048 | 0.0283 | 0.1526 | 1.3558 |
@@ -75,7 +82,7 @@ Mục tiêu phân tích tập trung giải quyết các câu hỏi so sánh tổ
 
 ---
 
-### 3.3 Các thước đo hỗ trợ: Sai số tuyệt đối trung bình ($MAE$) & Căn sai số bình phương ($RMSE$)
+### 3.3 Thước đo sai số điểm: $MAE_{\text{mean}}$ & $RMSE_{\text{mean}}$
 
 #### Sai số tuyệt đối trung bình (MAE):
 | Mô hình | 1D | 5D | 20D | 60D | 120D |
@@ -122,47 +129,137 @@ Mục tiêu phân tích tập trung giải quyết các câu hỏi so sánh tổ
 
 ---
 
-## 4. Các Phát Hiện Thực Nghiệm Cốt Lõi & Mẫu Hình Theo Họ Mô Hình
+## 4. Kiểm Toán Chuyên Sâu Các Vấn Đề Phương Pháp Luận Then Chốt
 
-### 4.1 Sự suy thoái dự báo nghiêm ngặt ở các họ Học Máy & Học Sâu
-Đối với toàn bộ các mô hình phi tự hồi quy, năng lực dự báo ngoại mẫu thể hiện **sự suy thoái đơn điệu nghiêm ngặt (strict monotonic decay)** khi chân trời dự báo kéo dài:
-1. **Các mô hình Cây quyết định (XGBoost, Random Forest, LightGBM):**
-   - Tại $1\text{D}$ và $5\text{D}$, hiệu năng bám sát mức của Historical Mean ($OOS\_R^2 \in [-0.006, -0.032]$).
-   - Tại $20\text{D}$, $OOS\_R^2$ bắt đầu xấu đi rõ rệt, rơi xuống $[-0.045, -0.131]$.
-   - Tại $60\text{D}$ và $120\text{D}$, năng lực dự báo sụp đổ nghiêm trọng vào vùng âm sâu ($120\text{D}$ rơi xuống $-1.051$ ở XGBoost, $-1.125$ ở Random Forest, và $-1.577$ ở LightGBM).
-2. **Các mô hình Học Sâu (RNN, LSTM, Transformer):**
-   - Hứng chịu tốc độ suy thoái theo chân trời dốc nhất. Tại $120\text{D}$, RNN rơi xuống $-1.422$, LSTM xuống $-1.464$, và Transformer xuống $-2.045$.
-   - Transformer bộc lộ tính bất ổn định nghiêm trọng ngay cả ở chân trời ngắn ($1\text{D}$ có $OOS\_R^2 = -2.3800$, độ lệch chuẩn $= 3.5884$), phản ánh việc cấu trúc tham số phức tạp ($d_{\text{model}}=32/64$, cơ chế self-attention) bị quá khớp (overfit) trên phương sai nhiễu cao của lợi suất hàng ngày.
-3. **Các mô hình Tuyến tính co rút (Elastic Net, Ridge):**
-   - Elastic Net thể hiện tính ổn định cao nhất trong nhóm học máy. Tại $1\text{D}$, Elastic Net đạt $OOS\_R^2 = +0.0017$, đánh bại Historical Mean. Tại $5\text{D}$, mô hình gần như tương đương benchmark ($-0.0041$).
-   - Tuy nhiên, đến $120\text{D}$, Elastic Net cũng suy thoái xuống $-0.7255$, bám sát mức của Historical Mean ($-0.6974$).
+### 4.1 Kiểm toán $OOS\_R^2$ của Benchmark Historical Mean
+Trong bảng tóm tắt, `Historical_Mean` có:
+- $1\text{D}: -0.0012$, $5\text{D}: -0.0054$, $20\text{D}: -0.0267$, $60\text{D}: -0.0861$, $120\text{D}: -0.6974$.
 
-### 4.2 Sự phân kỳ của dòng Tự Hồi Quy (ARIMA, ARIMAX, SARIMA)
-Họ mô hình chuỗi thời gian tự hồi quy thể hiện một quỹ đạo hoàn toàn trái ngược với các mô hình ML/DL:
-- Tại $1\text{D}$, $OOS\_R^2$ dương nhẹ ($+0.0007 \text{ đến } +0.0061$).
-- Khi chân trời mở rộng, $OOS\_R^2$ **tăng vọt đơn điệu**, đạt $+0.58 \text{ đến } +0.70$ tại $5\text{D}$, $+0.85 \text{ đến } +0.91$ tại $20\text{D}$, và đạt đỉnh $+0.94 \text{ đến } +0.96$ tại $60\text{D}$ và $120\text{D}$.
-- **Cơ chế phương pháp luận:** Chuỗi lợi suất log cộng dồn $y_{t+h} = \ln(P_{t+h}/P_t)$ đóng vai trò như một bộ lọc tích lũy trượt. Các mô hình AR đã khớp rất tốt mức độ tự tương quan chuỗi cao của chuỗi lợi suất chồng lấn với số bậc tự do rất ít ($p \le 3, d \le 1, q \le 3$), tránh được "lời nguyền số chiều" vốn làm suy kiệt các mô hình học máy.
+#### Nguyên nhân kỹ thuật được xác minh chính xác:
+1. **Dự báo của Historical Mean:** $\hat{y}_t = \bar{y}_{\text{train}}$ (trung bình mẫu của cửa sổ huấn luyện mở rộng trước thời điểm $t$).
+2. **Mẫu số của $OOS\_R^2$ trong mã nguồn:**  
+   Hàm `calc_regression_metrics` tính toán:
+   $$R^2 = 1 - \frac{\text{MSE}}{\text{Var}(y_{\text{val}})} = 1 - \frac{\frac{1}{N}\sum (y_{\text{val}} - \hat{y})^2}{\frac{1}{N}\sum (y_{\text{val}} - \bar{y}_{\text{val}})^2}$$
+   Mẫu số là **phương sai mẫu của tập kiểm định** ($\text{Var}(y_{\text{val}})$), KHÔNG PHẢI sai số của mô hình benchmark ($\text{MSE}_{\text{HM}}$).
+3. **Mối quan hệ toán học:**  
+   Sai số của Historical Mean trên tập kiểm định phân rã thành:
+   $$\text{MSE}_{\text{HM}} = \text{Var}(y_{\text{val}}) + (\bar{y}_{\text{val}} - \bar{y}_{\text{train}})^2 \ge \text{Var}(y_{\text{val}})$$
+   Do đó:
+   $$R^2_{\text{HM}} = 1 - \frac{\text{Var}(y_{\text{val}}) + (\bar{y}_{\text{val}} - \bar{y}_{\text{train}})^2}{\text{Var}(y_{\text{val}})} = - \frac{(\bar{y}_{\text{val}} - \bar{y}_{\text{train}})^2}{\text{Var}(y_{\text{val}})} \le 0$$
+4. **Mức độ ảnh hưởng:**  
+   - Theo định nghĩa chuẩn Campbell-Thompson ($1 - \text{MSE}_{\text{model}} / \text{MSE}_{\text{HM}}$), $OOS\_R^2$ của Historical Mean bắt buộc phải bằng $0.0000$ trên mọi fold.
+   - Việc `Historical_Mean` bị ghi nhận giá trị âm (đặc biệt $-0.6974$ tại 120D) là do độ lệch giữa trung bình ngoại mẫu và trung bình nội mẫu $(\bar{y}_{\text{val}} - \bar{y}_{\text{train}})^2$ bị khuếch đại bởi phương sai mẫu nhỏ tại Fold 2.
 
-### 4.3 Độ chính xác hướng đi ($DA$) không đồng nghĩa với năng lực dự báo điểm
-- Độ chính xác hướng đi ($DA$) tăng từ khoảng 50–54% tại $1\text{D}$ lên 65–78% tại $120\text{D}$ trên hầu hết mọi mô hình (kể cả Historical Mean).
-- Sự gia tăng $DA$ này diễn ra đồng thời trong khi $OOS\_R^2$ đang suy thoái nghiêm trọng xuống $-1.50$.
-- **Lý giải kinh tế lượng:** Thị trường chứng khoán S&P 500 có phí bù rủi ro vốn cổ phần dương dài hạn (upward drift). Trong khoảng thời gian 120 ngày, tỷ lệ thị trường tăng điểm chiếm $>75\%$. Một mô hình chỉ cần liên tục dự báo dương là đã đạt được $DA \approx 75\%$, nhưng sai số dự báo độ lớn lại khiến phần dư bình phương phình to, kéo $OOS\_R^2$ xuống mức âm rất sâu.
+---
+
+### 4.2 Kiểm toán cách xây dựng mục tiêu của ARIMA / ARIMAX / SARIMA
+Kết quả thực nghiệm ghi nhận dòng Tự hồi quy đạt hiệu năng rất cao ở các chân trời dài hạn ($OOS\_R^2 > 0.93$ tại 60D và 120D).
+
+#### Kết quả rà soát mã nguồn triển khai (`arima.py`, `arimax.py`, `sarima.py`):
+1. **Biến mục tiêu:** Cả 3 mô hình đều sử dụng trực tiếp chuỗi mục tiêu $Target_{h, t} = \ln(Close_{t+h}/Close_t)$ được khai báo tại `config.HORIZON_TO_TARGET[horizon]`.
+2. **Cơ chế tạo dự báo:**
+   - Mã nguồn nối chuỗi `full_y = np.concatenate([train_y, val_y])`.
+   - Mô hình sau khi fit trên `train_y` được gọi `applied = fitted_model.apply(full_y)`.
+   - Dự báo được lấy qua `val_preds = applied.predict(start=n_train, end=n_train + n_val - 1)`.
+3. **Vấn đề phương pháp luận cốt lõi:**  
+   Trong thư viện `statsmodels`, phương thức `apply(full_y).predict(...)` thực hiện phép **lọc/dự báo 1 bước tiến trong mẫu (one-step-ahead in-sample filtering)** trên chuỗi được truyền vào.
+   - Đối với mô hình AR(1), dự báo cho thời điểm $t$ dựa trên giá trị trễ $y_{t-1}$.
+   - Khi mục tiêu là chuỗi lợi suất cộng dồn chồng lấn ($h > 1$), giá trị trễ là:
+     $$y_{t-1} = Target_{h, t-1} = \ln(Close_{t+h-1}/Close_{t-1})$$
+   - Giá trị này chứa mức giá $Close_{t+h-1}$, vốn là **mức giá tương lai chưa được quan sát tại thời điểm $t$** (ví dụ với $h=120$, $Close_{t+119}$ nằm trước 119 ngày so với mục tiêu $t+120$).
+   - Trong khi đó, các mô hình Machine Learning/Deep Learning (Ridge, XGBoost, Random Forest, LSTM) nhận các đặc trưng hoàn toàn tại thời điểm $t$ ($X_t$) để dự báo trực tiếp $Target_{h, t}$.
+4. **Kết luận kiểm toán:**  
+   Dòng mô hình Tự hồi quy đang giải một bài toán lọc (filtering) hoàn toàn khác biệt với bài toán dự báo đa bước trực tiếp (direct multi-step forecasting) của các mô hình học máy.  
+   > **Trạng thái:** `ARIMA target/forecast comparability: NOT VERIFIED`  
+   > *(Không thể so sánh trực tiếp hiệu năng giữa dòng Tự hồi quy và dòng Học máy trên cùng một mặt bằng phương pháp luận).*
+
+---
+
+### 4.3 Kiểm toán các biến ngoại sinh của ARIMAX
+- **Danh sách biến ngoại sinh:** `VIXCLS`, `VIX_lag_1`, `VIX_change_1D`, `VIX_pct_change_1D`, `Momentum_5D`, `Momentum_20D`, `Volatility_20D`, `HL_range`, `OC_return`, `Volume_change`.
+- **Rà soát xử lý dữ liệu:**
+  - Chuẩn hóa scaler được fit riêng trên `train_df` và áp dụng cho `val_df` (`train_exog = scaler.fit_transform(...)`, `val_exog = scaler.transform(...)`).
+  - Tuy nhiên, trong quá trình gọi `applied.predict(exog=val_exog)`, việc kết hợp với chuỗi mục tiêu trễ có tính chất chồng lấn tương tự như ARIMA khiến tính độc lập của các biến ngoại sinh chưa thể cô lập hoàn toàn.
+  > **Trạng thái:** `ARIMAX exogenous-variable availability: NOT VERIFIED`.
+
+---
+
+### 4.4 Kiểm toán Độ chính xác hướng đi ($DA$) và Hiệu ứng Trôi dạt (Base-Rate Drift Effect)
+Bảng kiểm toán ma trận nhầm lẫn (Confusion Matrix) trên toàn bộ $1,360$ quan sát tại chân trời 120D:
+
+| Mô hình | Dự báo dương (Pred > 0) | DA thực tế | TP | TN | FP | FN | Ghi chú bản chất |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **Thực tế thị trường** | **77.79%** | — | — | — | — | — | Tỷ lệ Actual > 0 là 77.79% (1,058 / 1,360 ngày) |
+| **Historical_Mean** | 100.00% | **77.79%** | 1,058 | 0 | 302 | 0 | Luôn dự báo dương; TN = 0 |
+| **Elastic_Net** | 100.00% | **77.79%** | 1,058 | 0 | 302 | 0 | Luôn dự báo dương; TN = 0 |
+| **XGBoost** | 91.40% | **71.69%** | 958 | 17 | 285 | 100 | Bắt chước xu hướng tăng; TN chỉ đạt 17/302 |
+| **Random_Forest** | 81.99% | **63.31%** | 837 | 24 | 278 | 221 | Kém hơn chiến lược dự báo dương liên tục |
+| **SVR** | 84.26% | **66.76%** | 876 | 32 | 270 | 182 | Dự báo dương chiếm đa số |
+| **LSTM** | 86.40% | **65.81%** | 884 | 11 | 291 | 174 | TN chỉ đạt 11/302 |
+| **Transformer** | 66.18% | **54.41%** | 669 | 71 | 231 | 389 | Dao động kém ổn định |
+
+> **Cảnh báo học thuật nghiêm ngặt:**  
+> Tuyệt đối **không được sử dụng chỉ số DA cao ở các chân trời dài hạn để kết luận mô hình có năng lực định thời thị trường (market timing skill)**.  
+> Tỷ lệ ngày có lợi suất dương của S&P 500 ở chu kỳ 120 ngày là $77.79\%$. Một mô hình ngây thơ chỉ cần luôn dự báo dương (như Historical Mean hoặc Elastic Net) đã tự động đạt được $DA = 77.79\%$. Chỉ số DA cao ở các mô hình ML phản ánh việc mô hình khai thác phí bù rủi ro vốn cổ phần dài hạn (positive equity drift / base rate effect) chứ không chứng minh được kỹ năng dự báo thời điểm đảo chiều.
+
+---
+
+### 4.5 Điều chỉnh thuật ngữ: Không dùng "Strict Monotonic Decay"
+- **Kiểm tra tính đơn điệu thực tế của $OOS\_R^2$:**
+  - `SVR`: $1\text{D} (-0.0105) \to 5\text{D} (-0.0140) \to 20\text{D} (-0.2006) \to \mathbf{60\text{D} (-0.1489)} \to 120\text{D} (-0.8610)$. (Giá trị tại 60D cao hơn 20D, không giảm đơn điệu).
+  - `XGBoost`: $1\text{D} (-0.0069) \to \mathbf{5\text{D} (-0.0067)} \to 20\text{D} (-0.0453) \to 60\text{D} (-0.3875) \to 120\text{D} (-1.0514)$. (Giá trị tại 5D cao hơn 1D).
+  - `RNN`: $1\text{D} (-0.0711) \to \mathbf{5\text{D} (-0.0528)} \to 20\text{D} (-0.1110) \to 60\text{D} (-0.5103) \to 120\text{D} (-1.4222)$. (Giá trị tại 5D cao hơn 1D).
+  - `Transformer`: $1\text{D} (-2.3800) \to 5\text{D} (-0.8244) \to 20\text{D} (-0.7016) \to 60\text{D} (-1.0473) \to 120\text{D} (-2.0454)$. (Biến thiên phi đơn điệu).
+- **Thuật ngữ chuẩn hóa:**  
+  Thay thế cụm từ `strict monotonic decay` bằng phát biểu khách quan:  
+  > *"Out-of-sample predictive performance generally deteriorates as the forecast horizon increases for most machine learning models."*  
+  > *(Hiệu năng dự báo ngoại mẫu nhìn chung suy giảm khi chân trời dự báo kéo dài đối với hầu hết các mô hình học máy).*
+
+---
+
+### 4.6 Điều chỉnh nhận định về Transformer (Không suy đoán quá khớp khi thiếu bằng chứng loss)
+- **Nhận định cũ:** Tuyên bố Transformer bị "overfitting do cấu trúc phức tạp".
+- **Điều chỉnh kiểm toán:** Trong tập tin này chỉ có các thước đo ngoại mẫu ($OOS\_R^2, MAE, RMSE$), không có dữ liệu về hàm mất mát nội mẫu (training loss) để chứng minh khoảng cách train-val generalization gap.
+- **Thuật ngữ chuẩn hóa:**  
+  > *"The Transformer exhibits poor and unstable out-of-sample performance across forecast horizons."*  
+  > *(Mô hình Transformer thể hiện hiệu năng ngoại mẫu kém và không ổn định qua các chân trời dự báo).*
+
+---
+
+### 4.7 Phân biệt rạch ròi giữa Năng lực suy giảm (Predictive Decay) và Quy mô sai số tăng (Error Growth)
+- **Tăng quy mô sai số (Error Magnitude Growth):** $MAE$ và $RMSE$ tăng tự nhiên theo chân trời ($MAE$ của Historical Mean tăng từ $0.0072$ tại 1D lên $0.0626$ tại 120D) do phương sai tích lũy của chuỗi lợi suất logarit $Target_h$ tăng tuyến tính theo thời gian ($\sigma^2_h \approx h \times \sigma^2_1$).
+- **Suy thoái năng lực dự báo (Predictability Decay):** $OOS\_R^2$ giảm đo lường sự suy giảm của năng lực dự báo tương đối so với mức phương sai tự nhiên của thị trường.
+- **Quy tắc diễn giải:** Tuyệt đối không sử dụng sự gia tăng của MAE/RMSE để kết luận rằng năng lực dự báo suy thoái.
 
 ---
 
 ## 5. Hạn Chế Phương Pháp Luận Của Tập Tin Tổng Hợp
 
-1. **Hiện tượng lấy trung bình qua Fold che giấu phương sai chế độ thị trường:** Độ lệch chuẩn qua các fold tại $120\text{D}$ là rất lớn trên mọi mô hình ($\text{std} > 1.0$ đối với Historical Mean, Elastic Net, XGBoost, và Deep Learning), cho thấy hiệu năng thực tế phụ thuộc rất mạnh vào chế độ kinh tế vĩ mô cụ thể của từng fold.
-2. **Cần kiểm tra rò rỉ biến ngoại sinh trong ARIMAX:** Chỉ số $OOS\_R^2$ rất cao ($>0.96$) của ARIMAX tại $60\text{D}$ và $120\text{D}$ đòi hỏi phải được kiểm tra chi tiết ở cấp độ dự báo từng quan sát (Bước 3) để xác nhận các biến ngoại sinh (VIX, Momentum) hoàn toàn là các biến trễ so với mốc dự báo $t$.
+1. **Hiện tượng lấy trung bình số học che lấp cấu trúc dữ liệu:** Cột `OOS_R2_Mean` bị méo mó bởi các giá trị âm ngoại lai tại Fold 2. Cần phân tích chuỗi dự báo gộp (pooled predictions) ở Bước 3 để có cái nhìn chuẩn xác.
+2. **Thiếu thông tin về chuỗi phần dư:** Tập tin tóm tắt không chứa dữ liệu chuỗi thời gian của phần dư, chưa thể thực hiện các kiểm định thống kê chính quy như Diebold-Mariano có hiệu chỉnh tự tương quan Newey-West.
 
 ---
 
-## 6. Kết Luận & Chuyển Giao Sang Bước 3
+## 6. Kết Luận Kiểm Toán & Kế Hoạch Bước Tiếp Theo
 
-### 6.1 Tóm tắt hiệu năng Mô hình $\times$ Chân trời
-- **Chân trời ngắn (1D):** Năng lực dự báo rất thấp; nhiễu thị trường chiếm ưu thế. Elastic Net, ARIMA, SARIMA, và ARIMAX vượt nhẹ Historical Mean ($OOS\_R^2 \approx 0.001 - 0.006$). Deep Learning bị quá khớp.
-- **Chân trời trung bình (5D, 20D):** Điểm phân kỳ rõ rệt. Dòng Tự hồi quy nắm bắt được động lượng chuỗi tích lũy; các mô hình ML/DL bắt đầu suy thoái rõ ràng.
-- **Chân trời dài (60D, 120D):** Sự suy thoái dự báo nghiêm trọng trên toàn bộ các mô hình Machine Learning và Deep Learning ($OOS\_R^2 \le -1.0$). Duy nhất các mô hình Tự hồi quy duy trì tỷ lệ phương sai giải thích dương.
+1. Đã giải trình nguồn gốc toán học dẫn đến giá trị âm của `Historical_Mean` do mẫu số sử dụng phương sai tập validation thay vì MSE của benchmark.
+2. Đã xác định cơ chế dự báo của dòng mô hình Tự hồi quy (ARIMA, ARIMAX, SARIMA) có sự khác biệt bản chất so với dòng Machine Learning và gắn cờ cảnh báo không tương thích.
+3. Đã làm rõ hiệu ứng trôi dạt thị trường chi phối chỉ số DA ở chân trời dài hạn.
+4. Chuyển tiếp sang **Bước 3 (`all_oos_predictions.csv`)** để tái tính toán các chỉ số gộp và kiểm toán chuỗi dự báo chi tiết.
 
-### 6.2 Chuyển giao sang Bước 3
-Để xác minh tính hợp lệ của các giá trị tổng hợp này và kiểm tra chéo xem dữ liệu dự báo từng quan sát có khớp chính xác với các chỉ số fold mà không có sai lệch tính toán hay không, chúng ta chuyển tiếp sang tập tin **`results/predictions/all_oos_predictions.csv`**.
+---
+
+## Audit Status
+
+* **Data coverage:** **VERIFIED** (70/70 kịch bản mô hình $\times$ chân trời đầy đủ 100%)
+* **Model × Horizon coverage:** **VERIFIED** (14 mô hình $\times$ 5 chân trời hiện diện chính xác)
+* **Fold aggregation:** **VERIFIED** (`OOS_R2_Mean` được xác nhận là trung bình cộng số học của 5 fold, không phải pooled metric)
+* **Historical Mean benchmark:** **NOT VERIFIED** (Công thức $OOS\_R^2$ trong file sử dụng $\text{Var}(y_{\text{val}})$ làm mẫu số thay vì $\text{MSE}_{\text{HM}}$, khiến benchmark có $R^2 < 0$)
+* **ARIMA target comparability:** **NOT VERIFIED** (Cơ chế 1-step filtering trên chuỗi lợi suất gộp chồng lấn sử dụng thông tin giá tương lai $Close_{t+h-1}$, không thể so sánh trực tiếp với mô hình ML)
+* **ARIMAX exogenous-variable availability:** **NOT VERIFIED** (Chưa thể chứng minh tính độc lập thời gian của các biến ngoại sinh trong quá trình filtering)
+* **Horizon trend claim:** **PARTIALLY VERIFIED** (Mô hình ML nhìn chung suy giảm hiệu năng theo chân trời, nhưng không thỏa mãn tính đơn điệu nghiêm ngặt trên mọi mô hình)
+* **DA interpretation:** **PARTIALLY VERIFIED** (DA cao ở chân trời 120D bị chi phối bởi tỷ lệ tăng tự nhiên $77.79\%$ của thị trường, không phản ánh năng lực định thời)
+* **Leakage verification from this file:** **NOT VERIFIABLE** (Tập tin tóm tắt không chứa thông tin chi tiết về quá trình chuẩn hóa, phân tách chuỗi hoặc chọn biến)
+
+### Final Conclusion
+Hiệu năng dự báo của các mô hình Machine Learning nhìn chung xấu đi khi chân trời dự báo kéo dài từ 1D đến 120D trên thước đo phương sai giải thích cấp fold. Tuy nhiên, kết quả vượt trội bất thường của dòng Tự hồi quy (ARIMA, ARIMAX, SARIMA) và chỉ số DA cao ở các chân trời dài hạn là các hiện tượng mang tính cấu trúc phương pháp luận (cơ chế filtering chuỗi chồng lấn và hiệu ứng trôi dạt thị trường), cần được kiểm chứng độc lập ở cấp độ dữ liệu dự báo từng quan sát.
