@@ -402,31 +402,46 @@ def load_checkpoint(model_dir):
 def save_checkpoint_step(model_dir, fold_metrics, oos_preds):
     """
     Save current fold progress to checkpoint files after each fold finishes.
-    And automatically update DASHBOARD.md in real-time.
+    And automatically update DASHBOARD.md in real-time with atomic swap.
     """
     ckpt_m_path = os.path.join(model_dir, "checkpoint_metrics.csv")
     ckpt_p_path = os.path.join(model_dir, "checkpoint_predictions.csv")
     try:
-        pd.DataFrame(fold_metrics).to_csv(ckpt_m_path, index=False)
-        pd.DataFrame(oos_preds).to_csv(ckpt_p_path, index=False)
+        tmp_m = ckpt_m_path + ".tmp"
+        tmp_p = ckpt_p_path + ".tmp"
+        pd.DataFrame(fold_metrics).to_csv(tmp_m, index=False)
+        pd.DataFrame(oos_preds).to_csv(tmp_p, index=False)
+        os.replace(tmp_m, ckpt_m_path)
+        os.replace(tmp_p, ckpt_p_path)
     except Exception:
-        pass
+        try:
+            pd.DataFrame(fold_metrics).to_csv(ckpt_m_path, index=False)
+            pd.DataFrame(oos_preds).to_csv(ckpt_p_path, index=False)
+        except Exception:
+            pass
 
-    # Real-time Dashboard auto-refresh directly inside model execution code
+    # 1. Non-blocking Try-Catch Hook (Tuyệt đối không khóa hay gián đoạn GPU training)
     try:
         update_dashboard_direct()
     except Exception:
         pass
 
-def update_dashboard_direct():
+_LAST_DASHBOARD_FINGERPRINT = None
+
+def update_dashboard_direct(force=False):
     """
     Directly generates and writes DASHBOARD.md inside the model training process.
-    Zero external scripts needed. Updates in real-time after every fold and every model.
+    Features:
+      1. Non-blocking execution (try-catch wrapped)
+      2. State fingerprint filtering (prevents redundant disk I/O)
+      3. Atomic File Swap (os.replace prevents file locks on Windows and ensures smooth IDE live updates)
     """
+    global _LAST_DASHBOARD_FINGERPRINT
     import datetime
     now_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     dashboard_path = os.path.join(config.REPO_ROOT, "DASHBOARD.md")
     timing_path = os.path.join(config.RESULTS_DIR, "benchmark_timing.csv")
+
     
     all_models_meta = [
         {"name": "Historical_Mean", "category": "Benchmark", "total_folds": 25, "folder": "historical_mean"},
@@ -540,6 +555,12 @@ def update_dashboard_direct():
         'rmse': f"{float(last_r.get('RMSE', 0)):.4f}" if 'RMSE' in last_r and pd.notnull(last_r.get('RMSE')) else "-",
         'mae': f"{float(last_r.get('MAE', 0)):.4f}" if 'MAE' in last_r and pd.notnull(last_r.get('MAE')) else "-",
     }
+
+    # 2. Bộ lọc vân tay trạng thái (Fingerprint State Filter — Chống nghẽn Disk I/O)
+    current_fingerprint = f"{focus_name}_{done_folds_all}_{len(focus_df)}_{latest_fold_info.get('horizon')}_{latest_fold_info.get('fold')}"
+    if not force and current_fingerprint == _LAST_DASHBOARD_FINGERPRINT:
+        return None  # Thoát ngay lập tức trong micro-giây, không động vào ổ cứng!
+
 
     # Best record across all historical data
     best_r2_val = "-"
@@ -698,10 +719,32 @@ python run_remaining.py
 ```
 
 ---
-*Bảng điều khiển được cập nhật **hoàn toàn tự động từ bên trong code huấn luyện** sau mỗi Fold.*
+*Bảng điều khiển được cập nhật **hoàn toàn tự động từ bên trong code huấn luyện** sau mỗi Fold (Atomic File Swap).*
 """
-    with open(dashboard_path, "w", encoding="utf-8") as f:
-        f.write(md)
+    # 3. Ghi đè tệp nguyên tử (Atomic File Replace — Tránh xung đột khóa file trên Windows)
+    target_files = [
+        dashboard_path,
+        os.path.join(config.REPO_ROOT, "training_dashboard.md")
+    ]
+    for target in target_files:
+        tmp_target = target + ".tmp"
+        try:
+            with open(tmp_target, "w", encoding="utf-8") as f:
+                f.write(md)
+            os.replace(tmp_target, target)
+        except Exception:
+            try:
+                with open(target, "w", encoding="utf-8") as f:
+                    f.write(md)
+            except Exception:
+                pass
+            if os.path.exists(tmp_target):
+                try:
+                    os.remove(tmp_target)
+                except Exception:
+                    pass
+
+    _LAST_DASHBOARD_FINGERPRINT = current_fingerprint
 
 
 

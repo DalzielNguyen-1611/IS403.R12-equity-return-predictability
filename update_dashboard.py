@@ -314,13 +314,34 @@ python run_remaining.py
 ```
 
 ---
-*Bảng điều khiển được cập nhật **hoàn toàn tự động** sau mỗi Fold bằng hook nội bộ.*
+*Bảng điều khiển được cập nhật **hoàn toàn tự động** sau mỗi Fold bằng hook nội bộ (Atomic File Swap).*
 """
 
-    with open(DASHBOARD_PATH, "w", encoding="utf-8") as f:
-        f.write(md)
+    # 3. Ghi đè tệp nguyên tử (Atomic File Replace — Tránh xung đột khóa file trên Windows)
+    target_files = [
+        DASHBOARD_PATH,
+        os.path.join(WORKSPACE_DIR, "training_dashboard.md")
+    ]
+    for target in target_files:
+        tmp_target = target + ".tmp"
+        try:
+            with open(tmp_target, "w", encoding="utf-8") as f:
+                f.write(md)
+            os.replace(tmp_target, target)
+        except Exception:
+            try:
+                with open(target, "w", encoding="utf-8") as f:
+                    f.write(md)
+            except Exception:
+                pass
+            if os.path.exists(tmp_target):
+                try:
+                    os.remove(tmp_target)
+                except Exception:
+                    pass
         
     print(f"Dashboard successfully generated at: {DASHBOARD_PATH}")
 
 if __name__ == "__main__":
     generate_dashboard()
+
