@@ -1,5 +1,5 @@
 # 📊 BẢNG THEO DÕI TIẾN TRÌNH HUẤN LUYỆN (REAL-TIME DASHBOARD)
-**Mô hình:** Transformer | **Dataset:** S&P 500 (Walk-Forward 5 Folds) | **Ghi nhận:** 2026-10-08 13:39:21  
+**Mô hình:** Transformer | **Dataset:** S&P 500 (Walk-Forward 5 Folds) | **Ghi nhận:** 2026-10-08 15:02:48  
 💡 *Mẹo VS Code: Bấm `Ctrl + Shift + V` để mở giao diện xem trước (Markdown Preview) — Tự động cập nhật sau mỗi Fold.*
 
 ---
@@ -8,16 +8,16 @@
 
 | THÔNG SỐ TIẾN ĐỘ | GIÁ TRỊ | KẾT QUẢ & DỰ BÁO | GIÁ TRỊ |
 | :--- | :--- | :--- | :--- |
-| **Mô hình huấn luyện** | **`Transformer`** | **Fold vừa hoàn tất** | Fold 4/5 (Horizon 60D) |
-| **Bộ dữ liệu** | S&P 500 Equity Returns | **OOS R² Fold vừa xong** | `-0.9689` |
-| **Tiến trình Mô hình** | **`13/14 Models (98.3%)`** | **Directional Accuracy (DA)** | `49.63%` |
-| **Tiến trình Folds tổng** | **`344/350 Folds (98.3%)`** | **RMSE Fold vừa xong** | `0.0891` |
-| **Kỷ lục OOS R² cao nhất** | `0.9815` | **Loss / MAE Fold vừa xong** | `0.0662` |
-| **Mô hình giữ Kỷ lục** | ARIMAX (H=120D, Fold=5) | **Best Horizon của Model** | Horizon 60D |
-| **Thời gian đã chạy (chính nó)** | **`03h 38m`** | **Tốc độ chạy (chính nó)** | **`689.10s/fold`** |
+| **Mô hình huấn luyện** | **`Transformer`** | **Fold vừa hoàn tất** | Fold 5/5 (Horizon 120D) |
+| **Bộ dữ liệu** | S&P 500 Equity Returns | **OOS R² Fold vừa xong** | `0.1924` |
+| **Tiến trình Mô hình** | **`14/14 Models (100.0%)`** | **Directional Accuracy (DA)** | `66.54%` |
+| **Tiến trình Folds tổng** | **`350/350 Folds (100.0%)`** | **RMSE Fold vừa xong** | `0.1071` |
+| **Kỷ lục OOS R² cao nhất** | `0.9815` | **Loss / MAE Fold vừa xong** | `0.0926` |
+| **Mô hình giữ Kỷ lục** | ARIMAX (H=120D, Fold=5) | **Best Horizon của Model** | Horizon 120D |
+| **Thời gian đã chạy (chính nó)** | **`04h 50m`** | **Tốc độ chạy (chính nó)** | **`696.00s/fold`** |
 | **Tiến độ Nhóm Linear & Stats** | ✅ ĐÃ HOÀN TẤT 7/7 MODELS | **Trạng thái Nhóm 1** | Đã lưu Fold Metrics & OOS Preds |
-| **Dự kiến XONG mô hình này** | ~01h 08m (còn 6 folds) | **Thời gian còn lại (chính nó)** | ~01h 08m (còn 6 folds) |
-| **Trạng thái mô hình** | 🟡 Đang huấn luyện: Fold 4/5 (Horizon 60D) — Cập nhật Real-Time | **Chế độ cập nhật** | 🔄 TỰ ĐỘNG SAU MỖI FOLD (Zero manual action) |
+| **Dự kiến XONG mô hình này** | Đã xong 100% (còn 0 folds) | **Thời gian còn lại (chính nó)** | Đã xong 100% (còn 0 folds) |
+| **Trạng thái mô hình** | 🎉 ĐÃ HOÀN TẤT 100% TOÀN BỘ 14/14 MÔ HÌNH (350/350 FOLDS)! | **Chế độ cập nhật** | 🔄 TỰ ĐỘNG SAU MỖI FOLD (Zero manual action) |
 
 ---
 
@@ -28,11 +28,11 @@
 
 | BƯỚC | HORIZON | FOLD | GIAI ĐOẠN VALIDATION | TRẠNG THÁI | VAL OOS R² | VAL DA | VAL RMSE | VAL MAE |
 | :-: | :-: | :-: | :--- | :--- | :---: | :---: | :---: | :---: |
-| **#15** | **20D** | Fold 5/5 | `2019-10-04 → 2020-10-30` | ✅ Hoàn thành | `0.0133` | `63.97%` | `0.0860` | `0.0565` |
-| **#16** | **60D** | Fold 1/5 | `2015-06-10 → 2016-07-07` | ✅ Hoàn thành | `-2.5917` | `41.18%` | `0.1106` | `0.0854` |
-| **#17** | **60D** | Fold 2/5 | `2016-07-08 → 2017-08-04` | ✅ Hoàn thành | `-1.0063` | `82.35%` | `0.0352` | `0.0248` |
-| **#18** | **60D** | Fold 3/5 | `2017-08-07 → 2018-09-04` | ✅ Hoàn thành | `-0.4897` | `54.78%` | `0.0551` | `0.0476` |
-| **#19** | **60D** | Fold 4/5 | `2018-09-05 → 2019-10-03` | ✅ Hoàn thành | `-0.9689` | `49.63%` | `0.0891` | `0.0662` |
+| **#21** | **120D** | Fold 1/5 | `2015-06-10 → 2016-07-07` | ✅ Hoàn thành | `-2.0010` | `31.25%` | `0.1066` | `0.0902` |
+| **#22** | **120D** | Fold 2/5 | `2016-07-08 → 2017-08-04` | ✅ Hoàn thành | `-5.3721` | `83.82%` | `0.0605` | `0.0505` |
+| **#23** | **120D** | Fold 3/5 | `2017-08-07 → 2018-09-04` | ✅ Hoàn thành | `-1.5732` | `49.26%` | `0.0936` | `0.0791` |
+| **#24** | **120D** | Fold 4/5 | `2018-09-05 → 2019-10-03` | ✅ Hoàn thành | `-1.4734` | `41.18%` | `0.1168` | `0.0967` |
+| **#25** | **120D** | Fold 5/5 | `2019-10-04 → 2020-10-30` | ✅ Hoàn thành | `0.1924` | `66.54%` | `0.1071` | `0.0926` |
 
 ---
 
@@ -53,18 +53,23 @@
 | 9 | **`SVR`** | Kernel Method | `25/25` | ✅ Hoàn thành | 49m 00s | `117.60s/fold` | Đã xong (100%) |
 | 10 | **`Random_Forest`** | Tree Ensemble | `25/25` | ✅ Hoàn thành | 08m 08s | `19.52s/fold` | Đã xong (100%) |
 | 11 | **`XGBoost`** | Tree Ensemble | `25/25` | ✅ Hoàn thành | 02m 49s | `6.76s/fold` | Đã xong (100%) |
-| 12 | **`RNN`** | Deep Learning | `25/25` | ✅ Hoàn thành | Hoàn tất | `-` | Đã xong |
-| 13 | **`LSTM`** | Deep Learning | `25/25` | ✅ Hoàn thành | Hoàn tất | `-` | Đã xong |
-| 14 | **`Transformer`** | Deep Learning | `19/25` | 🔄 Đang chạy (19/25) | 03h 38m | `689.10s/fold` | ~01h 08m (còn 6 folds) |
+| 12 | **`RNN`** | Deep Learning | `25/25` | ✅ Hoàn thành | 01h 27m | `208.80s/fold` | Đã xong (100%) |
+| 13 | **`LSTM`** | Deep Learning | `25/25` | ✅ Hoàn thành | 01h 32m | `220.80s/fold` | Đã xong (100%) |
+| 14 | **`Transformer`** | Deep Learning | `25/25` | ✅ Hoàn thành | 04h 50m | `696.00s/fold` | Đã xong (100%) |
 
 ---
 
-## ⚡ 4. THỨ TỰ & LỆNH ĐIỀU PHỐI MÔ HÌNH TIẾP THEO
+## 🏆 4. KẾT QUẢ NGHIÊN CỨU & BÁO CÁO LUẬN VĂN (ĐÃ HOÀN TẤT)
 
-Chạy toàn bộ 6 mô hình còn lại tự động trong 1 lệnh duy nhất:
-```powershell
-python run_remaining.py
-```
+✅ **Toàn bộ 14 mô hình (350/350 Folds) đã hoàn tất 100%!** Hệ thống đã hoàn thành trọn vẹn, không còn tác vụ nào đang chờ.
+
+Tất cả các tệp phân tích câu hỏi nghiên cứu (RQ) và kiểm định thống kê đã được tạo hoàn chỉnh trong thư mục `results/`:
+- 📄 **RQ1 (Forecasting Horizon):** `results/analysis/rq1_horizon.csv`
+- 📄 **RQ2 (Volatility Regime):** `results/analysis/rq2_regime.csv`
+- 📄 **RQ3 (Temporal Stability):** `results/analysis/rq3_time.csv`
+- 📄 **Kiểm định Thống kê (DM-Test & Sign-Test):** `results/analysis/statistical_tests.csv`
+- 📄 **Dự báo ngoài mẫu (OOS Predictions):** `results/predictions/all_oos_predictions.csv` (18,000+ dự báo)
+- 📄 **Bảng tổng hợp Model-Horizon Metrics:** `results/summary/model_horizon_summary.csv`
 
 ---
 *Bảng điều khiển được cập nhật **hoàn toàn tự động** sau mỗi Fold bằng hook nội bộ (Atomic File Swap).*

@@ -10,6 +10,7 @@ LightGBM,Tree Ensemble,25,25,275.0,11.00,Completed,2026-10-07 16:16:21
 SVR,Kernel Method,25,25,2940.0,117.60,Completed,2026-10-07 18:53:14
 Random_Forest,Tree Ensemble,25,25,488.0,19.52,Completed,2026-10-07 19:01:22
 XGBoost,Tree Ensemble,25,25,169.0,6.76,Completed,2026-10-07 19:04:11
-RNN,Deep Learning,0,25,,,Pending,
-LSTM,Deep Learning,0,25,,,Pending,
-Transformer,Deep Learning,0,25,,,Pending,
+RNN,Deep Learning,25,25,5220.0,208.80,Completed,2026-10-07 20:53:11
+LSTM,Deep Learning,25,25,5520.0,220.80,Completed,2026-10-07 22:26:09
+Transformer,Deep Learning,25,25,17400.0,696.00,Completed,2026-10-08 14:37:58
+

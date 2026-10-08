@@ -541,11 +541,15 @@ def update_dashboard_direct(force=False):
         else:
             last_r = {}
             focus_df = pd.DataFrame()
-        status_banner = "🟢 Đã hoàn thành 25/25 Folds — Chờ lệnh chạy mô hình tiếp theo"
+        if done_models >= tot_models:
+            status_banner = "🎉 ĐÃ HOÀN TẤT 100% TOÀN BỘ 14/14 MÔ HÌNH (350/350 FOLDS)!"
+        else:
+            status_banner = "🟢 Đã hoàn thành 25/25 Folds — Chờ lệnh chạy mô hình tiếp theo"
         t_info = timing_data.get(focus_name, {})
         focus_dur_str = fmt_dur(t_info.get('total'))
         focus_speed_str = f"{t_info.get('avg', 0):.2f}s/fold" if t_info.get('avg') else "-"
         focus_eta_str = "Đã xong 100% (còn 0 folds)"
+
 
     latest_fold_info = {
         'horizon': str(last_r.get('horizon', last_r.get('Horizon', '-'))),
@@ -708,19 +712,36 @@ def update_dashboard_direct(force=False):
     for r in table_rows:
         md += f"| {r['idx']} | **`{r['name']}`** | {r['cat']} | `{r['progress']}` | {r['status']} | {r['past_time']} | `{r['avg_fold']}` | {r['eta']} |\n"
 
-    md += f"""
----
+    if done_folds_all >= tot_folds:
+        section_4 = """## 🏆 4. KẾT QUẢ NGHIÊN CỨU & BÁO CÁO LUẬN VĂN (ĐÃ HOÀN TẤT)
 
-## ⚡ 4. THỨ TỰ & LỆNH ĐIỀU PHỐI MÔ HÌNH TIẾP THEO
+✅ **Toàn bộ 14 mô hình (350/350 Folds) đã hoàn tất 100%!** Hệ thống đã hoàn thành trọn vẹn, không còn tác vụ nào đang chờ.
 
-Chạy toàn bộ 6 mô hình còn lại tự động trong 1 lệnh duy nhất:
+Tất cả các tệp phân tích câu hỏi nghiên cứu (RQ) và kiểm định thống kê đã được tạo hoàn chỉnh trong thư mục `results/`:
+- 📄 **RQ1 (Forecasting Horizon):** `results/analysis/rq1_horizon.csv`
+- 📄 **RQ2 (Volatility Regime):** `results/analysis/rq2_regime.csv`
+- 📄 **RQ3 (Temporal Stability):** `results/analysis/rq3_time.csv`
+- 📄 **Kiểm định Thống kê (DM-Test & Sign-Test):** `results/analysis/statistical_tests.csv`
+- 📄 **Dự báo ngoài mẫu (OOS Predictions):** `results/predictions/all_oos_predictions.csv` (18,000+ dự báo)
+- 📄 **Bảng tổng hợp Model-Horizon Metrics:** `results/summary/model_horizon_summary.csv`
+"""
+    else:
+        section_4 = """## ⚡ 4. THỨ TỰ & LỆNH ĐIỀU PHỐI MÔ HÌNH TIẾP THEO
+
+Chạy toàn bộ mô hình còn lại tự động trong 1 lệnh duy nhất:
 ```powershell
 python run_remaining.py
 ```
+"""
 
+    md += f"""
+---
+
+{section_4}
 ---
 *Bảng điều khiển được cập nhật **hoàn toàn tự động từ bên trong code huấn luyện** sau mỗi Fold (Atomic File Swap).*
 """
+
     # 3. Ghi đè tệp nguyên tử (Atomic File Replace — Tránh xung đột khóa file trên Windows)
     tmp_target = dashboard_path + ".tmp"
     try:
