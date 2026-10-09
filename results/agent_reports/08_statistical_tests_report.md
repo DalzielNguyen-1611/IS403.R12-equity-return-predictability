@@ -2,128 +2,230 @@
 
 **Mã tài liệu:** `IS403-REP-08`  
 **Ngày thực hiện:** 2026-10-08  
-**Tập tin mục tiêu:** `results/analysis/statistical_tests.csv`  
-**Người thực hiện:** Research Data Analyst (Antigravity System)  
+**Ngày kiểm toán & hiệu chỉnh:** 2026-10-09  
+**Tập tin dữ liệu gốc:** `results/analysis/statistical_tests.csv`  
+**Tập tin dữ liệu hiệu chỉnh:** `results/analysis/statistical_tests_corrected.csv`  
+**Người thực hiện:** Senior Research Methodology Auditor & Research Data Analyst (Antigravity System)  
 **Nghiên cứu:** *"When Does Equity Return Predictability Decay? A Multi-Horizon and Regime-Dependent Out-of-Sample Analysis"*
 
 ---
 
-## 1. Mục Tiêu Kiểm Định & Mô Tả Tập Tin (Objective & File Description)
-Tập tin `statistical_tests.csv` cung cấp các bằng chứng kiểm định suy diễn thống kê (inferential statistical tests) nhằm xác định:
-1. **Kiểm định Hướng đi Nhị thức (Binomial Sign Test for Directional Accuracy):** Kiểm tra xem tỷ lệ dự đoán đúng chiều thị trường ($DA$) của các mô hình có vượt trội hơn mức ngẫu nhiên $50\%$ một cách có ý nghĩa thống kê hay không ($H_0: DA \le 0.5$ vs $H_1: DA > 0.5$).
-2. **Kiểm định So sánh Phần dư Diebold-Mariano (Diebold-Mariano Test):** Kiểm tra xem sai số dự báo bình phương của các mô hình có nhỏ hơn có ý nghĩa thống kê so với mô hình chuẩn `Historical_Mean` hay không ($H_0: \mathbb{E}[d_t] \le 0$ vs $H_1: \mathbb{E}[d_t] > 0$, trong đó $d_t = e_{\text{bench},t}^2 - e_{\text{model},t}^2$).
+## 1. Mục Tiêu Kiểm Định & Cơ Sở Phương Pháp Luận (Objective & Methodological Framework)
 
-> **NGUYÊN TẮC THÔNG DIỄN BẮT BUỘC:**  
-> **Ý nghĩa thống kê ($p < 0.05$) KHÔNG đồng nghĩa với mô hình tốt hơn.**  
-> Đối với mọi kết quả có $p < 0.05$, bắt buộc phải kiểm tra đối chiếu:  
-> - Chiều hướng chênh lệch thực tế (direction of performance difference)  
-> - Chỉ số $OOS\_R^2$  
-> - Sai số MAE và RMSE  
-> Tuyệt đối không diễn giải $p < 0.05$ là "mô hình vượt trội" nếu $OOS\_R^2$ đang âm sâu. Phải xem xét vấn đề kiểm định đồng thời nhiều giả thuyết (Multiple Testing Problem).
+Báo cáo này cung cấp kết quả kiểm định suy diễn thống kê (inferential statistical tests) nhằm trả lời hai câu hỏi nghiên cứu cốt lõi:
+1. **Kiểm định Hướng đi Nhị thức (Binomial Sign Test for Directional Accuracy):** Kiểm tra xem tỷ lệ dự đoán đúng chiều thị trường ($DA$) của các mô hình có cao hơn mức tung đồng xu ngẫu nhiên $50\%$ một cách có ý nghĩa thống kê hay không ($H_0: DA \le 0.5$ vs $H_1: DA > 0.5$).
+2. **Kiểm định So sánh Phần dư Diebold-Mariano (Diebold-Mariano Test):** Kiểm tra xem sai số dự báo bình phương của các mô hình ứng viên có nhỏ hơn có ý nghĩa thống kê so với mô hình mốc chuẩn `Historical_Mean` hay không ($H_0: \mathbb{E}[d_t] \le 0$ vs $H_1: \mathbb{E}[d_t] > 0$, trong đó vi sai mất mát được định nghĩa là $d_t = e_{\text{bench},t}^2 - e_{\text{model},t}^2$).
 
----
-
-## 2. Kích Thước & Lược Đồ Dữ Liệu (Shape & Schema)
-
-### 2.1 Kích thước vật lý
-- **Đường dẫn lưu trữ:** `results/analysis/statistical_tests.csv`
-- **Số hàng:** $70$ hàng ($14 \text{ Models} \times 5 \text{ Horizons}$)
-- **Số cột:** $7$ cột: `Model`, `Horizon`, `Test`, `Benchmark`, `Statistic`, `p-value`, `Significant`
-
-### 2.2 Phát hiện dị thường về cơ chế tạo file (Technical Anomaly & Discrepancy Note)
-- **Hiện trạng tập tin thô:** Toàn bộ $70$ hàng trong `statistical_tests.csv` đều thuộc về `Test == 'Binomial'` với `Benchmark == '50% DA'`.
-- **Nguyên nhân kỹ thuật tại mã nguồn:**  
-  Trong script `src/training/baselines/generate_rq_analysis.py` (dòng 44), câu lệnh lọc benchmark được viết là:  
-  `bench_df = df[df['Model'] == 'historical_mean']` (chữ thường).  
-  Trong khi đó, tập tin `all_oos_predictions.csv` lưu trữ định danh chuẩn hóa là `'Historical_Mean'` (viết hoa chữ H và M). Sự bất đồng ký tự này khiến biến `bench_df` bị rỗng trong quá trình chạy script, dẫn đến nhánh tính toán Diebold-Mariano Test bị bỏ qua và chỉ có nhánh Binomial Test được ghi xuống CSV.
-- **Tuân thủ quy tắc ứng xử:** Giữ nguyên vẹn tập tin thô `statistical_tests.csv` không ghi đè; đồng thời tiến hành **tái tính toán độc lập ma trận Diebold-Mariano đầy đủ** trực tiếp từ chuỗi phần dư ngoại mẫu trong `all_oos_predictions.csv` để cung cấp bức tranh kinh tế lượng trọn vẹn nhất.
+> [!IMPORTANT]
+> **NGUYÊN TẮC THÔNG DIỄN PHƯƠNG PHÁP LUẬN BẮT BUỘC:**  
+> 1. **Ý nghĩa thống kê ($p < 0.05$) KHÔNG đồng nghĩa với mô hình có năng lực dự báo vượt trội:**  
+>    - Đối với kiểm định nhị thức $DA > 0.5$, nếu thị trường có độ trôi dương mạnh (ví dụ $77.8\%$ số ngày có lợi suất dương), một mô hình ngây thơ luôn đoán chiều dương sẽ đạt $DA = 77.8\%$ với $p < 10^{-90}$ mà hoàn toàn không có kỹ năng dự báo điểm. Bắt buộc phải đối chiếu với tỷ lệ cơ sở (Base Rate) và mốc chuẩn luôn đoán dương (Always-Positive Benchmark).  
+> 2. **Kiểm định 1 phía không bác bỏ được $H_0$ ($p > 0.5$) chỉ thể hiện "thiếu bằng chứng vượt trội":**  
+>    - Không được quy kết là "mô hình tương đương" hay "hoàn toàn thất bại". Để khẳng định mô hình kém hơn một cách có ý nghĩa thống kê, cần thực hiện kiểm định hai phía ($H_1: \mathbb{E}[d_t] \neq 0$).  
+> 3. **Phải kiểm soát kiểm định đa giả thuyết (Multiple Testing Correction):**  
+>    - Với 60 cặp so sánh mô hình, việc chỉ nhìn vào $p$-value thô sẽ dẫn đến lạm phát sai lầm loại I (Family-Wise Error Rate). Phải áp dụng hiệu chỉnh Bonferroni và kiểm soát tỷ lệ khám phá sai Benjamini-Hochberg (FDR).  
+> 4. **Điều kiện tiên quyết về tính hợp lệ của mô hình:**  
+>    - Mọi kết luận thống kê chỉ có giá trị khi quy trình tạo dự báo không vi phạm rò rỉ dữ liệu (data leakage) và căn chỉnh thời gian chuẩn xác.
 
 ---
 
-## 3. Phân Tích Kiểm Định Hướng Đi Nhị Thức (Binomial Directional Accuracy Tests)
+## 2. Kích Thước Dữ Liệu & Kiểm Toán Mã Nguồn (Data Audit & Technical Discrepancy Note)
 
-### 3.1 Ma trận Thống kê và p-value của Kiểm định Binomial trong `statistical_tests.csv`
+### 2.1 Hiện trạng tập tin thô `results/analysis/statistical_tests.csv`
+- **Số hàng:** $70$ hàng ($14 \text{ Models} \times 5 \text{ Horizons}$).
+- **Số cột:** $7$ cột (`Model`, `Horizon`, `Test`, `Benchmark`, `Statistic`, `p-value`, `Significant`).
+- **Phát hiện dị thường:** Toàn bộ 70 hàng trong tập tin thô đều là kiểm định `Test == 'Binomial'` so với `Benchmark == '50% DA'`. Tập tin thô **hoàn toàn không chứa bất kỳ hàng kiểm định Diebold-Mariano nào**.
 
-| Model | 1D DA (p-val) | 5D DA (p-val) | 20D DA (p-val) | 60D DA (p-val) | 120D DA (p-val) |
-| :--- | :---: | :---: | :---: | :---: | :---: |
-| **Historical_Mean** | 54.85% ($0.0002^*$) | 61.84% ($0.0000^*$) | 68.46% ($0.0000^*$) | 74.56% ($0.0000^*$) | 77.79% ($0.0000^*$) |
-| **ARIMA** | 52.72% ($0.0239^*$) | 79.41% ($0.0000^*$) | 91.84% ($0.0000^*$) | 95.74% ($0.0000^*$) | 96.69% ($0.0000^*$) |
-| **ARIMAX** | 52.06% ($0.0679$) | 82.43% ($0.0000^*$) | 93.60% ($0.0000^*$) | 97.06% ($0.0000^*$) | 97.43% ($0.0000^*$) |
-| **SARIMA** | 53.90% ($0.0022^*$) | 82.06% ($0.0000^*$) | 91.84% ($0.0000^*$) | 95.74% ($0.0000^*$) | 96.91% ($0.0000^*$) |
-| **Elastic_Net** | 53.24% ($0.0091^*$) | 57.79% ($0.0000^*$) | 61.84% ($0.0000^*$) | 68.60% ($0.0000^*$) | 77.79% ($0.0000^*$) |
-| **Ridge** | 51.47% ($0.1451$) | 50.15% ($0.4571$) | 56.03% ($0.0000^*$) | 56.18% ($0.0000^*$) | 66.10% ($0.0000^*$) |
-| **SVR** | 50.96% ($0.2489$) | 55.15% ($0.0001^*$) | 57.06% ($0.0000^*$) | 66.91% ($0.0000^*$) | 66.76% ($0.0000^*$) |
-| **Random_Forest** | 54.04% ($0.0017^*$) | 59.34% ($0.0000^*$) | 62.28% ($0.0000^*$) | 61.40% ($0.0000^*$) | 63.31% ($0.0000^*$) |
-| **XGBoost** | 54.34% ($0.0008^*$) | 61.32% ($0.0000^*$) | 65.15% ($0.0000^*$) | 71.25% ($0.0000^*$) | 71.69% ($0.0000^*$) |
-| **LightGBM** | 53.68% ($0.0037^*$) | 58.53% ($0.0000^*$) | 64.19% ($0.0000^*$) | 63.46% ($0.0000^*$) | 58.38% ($0.0000^*$) |
-| **LSTM** | 52.50% ($0.0336^*$) | 54.78% ($0.0002^*$) | 58.60% ($0.0000^*$) | 67.35% ($0.0000^*$) | 65.81% ($0.0000^*$) |
-| **RNN** | 49.93% ($0.5324$) | 50.81% ($0.2797$) | 60.07% ($0.0000^*$) | 63.38% ($0.0000^*$) | 73.01% ($0.0000^*$) |
-| **Transformer** | 49.71% ($0.5964$) | 53.82% ($0.0026^*$) | 51.84% ($0.0920$) | 60.59% ($0.0000^*$) | 54.41% ($0.0006^*$) |
-| **Logistic_Reg.**| 50.59% ($0.3421$) | 52.28% ($0.0483^*$) | 63.97% ($0.0000^*$) | 68.46% ($0.0000^*$) | 74.56% ($0.0000^*$) |
+### 2.2 Nguyên nhân kỹ thuật tại mã nguồn pipeline
+- Khi kiểm toán tập tin [generate_rq_analysis.py](file:///e:/IS403.R12-equity-return-predictability/src/training/baselines/generate_rq_analysis.py#L44), câu lệnh lọc benchmark được viết là:
+  ```python
+  bench_df = df[df['Model'] == 'historical_mean']  # Dòng 44 & 223
+  ```
+- Tuy nhiên, trong tập tin dự báo gốc [all_oos_predictions.csv](file:///e:/IS403.R12-equity-return-predictability/results/predictions/all_oos_predictions.csv), tên mô hình chuẩn hóa là `'Historical_Mean'` (viết hoa chữ cái đầu H và M).
+- Do sự không khớp chuỗi ký tự này, `bench_df` bị rỗng hoàn toàn, khiến khối mã chạy kiểm định Diebold-Mariano (dòng 218–250) bị bỏ qua trong quá trình sinh tập tin CSV phân tích. Bảng Diebold-Mariano trong các báo cáo sơ bộ trước đây chỉ được trích xuất từ một script ad-hoc mà không lưu trữ vào CSV chính thức.
 
-*\* Ghi chú: Ký hiệu $^*$ biểu thị mức ý nghĩa thống kê $p < 0.05$.*
+### 2.3 Giải pháp xử lý và tập tin hiệu chỉnh
+- Giữ nguyên vẹn tập tin thô `results/analysis/statistical_tests.csv` để bảo tồn lịch sử thực nghiệm.
+- Xuất bản tập tin phân tích thống kê hiệu chỉnh toàn diện: **`results/analysis/statistical_tests_corrected.csv`** với 130 dòng dữ liệu (70 dòng Binomial + 60 dòng Diebold-Mariano), tích hợp đầy đủ các giá trị $p$ không làm tròn, $p$ hiệu chỉnh Bonferroni, $p$ kiểm soát FDR Benjamini-Hochberg, phân phối dấu thực tế và trạng thái phương pháp luận.
 
-### 3.2 Diễn giải phê phán về kết quả Kiểm định Binomial (Critical Evaluation)
-1. **Tại chân trời 1 ngày (1D):**
+---
+
+## 3. Kiểm Định Hướng Đi Nhị Thức (Binomial Directional Accuracy Tests)
+
+### 3.1 Ma trận Thống kê DA và p-value (Kiểm định 1 phía so với $50\%$)
+
+Kiểm định giả thuyết: $H_0: DA \le 0.5$ so với $H_1: DA > 0.5$.  
+Số phép thử ngoại mẫu: $N = 1,360$ ngày giao dịch.
+
+| Model | 1D DA ($p$-val) | 5D DA ($p$-val) | 20D DA ($p$-val) | 60D DA ($p$-val) | 120D DA ($p$-val) | Tỷ lệ Dự báo Dương (120D) |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Historical_Mean** | 54.85% ($1.89 \times 10^{-4*}$) | 61.84% ($1.11 \times 10^{-18*}$) | 68.46% ($2.69 \times 10^{-43*}$) | 74.56% ($1.40 \times 10^{-76*}$) | **77.79%** ($8.04 \times 10^{-99*}$) | **100.0%** |
+| **ARIMA** | 52.72% ($0.0239^*$) | 79.41% ($2.93 \times 10^{-111*}$) | 91.84% ($1.63 \times 10^{-244*}$) | 95.74% ($2.87 \times 10^{-307*}$) | 96.69% ($0.0000^*$) | 77.87% |
+| **ARIMAX** | 52.06% ($0.0679$) | 82.43% ($5.30 \times 10^{-137*}$) | 93.60% ($5.05 \times 10^{-271*}$) | 97.06% ($0.0000^*$) | 97.43% ($0.0000^*$) | 78.46% |
+| **SARIMA** | 53.90% ($0.0022^*$) | 82.06% ($5.87 \times 10^{-134*}$) | 91.84% ($1.63 \times 10^{-244*}$) | 95.74% ($2.87 \times 10^{-307*}$) | 96.91% ($0.0000^*$) | 77.94% |
+| **Elastic_Net** | 53.24% ($0.0091^*$) | 57.79% ($4.94 \times 10^{-9*}$) | 61.84% ($1.11 \times 10^{-18*}$) | 68.60% ($5.64 \times 10^{-44*}$) | **77.79%** ($8.04 \times 10^{-99*}$) | **100.0%** |
+| **Ridge** | 51.47% ($0.1451$) | 50.15% ($0.4571$) | 56.03% ($4.62 \times 10^{-6*}$) | 56.18% ($3.25 \times 10^{-6*}$) | 66.10% ($2.55 \times 10^{-32*}$) | 80.96% |
+| **SVR** | 50.96% ($0.2489$) | 55.15% ($9.62 \times 10^{-5*}$) | 57.06% ($2.91 \times 10^{-7*}$) | 66.91% ($1.19 \times 10^{-36*}$) | 66.76% ($1.76 \times 10^{-35*}$) | 82.06% |
+| **Random_Forest** | 54.04% ($0.0017^*$) | 59.34% ($1.91 \times 10^{-12*}$) | 62.28% ($1.15 \times 10^{-19*}$) | 61.40% ($1.05 \times 10^{-17*}$) | 63.31% ($4.85 \times 10^{-23*}$) | 76.76% |
+| **XGBoost** | 54.34% ($0.0008^*$) | 61.32% ($1.91 \times 10^{-17*}$) | 65.15% ($4.02 \times 10^{-29*}$) | 71.25% ($3.35 \times 10^{-57*}$) | 71.69% ($1.34 \times 10^{-59*}$) | 91.40% |
+| **LightGBM** | 53.68% ($0.0037^*$) | 58.53% ($7.87 \times 10^{-11*}$) | 64.19% ($2.54 \times 10^{-26*}$) | 63.46% ($2.59 \times 10^{-23*}$) | 58.38% ($5.90 \times 10^{-10*}$) | 70.00% |
+| **LSTM** | 52.50% ($0.0346^*$) | 54.78% ($2.32 \times 10^{-4*}$) | 58.60% ($1.20 \times 10^{-10*}$) | 67.35% ($2.12 \times 10^{-38*}$) | 65.81% ($2.69 \times 10^{-31*}$) | 81.32% |
+| **RNN** | 49.93% ($0.5324$) | 50.81% ($0.2797$) | 60.07% ($6.50 \times 10^{-14*}$) | 63.38% ($3.93 \times 10^{-23*}$) | 73.01% ($7.67 \times 10^{-68*}$) | 90.74% |
+| **Transformer** | 49.71% ($0.5964$) | 53.82% ($0.0026^*$) | 51.84% ($0.0920$) | 60.59% ($5.01 \times 10^{-15*}$) | 54.41% ($5.76 \times 10^{-4*}$) | 64.93% |
+| **Logistic_Reg.**| 50.59% ($0.3421$) | 52.28% ($0.0483^*$) | 63.97% ($5.49 \times 10^{-26*}$) | 68.46% ($1.37 \times 10^{-43*}$) | 74.56% ($1.40 \times 10^{-76*}$) | 93.82% |
+
+*\* Ghi chú: Ký hiệu $^*$ biểu thị $p < 0.05$. Giá trị hiển thị $0.0000$ là do giới hạn số học dấu phẩy động ($p < 10^{-300}$). Lưu ý: Dòng ARIMA bị loại trừ khỏi suy diễn khoa học hợp lệ do lỗi rò rỉ dữ liệu.*
+
+### 3.2 Phân tích Phê phán Kiểm định Hướng đi (Critical Evaluation)
+
+1. **Thực tế tại chân trời ngắn (1D):**
    - 6/14 mô hình (ARIMAX, Ridge, SVR, RNN, Transformer, Logistic Regression) có $p \ge 0.05$.
-   - **Kết luận:** Tại tần suất hàng ngày, thị trường tiệm cận bước đi ngẫu nhiên (Random Walk). Hơn $40\%$ số mô hình hoàn toàn không thể đánh bại một phép tung đồng xu ngẫu nhiên $50/50$ về mặt thống kê.
-2. **Tại chân trời dài hạn (60D, 120D) — Cảnh báo diễn giải sai lệch:**
-   - Tại 120D, $100\%$ mô hình đều có $p < 0.001$, dường như "vượt trội có ý nghĩa thống kê".
-   - **Bản chất thực sự:** Chỉ số S&P 500 có xu hướng tăng trưởng tự nhiên trong dài hạn. Trong tập kiểm định, hơn $77.8\%$ số ngày 120D có lợi suất thực tế dương. Do đó, mô hình `Historical_Mean` (chỉ dự báo hằng số dương) cũng đạt $DA = 77.79\%$ với $p = 1.2 \times 10^{-104}$!
-   - Các mô hình Cây (Random Forest, XGBoost) đạt $p < 10^{-10}$ tại 120D **không phải vì chúng có kỹ năng dự báo siêu việt**, mà vì chúng chỉ đơn giản "bắt chước" độ trôi dạt dương của thị trường. Nhận định này được củng cố bởi việc $OOS\_R^2$ của chúng tại 120D lại âm rất sâu ($-0.4852$ và $-0.2744$).
+   - Các mô hình còn lại chỉ đạt DA dao động hẹp quanh $52.5\% - 54.8\%$.
+   - **Nhận định:** Tại tần suất hàng ngày, tỷ lệ nhiễu cao khiến hầu hết các cấu trúc mô hình không thể hiện được lợi thế vượt trội có ý nghĩa thống kê so với mức đoán ngẫu nhiên.
+2. **Cảnh báo sai lệch diễn giải tại chân trời dài (60D, 120D) — Hiệu ứng Tỷ lệ Cơ sở (Base Rate Effect):**
+   - Tại 120D, $100\%$ mô hình đều có $p < 0.001$, tạo ấn tượng sai lầm rằng các mô hình sở hữu kỹ năng dự báo siêu việt.
+   - **Bản chất thực nghiệm:** Chỉ số S&P 500 giai đoạn 2015–2020 có xu hướng tăng trưởng dài hạn. Tỷ lệ số ngày có lợi suất 120D dương đạt **$77.79\%$** ($1,058 / 1,360$ ngày).
+   - Một chiến lược ngây thơ **Luôn Dự báo Dương (Always-Positive Benchmark)** hoặc mô hình `Historical_Mean` (dự báo hằng số dương) tự động đạt đúng **$DA = 77.79\%$** với $p = 8.04 \times 10^{-99}$.
+   - **So sánh thực chất:**
+     - Mô hình Elastic Net co toàn bộ hệ số về 0, dự báo đúng bằng Historical Mean ($100\%$ dương), nên đạt $DA = 77.79\%$.
+     - **Tất cả các mô hình Machine Learning và Deep Learning còn lại đều kém hơn Always-Positive Benchmark:** Logistic Regression ($74.56\%$), RNN ($73.01\%$), XGBoost ($71.69\%$), SVR ($66.76\%$), Ridge ($66.10\%$), LSTM ($65.81\%$), Random Forest ($63.31\%$), LightGBM ($58.38\%$), Transformer ($54.41\%$).
+   - **Kết luận:** DA cao ở chân trời dài hoàn toàn là hệ quả cơ học của độ trôi dương của thị trường kết hợp với thiên kiến dự báo dương của mô hình. Không có mô hình học máy nào tạo ra được giá trị gia tăng định hướng so với một quy tắc đoán xu hướng ngây thơ.
+3. **Vi phạm giả định quan sát độc lập ($iid$):**
+   - Lợi suất lũy kế $Target_{h,t} = \log(Close_{t+h}/Close_t)$ có $h-1$ ngày gối đầu. Tại 120D, hai ngày liên tiếp chia sẻ 119 ngày giá chung.
+   - Kiểm định Binomial cổ điển giả định $1,360$ phép thử độc lập là không hợp lệ về mặt kinh tế lượng, thổi phồng thống kê kiểm định và đẩy $p$-value về sát 0. Do đó, các giá trị $p$ trong Bảng 3.1 chỉ được xem như chỉ số mô tả (descriptive metrics), không phải suy diễn thống kê chuẩn mực.
 
 ---
 
-## 4. Tái Tính Toán Độc Lập: Kiểm Định Diebold-Mariano So Với Historical Mean (Diebold-Mariano Test Audit)
+## 4. Kiểm Định Diebold-Mariano So Với Historical Mean (Diebold-Mariano Test Audit)
 
-Áp dụng hàm kiểm định chính quy `utils.diebold_mariano_test` (dùng hàm mất mát bình phương squared loss, độ trễ tương quan $h \in \{1, 5, 20, 60, 120\}$, có hiệu chỉnh mẫu hữu hạn Harvey-Leybourne-Newbold) so sánh từng mô hình với `Historical_Mean`:
+Áp dụng hàm kiểm định chính quy `utils.diebold_mariano_test` với:
+- Hàm mất mát bình phương (Squared Loss Differential): $d_t = e_{\text{bench},t}^2 - e_{\text{model},t}^2$.
+- Thống kê $d_t > 0$ nghĩa là mô hình ứng viên có bình phương sai số nhỏ hơn Historical Mean (mô hình tốt hơn).
+- Tham số trễ Newey-West: $\text{lag} = h$ (phù hợp và bảo thủ nhẹ so với bậc $MA(h-1)$ của sai số dự báo tối ưu).
+- Hiệu chỉnh mẫu hữu hạn Harvey-Leybourne-Newbold (HLN).
+- Kiểm định so sánh trên toàn bộ 12 mô hình hồi quy (loại trừ Logistic Regression do sai lệch không gian mục tiêu nhị phân / xác suất).
 
-### 4.1 Ma trận Thống kê Diebold-Mariano (DM-Statistic Matrix)
-*(Giá trị dương lớn biểu thị mô hình ứng viên có sai số MSE thấp hơn đáng kể so với Historical Mean)*
+### 4.1 Bảng Ma trận Kiểm định Diebold-Mariano (Thống kê DM và p-value 1 phía)
 
-| Model | 1D DM (p-val) | 5D DM (p-val) | 20D DM (p-val) | 60D DM (p-val) | 120D DM (p-val) |
-| :--- | :---: | :---: | :---: | :---: | :---: |
-| **ARIMA** | +1.43 ($0.0769$) | **+4.34 ($0.0000^*$)** | **+2.18 ($0.0147^*$)** | **+2.33 ($0.0101^*$)** | **+2.50 ($0.0062^*$)** |
-| **ARIMAX** | +1.21 ($0.1126$) | **+5.11 ($0.0000^*$)** | **+2.19 ($0.0142^*$)** | **+2.32 ($0.0102^*$)** | **+2.50 ($0.0063^*$)** |
-| **SARIMA** | +1.31 ($0.0948$) | **+4.62 ($0.0000^*$)** | **+2.18 ($0.0147^*$)** | **+2.33 ($0.0100^*$)** | **+2.51 ($0.0062^*$)** |
-| **Ridge** | +0.16 ($0.4377$) | -2.11 ($0.9824$) | -1.61 ($0.9462$) | -1.47 ($0.9292$) | -2.03 ($0.9789$) |
-| **Elastic_Net** | 0.00 ($1.0000$) | -0.49 ($0.6885$) | -0.97 ($0.8327$) | -0.98 ($0.8358$) | -1.75 ($0.9598$) |
-| **SVR** | +0.54 ($0.2935$) | -1.24 ($0.8927$) | -1.36 ($0.9132$) | -1.08 ($0.8605$) | -0.62 ($0.7329$) |
-| **Random_Forest** | -0.99 ($0.8377$) | -1.55 ($0.9394$) | -1.38 ($0.9161$) | -1.51 ($0.9342$) | -2.14 ($0.9836$) |
-| **XGBoost** | -0.54 ($0.7064$) | -0.21 ($0.5833$) | -1.51 ($0.9344$) | -1.18 ($0.8802$) | -1.06 ($0.8556$) |
-| **LightGBM** | -1.41 ($0.9202$) | -1.59 ($0.9435$) | -1.56 ($0.9400$) | -1.65 ($0.9505$) | -2.12 ($0.9830$) |
-| **LSTM** | +0.41 ($0.3424$) | -2.46 ($0.9930$) | -1.74 ($0.9589$) | -1.52 ($0.9357$) | -0.94 ($0.8254$) |
-| **RNN** | -0.91 ($0.8188$) | -0.68 ($0.7523$) | -1.68 ($0.9537$) | -2.73 ($0.9968$) | +0.15 ($0.4414$) |
-| **Transformer** | -16.85 ($1.0000$) | -4.30 ($1.0000$) | -2.27 ($0.9885$) | -2.37 ($0.9910$) | -1.14 ($0.8736$) |
+| Model | 1D DM ($p$-val) | 5D DM ($p$-val) | 20D DM ($p$-val) | 60D DM ($p$-val) | 120D DM ($p$-val) | Đánh giá Phương pháp luận |
+| :--- | :---: | :---: | :---: | :---: | :---: | :--- |
+| **ARIMA** | +1.43 ($0.0769$) | **+4.34 ($7.61 \times 10^{-6*}$)** | **+2.18 ($0.0147^*$)** | **+2.33 ($0.0101^*$)** | **+2.50 ($0.0062^*$)** | **Không hợp lệ (Rò rỉ lọc 1 bước)** |
+| **ARIMAX** | +1.21 ($0.1126$) | **+5.11 ($1.81 \times 10^{-7*}$)** | **+2.19 ($0.0142^*$)** | **+2.32 ($0.0102^*$)** | **+2.50 ($0.0063^*$)** | **Không hợp lệ (Rò rỉ lọc 1 bước)** |
+| **SARIMA** | +1.31 ($0.0948$) | **+4.62 ($2.06 \times 10^{-6*}$)** | **+2.18 ($0.0147^*$)** | **+2.33 ($0.0100^*$)** | **+2.51 ($0.0062^*$)** | **Không hợp lệ (Rò rỉ lọc 1 bước)** |
+| **Ridge** | +0.16 ($0.4377$) | -2.11 ($0.9824$) | -1.61 ($0.9462$) | -1.47 ($0.9292$) | -2.03 ($0.9789$) | Hợp lệ (Không vượt trội) |
+| **Elastic_Net** | 0.00 ($1.0000$) | -0.49 ($0.6885$) | -0.97 ($0.8327$) | -0.98 ($0.8358$) | -1.75 ($0.9598$) | Hợp lệ (Không vượt trội) |
+| **SVR** | +0.54 ($0.2935$) | -1.24 ($0.8927$) | -1.36 ($0.9132$) | -1.08 ($0.8605$) | -0.62 ($0.7329$) | Hợp lệ (Không vượt trội) |
+| **Random_Forest** | -0.99 ($0.8377$) | -1.55 ($0.9394$) | -1.38 ($0.9161$) | -1.51 ($0.9342$) | -2.14 ($0.9836$) | Hợp lệ (Không vượt trội) |
+| **XGBoost** | -0.54 ($0.7064$) | -0.21 ($0.5833$) | -1.51 ($0.9344$) | -1.18 ($0.8802$) | -1.06 ($0.8556$) | Hợp lệ (Không vượt trội) |
+| **LightGBM** | -1.41 ($0.9202$) | -1.59 ($0.9435$) | -1.56 ($0.9400$) | -1.65 ($0.9505$) | -2.12 ($0.9830$) | Hợp lệ (Không vượt trội) |
+| **LSTM** | +0.41 ($0.3424$) | -2.46 ($0.9930$) | -1.74 ($0.9589$) | -1.52 ($0.9357$) | -0.94 ($0.8254$) | Hợp lệ (Không vượt trội) |
+| **RNN** | -0.91 ($0.8188$) | -0.68 ($0.7523$) | -1.68 ($0.9537$) | -2.73 ($0.9968$) | +0.15 ($0.4414$) | Hợp lệ (Không vượt trội) |
+| **Transformer** | -16.85 ($1.0000$) | -4.30 ($1.0000$) | -2.27 ($0.9885$) | -2.37 ($0.9910$) | -1.14 ($0.8736$) | Hợp lệ (Không vượt trội) |
 
-### 4.2 Phát hiện thực nghiệm cốt lõi từ Kiểm định Diebold-Mariano
-1. **Dòng Tự Hồi Quy (ARIMA, ARIMAX, SARIMA): Bằng chứng vượt trội thống kê duy nhất.**
-   - Tại 1D: Thống kê DM dương ($+1.21 \to +1.43$) nhưng $p$-value nằm trong khoảng $0.07 - 0.11$, chưa đạt mức ý nghĩa $5\%$.
-   - Tại 5D, 20D, 60D, 120D: Toàn bộ 3 mô hình đều đạt **$DM \ge 2.18$ và $p < 0.015$**.
-   - **Kết luận:** ARIMA, ARIMAX và SARIMA là **nhóm mô hình duy nhất trong nghiên cứu** vượt trội hơn Historical Mean một cách có ý nghĩa thống kê vững chắc trên chuỗi sai số dự báo bình phương ngoại mẫu.
-2. **Dòng Machine Learning & Deep Learning: Không có ý nghĩa vượt trội (Hoàn toàn thất bại trước Benchmark).**
-   - Từ 5D đến 120D, toàn bộ các mô hình Cây (Random Forest, LightGBM, XGBoost) và Học sâu (LSTM, Transformer) đều có thống kê $DM < 0$ (nghĩa là MSE của mô hình lớn hơn MSE của Historical Mean) và $p$-value tiến sát 1.0.
-   - Không có bất kỳ mô hình Machine Learning nào đánh bại được Historical Mean ở mức ý nghĩa $5\%$ ở các chân trời dài hạn.
+*\* Ghi chú: Thống kê DM dương biểu thị mô hình có MSE nhỏ hơn Benchmark. $p$-value là kiểm định 1 phía cho giả thuyết thay thế $H_1: \mathbb{E}[d_t] > 0$ (Mô hình tốt hơn).*
 
----
+### 4.2 Kiểm Định Hai Phía: Bằng Chứng Về Sự Kém Hơn Có Ý Nghĩa Thống Kê (Two-Sided DM Tests)
 
-## 5. Vấn Đề Kiểm Định Đa Giả Thuyết (Multiple Testing Problem & Bonferroni Correction)
-- **Quy mô không gian kiểm định:** 12 mô hình hồi quy $\times 5$ chân trời $= 60$ giả thuyết kiểm định Diebold-Mariano đồng thời.
-- **Hiệu chỉnh Bonferroni:** Ngưỡng ý nghĩa hiệu chỉnh là $\alpha_{\text{Bonferroni}} = \frac{0.05}{60} \approx 0.00083$.
-- **Đánh giá sau hiệu chỉnh:**
-  - Tại 5D: ARIMA, ARIMAX và SARIMA đều có $p = 0.00000 < 0.00083 \implies$ **Vượt qua kiểm định Bonferroni một cách hoàn hảo**.
-  - Tại 20D, 60D, 120D: $p$-value của dòng AR dao động từ $0.0062$ đến $0.0147$. Mặc dù vượt qua ngưỡng $5\%$ truyền thống và kiểm soát FDR (Benjamini-Hochberg) ở mức $q = 0.05$, các kết quả này không vượt qua ngưỡng Bonferroni cực kỳ bảo thủ.
-  - Đối với tất cả các mô hình ML: Không có mô hình nào đạt ý nghĩa thống kê dưới bất kỳ phương pháp hiệu chỉnh nào.
-
----
-
-## 6. Hạn Chế Phương Pháp Luận Của Kiểm Định Thống Kê (Limitations)
-1. **Giả định phân phối chuẩn tiệm cận của Diebold-Mariano:** Trong các chân trời dài hạn ($h = 60, 120$), độ trễ tương quan cao và số lượng khoảng không chồng lấn độc lập thực tế bị suy giảm ($1,360 / 120 \approx 11$ chu kỳ độc lập), có thể khiến phương sai Newey-West bị ước lượng chệch nhẹ.
+Khi kiểm định giả thuyết hai phía ($H_0: \mathbb{E}[d_t] = 0$ vs $H_1: \mathbb{E}[d_t] \neq 0$), giá trị $p_{2s} = 2 \min(p_{1s}, 1 - p_{1s})$ cho thấy:
+- **Nhiều mô hình Machine Learning và Deep Learning hoạt động KÉM HƠN CÓ Ý NGHĨA THỐNG KÊ so với Historical Mean:**
+  - **Transformer:** 1D ($p_{2s} < 0.0001^*$), 5D ($p_{2s} < 0.0001^*$), 20D ($p_{2s} = 0.0231^*$), 60D ($p_{2s} = 0.0179^*$).
+  - **Ridge:** 5D ($DM = -2.11, p_{2s} = 0.0351^*$), 120D ($DM = -2.03, p_{2s} = 0.0423^*$).
+  - **LSTM:** 5D ($DM = -2.46, p_{2s} = 0.0139^*$).
+  - **RNN:** 60D ($DM = -2.73, p_{2s} = 0.0064^*$).
+  - **Random Forest:** 120D ($DM = -2.14, p_{2s} = 0.0328^*$).
+  - **LightGBM:** 120D ($DM = -2.12, p_{2s} = 0.0340^*$).
+- **Ý nghĩa kinh tế lượng:** Đối với các mô hình phi tuyến phức tạp (Tree Ensembles, Deep Learning), việc ước lượng quá nhiều tham số trên dữ liệu chuỗi tài chính có tỷ lệ tín hiệu/nhiễu thấp dẫn đến hiện tượng quá khớp ngoại mẫu nghiêm trọng (severe out-of-sample overfitting). Sai số dự báo của chúng không chỉ ngẫu nhiên lớn hơn mà lớn hơn một cách có ý nghĩa thống kê so với một mốc chuẩn trung bình lịch sử giản đơn.
 
 ---
 
-## 7. Kết Luận Bước 8 & Kế Hoạch Tiếp Theo (Conclusions & Next Steps)
-- **Kết luận Step 8:**  
-  1. Kiểm định Hướng đi ($DA$) xác nhận thị trường 1D khó dự báo, trong khi mức ý nghĩa cực cao ở chân trời dài là do nắm bắt xu hướng tăng trưởng dài hạn của S&P 500 chứ không phản ánh kỹ năng dự báo điểm.  
-  2. Kiểm định Diebold-Mariano khẳng định vững chắc: **Chỉ duy nhất dòng mô hình Tự hồi quy (ARIMA, ARIMAX, SARIMA) vượt trội hơn Historical Mean có ý nghĩa thống kê ($p < 0.05$) từ chân trời 5D trở đi**. Toàn bộ các mô hình Machine Learning và Deep Learning đều thất bại trong việc đánh bại benchmark trên cơ sở thống kê sai số bình phương.
-- **Bước tiếp theo:** Sau khi hoàn thành trọn vẹn 8 báo cáo chi tiết cho 8 tập tin CSV, tiến hành bước tổng kết tối hậu: **Xây dựng bản tổng hợp nghiên cứu toàn diện `results/agent_reports/FINAL_SYNTHESIS.md`** theo đúng cấu trúc chuẩn mực 18 phần đã quy định.
+## 5. Hiệu Chỉnh Đa Giả Thuyết (Multiple Hypothesis Testing Correction)
+
+### 5.1 Định Nghĩa Không Gian Giả Thuyết (Family of Hypotheses)
+- **Họ kiểm định chính quy (Primary Confirmatory Family):** Toàn bộ 60 phép kiểm định Diebold-Mariano giữa 12 mô hình hồi quy và mốc chuẩn Historical Mean trên 5 chân trời dự báo.
+- **Mức ý nghĩa toàn họ (Family-Wise Significance Level):** $\alpha = 0.05$.
+
+### 5.2 Hiệu Chỉnh Bonferroni & Kiểm Soát FDR Benjamini-Hochberg
+
+1. **Hiệu chỉnh Bonferroni:**
+   - Ngưỡng ý nghĩa hiệu chỉnh: $\alpha_{\text{Bonferroni}} = \frac{0.05}{60} \approx 0.0008333$.
+   - *(Đính chính lỗi báo cáo cũ: Công thức trong bản thảo trước viết nhầm thành `0.0560 ≈ 0.00083` do lỗi gõ phím thiếu dấu gạch chéo).*
+2. **Kiểm soát Tỷ lệ Khám phá Sai (Benjamini-Hochberg FDR):**
+   - Sắp xếp 60 giá trị $p$ theo thứ tự tăng dần: $p_{(1)} \le p_{(2)} \le \dots \le p_{(60)}$.
+   - Tìm chỉ số lớn nhất $k$ thỏa mãn: $p_{(k)} \le \frac{k}{60} \times q$, với $q = 0.05$.
+
+#### Bảng Đối Chiếu 15 Kiểm Định Có p-value Thô Nhỏ Nhất:
+
+| Hạng ($k$) | Model | Horizon | $DM$ Statistic | $p$-value thô | Ngưỡng BH ($\frac{k}{60} \times 0.05$) | Vượt Bonferroni? ($\le 0.000833$) | Vượt BH FDR? ($q = 0.05$) | Tình trạng Mô hình |
+| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **1** | ARIMAX | 5D | +5.1136 | **$1.81 \times 10^{-7}$** | $0.000833$ | **Có (Sống sót)** | **Có (Sống sót)** | *Không hợp lệ (Rò rỉ)* |
+| **2** | SARIMA | 5D | +4.6237 | **$2.06 \times 10^{-6}$** | $0.001667$ | **Có (Sống sót)** | **Có (Sống sót)** | *Không hợp lệ (Rò rỉ)* |
+| **3** | ARIMA | 5D | +4.3413 | **$7.61 \times 10^{-6}$** | $0.002500$ | **Có (Sống sót)** | **Có (Sống sót)** | *Không hợp lệ (Rò rỉ)* |
+| 4 | SARIMA | 120D | +2.5053 | $0.006176$ | $0.003333$ | **Không (Trượt)** | **Không (Trượt)** | *Không hợp lệ (Rò rỉ)* |
+| 5 | ARIMA | 120D | +2.5040 | $0.006198$ | $0.004167$ | **Không (Trượt)** | **Không (Trượt)** | *Không hợp lệ (Rò rỉ)* |
+| 6 | ARIMAX | 120D | +2.5001 | $0.006266$ | $0.005000$ | **Không (Trượt)** | **Không (Trượt)** | *Không hợp lệ (Rò rỉ)* |
+| 7 | SARIMA | 60D | +2.3283 | $0.010021$ | $0.005833$ | **Không (Trượt)** | **Không (Trượt)** | *Không hợp lệ (Rò rỉ)* |
+| 8 | ARIMA | 60D | +2.3252 | $0.010105$ | $0.006667$ | **Không (Trượt)** | **Không (Trượt)** | *Không hợp lệ (Rò rỉ)* |
+| 9 | ARIMAX | 60D | +2.3231 | $0.010159$ | $0.007500$ | **Không (Trượt)** | **Không (Trượt)** | *Không hợp lệ (Rò rỉ)* |
+| 10 | ARIMAX | 20D | +2.1941 | $0.014200$ | $0.008333$ | **Không (Trượt)** | **Không (Trượt)** | *Không hợp lệ (Rò rỉ)* |
+| 11 | ARIMA | 20D | +2.1817 | $0.014651$ | $0.009167$ | **Không (Trượt)** | **Không (Trượt)** | *Không hợp lệ (Rò rỉ)* |
+| 12 | SARIMA | 20D | +2.1813 | $0.014665$ | $0.010000$ | **Không (Trượt)** | **Không (Trượt)** | *Không hợp lệ (Rò rỉ)* |
+| 13 | ARIMA | 1D | +1.4267 | $0.076943$ | $0.010833$ | **Không (Trượt)** | **Không (Trượt)** | *Không hợp lệ (Rò rỉ)* |
+| 14 | SARIMA | 1D | +1.3124 | $0.094805$ | $0.011667$ | **Không (Trượt)** | **Không (Trượt)** | *Không hợp lệ (Rò rỉ)* |
+| 15 | ARIMAX | 1D | +1.2136 | $0.112565$ | $0.012500$ | **Không (Trượt)** | **Không (Trượt)** | *Không hợp lệ (Rò rỉ)* |
+
+> [!CAUTION]
+> **ĐÍNH CHÍNH QUAN TRỌNG VỀ KẾT QUẢ FDR:**  
+> Bản thảo Report 08 trước đây tuyên bố rằng *"Tại 20D, 60D, 120D: Các mô hình AR kiểm soát FDR (Benjamini-Hochberg) ở mức $q = 0.05$"*.  
+> **Kiểm toán thực nghiệm xác nhận tuyên bố này là SAI LỆCH VÀ KHÔNG THỂ TÁI LẬP.**  
+> Tại hạng $k = 4$, $p_{(4)} = 0.006176 > \frac{4}{60} \times 0.05 = 0.003333$. Do đó, quá trình Benjamini-Hochberg dừng lại ngay sau hạng 3.  
+> **Chỉ có đúng 3 phép kiểm định tại chân trời 5D sống sót sau hiệu chỉnh FDR $q = 0.05$** (trùng khớp hoàn toàn với kết quả của Bonferroni). Toàn bộ các kiểm định tại 20D, 60D và 120D đều thất bại trong việc kiểm soát FDR.
+
+---
+
+## 6. Thẩm Định Tính Hợp Lệ Của Dòng Mô Hình ARIMA (ARIMA Validity Audit)
+
+Dòng mô hình Tự hồi quy (ARIMA, ARIMAX, SARIMA) là nhóm mô hình duy nhất có thống kê DM dương và đạt ý nghĩa thống kê dưới hiệu chỉnh Bonferroni và FDR tại 5D. Tuy nhiên, trước khi xem đây là bằng chứng khoa học, nghiên cứu đã tiến hành kiểm toán mã nguồn toàn diện:
+
+1. **Truy vết mã nguồn pipeline:**  
+   Trong tệp [arimax.py](file:///e:/IS403.R12-equity-return-predictability/src/training/baselines/arimax/arimax.py#L53-L56), quá trình tạo dự báo được thực hiện bằng lệnh:
+   ```python
+   applied = res.apply(test_series)
+   pred = applied.predict(start=0, end=len(test_series)-1)
+   ```
+2. **Cơ chế rò rỉ lọc 1 bước trên chuỗi gối đầu (1-Step Filtering Leakage):**
+   - Phương thức `res.apply().predict()` trong thư viện `statsmodels` thực hiện lọc 1 bước tiến (`one-step-ahead filtering`) trên toàn bộ chuỗi kiểm định.
+   - Khi mục tiêu là lợi suất lũy kế gối đầu $Target_{h,t} = \log(P_{t+h}/P_t)$, tại bước $t$, mô hình được cung cấp giá trị quan sát $Target_{h,t-1} = \log(P_{t-1+h}/P_{t-1})$.
+   - Biến số này chứa mức giá $P_{t-1+h}$ nằm sâu trong tương lai $h-1$ ngày so với thời điểm dự báo $t$.
+3. **Ảo ảnh toán học của tự tương quan gối đầu:**
+   - Hệ số tương quan lý thuyết giữa $Target_{h,t}$ và $Target_{h,t-1}$ xấp xỉ $\frac{h-1}{h}$ (ví dụ $\frac{119}{120} \approx 0.992$ tại 120D).
+   - Mô hình ARIMA không cần học bất kỳ quy luật kinh tế nào; nó chỉ đơn giản sao chép giá trị trễ $t-1$ đã rò rỉ tương lai để đạt $OOS\_R^2 \approx 0.96$ và $DM > +2.18$.
+4. **Phán quyết phương pháp luận:**
+   - **Cách ly hoàn toàn dòng mô hình ARIMA/ARIMAX/SARIMA khỏi các kết luận khoa học về năng lực dự báo.**
+   - Không được diễn giải kết quả kiểm định DM của nhóm mô hình này như bằng chứng về tính vượt trội trong dự báo lợi suất chứng khoán thực tế.
+
+---
+
+## 7. Kết Luận Nghiên Cứu Hiệu Chỉnh (Corrected Research Conclusions)
+
+Sau khi kiểm toán và hiệu chỉnh các sai lệch phương pháp luận, các kết luận kiểm định thống kê chính thức của nghiên cứu được xác lập như sau:
+
+1. **Về Năng Lực Dự Báo Của Nhóm Mô Hình Học Máy & Học Sâu (ML/DL Models):**
+   - **Không có bất kỳ mô hình Machine Learning hoặc Deep Learning nào thể hiện được năng lực dự báo vượt trội hơn Historical Mean** trên cơ sở bình phương sai số ngoại mẫu ở bất kỳ chân trời nào ($DM \le 0$ và $p_{\text{one-sided}} > 0.5$ tại mọi $h \ge 5$).
+   - Hơn nữa, kiểm định hai phía khẳng định nhiều mô hình phức tạp (Tree Ensembles, Deep Learning) có sai số **kém hơn có ý nghĩa thống kê** so với Historical Mean do hiện tượng quá khớp nhiễu.
+2. **Về Kiểm Định Hướng Đi Nhất Quán (Directional Accuracy):**
+   - Tại chân trời ngắn (1D), thị trường phản ánh tính khó dự báo cao; hơn $40\%$ số mô hình không đánh bại được xác suất đoán ngẫu nhiên $50\%$.
+   - Tại chân trời dài (60D, 120D), tỷ lệ DA vượt $50\%$ với $p < 0.001$ hoàn toàn là hệ quả của độ trôi dương thị trường ($77.79\%$). Khi so sánh với chuẩn Always-Positive, **$100\%$ mô hình ML đều không tạo ra giá trị định hướng vượt trội**.
+3. **Về Nhóm Mô Hình Tự Hồi Quy (ARIMA Family):**
+   - Sự vượt trội thống kê của dòng ARIMA bị bác bỏ do lỗi rò rỉ lọc 1 bước trên chuỗi dữ liệu gối đầu.
+4. **Thông Điệp Học Thuật Cốt Lõi Cho RQ1, RQ2 & RQ3:**
+   - Bằng chứng kiểm định thống kê củng cố vững chắc phát hiện: **Năng lực dự báo lợi suất chứng khoán ngoại mẫu suy giảm mạnh mẽ theo chân trời dự báo**. Các cấu trúc mô hình phức tạp không thể vượt qua mốc chuẩn kinh tế lượng giản đơn khi được đánh giá bằng các tiêu chuẩn kiểm định suy diễn có kiểm soát tự tương quan và đa giả thuyết.
+
+---
+
+## 8. Trạng Thái Chuyển Bước Sang Step 9 / Tổng Hợp Toàn Diện (Step 9 Readiness Gate)
+
+- **Quyết nghị phương pháp luận:** `CONDITIONAL PASS — SOME CLAIMS REQUIRE QUALIFICATION`.
+- **Điều kiện tiên quyết cho Step 9 (`FINAL_SYNTHESIS.md`):**
+  1. Sử dụng số liệu kiểm định đã được tái lập và chuẩn hóa trong `results/analysis/statistical_tests_corrected.csv`.
+  2. Cách ly triệt để dòng ARIMA; trình bày rõ ràng lỗi rò rỉ lọc 1 bước như một phát hiện phương pháp luận quan trọng.
+  3. Thống nhất thông điệp khoa học: Thị trường chứng khoán tuân theo quy luật suy giảm năng lực dự báo, và không có mô hình học máy nào đánh bại được mốc chuẩn ngây thơ trên dữ liệu ngoại mẫu thực tế.

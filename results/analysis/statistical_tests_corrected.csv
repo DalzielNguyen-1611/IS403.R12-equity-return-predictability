@@ -1,0 +1,131 @@
+Model,Horizon,Test,Benchmark,Statistic,p_value_raw,Significant_Raw_05,p_bonferroni,Significant_Bonferroni,p_fdr_bh,Significant_FDR_05,Positive_Base_Rate,Predicted_Positive_Rate,Methodological_Status
+ARIMA,1D,Binomial (DA > 0.5),50% Coin Flip,0.5272,0.02386049164359745,Yes,1.0,No,0.028309057882234263,Yes,0.5485294117647059,0.7036764705882353,Descriptive DA only; Overlapping dependence unadjusted
+ARIMA,5D,Binomial (DA > 0.5),50% Coin Flip,0.7941,2.933763133451115e-111,Yes,2.0536341934157807e-109,Yes,1.7113618278464838e-110,Yes,0.6183823529411765,0.6242647058823529,Descriptive DA only; Overlapping dependence unadjusted
+ARIMA,20D,Binomial (DA > 0.5),50% Coin Flip,0.9184,1.6275691964646967e-244,Yes,1.1392984375252878e-242,Yes,1.2658871528058752e-243,Yes,0.6845588235294118,0.6867647058823529,Descriptive DA only; Overlapping dependence unadjusted
+ARIMA,60D,Binomial (DA > 0.5),50% Coin Flip,0.9574,2.8680662795225078e-307,Yes,2.0076463956657553e-305,Yes,3.346077326109592e-306,Yes,0.7455882352941177,0.7485294117647059,Descriptive DA only; Overlapping dependence unadjusted
+ARIMA,120D,Binomial (DA > 0.5),50% Coin Flip,0.9669,0.0,Yes,0.0,Yes,0.0,Yes,0.7779411764705882,0.7786764705882353,Descriptive DA only; Overlapping dependence unadjusted
+ARIMAX,1D,Binomial (DA > 0.5),50% Coin Flip,0.5206,0.06791398588093932,No,1.0,No,0.07667708083331858,No,0.5485294117647059,0.5161764705882353,Descriptive DA only; Overlapping dependence unadjusted
+ARIMAX,5D,Binomial (DA > 0.5),50% Coin Flip,0.8243,5.303021363103769e-137,Yes,3.712114954172638e-135,Yes,3.712114954172638e-136,Yes,0.6183823529411765,0.586764705882353,Descriptive DA only; Overlapping dependence unadjusted
+ARIMAX,20D,Binomial (DA > 0.5),50% Coin Flip,0.936,5.048547871508553e-271,Yes,3.533983510055987e-269,Yes,5.048547871508553e-270,Yes,0.6845588235294118,0.6779411764705883,Descriptive DA only; Overlapping dependence unadjusted
+ARIMAX,60D,Binomial (DA > 0.5),50% Coin Flip,0.9706,0.0,Yes,0.0,Yes,0.0,Yes,0.7455882352941177,0.7455882352941177,Descriptive DA only; Overlapping dependence unadjusted
+ARIMAX,120D,Binomial (DA > 0.5),50% Coin Flip,0.9743,0.0,Yes,0.0,Yes,0.0,Yes,0.7779411764705882,0.7845588235294118,Descriptive DA only; Overlapping dependence unadjusted
+Elastic_Net,1D,Binomial (DA > 0.5),50% Coin Flip,0.5324,0.009142898348404815,Yes,0.6400028843883371,No,0.011034532489454088,Yes,0.5485294117647059,0.8441176470588235,Descriptive DA only; Overlapping dependence unadjusted
+Elastic_Net,5D,Binomial (DA > 0.5),50% Coin Flip,0.5779,4.940328634389203e-09,Yes,3.4582300440724423e-07,Yes,7.684955653494316e-09,Yes,0.6183823529411765,0.8669117647058824,Descriptive DA only; Overlapping dependence unadjusted
+Elastic_Net,20D,Binomial (DA > 0.5),50% Coin Flip,0.6184,1.1147427254453123e-18,Yes,7.803199078117186e-17,Yes,2.167555299476996e-18,Yes,0.6845588235294118,0.8558823529411764,Descriptive DA only; Overlapping dependence unadjusted
+Elastic_Net,60D,Binomial (DA > 0.5),50% Coin Flip,0.686,5.643851283820703e-44,Yes,3.950695898674492e-42,Yes,1.975347949337246e-43,Yes,0.7455882352941177,0.8463235294117647,Descriptive DA only; Overlapping dependence unadjusted
+Elastic_Net,120D,Binomial (DA > 0.5),50% Coin Flip,0.7779,8.035293998209469e-99,Yes,5.624705798746628e-97,Yes,4.0176469991047345e-98,Yes,0.7779411764705882,1.0,Descriptive DA only; Overlapping dependence unadjusted
+Historical_Mean,1D,Binomial (DA > 0.5),50% Coin Flip,0.5485,0.00018915234751133548,Yes,0.013240664325793483,Yes,0.00026481328651586965,Yes,0.5485294117647059,1.0,Descriptive DA only; Overlapping dependence unadjusted
+Historical_Mean,5D,Binomial (DA > 0.5),50% Coin Flip,0.6184,1.1147427254453123e-18,Yes,7.803199078117186e-17,Yes,2.167555299476996e-18,Yes,0.6183823529411765,1.0,Descriptive DA only; Overlapping dependence unadjusted
+Historical_Mean,20D,Binomial (DA > 0.5),50% Coin Flip,0.6846,2.6881750806733415e-43,Yes,1.881722556471339e-41,Yes,8.553284347596996e-43,Yes,0.6845588235294118,1.0,Descriptive DA only; Overlapping dependence unadjusted
+Historical_Mean,60D,Binomial (DA > 0.5),50% Coin Flip,0.7456,1.3960696738319856e-76,Yes,9.7724877168239e-75,Yes,6.107804823014937e-76,Yes,0.7455882352941177,1.0,Descriptive DA only; Overlapping dependence unadjusted
+Historical_Mean,120D,Binomial (DA > 0.5),50% Coin Flip,0.7779,8.035293998209469e-99,Yes,5.624705798746628e-97,Yes,4.0176469991047345e-98,Yes,0.7779411764705882,1.0,Descriptive DA only; Overlapping dependence unadjusted
+LSTM,1D,Binomial (DA > 0.5),50% Coin Flip,0.525,0.03460481696237421,Yes,1.0,No,0.040372286456103246,Yes,0.5485294117647059,0.7058823529411765,Descriptive DA only; Overlapping dependence unadjusted
+LSTM,5D,Binomial (DA > 0.5),50% Coin Flip,0.5478,0.0002322630293552066,Yes,0.016258412054864464,Yes,0.00031879239323263654,Yes,0.6183823529411765,0.6029411764705882,Descriptive DA only; Overlapping dependence unadjusted
+LSTM,20D,Binomial (DA > 0.5),50% Coin Flip,0.586,1.1996412625223648e-10,Yes,8.397488837656555e-09,Yes,1.9994021042039417e-10,Yes,0.6845588235294118,0.7529411764705882,Descriptive DA only; Overlapping dependence unadjusted
+LSTM,60D,Binomial (DA > 0.5),50% Coin Flip,0.6735,2.123363847508008e-38,Yes,1.4863546932556056e-36,Yes,6.462411709806981e-38,Yes,0.7455882352941177,0.9205882352941176,Descriptive DA only; Overlapping dependence unadjusted
+LSTM,120D,Binomial (DA > 0.5),50% Coin Flip,0.6581,4.3555488905878655e-32,Yes,3.048884223411506e-30,Yes,1.1292163790412985e-31,Yes,0.7779411764705882,0.8639705882352942,Descriptive DA only; Overlapping dependence unadjusted
+LightGBM,1D,Binomial (DA > 0.5),50% Coin Flip,0.5368,0.003620665271739071,Yes,0.25344656902173496,No,0.004446431035469035,Yes,0.5485294117647059,0.7441176470588236,Descriptive DA only; Overlapping dependence unadjusted
+LightGBM,5D,Binomial (DA > 0.5),50% Coin Flip,0.5853,1.7071051298818861e-10,Yes,1.1949735909173203e-08,Yes,2.7790083509705123e-10,Yes,0.6183823529411765,0.8375,Descriptive DA only; Overlapping dependence unadjusted
+LightGBM,20D,Binomial (DA > 0.5),50% Coin Flip,0.6419,3.8464021597012887e-26,Yes,2.692481511790902e-24,Yes,9.284419006175525e-26,Yes,0.6845588235294118,0.9191176470588235,Descriptive DA only; Overlapping dependence unadjusted
+LightGBM,60D,Binomial (DA > 0.5),50% Coin Flip,0.6346,1.165403897916106e-23,Yes,8.157827285412742e-22,Yes,2.63155718884282e-23,Yes,0.7455882352941177,0.8360294117647059,Descriptive DA only; Overlapping dependence unadjusted
+LightGBM,120D,Binomial (DA > 0.5),50% Coin Flip,0.5838,3.4262458956568073e-10,Yes,2.3983721269597652e-08,Yes,5.450845743090376e-10,Yes,0.7779411764705882,0.7661764705882353,Descriptive DA only; Overlapping dependence unadjusted
+Logistic_Regression,1D,Binomial (DA > 0.5),50% Coin Flip,0.5059,0.3421054357286781,No,1.0,No,0.3574235895672756,No,0.5485294117647059,0.663235294117647,Descriptive DA only; Overlapping dependence unadjusted
+Logistic_Regression,5D,Binomial (DA > 0.5),50% Coin Flip,0.5228,0.049036257637352317,Yes,1.0,No,0.056271115321551844,No,0.6183823529411765,0.7102941176470589,Descriptive DA only; Overlapping dependence unadjusted
+Logistic_Regression,20D,Binomial (DA > 0.5),50% Coin Flip,0.6397,2.207413244209275e-25,Yes,1.5451892709464926e-23,Yes,5.150630903154975e-25,Yes,0.6845588235294118,0.9433823529411764,Descriptive DA only; Overlapping dependence unadjusted
+Logistic_Regression,60D,Binomial (DA > 0.5),50% Coin Flip,0.6846,2.6881750806733415e-43,Yes,1.881722556471339e-41,Yes,8.553284347596996e-43,Yes,0.7455882352941177,0.9389705882352941,Descriptive DA only; Overlapping dependence unadjusted
+Logistic_Regression,120D,Binomial (DA > 0.5),50% Coin Flip,0.7456,1.3960696738319856e-76,Yes,9.7724877168239e-75,Yes,6.107804823014937e-76,Yes,0.7779411764705882,0.9676470588235294,Descriptive DA only; Overlapping dependence unadjusted
+RNN,1D,Binomial (DA > 0.5),50% Coin Flip,0.4993,0.5324157945316297,No,1.0,No,0.5401319654668707,No,0.5485294117647059,0.3948529411764706,Descriptive DA only; Overlapping dependence unadjusted
+RNN,5D,Binomial (DA > 0.5),50% Coin Flip,0.5081,0.28453596843031836,No,1.0,No,0.3017805725776104,No,0.6183823529411765,0.538235294117647,Descriptive DA only; Overlapping dependence unadjusted
+RNN,20D,Binomial (DA > 0.5),50% Coin Flip,0.6007,5.5327335354616904e-14,Yes,3.872913474823183e-12,Yes,9.682283687057958e-14,Yes,0.6845588235294118,0.7764705882352941,Descriptive DA only; Overlapping dependence unadjusted
+RNN,60D,Binomial (DA > 0.5),50% Coin Flip,0.6338,2.0281214102392678e-23,Yes,1.4196849871674876e-21,Yes,4.4365155848983986e-23,Yes,0.7455882352941177,0.8058823529411765,Descriptive DA only; Overlapping dependence unadjusted
+RNN,120D,Binomial (DA > 0.5),50% Coin Flip,0.7301,3.939167109447558e-67,Yes,2.7574169766132907e-65,Yes,1.6220099862431122e-66,Yes,0.7779411764705882,0.9227941176470589,Descriptive DA only; Overlapping dependence unadjusted
+Random_Forest,1D,Binomial (DA > 0.5),50% Coin Flip,0.5404,0.001552828917978963,Yes,0.10869802425852741,No,0.002012926375157915,Yes,0.5485294117647059,0.9301470588235294,Descriptive DA only; Overlapping dependence unadjusted
+Random_Forest,5D,Binomial (DA > 0.5),50% Coin Flip,0.5934,2.9918691795358455e-12,Yes,2.0943084256750918e-10,Yes,5.1080693309148584e-12,Yes,0.6183823529411765,0.913235294117647,Descriptive DA only; Overlapping dependence unadjusted
+Random_Forest,20D,Binomial (DA > 0.5),50% Coin Flip,0.6228,5.669180172412758e-20,Yes,3.96842612068893e-18,Yes,1.167184153143803e-19,Yes,0.6845588235294118,0.9161764705882353,Descriptive DA only; Overlapping dependence unadjusted
+Random_Forest,60D,Binomial (DA > 0.5),50% Coin Flip,0.614,1.961982025329136e-17,Yes,1.3733874177303952e-15,Yes,3.7118578857578246e-17,Yes,0.7455882352941177,0.8492647058823529,Descriptive DA only; Overlapping dependence unadjusted
+Random_Forest,120D,Binomial (DA > 0.5),50% Coin Flip,0.6331,3.5184270126892636e-23,Yes,2.4628989088824845e-21,Yes,7.46333002691662e-23,Yes,0.7779411764705882,0.8198529411764706,Descriptive DA only; Overlapping dependence unadjusted
+Ridge,1D,Binomial (DA > 0.5),50% Coin Flip,0.5147,0.1451317849394472,No,1.0,No,0.15873788977752037,No,0.5485294117647059,0.49117647058823527,Descriptive DA only; Overlapping dependence unadjusted
+Ridge,5D,Binomial (DA > 0.5),50% Coin Flip,0.5015,0.4675842054683703,No,1.0,No,0.4813366820997929,No,0.6183823529411765,0.6125,Descriptive DA only; Overlapping dependence unadjusted
+Ridge,20D,Binomial (DA > 0.5),50% Coin Flip,0.5603,4.822014973176188e-06,Yes,0.0003375410481223331,Yes,7.032105169215273e-06,Yes,0.6845588235294118,0.649264705882353,Descriptive DA only; Overlapping dependence unadjusted
+Ridge,60D,Binomial (DA > 0.5),50% Coin Flip,0.5618,2.8956937034513354e-06,Yes,0.00020269855924159348,Yes,4.312735303012628e-06,Yes,0.7455882352941177,0.7029411764705882,Descriptive DA only; Overlapping dependence unadjusted
+Ridge,120D,Binomial (DA > 0.5),50% Coin Flip,0.661,3.0558027458002365e-33,Yes,2.1390619220601654e-31,Yes,8.227161238692943e-33,Yes,0.7779411764705882,0.8463235294117647,Descriptive DA only; Overlapping dependence unadjusted
+SARIMA,1D,Binomial (DA > 0.5),50% Coin Flip,0.539,0.0021966054056392803,Yes,0.15376237839474963,No,0.002795679607177266,Yes,0.5485294117647059,0.6992647058823529,Descriptive DA only; Overlapping dependence unadjusted
+SARIMA,5D,Binomial (DA > 0.5),50% Coin Flip,0.8206,1.1288369782353327e-133,Yes,7.90185884764733e-132,Yes,7.183508043315754e-133,Yes,0.6183823529411765,0.6227941176470588,Descriptive DA only; Overlapping dependence unadjusted
+SARIMA,20D,Binomial (DA > 0.5),50% Coin Flip,0.9184,1.6275691964646967e-244,Yes,1.1392984375252878e-242,Yes,1.2658871528058752e-243,Yes,0.6845588235294118,0.6867647058823529,Descriptive DA only; Overlapping dependence unadjusted
+SARIMA,60D,Binomial (DA > 0.5),50% Coin Flip,0.9574,2.8680662795225078e-307,Yes,2.0076463956657553e-305,Yes,3.346077326109592e-306,Yes,0.7455882352941177,0.7485294117647059,Descriptive DA only; Overlapping dependence unadjusted
+SARIMA,120D,Binomial (DA > 0.5),50% Coin Flip,0.9691,0.0,Yes,0.0,Yes,0.0,Yes,0.7779411764705882,0.7794117647058824,Descriptive DA only; Overlapping dependence unadjusted
+SVR,1D,Binomial (DA > 0.5),50% Coin Flip,0.5096,0.24892224636995897,No,1.0,No,0.26807011147534043,No,0.5485294117647059,0.44926470588235295,Descriptive DA only; Overlapping dependence unadjusted
+SVR,5D,Binomial (DA > 0.5),50% Coin Flip,0.5515,8.089803492474833e-05,Yes,0.005662862444732383,Yes,0.00011556862132106905,Yes,0.6183823529411765,0.7816176470588235,Descriptive DA only; Overlapping dependence unadjusted
+SVR,20D,Binomial (DA > 0.5),50% Coin Flip,0.5706,1.0658565241885225e-07,Yes,7.460995669319658e-06,Yes,1.6219555802868823e-07,Yes,0.6845588235294118,0.6227941176470588,Descriptive DA only; Overlapping dependence unadjusted
+SVR,60D,Binomial (DA > 0.5),50% Coin Flip,0.6691,1.565846435446333e-36,Yes,1.096092504812433e-34,Yes,4.567052103385138e-36,Yes,0.7455882352941177,0.8705882352941177,Descriptive DA only; Overlapping dependence unadjusted
+SVR,120D,Binomial (DA > 0.5),50% Coin Flip,0.6676,6.39495081800824e-36,Yes,4.476465572605769e-34,Yes,1.7905862290423075e-35,Yes,0.7779411764705882,0.8426470588235294,Descriptive DA only; Overlapping dependence unadjusted
+Transformer,1D,Binomial (DA > 0.5),50% Coin Flip,0.4971,0.5963972473808348,No,1.0,No,0.5963972473808348,No,0.5485294117647059,0.38676470588235295,Descriptive DA only; Overlapping dependence unadjusted
+Transformer,5D,Binomial (DA > 0.5),50% Coin Flip,0.5382,0.0026018501365227664,Yes,0.18212950955659366,No,0.003252312670653458,Yes,0.6183823529411765,0.5419117647058823,Descriptive DA only; Overlapping dependence unadjusted
+Transformer,20D,Binomial (DA > 0.5),50% Coin Flip,0.5184,0.09196336197674793,No,1.0,No,0.1021815133074977,No,0.6845588235294118,0.5044117647058823,Descriptive DA only; Overlapping dependence unadjusted
+Transformer,60D,Binomial (DA > 0.5),50% Coin Flip,0.6059,2.83116070524138e-15,Yes,1.981812493668966e-13,Yes,5.081570496587092e-15,Yes,0.7455882352941177,0.7308823529411764,Descriptive DA only; Overlapping dependence unadjusted
+Transformer,120D,Binomial (DA > 0.5),50% Coin Flip,0.5441,0.0006217567124458483,Yes,0.043522969871209384,Yes,0.0008369801898309497,Yes,0.7779411764705882,0.6617647058823529,Descriptive DA only; Overlapping dependence unadjusted
+XGBoost,1D,Binomial (DA > 0.5),50% Coin Flip,0.5434,0.000750797931393003,Yes,0.05255585519751021,No,0.000991619909386985,Yes,0.5485294117647059,0.9654411764705882,Descriptive DA only; Overlapping dependence unadjusted
+XGBoost,5D,Binomial (DA > 0.5),50% Coin Flip,0.6132,3.1305437527025474e-17,Yes,2.191380626891783e-15,Yes,5.76679112339943e-17,Yes,0.6183823529411765,0.9610294117647059,Descriptive DA only; Overlapping dependence unadjusted
+XGBoost,20D,Binomial (DA > 0.5),50% Coin Flip,0.6515,1.4225032968183043e-29,Yes,9.95752307772813e-28,Yes,3.556258242045761e-29,Yes,0.6845588235294118,0.9551470588235295,Descriptive DA only; Overlapping dependence unadjusted
+XGBoost,60D,Binomial (DA > 0.5),50% Coin Flip,0.7125,3.349542676375116e-57,Yes,2.344679873462581e-55,Yes,1.2340420386645162e-56,Yes,0.7455882352941177,0.9227941176470589,Descriptive DA only; Overlapping dependence unadjusted
+XGBoost,120D,Binomial (DA > 0.5),50% Coin Flip,0.7169,1.3420985345736967e-59,Yes,9.394689742015878e-58,Yes,5.219272078897709e-59,Yes,0.7779411764705882,0.9139705882352941,Descriptive DA only; Overlapping dependence unadjusted
+ARIMA,1D,Diebold-Mariano (HLN),Historical Mean,1.4267,0.07694280341036452,No,1.0,No,0.35512063112475933,No,,,Methodologically Unvalidated (1-step filtering leakage)
+ARIMA,5D,Diebold-Mariano (HLN),Historical Mean,4.3413,7.608302355688323e-06,Yes,0.0004564981413412994,Yes,0.00015216604711376647,Yes,,,Methodologically Unvalidated (1-step filtering leakage)
+ARIMA,20D,Diebold-Mariano (HLN),Historical Mean,2.1817,0.01465066329071496,Yes,0.8790397974428976,No,0.07332486375889402,No,,,Methodologically Unvalidated (1-step filtering leakage)
+ARIMA,60D,Diebold-Mariano (HLN),Historical Mean,2.3252,0.010105070260177818,Yes,0.606304215610669,No,0.06772803743810174,No,,,Methodologically Unvalidated (1-step filtering leakage)
+ARIMA,120D,Diebold-Mariano (HLN),Historical Mean,2.504,0.006198142566197107,Yes,0.3718885539718264,No,0.06266148737256283,No,,,Methodologically Unvalidated (1-step filtering leakage)
+ARIMAX,1D,Diebold-Mariano (HLN),Historical Mean,1.2136,0.11256520533311454,No,1.0,No,0.45026082133245815,No,,,Methodologically Unvalidated (1-step filtering leakage)
+ARIMAX,5D,Diebold-Mariano (HLN),Historical Mean,5.1136,1.8061860673768138e-07,Yes,1.0837116404260883e-05,Yes,1.0837116404260883e-05,Yes,,,Methodologically Unvalidated (1-step filtering leakage)
+ARIMAX,20D,Diebold-Mariano (HLN),Historical Mean,2.1941,0.014199739932896915,Yes,0.8519843959738149,No,0.07332486375889402,No,,,Methodologically Unvalidated (1-step filtering leakage)
+ARIMAX,60D,Diebold-Mariano (HLN),Historical Mean,2.3231,0.010159205615715261,Yes,0.6095523369429157,No,0.06772803743810174,No,,,Methodologically Unvalidated (1-step filtering leakage)
+ARIMAX,120D,Diebold-Mariano (HLN),Historical Mean,2.5001,0.006266148737256283,Yes,0.375968924235377,No,0.06266148737256283,No,,,Methodologically Unvalidated (1-step filtering leakage)
+Elastic_Net,1D,Diebold-Mariano (HLN),Historical Mean,0.0,1.0,No,1.0,No,1.0,No,,,Methodologically Valid
+Elastic_Net,5D,Diebold-Mariano (HLN),Historical Mean,-0.4917,0.6885113321049698,No,1.0,No,1.0,No,,,Methodologically Valid
+Elastic_Net,20D,Diebold-Mariano (HLN),Historical Mean,-0.9653,0.8327134426281587,No,1.0,No,1.0,No,,,Methodologically Valid
+Elastic_Net,60D,Diebold-Mariano (HLN),Historical Mean,-0.9778,0.8358310257167398,No,1.0,No,1.0,No,,,Methodologically Valid
+Elastic_Net,120D,Diebold-Mariano (HLN),Historical Mean,-1.7494,0.9597747483719056,No,1.0,No,1.0,No,,,Methodologically Valid
+LSTM,1D,Diebold-Mariano (HLN),Historical Mean,0.4061,0.34236874076709956,No,1.0,No,1.0,No,,,Methodologically Valid
+LSTM,5D,Diebold-Mariano (HLN),Historical Mean,-2.4629,0.9930480156099386,No,1.0,No,1.0,No,,,Methodologically Valid
+LSTM,20D,Diebold-Mariano (HLN),Historical Mean,-1.7399,0.9589446002443075,No,1.0,No,1.0,No,,,Methodologically Valid
+LSTM,60D,Diebold-Mariano (HLN),Historical Mean,-1.5202,0.9356533067012323,No,1.0,No,1.0,No,,,Methodologically Valid
+LSTM,120D,Diebold-Mariano (HLN),Historical Mean,-0.9366,0.8254368516654742,No,1.0,No,1.0,No,,,Methodologically Valid
+LightGBM,1D,Diebold-Mariano (HLN),Historical Mean,-1.4075,0.9202475858898023,No,1.0,No,1.0,No,,,Methodologically Valid
+LightGBM,5D,Diebold-Mariano (HLN),Historical Mean,-1.5857,0.9434819015222755,No,1.0,No,1.0,No,,,Methodologically Valid
+LightGBM,20D,Diebold-Mariano (HLN),Historical Mean,-1.556,0.9400332650758727,No,1.0,No,1.0,No,,,Methodologically Valid
+LightGBM,60D,Diebold-Mariano (HLN),Historical Mean,-1.6506,0.9504782674475108,No,1.0,No,1.0,No,,,Methodologically Valid
+LightGBM,120D,Diebold-Mariano (HLN),Historical Mean,-2.122,0.9829906577653268,No,1.0,No,1.0,No,,,Methodologically Valid
+RNN,1D,Diebold-Mariano (HLN),Historical Mean,-0.9112,0.8188297643792729,No,1.0,No,1.0,No,,,Methodologically Valid
+RNN,5D,Diebold-Mariano (HLN),Historical Mean,-0.6821,0.7523498386749056,No,1.0,No,1.0,No,,,Methodologically Valid
+RNN,20D,Diebold-Mariano (HLN),Historical Mean,-1.6831,0.9537072488800908,No,1.0,No,1.0,No,,,Methodologically Valid
+RNN,60D,Diebold-Mariano (HLN),Historical Mean,-2.7309,0.9968011102729779,No,1.0,No,1.0,No,,,Methodologically Valid
+RNN,120D,Diebold-Mariano (HLN),Historical Mean,0.1475,0.44138935687591063,No,1.0,No,1.0,No,,,Methodologically Valid
+Random_Forest,1D,Diebold-Mariano (HLN),Historical Mean,-0.9854,0.8377087607059671,No,1.0,No,1.0,No,,,Methodologically Valid
+Random_Forest,5D,Diebold-Mariano (HLN),Historical Mean,-1.5509,0.9394158126493226,No,1.0,No,1.0,No,,,Methodologically Valid
+Random_Forest,20D,Diebold-Mariano (HLN),Historical Mean,-1.3799,0.9160749586294373,No,1.0,No,1.0,No,,,Methodologically Valid
+Random_Forest,60D,Diebold-Mariano (HLN),Historical Mean,-1.509,0.9342334924546483,No,1.0,No,1.0,No,,,Methodologically Valid
+Random_Forest,120D,Diebold-Mariano (HLN),Historical Mean,-2.1367,0.9836000867517545,No,1.0,No,1.0,No,,,Methodologically Valid
+Ridge,1D,Diebold-Mariano (HLN),Historical Mean,0.1568,0.437695754083409,No,1.0,No,1.0,No,,,Methodologically Valid
+Ridge,5D,Diebold-Mariano (HLN),Historical Mean,-2.1089,0.9824306080065124,No,1.0,No,1.0,No,,,Methodologically Valid
+Ridge,20D,Diebold-Mariano (HLN),Historical Mean,-1.6097,0.9461574195863063,No,1.0,No,1.0,No,,,Methodologically Valid
+Ridge,60D,Diebold-Mariano (HLN),Historical Mean,-1.471,0.929233877727331,No,1.0,No,1.0,No,,,Methodologically Valid
+Ridge,120D,Diebold-Mariano (HLN),Historical Mean,-2.033,0.9788744552673664,No,1.0,No,1.0,No,,,Methodologically Valid
+SARIMA,1D,Diebold-Mariano (HLN),Historical Mean,1.3124,0.09480482505229726,No,1.0,No,0.406306393081274,No,,,Methodologically Unvalidated (1-step filtering leakage)
+SARIMA,5D,Diebold-Mariano (HLN),Historical Mean,4.6237,2.0645238884009487e-06,Yes,0.00012387143330405692,Yes,6.193571665202846e-05,Yes,,,Methodologically Unvalidated (1-step filtering leakage)
+SARIMA,20D,Diebold-Mariano (HLN),Historical Mean,2.1813,0.014664972751778804,Yes,0.8798983651067283,No,0.07332486375889402,No,,,Methodologically Unvalidated (1-step filtering leakage)
+SARIMA,60D,Diebold-Mariano (HLN),Historical Mean,2.3283,0.010020698592069888,Yes,0.6012419155241933,No,0.06772803743810174,No,,,Methodologically Unvalidated (1-step filtering leakage)
+SARIMA,120D,Diebold-Mariano (HLN),Historical Mean,2.5053,0.006176243178703245,Yes,0.3705745907221947,No,0.06266148737256283,No,,,Methodologically Unvalidated (1-step filtering leakage)
+SVR,1D,Diebold-Mariano (HLN),Historical Mean,0.5433,0.2935132559199335,No,1.0,No,1.0,No,,,Methodologically Valid
+SVR,5D,Diebold-Mariano (HLN),Historical Mean,-1.2413,0.8926530520846492,No,1.0,No,1.0,No,,,Methodologically Valid
+SVR,20D,Diebold-Mariano (HLN),Historical Mean,-1.3613,0.9131840069275392,No,1.0,No,1.0,No,,,Methodologically Valid
+SVR,60D,Diebold-Mariano (HLN),Historical Mean,-1.0832,0.8605430352959414,No,1.0,No,1.0,No,,,Methodologically Valid
+SVR,120D,Diebold-Mariano (HLN),Historical Mean,-0.6218,0.7329188158590236,No,1.0,No,1.0,No,,,Methodologically Valid
+Transformer,1D,Diebold-Mariano (HLN),Historical Mean,-16.8531,1.0,No,1.0,No,1.0,No,,,Methodologically Valid
+Transformer,5D,Diebold-Mariano (HLN),Historical Mean,-4.2979,0.999990766410522,No,1.0,No,1.0,No,,,Methodologically Valid
+Transformer,20D,Diebold-Mariano (HLN),Historical Mean,-2.2749,0.9884667989454792,No,1.0,No,1.0,No,,,Methodologically Valid
+Transformer,60D,Diebold-Mariano (HLN),Historical Mean,-2.3705,0.9910487355413337,No,1.0,No,1.0,No,,,Methodologically Valid
+Transformer,120D,Diebold-Mariano (HLN),Historical Mean,-1.1442,0.8736351918716729,No,1.0,No,1.0,No,,,Methodologically Valid
+XGBoost,1D,Diebold-Mariano (HLN),Historical Mean,-0.5431,0.7064267169522023,No,1.0,No,1.0,No,,,Methodologically Valid
+XGBoost,5D,Diebold-Mariano (HLN),Historical Mean,-0.2103,0.5832826096172283,No,1.0,No,1.0,No,,,Methodologically Valid
+XGBoost,20D,Diebold-Mariano (HLN),Historical Mean,-1.5104,0.9344160837659691,No,1.0,No,1.0,No,,,Methodologically Valid
+XGBoost,60D,Diebold-Mariano (HLN),Historical Mean,-1.1764,0.8801827793124959,No,1.0,No,1.0,No,,,Methodologically Valid
+XGBoost,120D,Diebold-Mariano (HLN),Historical Mean,-1.0611,0.8555842709016213,No,1.0,No,1.0,No,,,Methodologically Valid
