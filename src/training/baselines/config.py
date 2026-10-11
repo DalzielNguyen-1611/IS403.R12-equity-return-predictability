@@ -37,6 +37,14 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 # Horizons and Target mapping
 HORIZONS = ['1D', '5D', '20D', '60D', '120D']
 
+HORIZON_TO_STEPS = {
+    '1D': 1,
+    '5D': 5,
+    '20D': 20,
+    '60D': 60,
+    '120D': 120,
+}
+
 HORIZON_TO_TARGET = {
     '1D': 'Target_1',
     '5D': 'Target_5',

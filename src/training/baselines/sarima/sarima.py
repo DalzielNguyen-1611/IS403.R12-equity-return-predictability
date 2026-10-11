@@ -42,11 +42,16 @@ def run_model(df=None, horizons=config.HORIZONS, logger=None):
                 seasonal_order = (0, 0, 0, 0)
                 
             utils.save_tuning_record(MODEL_NAME, horizon, fold, {'order': order, 'seasonal_order': seasonal_order}, float(getattr(res, 'aic', 0.0)), score_metric='AIC')
-            applied = res.apply(full_y)
-            n_train, n_val = len(train_y), len(val_y)
-            val_preds = applied.predict(start=n_train, end=n_train + n_val - 1)
+            h_step = config.HORIZON_TO_STEPS.get(horizon, 1)
+            if h_step == 1:
+                applied = res.apply(full_y)
+                n_train, n_val = len(train_y), len(val_y)
+                val_preds = applied.predict(start=n_train, end=n_train + n_val - 1)
+            else:
+                val_preds = res.forecast(steps=len(val_y))
             
-            m = utils.calc_regression_metrics(val_y, val_preds)
+            y_bench = np.full_like(val_y, np.mean(train_y))
+            m = utils.calc_regression_metrics(val_y, val_preds, y_bench=y_bench, h=h_step)
             fold_metrics.append({
                 'model': MODEL_NAME, 'horizon': horizon, 'fold': fold,
                 'train_start': meta['train_start'], 'train_end': meta['train_end'],

@@ -1,4 +1,4 @@
-import os
+﻿import os
 import sys
 import numpy as np
 import pandas as pd
@@ -40,14 +40,17 @@ def run_analysis():
     df['Date'] = pd.to_datetime(df['Date'])
     df['Period'] = df['Date'].apply(map_date_to_period)
     
-    # Extract benchmark (historical_mean) predictions
-    bench_df = df[df['Model'] == 'historical_mean']
-    
-    models = sorted(df['Model'].unique())
-    # Place historical_mean at the front of models list if present
-    if 'historical_mean' in models:
-        models.remove('historical_mean')
-        models = ['historical_mean'] + models
+    # Extract benchmark (historical_mean) predictions (case-insensitive)
+    bench_df = df[df['Model'].str.lower() == 'historical_mean']
+    if bench_df.empty:
+        logger.error("Benchmark 'Historical_Mean' not found in predictions! OOS R2 calculations cannot proceed.")
+        return
+    else:
+        logger.info(f"Loaded {len(bench_df):,} benchmark predictions.")
+        
+    bench_name = next((m for m in df['Model'].unique() if m.lower() == 'historical_mean'), 'Historical_Mean')
+    models = [m for m in sorted(df['Model'].unique()) if m != bench_name]
+    models = [bench_name] + models
         
     horizons = [h for h in config.HORIZONS if h in df['Horizon'].unique()]
     
@@ -59,17 +62,36 @@ def run_analysis():
     rq1_records = []
     
     for mod in models:
+        is_bench = (mod.lower() == 'historical_mean')
+        is_logistic = (mod.lower() == 'logistic_regression')
         row = {'Model': mod}
+        
         for hrz in horizons:
             sub = df[(df['Model'] == mod) & (df['Horizon'] == hrz)]
             if sub.empty:
                 continue
-            y_true = sub['Actual'].values
-            y_pred = sub['Prediction'].values
-            
-            # Match benchmark if available
-            b_sub = bench_df[bench_df['Horizon'] == hrz]
-            if not b_sub.empty and mod != 'historical_mean':
+                
+            if is_logistic:
+                oos_r2 = np.nan
+                if 'Actual_Class' in sub.columns and 'Predicted_Class' in sub.columns:
+                    da = np.mean(sub['Actual_Class'] == sub['Predicted_Class'])
+                else:
+                    s_true = np.where(sub['Actual'].values > 0, 1, 0)
+                    s_pred = sub['Prediction'].values
+                    da = np.mean(s_true == s_pred)
+            elif is_bench:
+                oos_r2 = 0.0000
+                y_true = sub['Actual'].values
+                y_pred = sub['Prediction'].values
+                s_true = np.where(y_true > 0, 1, -1)
+                s_pred = np.where(y_pred > 0, 1, -1)
+                da = np.mean(s_true == s_pred)
+            else:
+                y_true = sub['Actual'].values
+                y_pred = sub['Prediction'].values
+                
+                # Match benchmark on Date
+                b_sub = bench_df[bench_df['Horizon'] == hrz]
                 merged = pd.merge(sub[['Date', 'Actual', 'Prediction']], 
                                   b_sub[['Date', 'Prediction']], 
                                   on='Date', suffixes=('', '_bench'))
@@ -79,17 +101,13 @@ def run_analysis():
                     oos_r2 = 1.0 - (sse_m / (sse_b + 1e-12))
                 else:
                     oos_r2 = 1.0 - (np.sum((y_true - y_pred)**2) / (np.sum((y_true - np.mean(y_true))**2) + 1e-12))
-            elif mod == 'historical_mean':
-                oos_r2 = 0.0000  # Benchmark baseline by definition
-            else:
-                oos_r2 = 1.0 - (np.sum((y_true - y_pred)**2) / (np.sum((y_true - np.mean(y_true))**2) + 1e-12))
+                    
+                s_true = np.where(y_true > 0, 1, -1)
+                s_pred = np.where(y_pred > 0, 1, -1)
+                da = np.mean(s_true == s_pred)
                 
-            row[f'{hrz}_OOS_R2'] = round(float(oos_r2), 4)
-            
-            # Directional accuracy
-            s_true = np.where(y_true > 0, 1, -1)
-            s_pred = np.where(y_pred > 0, 1, -1)
-            row[f'{hrz}_DA'] = round(float(np.mean(s_true == s_pred)), 4)
+            row[f'{hrz}_OOS_R2'] = round(float(oos_r2), 4) if pd.notnull(oos_r2) else np.nan
+            row[f'{hrz}_DA'] = round(float(da), 4)
             
         rq1_records.append(row)
         
@@ -106,6 +124,9 @@ def run_analysis():
     regimes = ['Low', 'Normal', 'High']
     
     for mod in models:
+        is_bench = (mod.lower() == 'historical_mean')
+        is_logistic = (mod.lower() == 'logistic_regression')
+        
         for hrz in horizons:
             sub = df[(df['Model'] == mod) & (df['Horizon'] == hrz)]
             if sub.empty:
@@ -119,30 +140,45 @@ def run_analysis():
                     rec[f'{reg}_DA'] = np.nan
                     continue
                     
-                y_t = reg_sub['Actual'].values
-                y_p = reg_sub['Prediction'].values
-                
-                # Bench in same regime
-                b_sub = bench_df[(bench_df['Horizon'] == hrz) & (bench_df['Regime'] == reg)]
-                if not b_sub.empty and mod != 'historical_mean':
-                    merged = pd.merge(reg_sub[['Date', 'Actual', 'Prediction']], 
-                                      b_sub[['Date', 'Prediction']], 
-                                      on='Date', suffixes=('', '_bench'))
-                    if not merged.empty:
-                        sse_m = np.sum((merged['Actual'] - merged['Prediction'])**2)
-                        sse_b = np.sum((merged['Actual'] - merged['Prediction_bench'])**2)
-                        r2_reg = 1.0 - (sse_m / (sse_b + 1e-12))
+                if is_logistic:
+                    r2_reg = np.nan
+                    if 'Actual_Class' in reg_sub.columns and 'Predicted_Class' in reg_sub.columns:
+                        da_reg = np.mean(reg_sub['Actual_Class'] == reg_sub['Predicted_Class'])
+                    else:
+                        s_t = np.where(reg_sub['Actual'].values > 0, 1, 0)
+                        s_p = reg_sub['Prediction'].values
+                        da_reg = np.mean(s_t == s_p)
+                elif is_bench:
+                    r2_reg = 0.0000
+                    y_t = reg_sub['Actual'].values
+                    y_p = reg_sub['Prediction'].values
+                    s_t = np.where(y_t > 0, 1, -1)
+                    s_p = np.where(y_p > 0, 1, -1)
+                    da_reg = np.mean(s_t == s_p)
+                else:
+                    y_t = reg_sub['Actual'].values
+                    y_p = reg_sub['Prediction'].values
+                    
+                    b_sub = bench_df[(bench_df['Horizon'] == hrz) & (bench_df['Regime'] == reg)]
+                    if not b_sub.empty:
+                        merged = pd.merge(reg_sub[['Date', 'Actual', 'Prediction']], 
+                                          b_sub[['Date', 'Prediction']], 
+                                          on='Date', suffixes=('', '_bench'))
+                        if not merged.empty:
+                            sse_m = np.sum((merged['Actual'] - merged['Prediction'])**2)
+                            sse_b = np.sum((merged['Actual'] - merged['Prediction_bench'])**2)
+                            r2_reg = 1.0 - (sse_m / (sse_b + 1e-12))
+                        else:
+                            r2_reg = 1.0 - (np.sum((y_t - y_p)**2) / (np.sum((y_t - np.mean(y_t))**2) + 1e-12))
                     else:
                         r2_reg = 1.0 - (np.sum((y_t - y_p)**2) / (np.sum((y_t - np.mean(y_t))**2) + 1e-12))
-                elif mod == 'historical_mean':
-                    r2_reg = 0.0000
-                else:
-                    r2_reg = 1.0 - (np.sum((y_t - y_p)**2) / (np.sum((y_t - np.mean(y_t))**2) + 1e-12))
+                        
+                    s_t = np.where(y_t > 0, 1, -1)
+                    s_p = np.where(y_p > 0, 1, -1)
+                    da_reg = np.mean(s_t == s_p)
                     
-                s_t = np.where(y_t > 0, 1, -1)
-                s_p = np.where(y_p > 0, 1, -1)
-                rec[f'{reg}_OOS_R2'] = round(float(r2_reg), 4)
-                rec[f'{reg}_DA'] = round(float(np.mean(s_t == s_p)), 4)
+                rec[f'{reg}_OOS_R2'] = round(float(r2_reg), 4) if pd.notnull(r2_reg) else np.nan
+                rec[f'{reg}_DA'] = round(float(da_reg), 4)
                 
             rq2_records.append(rec)
             
@@ -152,7 +188,7 @@ def run_analysis():
     
     # -------------------------------------------------------------
     # 3. RQ3 — Time Stability
-    # Pattern predictability có ổn định theo thời gian (Time Periods) hay không?
+    # Pattern predictability across Time Periods
     # -------------------------------------------------------------
     logger.info("Computing RQ3: Time Stability Breakdown across Time Periods...")
     rq3_records = []
@@ -160,6 +196,9 @@ def run_analysis():
     periods_sorted = sorted(periods_present)
     
     for mod in models:
+        is_bench = (mod.lower() == 'historical_mean')
+        is_logistic = (mod.lower() == 'logistic_regression')
+        
         for prd in periods_sorted:
             rec = {'Model': mod, 'Period': prd}
             prd_sub = df[(df['Model'] == mod) & (df['Period'] == prd)]
@@ -173,32 +212,50 @@ def run_analysis():
                     rec[f'{hrz}_DA'] = np.nan
                     continue
                     
-                y_t = h_sub['Actual'].values
-                y_p = h_sub['Prediction'].values
-                
-                # Bench in same period & horizon
-                b_sub = bench_df[(bench_df['Horizon'] == hrz) & (bench_df['Period'] == prd)]
-                if not b_sub.empty and mod != 'historical_mean':
-                    merged = pd.merge(h_sub[['Date', 'Actual', 'Prediction']], 
-                                      b_sub[['Date', 'Prediction']], 
-                                      on='Date', suffixes=('', '_bench'))
-                    if not merged.empty:
-                        sse_m = np.sum((merged['Actual'] - merged['Prediction'])**2)
-                        sse_b = np.sum((merged['Actual'] - merged['Prediction_bench'])**2)
-                        oos_r2_prd = 1.0 - (sse_m / (sse_b + 1e-12))
+                if is_logistic:
+                    oos_r2_prd = np.nan
+                    rmse_prd = np.nan
+                    if 'Actual_Class' in h_sub.columns and 'Predicted_Class' in h_sub.columns:
+                        da_prd = np.mean(h_sub['Actual_Class'] == h_sub['Predicted_Class'])
+                    else:
+                        s_t = np.where(h_sub['Actual'].values > 0, 1, 0)
+                        s_p = h_sub['Prediction'].values
+                        da_prd = np.mean(s_t == s_p)
+                elif is_bench:
+                    oos_r2_prd = 0.0000
+                    y_t = h_sub['Actual'].values
+                    y_p = h_sub['Prediction'].values
+                    rmse_prd = np.sqrt(np.mean((y_t - y_p)**2))
+                    s_t = np.where(y_t > 0, 1, -1)
+                    s_p = np.where(y_p > 0, 1, -1)
+                    da_prd = np.mean(s_t == s_p)
+                else:
+                    y_t = h_sub['Actual'].values
+                    y_p = h_sub['Prediction'].values
+                    rmse_prd = np.sqrt(np.mean((y_t - y_p)**2))
+                    
+                    b_sub = bench_df[(bench_df['Horizon'] == hrz) & (bench_df['Period'] == prd)]
+                    if not b_sub.empty:
+                        merged = pd.merge(h_sub[['Date', 'Actual', 'Prediction']], 
+                                          b_sub[['Date', 'Prediction']], 
+                                          on='Date', suffixes=('', '_bench'))
+                        if not merged.empty:
+                            sse_m = np.sum((merged['Actual'] - merged['Prediction'])**2)
+                            sse_b = np.sum((merged['Actual'] - merged['Prediction_bench'])**2)
+                            oos_r2_prd = 1.0 - (sse_m / (sse_b + 1e-12))
+                        else:
+                            oos_r2_prd = 1.0 - (np.sum((y_t - y_p)**2) / (np.sum((y_t - np.mean(y_t))**2) + 1e-12))
                     else:
                         oos_r2_prd = 1.0 - (np.sum((y_t - y_p)**2) / (np.sum((y_t - np.mean(y_t))**2) + 1e-12))
-                elif mod == 'historical_mean':
-                    oos_r2_prd = 0.0000
-                else:
-                    oos_r2_prd = 1.0 - (np.sum((y_t - y_p)**2) / (np.sum((y_t - np.mean(y_t))**2) + 1e-12))
+                        
+                    s_t = np.where(y_t > 0, 1, -1)
+                    s_p = np.where(y_p > 0, 1, -1)
+                    da_prd = np.mean(s_t == s_p)
                     
-                s_t = np.where(y_t > 0, 1, -1)
-                s_p = np.where(y_p > 0, 1, -1)
-                
-                rec[f'{hrz}_OOS_R2'] = round(float(oos_r2_prd), 4)
-                rec[f'{hrz}_DA'] = round(float(np.mean(s_t == s_p)), 4)
-                rec[f'{hrz}_RMSE'] = round(float(np.sqrt(np.mean((y_t - y_p)**2))), 4)
+                rec[f'{hrz}_OOS_R2'] = round(float(oos_r2_prd), 4) if pd.notnull(oos_r2_prd) else np.nan
+                rec[f'{hrz}_DA'] = round(float(da_prd), 4)
+                if pd.notnull(rmse_prd):
+                    rec[f'{hrz}_RMSE'] = round(float(rmse_prd), 4)
                 
             rq3_records.append(rec)
             
@@ -212,12 +269,13 @@ def run_analysis():
     # -------------------------------------------------------------
     logger.info("Computing Statistical Inference Tests (DM Test & Binomial Test)...")
     stat_records = []
-    horizon_steps = {'1D': 1, '5D': 5, '20D': 20, '60D': 60, '120D': 120}
+    horizon_steps = config.HORIZON_TO_STEPS
     
-    # [A] Diebold-Mariano Test: So sánh các candidate models với Historical Mean
+    # [A] Diebold-Mariano Test: So sánh các regression models với Historical Mean
     for mod in models:
-        if mod == 'historical_mean':
-            continue  # Historical Mean là benchmark nên không cần DM test với chính nó
+        if mod.lower() in ['historical_mean', 'logistic_regression']:
+            continue  # Benchmark chính nó; Logistic Regression là mô hình phân loại xác suất
+            
         for hrz in horizons:
             sub = df[(df['Model'] == mod) & (df['Horizon'] == hrz)]
             b_sub = bench_df[bench_df['Horizon'] == hrz]
@@ -248,17 +306,28 @@ def run_analysis():
                 'Significant': 'Yes' if dm_p < 0.05 else 'No'
             })
             
-    # [B] Binomial / Sign Test: Kiểm định Directional Accuracy cho tất cả các models
+    # [B] Binomial / Sign Test: Kiểm định Directional Accuracy cho tất cả các models (kể cả Logistic Regression)
     for mod in models:
         for hrz in horizons:
             sub = df[(df['Model'] == mod) & (df['Horizon'] == hrz)]
             if sub.empty:
                 continue
                 
-            y_t = sub['Actual'].values
-            y_p = sub['Prediction'].values
-            
-            da, binom_p = utils.directional_binomial_test(y_t, y_p, alternative='greater')
+            if mod.lower() == 'logistic_regression':
+                if 'Actual_Class' in sub.columns and 'Predicted_Class' in sub.columns:
+                    matches = (sub['Actual_Class'] == sub['Predicted_Class']).values
+                else:
+                    s_true = (sub['Actual'].values > 0).astype(int)
+                    matches = (s_true == sub['Prediction'].values)
+                k = int(np.sum(matches))
+                n = int(len(matches))
+                da = float(k / n) if n > 0 else 0.5
+                res_bin = stats.binomtest(k=k, n=n, p=0.5, alternative='greater')
+                binom_p = float(res_bin.pvalue)
+            else:
+                y_t = sub['Actual'].values
+                y_p = sub['Prediction'].values
+                da, binom_p = utils.directional_binomial_test(y_t, y_p, alternative='greater')
             
             stat_records.append({
                 'Model': mod,

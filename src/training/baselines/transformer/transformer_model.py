@@ -209,7 +209,7 @@ def run_model(df=None, horizons=config.HORIZONS, tune=False, logger=None):
             )
             utils.save_tuning_record(MODEL_NAME, horizon, fold, best_p, best_score, score_metric='Internal_Val_RMSE')
             
-            m = utils.calc_regression_metrics(y_val, val_preds)
+            m = utils.calc_regression_metrics(y_val, val_preds, y_bench=data['y_bench'], h=config.HORIZON_TO_STEPS.get(horizon, 1))
             if logger:
                 logger.info(f"✓ [HOÀN TẤT FOLD {fold} ({val_span})] Val OOS R²: {m['R2']:.4f} | DA: {m['Directional_Accuracy']*100:.2f}% | RMSE: {m['RMSE']:.4f}")
             

@@ -67,7 +67,7 @@ def run_model(df=None, horizons=config.HORIZONS, logger=None):
             lgbm.fit(X_train, y_train)
             y_preds = lgbm.predict(X_val)
             
-            m = utils.calc_regression_metrics(y_val, y_preds)
+            m = utils.calc_regression_metrics(y_val, y_preds, y_bench=data['y_bench'], h=config.HORIZON_TO_STEPS.get(horizon, 1))
             fold_metrics.append({
                 'model': MODEL_NAME, 'horizon': horizon, 'fold': fold,
                 'train_start': meta['train_start'], 'train_end': meta['train_end'],

@@ -122,6 +122,8 @@ def prepare_fold_data(train_df, val_df, horizon, feature_cols=None, scale=True):
         'y_val_dir': y_val_dir,
         'val_dates': val_valid['Date'].dt.strftime('%Y-%m-%d').values,
         'val_regimes': val_valid['Volatility_Regime'].values,
+        'y_bench': np.full(len(y_val), np.mean(y_train)),
+        'train_mean': float(np.mean(y_train)),
         'scaler': scaler
     }
 
@@ -193,20 +195,28 @@ def directional_binomial_test(y_true, y_pred, alternative='greater'):
     res = binomtest(k=k, n=n, p=0.5, alternative=alternative)
     return float(k / n), float(res.pvalue)
 
-def calc_regression_metrics(y_true, y_pred, y_bench=None, h=1):
+def calc_regression_metrics(y_true, y_pred, y_bench=None, h=1, y_train=None):
     """
     Calculate metrics based on the official Research Metric Framework:
-    - Primary: OOS_R2
+    - Primary: OOS_R2 (Campbell & Thompson Out-of-Sample R2 with Historical Mean benchmark)
     - Secondary: MAE, RMSE, DA (Directional Accuracy)
     - Statistical Inference: DM_Stat, DM_pvalue, Sign_Test_pvalue
     """
     mae = mean_absolute_error(y_true, y_pred)
     rmse = np.sqrt(mean_squared_error(y_true, y_pred))
     
-    # OOS R2
+    # OOS R2 (Campbell & Thompson 2008 Standard)
     if y_bench is not None:
+        if np.allclose(y_pred, y_bench, atol=1e-8):
+            oos_r2 = 0.0000
+        else:
+            sse_model = np.sum((y_true - y_pred) ** 2)
+            sse_bench = np.sum((y_true - y_bench) ** 2)
+            oos_r2 = 1.0 - (sse_model / (sse_bench + 1e-12))
+    elif y_train is not None:
+        bench_val = np.mean(y_train)
         sse_model = np.sum((y_true - y_pred) ** 2)
-        sse_bench = np.sum((y_true - y_bench) ** 2)
+        sse_bench = np.sum((y_true - bench_val) ** 2)
         oos_r2 = 1.0 - (sse_model / (sse_bench + 1e-12))
     else:
         oos_r2 = r2_score(y_true, y_pred)
@@ -258,7 +268,8 @@ def calc_classification_metrics(y_true, y_prob, y_pred=None):
         'Precision': float(prec),
         'Recall': float(rec),
         'F1': float(f1),
-        'Balanced_Accuracy': float(bal_acc)
+        'Balanced_Accuracy': float(bal_acc),
+        'DA': float(acc)
     }
 
 def save_model_latest_results(model_dir, metrics_df, preds_df):
@@ -313,7 +324,7 @@ def save_model_latest_results(model_dir, metrics_df, preds_df):
     
     # 4. Central Tier 1: model_horizon_summary.csv (aggregate mean & std across folds)
     if 'MAE' in combined_m.columns and 'RMSE' in combined_m.columns:
-        reg_df = combined_m[combined_m['Model'] != 'logistic_regression'].copy()
+        reg_df = combined_m[~combined_m['Model'].str.lower().isin(['logistic_regression'])].copy()
         if not reg_df.empty:
             summary_rows = []
             for (mod, hrz), grp in reg_df.groupby(['Model', 'Horizon']):

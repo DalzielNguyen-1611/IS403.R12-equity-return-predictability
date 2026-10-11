@@ -37,7 +37,7 @@ def run_model(df=None, horizons=config.HORIZONS, logger=None):
                 cum_count += 1
             val_preds = np.array(val_preds)
             
-            m = utils.calc_regression_metrics(val_target, val_preds)
+            m = utils.calc_regression_metrics(val_target, val_preds, y_bench=val_preds)
             fold_metrics.append({
                 'model': MODEL_NAME, 'horizon': horizon, 'fold': fold,
                 'train_start': meta['train_start'], 'train_end': meta['train_end'],

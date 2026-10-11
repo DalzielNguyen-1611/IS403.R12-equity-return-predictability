@@ -61,7 +61,9 @@ def run_model(df=None, horizons=config.HORIZONS, logger=None):
                 'best_class_weight': str(grid.best_params_['class_weight']),
                 'ROC_AUC': m['ROC_AUC'], 'Accuracy': m['Accuracy'],
                 'Precision': m['Precision'], 'Recall': m['Recall'],
-                'F1': m['F1'], 'Balanced_Accuracy': m['Balanced_Accuracy']
+                'F1': m['F1'], 'Balanced_Accuracy': m['Balanced_Accuracy'],
+                'DA': m['Accuracy'],
+                'OOS_R2': np.nan, 'MAE': np.nan, 'RMSE': np.nan
             })
             
             val_dates = data['val_dates']
