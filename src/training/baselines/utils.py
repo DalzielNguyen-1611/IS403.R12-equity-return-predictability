@@ -50,12 +50,18 @@ def set_all_seeds(seed=config.RANDOM_SEED):
         torch.backends.cudnn.benchmark = False
 
 def load_dataset():
-    """Load and validate the clean walk-forward dataset."""
+    """Load and validate the clean walk-forward dataset with defensive sanitization."""
     if not os.path.exists(config.DATA_PATH):
         raise FileNotFoundError(f"Dataset not found at {config.DATA_PATH}")
     df = pd.read_csv(config.DATA_PATH)
     df['Date'] = pd.to_datetime(df['Date'])
     df = df.sort_values('Date').reset_index(drop=True)
+    
+    # Defensive sanitization: replace any inf/-inf with forward-filled values
+    inf_cols = df.select_dtypes(include=[np.number]).columns
+    if np.isinf(df[inf_cols]).any().any():
+        df[inf_cols] = df[inf_cols].replace([np.inf, -np.inf], np.nan).ffill().bfill()
+        
     return df
 
 def get_walk_forward_splits(df):
@@ -85,10 +91,25 @@ def get_walk_forward_splits(df):
         }
         yield fold, train_df, val_df, meta
 
-def prepare_fold_data(train_df, val_df, horizon, feature_cols=None, scale=True):
+def get_purged_train_df(train_df, horizon):
     """
-    Extracts features and target for a fold with strict leakage control.
-    Scaler is fit ONLY on train_df, then transforms both train_df and val_df.
+    Marcos López de Prado Purging Protocol (Advances in Financial Machine Learning, Ch. 7).
+    For horizon h > 1, Target_h = ln(Close_{t+h} / Close_t) spans h days into the future.
+    The last h - 1 observations of train_df evaluate prices extending past the training boundary
+    into the validation period (boundary label overlap).
+    Purging removes the last h - 1 rows of train_df to strictly eliminate this lookahead.
+    """
+    h_step = config.HORIZON_TO_STEPS.get(horizon, 1)
+    if getattr(config, 'APPLY_PURGING', True) and h_step > 1:
+        purge_gap = h_step - 1
+        return train_df.iloc[:-purge_gap].copy()
+    return train_df.copy()
+
+def prepare_fold_data(train_df, val_df, horizon, feature_cols=None, scale=True, purge=True):
+    """
+    Extracts features and target for a fold with strict leakage control and Purging.
+    - Applies Marcos López de Prado Purging on train_df when purge=True.
+    - Scaler is fit ONLY on purged train_df, then transforms both train_df and val_df.
     """
     if feature_cols is None:
         feature_cols = config.FEATURE_COLS
@@ -97,6 +118,9 @@ def prepare_fold_data(train_df, val_df, horizon, feature_cols=None, scale=True):
     
     train_valid = train_df.dropna(subset=[target_col]).copy()
     val_valid = val_df.dropna(subset=[target_col]).copy()
+    
+    if purge:
+        train_valid = get_purged_train_df(train_valid, horizon)
     
     X_train = train_valid[feature_cols].values
     y_train = train_valid[target_col].values

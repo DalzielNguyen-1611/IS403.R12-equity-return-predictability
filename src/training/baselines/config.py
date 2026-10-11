@@ -45,6 +45,15 @@ HORIZON_TO_STEPS = {
     '120D': 120,
 }
 
+# Purging Configuration (Marcos López de Prado 2018, Ch. 7)
+# Purges the last h - 1 days of train_df to eliminate overlapping target lookahead into validation
+APPLY_PURGING = True
+
+# Trade Execution & Friction Assumptions
+# Academic benchmark follows standard Market-On-Close (MOC) assumption:
+# Signals X_t calculated up to closing bell and filled at Close_t (Campbell-Shiller, Gu et al. 2020)
+EXECUTION_PROTOCOL = "MOC"
+
 HORIZON_TO_TARGET = {
     '1D': 'Target_1',
     '5D': 'Target_5',

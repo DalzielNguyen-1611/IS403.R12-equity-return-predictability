@@ -25,7 +25,8 @@ def run_model(df=None, horizons=config.HORIZONS, logger=None):
     for horizon in horizons:
         target_col = config.HORIZON_TO_TARGET[horizon]
         for fold, train_df, val_df, meta in utils.get_walk_forward_splits(df):
-            train_target = train_df[target_col].values
+            train_df_purged = utils.get_purged_train_df(train_df, horizon)
+            train_target = train_df_purged[target_col].values
             val_target = val_df[target_col].values
             
             cum_sum = np.sum(train_target)

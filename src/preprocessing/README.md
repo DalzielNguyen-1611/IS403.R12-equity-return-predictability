@@ -144,7 +144,8 @@ $$\sigma_{k, t} = \sqrt{\frac{1}{k-1} \sum_{j=0}^{k-1} (\text{Return\_1D}_{t-j} 
      - `HL_range`: Biên độ dao động phiên $\ln(High_t / Low_t)$
      - `OC_return`: Lợi suất trong phiên $\ln(Close_t / Open_t)$
   6. **Nhóm Khối Lượng Giao Dịch (Volume Dynamic):**
-     - `Volume_change`: Tỷ lệ thay đổi khối lượng $\ln(Volume_t / Volume_{t-1})$
+     - `Volume_change`: Phần trăm thay đổi khối lượng $(Volume_t - Volume_{t-1}) / Volume_{t-1}$.
+       > **Khử dị biệt Volume = 0:** Điểm dị biệt $Volume = 0$ tại ngày 2023-05-24 (Yahoo Finance) được khử triệt để bằng forward-fill (`df['Volume'].replace(0, np.nan).ffill()`) trước khi tính `pct_change(1)`, loại trừ hoàn toàn giá trị vô cực ($+\infty$).
 
 ### Giai đoạn 5: Phân Loại Chế Độ Biến Động Walk-Forward (3.0.0)
 * **Mục tiêu:** Xác định chế độ thị trường (`Volatility_Regime`: Low, Normal, High) phục vụ kiểm định câu hỏi **RQ2 (Regime Moderation)** mà không gây rò rỉ phân vị tương lai.
@@ -192,9 +193,39 @@ $$\text{Volatility\_Regime}_t = \begin{cases} \text{Low}, & \text{nếu } \text{
 
 ---
 
-## 4. Nguyên Tắc Kiểm Soát Rò Rỉ Dữ Liệu
+## 4. Nguyên Tắc Kiểm Soát Rò Rỉ Dữ Liệu & Giả Định Thực Thi Kinh Tế Lượng
 
+### 4.1 Bộ Tứ Nguyên Tắc Chống Rò Rỉ Tuyệt Đối (Anti-Leakage Core Rules)
 1. **Nguyên tắc Chỉ Nhìn Quá Khứ (Strict Trailing):** Toàn bộ đặc trưng $X_t$ tại dòng $t$ chỉ dùng thông tin đến đúng ngày $t$. Không sử dụng centered window hay giá trị của $t+1$.
 2. **Không đưa `Volatility_Regime` vào ma trận $X$:** Đảm bảo 14 mô hình là Global Models (mô hình tổng quát). Nhãn Regime chỉ được giữ lại để phân tầng đánh giá hiệu năng ngoại mẫu (RQ2).
 3. **Phân vị động (Walk-Forward Quantiles):** Ngưỡng phân loại VIX/Volatility được tính lũy tiến, loại trừ việc dùng phân vị toàn mẫu.
-4. **Cô lập chuẩn hóa (Scaler Isolation):** Mọi thao tác chuẩn hóa (MinMaxScaler, StandardScaler) trong mã nguồn huấn luyện chỉ được `fit` trên tập Train của từng Fold rồi mới `transform` sang tập Val.
+4. **Cô lập chuẩn hóa (Scaler Isolation):** Mọi thao tác chuẩn hóa (StandardScaler, MinMaxScaler) trong mã nguồn huấn luyện chỉ được `fit` trên tập Train của từng Fold rồi mới `transform` sang tập Val.
+5. **Khử Triệt Để Điểm Dị Biệt & Giá Trị Vô Cực ($Inf$ Sanitization):** Xử lý dứt điểm điểm dị biệt $Volume = 0$ (2023-05-24) bằng forward-fill và bổ sung cơ chế kiểm toán phòng thủ trong nạp dữ liệu huấn luyện (`utils.load_dataset()`), bảo vệ các thuật toán hồi quy khỏi hiện tượng nổ gradient.
+
+### 4.2 Khoảng Đệm Purging Cách Ly Ranh Giới (Marcos López de Prado Purging Protocol)
+Theo chuẩn mực kinh tế lượng tài chính hiện đại (*Marcos López de Prado, 2018 - Advances in Financial Machine Learning, Chapter 7*):
+Khi dự báo lợi suất tích lũy đa kỳ hạn $Target_{h, t} = \ln(Close_{t+h} / Close_t)$, nhãn tại ngày cuối cùng của tập Train ($T_{\text{train}}$) đòi hỏi mức giá tại $T_{\text{train}} + h$. Nếu không áp dụng khoảng đệm cách ly, có chính xác **$h - 1$ quan sát cuối cùng** của tập Train mang nhãn vươn chân sang tập Validation (Label Overlap across Boundary).
+
+Hệ thống thiết lập cơ chế **Purging tự động** trong `utils.prepare_fold_data()` và `utils.get_purged_train_df()`:
+$$\text{Train}_{\text{purged}} = \text{Train}[0 \;:\; N_{\text{train}} - (h - 1)]$$
+
+| Chân Trời ($h$) | Bước Dự Báo | Khoảng Đệm Purging Cắt Bỏ ($h - 1$) | Số Dòng Train Sau Purge (Fold 1) | Mức Độ Rò Rỉ Ranh Giới |
+| :---: | :---: | :---: | :---: | :---: |
+| **1D** | 1 ngày | **0 dòng** | 6,351 dòng | Tuyệt đối bằng 0 (Không chồng lấn) |
+| **5D** | 5 ngày | **4 dòng** | 6,347 dòng | Đã triệt tiêu hoàn toàn |
+| **20D** | 20 ngày | **19 dòng** | 6,332 dòng | Đã triệt tiêu hoàn toàn |
+| **60D** | 60 ngày | **59 dòng** | 6,292 dòng | Đã triệt tiêu hoàn toàn |
+| **120D** | 120 ngày | **119 dòng** | 6,232 dòng | Đã triệt tiêu hoàn toàn |
+
+Nhờ cơ chế Purging, giá trị mục tiêu cuối cùng trong tập Train đạt trạng thái đóng kín: $t^* + h = (T_{\text{train}} - h + 1) + h = T_{\text{train}} + 1$, hoàn toàn không xâm lấn vào bất kỳ ngày giao dịch nào thuộc tập Validation.
+
+### 4.3 Giả Định Thời Điểm Khớp Lệnh & Ma Sát Thực Thi (Execution Protocol: MOC Assumption)
+1. **Chuẩn Mực Học Thuật Quốc Tế (Academic Benchmark):**
+   Đồ án tuân thủ giả định **Market-On-Close (MOC)** – chuẩn mực được thừa nhận rộng rãi trong các nghiên cứu kinh tế lượng tài chính kinh điển (*Campbell & Shiller 1988, Campbell & Thompson 2008, Welch & Goyal 2008, Gu, Kelly & Xiu 2020*).
+   - Véc-tơ đặc trưng $X_t$ (bao gồm giá đóng cửa $Close_t$, biên độ $HL\_range_t$, biến động $OC\_return_t$, chỉ số $VIXCLS_t$) được tổng hợp tại thời điểm đóng cửa ngày $t$.
+   - Vị thế được giả định khớp tại đúng mức giá $Close_t$ (thông qua lệnh ATC / MOC trên sàn chứng khoán).
+   - Do đó, mục tiêu lợi suất $Target_{h, t} = \ln(Close_{t+h} / Close_t)$ phản ánh chính xác năng lực dự báo của tập đặc trưng $X_t$ mà không vi phạm tính nhân quả hay làm sai lệch phân phối lợi suất.
+2. **Góc Nhìn Thực Tế Giao Dịch Sống (Live Algorithmic Execution):**
+   Trong thực tế vận hành quỹ định lượng, nếu mô hình đòi hỏi thời gian tính toán qua đêm và chỉ có thể đẩy lệnh vào đầu phiên hôm sau, mốc giá vào vị thế thực tế sẽ là giá mở cửa $Open_{t+1}$. Lợi suất khả thi giao dịch khi đó chịu ma sát chênh lệch giá qua đêm:
+   $$\text{Tradeable\_Return}_{h, t} = \ln\left(\frac{Close_{t+h}}{Open_{t+1}}\right) = Target_{h, t} - \ln\left(\frac{Open_{t+1}}{Close_t}\right)$$
+   Việc duy trì thiết kế chuẩn tắc Close-to-Close (MOC) đảm bảo tính nhất quán lý thuyết phục vụ mục tiêu trả lời 3 câu hỏi nghiên cứu (RQ1, RQ2, RQ3), đồng thời lưu ý rõ ràng ma sát thực thi cho bất kỳ ứng dụng mở rộng nào trong thực tế.

@@ -47,7 +47,8 @@ def run_model(df=None, horizons=config.HORIZONS, logger=None):
     for horizon in horizons:
         target_col = config.HORIZON_TO_TARGET[horizon]
         for fold, train_df, val_df, meta in utils.get_walk_forward_splits(df):
-            train_y = train_df[target_col].values
+            train_df_purged = utils.get_purged_train_df(train_df, horizon)
+            train_y = train_df_purged[target_col].values
             val_y = val_df[target_col].values
             full_y = np.concatenate([train_y, val_y])
             
