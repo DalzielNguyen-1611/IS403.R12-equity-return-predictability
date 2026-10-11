@@ -33,14 +33,14 @@ class TimeSeriesTransformer(nn.Module):
         out = self.transformer(h)
         return self.fc(out[:, -1, :]).squeeze(-1)
 
-def train_fold(X_train, y_train, X_val, params=None, tune=False, n_trials=30, meta=None, logger=None):
+def train_fold(X_train, y_train, X_val, params=None, tune=False, n_trials=30, meta=None, logger=None, horizon=None):
     utils.set_all_seeds(config.RANDOM_SEED)
     p = config.TRANSFORMER_PARAMS.copy()
     if params:
         p.update(params)
         
     # Internal chronological split of training set (15% internal validation)
-    X_tr_in, y_tr_in, X_val_in, y_val_in = utils.get_internal_train_val_split(X_train, y_train, val_ratio=0.15)
+    X_tr_in, y_tr_in, X_val_in, y_val_in = utils.get_internal_train_val_split(X_train, y_train, val_ratio=0.15, horizon=horizon)
     
     if tune and not params:
         import optuna

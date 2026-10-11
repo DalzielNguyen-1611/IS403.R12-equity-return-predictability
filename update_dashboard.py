@@ -6,10 +6,14 @@ import pandas as pd
 import numpy as np
 
 WORKSPACE_DIR = os.path.dirname(os.path.abspath(__file__))
-RESULTS_DIR = os.path.join(WORKSPACE_DIR, "results")
 BASELINES_DIR = os.path.join(WORKSPACE_DIR, "src", "training", "baselines")
-FOLD_METRICS_PATH = os.path.join(RESULTS_DIR, "fold_metrics", "all_fold_metrics.csv")
-TIMING_PATH = os.path.join(RESULTS_DIR, "benchmark_timing.csv")
+if BASELINES_DIR not in sys.path:
+    sys.path.insert(0, BASELINES_DIR)
+import config
+
+RESULTS_DIR = config.RESULTS_DIR
+FOLD_METRICS_PATH = config.ALL_FOLD_METRICS_PATH
+TIMING_PATH = getattr(config, 'BENCHMARK_TIMING_PATH', os.path.join(config.RESULTS_DIR, '3.0.3_benchmark_timing.csv'))
 DASHBOARD_PATH = os.path.join(WORKSPACE_DIR, "DASHBOARD.md")
 
 ALL_MODELS = [
@@ -114,24 +118,26 @@ def generate_dashboard():
         model_dur_str = f"{format_duration(active_elapsed)}"
         model_speed_str = f"{active_avg_speed:.2f}s/fold"
     else:
-        # Last completed model
-        focus_model_name = "LightGBM"
         if fm_df is not None and not fm_df.empty:
             focus_model_name = str(fm_df.iloc[-1]['Model'])
             focus_df = fm_df[fm_df['Model'] == focus_model_name]
             last_row = focus_df.iloc[-1]
+            if len(fm_df['Model'].unique()) >= len(ALL_MODELS):
+                status_banner = "🎉 ĐÃ HOÀN TẤT 100% TOÀN BỘ 14/14 MÔ HÌNH (350/350 FOLDS)!"
+            else:
+                status_banner = f"🟢 Đã hoàn thành 25/25 Folds ({focus_model_name}) — Chờ lệnh chạy mô hình tiếp theo"
+            t_info = timing_data.get(focus_model_name, {})
+            model_dur_str = format_duration(t_info.get('historical_total'))
+            model_speed_str = f"{t_info.get('avg_per_fold', 0):.2f}s/fold" if t_info.get('avg_per_fold') else "-"
+            model_eta_str = "Đã xong 100% (còn 0 folds)"
         else:
+            focus_model_name = "Sẵn sàng chạy Lan01"
             last_row = {}
             focus_df = pd.DataFrame()
-            
-        if fm_df is not None and len(fm_df['Model'].unique()) >= len(ALL_MODELS):
-            status_banner = "🎉 ĐÃ HOÀN TẤT 100% TOÀN BỘ 14/14 MÔ HÌNH (350/350 FOLDS)!"
-        else:
-            status_banner = "🟢 Đã hoàn thành 25/25 Folds — Chờ lệnh chạy mô hình tiếp theo"
-        t_info = timing_data.get(focus_model_name, {})
-        model_dur_str = format_duration(t_info.get('historical_total'))
-        model_speed_str = f"{t_info.get('avg_per_fold', 0):.2f}s/fold" if t_info.get('avg_per_fold') else "-"
-        model_eta_str = "Đã xong 100% (còn 0 folds)"
+            status_banner = "⏳ Sẵn sàng chạy Lan01 — Toàn bộ kết quả cũ đã được dọn sạch về 0/350 Folds"
+            model_dur_str = "-"
+            model_speed_str = "-"
+            model_eta_str = "*Chờ khởi động Fold 1*"
 
 
     latest_fold_info = {
@@ -225,6 +231,11 @@ def generate_dashboard():
             "eta": eta_str
         })
         
+    linear_models = ["Historical_Mean", "Ridge", "Logistic_Regression", "Elastic_Net", "ARIMA", "ARIMAX", "SARIMA"]
+    lin_done = sum(1 for lm in linear_models if completed_counts.get(lm, 0) >= 25)
+    linear_stats_str = f"✅ ĐÃ HOÀN TẤT 7/7 MODELS" if lin_done == 7 else f"⏳ Đang chờ ({lin_done}/7 Models)"
+    linear_status_str = "Đã lưu Fold Metrics & OOS Preds" if lin_done == 7 else "Chờ khởi động train"
+
     overall_pct = (completed_folds_sum / total_folds_sum) * 100.0
     overall_bar = render_progress_bar(overall_pct, length=24)
     
@@ -274,7 +285,7 @@ def generate_dashboard():
 | **Kỷ lục OOS R² cao nhất** | `{best_r2_val}` | **Loss / MAE Fold vừa xong** | `{latest_fold_info.get('mae', '-')}` |
 | **Mô hình giữ Kỷ lục** | {best_r2_model} | **Best Horizon của Model** | Horizon {latest_fold_info.get('horizon', '-')} |
 | **Thời gian đã chạy (chính nó)** | **`{model_dur_str}`** | **Tốc độ chạy (chính nó)** | **`{model_speed_str}`** |
-| **Tiến độ Nhóm Linear & Stats** | ✅ ĐÃ HOÀN TẤT 7/7 MODELS | **Trạng thái Nhóm 1** | Đã lưu Fold Metrics & OOS Preds |
+| **Tiến độ Nhóm Linear & Stats** | `{linear_stats_str}` | **Trạng thái Nhóm 1** | `{linear_status_str}` |
 | **Dự kiến XONG mô hình này** | {model_eta_str} | **Thời gian còn lại (chính nó)** | {model_eta_str} |
 | **Trạng thái mô hình** | {status_banner} | **Chế độ cập nhật** | 🔄 TỰ ĐỘNG SAU MỖI FOLD (Zero manual action) |
 

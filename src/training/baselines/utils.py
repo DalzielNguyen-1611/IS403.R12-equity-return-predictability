@@ -60,7 +60,7 @@ def load_dataset():
     # Defensive sanitization: replace any inf/-inf with forward-filled values
     inf_cols = df.select_dtypes(include=[np.number]).columns
     if np.isinf(df[inf_cols]).any().any():
-        df[inf_cols] = df[inf_cols].replace([np.inf, -np.inf], np.nan).ffill().bfill()
+        df[inf_cols] = df[inf_cols].replace([np.inf, -np.inf], np.nan).ffill()
         
     return df
 
@@ -421,15 +421,21 @@ def save_tuning_record(model_name, horizon, fold, best_params, best_score, score
         combined = rec
     combined.to_csv(path, index=False)
 
-def get_internal_train_val_split(X_train, y_train, val_ratio=0.15):
+def get_internal_train_val_split(X_train, y_train, val_ratio=0.15, horizon=None):
     """
     Splits Fold k training data chronologically into internal train and internal validation.
-    Guarantees strict zero-leakage: fold k validation set is NEVER seen during tuning.
+    Guarantees strict zero-leakage:
+    - fold k validation set is NEVER seen during tuning.
+    - Purging: drops last h - 1 observations of inner train so forward targets do not span into inner val.
     """
     n_train = len(X_train)
     split_idx = int(n_train * (1.0 - val_ratio))
-    X_tr_inner = X_train[:split_idx]
-    y_tr_inner = y_train[:split_idx]
+    h_step = config.HORIZON_TO_STEPS.get(horizon, 1) if horizon else 1
+    purge_gap = max(0, h_step - 1) if getattr(config, 'APPLY_PURGING', True) else 0
+    
+    end_tr_idx = max(0, split_idx - purge_gap)
+    X_tr_inner = X_train[:end_tr_idx]
+    y_tr_inner = y_train[:end_tr_idx]
     X_val_inner = X_train[split_idx:]
     y_val_inner = y_train[split_idx:]
     return X_tr_inner, y_tr_inner, X_val_inner, y_val_inner

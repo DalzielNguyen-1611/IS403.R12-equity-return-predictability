@@ -12,6 +12,8 @@ import config
 import utils
 
 from sklearn.svm import SVR
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import TimeSeriesSplit, GridSearchCV
 
 MODEL_NAME = "SVR"
@@ -38,7 +40,7 @@ def run_model(df=None, horizons=config.HORIZONS, logger=None):
                     logger.info(f"⏩ [CHECKPOINT] Skipping already completed {MODEL_NAME} | Horizon: {horizon} | Fold: {fold}")
                 continue
             
-            data = utils.prepare_fold_data(train_df, val_df, horizon, scale=True)
+            data = utils.prepare_fold_data(train_df, val_df, horizon, scale=False)
             X_train, y_train = data['X_train'], data['y_train']
             X_val, y_val = data['X_val'], data['y_val']
             
@@ -46,18 +48,26 @@ def run_model(df=None, horizons=config.HORIZONS, logger=None):
             if cached_key in cached_tuning:
                 best_params_raw, val_rmse = cached_tuning[cached_key]
                 best_params = best_params_raw.copy() if isinstance(best_params_raw, dict) else eval(best_params_raw)
-                best_model = SVR(**best_params)
+                best_model = Pipeline([
+                    ('scaler', StandardScaler()),
+                    ('svr', SVR(**best_params))
+                ])
                 best_model.fit(X_train, y_train)
                 if logger:
                     logger.info(f"⚡ [CACHED] Recovered best params for Horizon {horizon} Fold {fold}. Skipping GridSearch!")
             else:
                 tscv = TimeSeriesSplit(n_splits=3)
-                grid = GridSearchCV(SVR(kernel='rbf'), param_grid=config.SVR_PARAM_GRID, cv=tscv, scoring='neg_mean_squared_error', n_jobs=-1)
+                pipeline = Pipeline([
+                    ('scaler', StandardScaler()),
+                    ('svr', SVR(kernel='rbf'))
+                ])
+                param_grid = {f'svr__{k}': v for k, v in config.SVR_PARAM_GRID.items()}
+                grid = GridSearchCV(pipeline, param_grid=param_grid, cv=tscv, scoring='neg_mean_squared_error', n_jobs=-1)
                 grid.fit(X_train, y_train)
                 best_model = grid.best_estimator_
-                best_params = grid.best_params_
+                best_params = {k.replace('svr__', ''): v for k, v in grid.best_params_.items()}
                 val_rmse = float(np.sqrt(-grid.best_score_))
-                utils.save_tuning_record(MODEL_NAME, horizon, fold, grid.best_params_, val_rmse, score_metric='CV_RMSE')
+                utils.save_tuning_record(MODEL_NAME, horizon, fold, best_params, val_rmse, score_metric='CV_RMSE')
                 
             y_preds = best_model.predict(X_val)
             
@@ -80,20 +90,13 @@ def run_model(df=None, horizons=config.HORIZONS, logger=None):
                     'Fold': fold, 'Actual': act, 'Prediction': pr, 'Regime': reg
                 })
                 
-            # Save checkpoint after each fold
-            utils.save_checkpoint_step(CURRENT_DIR, fold_metrics, oos_preds)
-            completed_keys.add((str(horizon), int(fold)))
-            if logger:
-                logger.info(f"✓ Completed & check-pointed {MODEL_NAME} | Horizon: {horizon} | Fold: {fold}")
+            utils.save_checkpoint(CURRENT_DIR, fold_metrics, oos_preds)
                 
     m_df = pd.DataFrame(fold_metrics)
     p_df = pd.DataFrame(oos_preds)
     utils.save_model_latest_results(CURRENT_DIR, m_df, p_df)
-    utils.finalize_checkpoint(CURRENT_DIR)
-    if logger:
-        logger.info(f"Completed {MODEL_NAME}.")
+    utils.clear_checkpoint(CURRENT_DIR)
     return m_df, p_df
 
 if __name__ == "__main__":
-    logger = utils.setup_logger(MODEL_NAME)
-    run_model(logger=logger)
+    run_model()

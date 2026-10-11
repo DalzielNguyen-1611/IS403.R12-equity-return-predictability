@@ -323,3 +323,5 @@ TRANSFORMER_OPTUNA_SPACE = {
     'patience': 7
 }
 
+
+BENCHMARK_TIMING_PATH = os.path.join(RESULTS_DIR, f"{PREFIX}benchmark_timing.csv")

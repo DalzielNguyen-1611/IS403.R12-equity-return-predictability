@@ -6,7 +6,10 @@ import pandas as pd
 
 WORKSPACE_DIR = os.path.dirname(os.path.abspath(__file__))
 BASELINES_DIR = os.path.join(WORKSPACE_DIR, "src", "training", "baselines")
-FOLD_METRICS_PATH = os.path.join(WORKSPACE_DIR, "results", "fold_metrics", "all_fold_metrics.csv")
+if BASELINES_DIR not in sys.path:
+    sys.path.insert(0, BASELINES_DIR)
+import config
+FOLD_METRICS_PATH = config.ALL_FOLD_METRICS_PATH
 
 ALL_MODELS = [
     {

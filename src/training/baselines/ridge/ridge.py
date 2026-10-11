@@ -11,8 +11,10 @@ if BASELINES_DIR not in sys.path:
 import config
 import utils
 
-from sklearn.linear_model import RidgeCV
-from sklearn.model_selection import TimeSeriesSplit
+from sklearn.linear_model import Ridge
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import TimeSeriesSplit, GridSearchCV
 
 MODEL_NAME = "Ridge"
 
@@ -27,22 +29,31 @@ def run_model(df=None, horizons=config.HORIZONS, logger=None):
         
     for horizon in horizons:
         for fold, train_df, val_df, meta in utils.get_walk_forward_splits(df):
-            data = utils.prepare_fold_data(train_df, val_df, horizon, scale=True)
+            data = utils.prepare_fold_data(train_df, val_df, horizon, scale=False)
             X_train, y_train = data['X_train'], data['y_train']
             X_val, y_val = data['X_val'], data['y_val']
             
             tscv = TimeSeriesSplit(n_splits=3)
-            model = RidgeCV(alphas=config.RIDGE_PARAM_GRID['alpha'], cv=tscv, scoring='neg_mean_squared_error')
-            model.fit(X_train, y_train)
-            utils.save_tuning_record(MODEL_NAME, horizon, fold, {'alpha': float(model.alpha_)}, 0.0, score_metric='CV_RMSE')
-            y_preds = model.predict(X_val)
+            pipeline = Pipeline([
+                ('scaler', StandardScaler()),
+                ('ridge', Ridge(random_state=config.RANDOM_SEED))
+            ])
+            param_grid = {'ridge__alpha': config.RIDGE_PARAM_GRID['alpha']}
+            grid = GridSearchCV(pipeline, param_grid=param_grid, cv=tscv, scoring='neg_mean_squared_error', n_jobs=-1)
+            grid.fit(X_train, y_train)
+            
+            best_model = grid.best_estimator_
+            best_alpha = grid.best_params_['ridge__alpha']
+            val_rmse = float(np.sqrt(-grid.best_score_))
+            utils.save_tuning_record(MODEL_NAME, horizon, fold, {'alpha': best_alpha}, val_rmse, score_metric='CV_RMSE')
+            y_preds = best_model.predict(X_val)
             
             m = utils.calc_regression_metrics(y_val, y_preds, y_bench=data['y_bench'], h=config.HORIZON_TO_STEPS.get(horizon, 1))
             fold_metrics.append({
                 'model': MODEL_NAME, 'horizon': horizon, 'fold': fold,
                 'train_start': meta['train_start'], 'train_end': meta['train_end'],
                 'val_start': meta['val_start'], 'val_end': meta['val_end'],
-                'best_alpha': model.alpha_,
+                'best_alpha': best_alpha,
                 'MAE': m['MAE'], 'RMSE': m['RMSE'], 'R2': m['R2'],
                 'Directional_Accuracy': m['Directional_Accuracy']
             })
@@ -58,10 +69,7 @@ def run_model(df=None, horizons=config.HORIZONS, logger=None):
     m_df = pd.DataFrame(fold_metrics)
     p_df = pd.DataFrame(oos_preds)
     utils.save_model_latest_results(CURRENT_DIR, m_df, p_df)
-    if logger:
-        logger.info(f"Completed {MODEL_NAME}.")
     return m_df, p_df
 
 if __name__ == "__main__":
-    logger = utils.setup_logger(MODEL_NAME)
-    run_model(logger=logger)
+    run_model()

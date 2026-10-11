@@ -53,7 +53,7 @@ def run_model(df=None, horizons=config.HORIZONS, logger=None):
                 import optuna
                 optuna.logging.set_verbosity(optuna.logging.WARNING)
                 
-                X_tr_in, y_tr_in, X_val_in, y_val_in = utils.get_internal_train_val_split(X_train, y_train, val_ratio=0.15)
+                X_tr_in, y_tr_in, X_val_in, y_val_in = utils.get_internal_train_val_split(X_train, y_train, val_ratio=0.15, horizon=horizon)
                 
                 def objective(trial):
                     params = {
