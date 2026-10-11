@@ -865,3 +865,7 @@ def load_saved_tuning_params(model_name):
     return cached
 
 
+
+# Backward compatibility aliases
+save_checkpoint = save_checkpoint_step
+clear_checkpoint = finalize_checkpoint

@@ -90,12 +90,12 @@ def run_model(df=None, horizons=config.HORIZONS, logger=None):
                     'Fold': fold, 'Actual': act, 'Prediction': pr, 'Regime': reg
                 })
                 
-            utils.save_checkpoint(CURRENT_DIR, fold_metrics, oos_preds)
+            utils.save_checkpoint_step(CURRENT_DIR, fold_metrics, oos_preds)
                 
     m_df = pd.DataFrame(fold_metrics)
     p_df = pd.DataFrame(oos_preds)
     utils.save_model_latest_results(CURRENT_DIR, m_df, p_df)
-    utils.clear_checkpoint(CURRENT_DIR)
+    utils.finalize_checkpoint(CURRENT_DIR)
     return m_df, p_df
 
 if __name__ == "__main__":

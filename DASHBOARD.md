@@ -1,5 +1,5 @@
 # 📊 BẢNG THEO DÕI TIẾN TRÌNH HUẤN LUYỆN (REAL-TIME DASHBOARD)
-**Mô hình:** Sẵn sàng chạy Lan01 | **Dataset:** S&P 500 (Walk-Forward 5 Folds) | **Ghi nhận:** 2026-10-11 18:36:05  
+**Mô hình:** LightGBM | **Dataset:** S&P 500 (Walk-Forward 5 Folds) | **Ghi nhận:** 2026-10-11 18:53:40  
 💡 *Mẹo VS Code: Bấm `Ctrl + Shift + V` để mở giao diện xem trước (Markdown Preview) — Tự động cập nhật sau mỗi Fold.*
 
 ---
@@ -8,26 +8,31 @@
 
 | THÔNG SỐ TIẾN ĐỘ | GIÁ TRỊ | KẾT QUẢ & DỰ BÁO | GIÁ TRỊ |
 | :--- | :--- | :--- | :--- |
-| **Mô hình huấn luyện** | **`Sẵn sàng chạy Lan01`** | **Fold vừa hoàn tất** | Fold -/5 (Horizon -) |
-| **Bộ dữ liệu** | S&P 500 Equity Returns | **OOS R² Fold vừa xong** | `-` |
-| **Tiến trình Mô hình** | **`0/14 Models (0.0%)`** | **Directional Accuracy (DA)** | `-` |
-| **Tiến trình Folds tổng** | **`0/350 Folds (0.0%)`** | **RMSE Fold vừa xong** | `-` |
-| **Kỷ lục OOS R² cao nhất** | `-` | **Loss / MAE Fold vừa xong** | `-` |
-| **Mô hình giữ Kỷ lục** | - | **Best Horizon của Model** | Horizon - |
+| **Mô hình huấn luyện** | **`LightGBM`** | **Fold vừa hoàn tất** | Fold 5/5 (Horizon 120D) |
+| **Bộ dữ liệu** | S&P 500 Equity Returns | **OOS R² Fold vừa xong** | `-0.1402` |
+| **Tiến trình Mô hình** | **`8/14 Models (57.1%)`** | **Directional Accuracy (DA)** | `55.51%` |
+| **Tiến trình Folds tổng** | **`200/350 Folds (57.1%)`** | **RMSE Fold vừa xong** | `0.1425` |
+| **Kỷ lục OOS R² cao nhất** | `0.6473` | **Loss / MAE Fold vừa xong** | `0.1153` |
+| **Mô hình giữ Kỷ lục** | ARIMAX (H=120D, Fold=5) | **Best Horizon của Model** | Horizon 120D |
 | **Thời gian đã chạy (chính nó)** | **`-`** | **Tốc độ chạy (chính nó)** | **`-`** |
-| **Tiến độ Nhóm Linear & Stats** | `⏳ Đang chờ (0/7 Models)` | **Trạng thái Nhóm 1** | `Chờ khởi động train` |
-| **Dự kiến XONG mô hình này** | *Chờ khởi động Fold 1* | **Thời gian còn lại (chính nó)** | *Chờ khởi động Fold 1* |
-| **Trạng thái mô hình** | ⏳ Sẵn sàng chạy Lan01 — Toàn bộ kết quả cũ đã được dọn sạch về 0/350 Folds | **Chế độ cập nhật** | 🔄 TỰ ĐỘNG SAU MỖI FOLD (Zero manual action) |
+| **Tiến độ Nhóm Linear & Stats** | `✅ ĐÃ HOÀN TẤT 7/7 MODELS` | **Trạng thái Nhóm 1** | `Đã lưu Fold Metrics & OOS Preds` |
+| **Dự kiến XONG mô hình này** | Đã xong 100% (còn 0 folds) | **Thời gian còn lại (chính nó)** | Đã xong 100% (còn 0 folds) |
+| **Trạng thái mô hình** | 🟢 Đã hoàn thành 25/25 Folds (LightGBM) — Chờ lệnh chạy mô hình tiếp theo | **Chế độ cập nhật** | 🔄 TỰ ĐỘNG SAU MỖI FOLD (Zero manual action) |
 
 ---
 
-## 🔍 2. CHI TIẾT 5 BƯỚC FOLD GẦN NHẤT CỦA MÔ HÌNH HIỆN TẠI (`Sẵn sàng chạy Lan01`)
+## 🔍 2. CHI TIẾT 5 BƯỚC FOLD GẦN NHẤT CỦA MÔ HÌNH HIỆN TẠI (`LightGBM`)
 
 > 💡 **Quy luật huấn luyện Time-Series:** Mô hình chạy tuần tự theo Horizon: **`1D` (Fold 1→2→3→4→5)** rồi mới chuyển sang **`5D` (Fold 1→2→3→4→5)**, kế tiếp là `20D`, `60D`, `120D`.  
 > Bảng dưới đây trích xuất **5 bước vừa chạy xong gần nhất** theo đúng dòng thời gian:
 
 | BƯỚC | HORIZON | FOLD | GIAI ĐOẠN VALIDATION | TRẠNG THÁI | VAL OOS R² | VAL DA | VAL RMSE | VAL MAE |
 | :-: | :-: | :-: | :--- | :--- | :---: | :---: | :---: | :---: |
+| **#21** | **120D** | Fold 1/5 | `2015-06-10 → 2016-07-07` | ✅ Hoàn thành | `-3.1266` | `42.65%` | `0.1259` | `0.0979` |
+| **#22** | **120D** | Fold 2/5 | `2016-07-08 → 2017-08-04` | ✅ Hoàn thành | `0.2387` | `100.00%` | `0.0437` | `0.0368` |
+| **#23** | **120D** | Fold 3/5 | `2017-08-07 → 2018-09-04` | ✅ Hoàn thành | `-0.7643` | `45.96%` | `0.0792` | `0.0654` |
+| **#24** | **120D** | Fold 4/5 | `2018-09-05 → 2019-10-03` | ✅ Hoàn thành | `-1.2179` | `47.06%` | `0.1142` | `0.0926` |
+| **#25** | **120D** | Fold 5/5 | `2019-10-04 → 2020-10-30` | ✅ Hoàn thành | `-0.1402` | `55.51%` | `0.1425` | `0.1153` |
 
 ---
 
@@ -37,14 +42,14 @@
 
 | # | Mô hình | Nhóm thuật toán | Tiến độ | Trạng thái | Thời gian thực tế của chính nó | Tốc độ 1 fold | Dự báo hoàn thành (ETA của chính model) |
 | :-: | :--- | :--- | :-: | :-: | :---: | :---: | :--- |
-| 1 | **`Historical_Mean`** | Benchmark | `0/25` | ⏳ Chờ chạy | Chưa có lượt chạy | `-` | *Chờ fold 1 của chính model này (Không ước lượng từ model khác)* |
-| 2 | **`Ridge`** | Linear Regression | `0/25` | ⏳ Chờ chạy | Chưa có lượt chạy | `-` | *Chờ fold 1 của chính model này (Không ước lượng từ model khác)* |
-| 3 | **`Logistic_Regression`** | Classification | `0/25` | ⏳ Chờ chạy | Chưa có lượt chạy | `-` | *Chờ fold 1 của chính model này (Không ước lượng từ model khác)* |
-| 4 | **`Elastic_Net`** | Linear Regression | `0/25` | ⏳ Chờ chạy | Chưa có lượt chạy | `-` | *Chờ fold 1 của chính model này (Không ước lượng từ model khác)* |
-| 5 | **`ARIMA`** | Statistical TS | `0/25` | ⏳ Chờ chạy | Chưa có lượt chạy | `-` | *Chờ fold 1 của chính model này (Không ước lượng từ model khác)* |
-| 6 | **`ARIMAX`** | Statistical TS | `0/25` | ⏳ Chờ chạy | Chưa có lượt chạy | `-` | *Chờ fold 1 của chính model này (Không ước lượng từ model khác)* |
-| 7 | **`SARIMA`** | Statistical TS | `0/25` | ⏳ Chờ chạy | Chưa có lượt chạy | `-` | *Chờ fold 1 của chính model này (Không ước lượng từ model khác)* |
-| 8 | **`LightGBM`** | Tree Ensemble | `0/25` | ⏳ Chờ chạy | Chưa có lượt chạy | `-` | *Chờ fold 1 của chính model này (Không ước lượng từ model khác)* |
+| 1 | **`Historical_Mean`** | Benchmark | `25/25` | ✅ Hoàn thành | Hoàn tất | `-` | Đã xong |
+| 2 | **`Ridge`** | Linear Regression | `25/25` | ✅ Hoàn thành | Hoàn tất | `-` | Đã xong |
+| 3 | **`Logistic_Regression`** | Classification | `25/25` | ✅ Hoàn thành | Hoàn tất | `-` | Đã xong |
+| 4 | **`Elastic_Net`** | Linear Regression | `25/25` | ✅ Hoàn thành | Hoàn tất | `-` | Đã xong |
+| 5 | **`ARIMA`** | Statistical TS | `25/25` | ✅ Hoàn thành | Hoàn tất | `-` | Đã xong |
+| 6 | **`ARIMAX`** | Statistical TS | `25/25` | ✅ Hoàn thành | Hoàn tất | `-` | Đã xong |
+| 7 | **`SARIMA`** | Statistical TS | `25/25` | ✅ Hoàn thành | Hoàn tất | `-` | Đã xong |
+| 8 | **`LightGBM`** | Tree Ensemble | `25/25` | ✅ Hoàn thành | Hoàn tất | `-` | Đã xong |
 | 9 | **`SVR`** | Kernel Method | `0/25` | ⏳ Chờ chạy | Chưa có lượt chạy | `-` | *Chờ fold 1 của chính model này (Không ước lượng từ model khác)* |
 | 10 | **`Random_Forest`** | Tree Ensemble | `0/25` | ⏳ Chờ chạy | Chưa có lượt chạy | `-` | *Chờ fold 1 của chính model này (Không ước lượng từ model khác)* |
 | 11 | **`XGBoost`** | Tree Ensemble | `0/25` | ⏳ Chờ chạy | Chưa có lượt chạy | `-` | *Chờ fold 1 của chính model này (Không ước lượng từ model khác)* |
