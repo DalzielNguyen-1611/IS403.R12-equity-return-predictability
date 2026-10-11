@@ -27,25 +27,54 @@
 
 Đường ống tiền xử lý được thiết kế theo cấu trúc mô-đun hóa 8 tầng tuần tự. Mỗi tầng được đóng gói trong một Jupyter Notebook độc lập, tương ứng với một tập tin CSV kết quả được lưu trữ tại `dataset/`:
 
-```mermaid
-flowchart TD
-    A1[1.0.0_sp500.csv\nYahoo Finance OHLCV] --> B[1.1.0_data_cleaning.ipynb\nMerge Left & Ffill VIX]
-    A2[1.0.0_vixcls.csv\nFRED CBOE VIX] --> B
-    B --> C[1.1.0_data_cleaning.csv]
-    C --> D[2.0.0_return.ipynb\nDaily Log Return Calculation]
-    D --> E[2.0.0_return.csv]
-    E --> F[2.1.0_target.ipynb\nMulti-Horizon Targets: 1D, 5D, 20D, 60D, 120D]
-    F --> G[2.1.0_target.csv]
-    G --> H[2.2.0_feature.ipynb\n15 Technical, Volatility & VIX Features]
-    H --> I[2.2.0_feature.csv]
-    I --> J[3.0.0_regime.ipynb\nExpanding Quantile Volatility Regime]
-    J --> K[3.0.0_regime.csv]
-    K --> L[3.0.1_drop_missing.ipynb\nDrop Boundary NaNs]
-    L --> M[3.0.1_drop_missing.csv]
-    M --> N[3.0.2_split.ipynb\nTime-based Split: Train / Val / Test]
-    N --> O[3.0.2_split.csv]
-    O --> P[3.0.3_val_folds.ipynb\n5 Folds Walk-Forward Expanding]
-    P --> Q[(3.0.3_val_folds.csv\nFinal Dataset for Training)]
+```
+┌─────────────────────────────────┐       ┌─────────────────────────────────┐
+│         1.0.0_sp500.csv         │       │        1.0.0_vixcls.csv         │
+│   (Giá OHLCV S&P 500 từ Yahoo)  │       │     (Chỉ số VIX từ FRED CBOE)   │
+└────────────────┬────────────────┘       └────────────────┬────────────────┘
+                 │                                         │
+                 └───────────────────┬─────────────────────┘
+                                     │
+                                     ▼
+                  ┌─────────────────────────────────────┐
+                  │      1.1.0_data_cleaning.ipynb      │  ──► 1.1.0_data_cleaning.csv
+                  │  (Ghép Left-Join & Ffill VIXCLS)    │
+                  └──────────────────┬──────────────────┘
+                                     ▼
+                  ┌─────────────────────────────────────┐
+                  │          2.0.0_return.ipynb         │  ──► 2.0.0_return.csv
+                  │     (Tính toán Daily Log Return)    │
+                  └──────────────────┬──────────────────┘
+                                     ▼
+                  ┌─────────────────────────────────────┐
+                  │          2.1.0_target.ipynb         │  ──► 2.1.0_target.csv
+                  │ (Xây dựng Target: 1D,5D,20D,60D,120D)│
+                  └──────────────────┬──────────────────┘
+                                     ▼
+                  ┌─────────────────────────────────────┐
+                  │         2.2.0_feature.ipynb         │  ──► 2.2.0_feature.csv
+                  │  (15 Đặc trưng: Lợi suất, VIX, Vol) │
+                  └──────────────────┬──────────────────┘
+                                     ▼
+                  ┌─────────────────────────────────────┐
+                  │          3.0.0_regime.ipynb         │  ──► 3.0.0_regime.csv
+                  │ (Phân loại chế độ VIX Walk-Forward) │
+                  └──────────────────┬──────────────────┘
+                                     ▼
+                  ┌─────────────────────────────────────┐
+                  │       3.0.1_drop_missing.ipynb      │  ──► 3.0.1_drop_missing.csv
+                  │ (Loại trừ 179 dòng khuyết thiếu NaN)│
+                  └──────────────────┬──────────────────┘
+                                     ▼
+                  ┌─────────────────────────────────────┐
+                  │          3.0.2_split.ipynb          │  ──► 3.0.2_split.csv
+                  │   (Chia tập: Train / Val / Test)    │
+                  └──────────────────┬──────────────────┘
+                                     ▼
+                  ┌─────────────────────────────────────┐
+                  │        3.0.3_val_folds.ipynb        │  ──► 3.0.3_val_folds.csv
+                  │   (Thiết lập 5 Folds Walk-Forward)  │      (Tập dữ liệu huấn luyện)
+                  └─────────────────────────────────────┘
 ```
 
 ---
@@ -104,7 +133,9 @@ $$Target_{h, t} = \ln\left(\frac{Close_{t+h}}{Close_t}\right) = \sum_{i=1}^h \te
      - `Momentum_60D`: $\ln(Close_t / Close_{t-60})$
   3. **Nhóm Biến Động Thực Tế (Rolling Realized Volatility):**
      - `Volatility_5D`, `Volatility_20D`, `Volatility_60D`: Độ lệch chuẩn có hiệu chỉnh của lợi suất log trong cửa sổ trượt $5, 20, 60$ phiên quá khứ:
-       $$\sigma_{k, t} = \sqrt{\frac{1}{k-1} \sum_{j=0}^{k-1} (\text{Return\_1D}_{t-j} - \bar{r})^2}$$
+
+$$\sigma_{k, t} = \sqrt{\frac{1}{k-1} \sum_{j=0}^{k-1} (\text{Return\_1D}_{t-j} - \bar{r})^2}$$
+
   4. **Nhóm Tâm Lý Thị Trường (VIX-based Features):**
      - `VIX_lag_1`: Giá trị $VIX_{t-1}$
      - `VIX_change_1D`: $VIX_t - VIX_{t-1}$
@@ -120,10 +151,15 @@ $$Target_{h, t} = \ln\left(\frac{Close_{t+h}}{Close_t}\right) = \sum_{i=1}^h \te
 * **Nguyên tắc Expanding Window Quantile:**
   - Tại mỗi ngày $t$, chỉ sử dụng chuỗi lịch sử độ biến động 20 phiên từ đầu mẫu đến $t$ ($\le t$), với độ dài tối thiểu 1 năm giao dịch (`min_periods = 252`).
   - Tính ngưỡng động 33% và 67%:
-    $$Q_{33}(t) = \text{Quantile}_{0.33}(\{\text{Volatility\_20D}_\tau\}_{\tau=1}^t)$$
-    $$Q_{67}(t) = \text{Quantile}_{0.67}(\{\text{Volatility\_20D}_\tau\}_{\tau=1}^t)$$
+
+$$Q_{33}(t) = \text{Quantile}_{0.33}(\{\text{Volatility\_20D}_\tau\}_{\tau=1}^t)$$
+
+$$Q_{67}(t) = \text{Quantile}_{0.67}(\{\text{Volatility\_20D}_\tau\}_{\tau=1}^t)$$
+
 * **Phân loại nhãn:**
-  $$\text{Volatility\_Regime}_t = \begin{cases} \text{Low}, & \text{nếu } \text{Volatility\_20D}_t \le Q_{33}(t) \\ \text{Normal}, & \text{nếu } Q_{33}(t) < \text{Volatility\_20D}_t \le Q_{67}(t) \\ \text{High}, & \text{nếu } \text{Volatility\_20D}_t > Q_{67}(t) \end{cases}$$
+
+$$\text{Volatility\_Regime}_t = \begin{cases} \text{Low}, & \text{nếu } \text{Volatility\_20D}_t \le Q_{33}(t) \\ \text{Normal}, & \text{nếu } Q_{33}(t) < \text{Volatility\_20D}_t \le Q_{67}(t) \\ \text{High}, & \text{nếu } \text{Volatility\_20D}_t > Q_{67}(t) \end{cases}$$
+
 * **Phân phối nhãn:** Low: $49.2\%$, Normal: $20.2\%$, High: $30.6\%$.
 
 ### Giai đoạn 6: Loại Bỏ Dữ Liệu Khuyết Thiếu (3.0.1)
