@@ -74,7 +74,7 @@ def aggregate_summary(logger=None):
             logger.info(f"Updated regression summary at: {config.SUMMARY_PATH}")
             
     if cls_rows:
-        cls_path = os.path.join(BASELINES_DIR, "classification_summary.csv")
+        cls_path = getattr(config, "CLASSIFICATION_SUMMARY_PATH", os.path.join(config.SUMMARY_DIR, f"{getattr(config, 'PREFIX', '')}classification_horizon_summary.csv"))
         cls_df = pd.DataFrame(cls_rows)
         cls_df.to_csv(cls_path, index=False)
         if logger:

@@ -25,6 +25,7 @@ PREFIX = '3.0.3_' if RUN_NAME == 'Lan01' else ''
 
 ALL_FOLD_METRICS_PATH = os.path.join(FOLD_METRICS_DIR, f'{PREFIX}all_fold_metrics.csv')
 MODEL_HORIZON_SUMMARY_PATH = os.path.join(SUMMARY_DIR, f'{PREFIX}model_horizon_summary.csv')
+SUMMARY_PATH = MODEL_HORIZON_SUMMARY_PATH
 CLASSIFICATION_SUMMARY_PATH = os.path.join(SUMMARY_DIR, f'{PREFIX}classification_horizon_summary.csv')
 ALL_PREDICTIONS_PATH = os.path.join(PREDICTIONS_DIR, f'{PREFIX}all_oos_predictions.csv')
 
