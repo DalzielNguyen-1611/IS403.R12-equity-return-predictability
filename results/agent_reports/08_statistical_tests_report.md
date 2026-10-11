@@ -1,11 +1,11 @@
 # Báo Cáo Kiểm Định Thống Kê Năng Lực Dự Báo (08_statistical_tests_report.md)
 
-**Mã tài liệu:** `IS403-REP-08`  
-**Ngày thực hiện:** 2026-10-08  
-**Ngày kiểm toán & hiệu chỉnh:** 2026-10-09  
-**Tập tin dữ liệu gốc:** `results/analysis/statistical_tests.csv`  
-**Tập tin dữ liệu hiệu chỉnh:** `results/analysis/statistical_tests_corrected.csv`  
-**Người thực hiện:** Senior Research Methodology Auditor & Research Data Analyst (Antigravity System)  
+**Mã tài liệu:** `IS403-REP-08`
+**Ngày thực hiện:** 2026-10-08
+**Ngày kiểm toán & hiệu chỉnh:** 2026-10-09
+**Tập tin dữ liệu gốc:** `results/analysis/statistical_tests.csv`
+**Tập tin dữ liệu hiệu chỉnh:** `results/analysis/statistical_tests_corrected.csv`
+**Người thực hiện:** Senior Research Methodology Auditor & Research Data Analyst (Antigravity System)
 **Nghiên cứu:** *"When Does Equity Return Predictability Decay? A Multi-Horizon and Regime-Dependent Out-of-Sample Analysis"*
 
 ---
@@ -17,14 +17,14 @@ Báo cáo này cung cấp kết quả kiểm định suy diễn thống kê (inf
 2. **Kiểm định So sánh Phần dư Diebold-Mariano (Diebold-Mariano Test):** Kiểm tra xem sai số dự báo bình phương của các mô hình ứng viên có nhỏ hơn có ý nghĩa thống kê so với mô hình mốc chuẩn `Historical_Mean` hay không ($H_0: \mathbb{E}[d_t] \le 0$ vs $H_1: \mathbb{E}[d_t] > 0$, trong đó vi sai mất mát được định nghĩa là $d_t = e_{\text{bench},t}^2 - e_{\text{model},t}^2$).
 
 > [!IMPORTANT]
-> **NGUYÊN TẮC THÔNG DIỄN PHƯƠNG PHÁP LUẬN BẮT BUỘC:**  
-> 1. **Ý nghĩa thống kê ($p < 0.05$) KHÔNG đồng nghĩa với mô hình có năng lực dự báo vượt trội:**  
->    - Đối với kiểm định nhị thức $DA > 0.5$, nếu thị trường có độ trôi dương mạnh (ví dụ $77.8\%$ số ngày có lợi suất dương), một mô hình ngây thơ luôn đoán chiều dương sẽ đạt $DA = 77.8\%$ với $p < 10^{-90}$ mà hoàn toàn không có kỹ năng dự báo điểm. Bắt buộc phải đối chiếu với tỷ lệ cơ sở (Base Rate) và mốc chuẩn luôn đoán dương (Always-Positive Benchmark).  
-> 2. **Kiểm định 1 phía không bác bỏ được $H_0$ ($p > 0.5$) chỉ thể hiện "thiếu bằng chứng vượt trội":**  
->    - Không được quy kết là "mô hình tương đương" hay "hoàn toàn thất bại". Để khẳng định mô hình kém hơn một cách có ý nghĩa thống kê, cần thực hiện kiểm định hai phía ($H_1: \mathbb{E}[d_t] \neq 0$).  
-> 3. **Phải kiểm soát kiểm định đa giả thuyết (Multiple Testing Correction):**  
->    - Với 60 cặp so sánh mô hình, việc chỉ nhìn vào $p$-value thô sẽ dẫn đến lạm phát sai lầm loại I (Family-Wise Error Rate). Phải áp dụng hiệu chỉnh Bonferroni và kiểm soát tỷ lệ khám phá sai Benjamini-Hochberg (FDR).  
-> 4. **Điều kiện tiên quyết về tính hợp lệ của mô hình:**  
+> **NGUYÊN TẮC THÔNG DIỄN PHƯƠNG PHÁP LUẬN BẮT BUỘC:**
+> 1. **Ý nghĩa thống kê ($p < 0.05$) KHÔNG đồng nghĩa với mô hình có năng lực dự báo vượt trội:**
+>    - Đối với kiểm định nhị thức $DA > 0.5$, nếu thị trường có độ trôi dương mạnh (ví dụ $77.8\%$ số ngày có lợi suất dương), một mô hình ngây thơ luôn đoán chiều dương sẽ đạt $DA = 77.8\%$ với $p < 10^{-90}$ mà hoàn toàn không có kỹ năng dự báo điểm. Bắt buộc phải đối chiếu với tỷ lệ cơ sở (Base Rate) và mốc chuẩn luôn đoán dương (Always-Positive Benchmark).
+> 2. **Kiểm định 1 phía không bác bỏ được $H_0$ ($p > 0.5$) chỉ thể hiện "thiếu bằng chứng vượt trội":**
+>    - Không được quy kết là "mô hình tương đương" hay "hoàn toàn thất bại". Để khẳng định mô hình kém hơn một cách có ý nghĩa thống kê, cần thực hiện kiểm định hai phía ($H_1: \mathbb{E}[d_t] \neq 0$).
+> 3. **Phải kiểm soát kiểm định đa giả thuyết (Multiple Testing Correction):**
+>    - Với 60 cặp so sánh mô hình, việc chỉ nhìn vào $p$-value thô sẽ dẫn đến lạm phát sai lầm loại I (Family-Wise Error Rate). Phải áp dụng hiệu chỉnh Bonferroni và kiểm soát tỷ lệ khám phá sai Benjamini-Hochberg (FDR).
+> 4. **Điều kiện tiên quyết về tính hợp lệ của mô hình:**
 >    - Mọi kết luận thống kê chỉ có giá trị khi quy trình tạo dự báo không vi phạm rò rỉ dữ liệu (data leakage) và căn chỉnh thời gian chuẩn xác.
 
 ---
@@ -54,7 +54,7 @@ Báo cáo này cung cấp kết quả kiểm định suy diễn thống kê (inf
 
 ### 3.1 Ma trận Thống kê DA và p-value (Kiểm định 1 phía so với $50\%$)
 
-Kiểm định giả thuyết: $H_0: DA \le 0.5$ so với $H_1: DA > 0.5$.  
+Kiểm định giả thuyết: $H_0: DA \le 0.5$ so với $H_1: DA > 0.5$.
 Số phép thử ngoại mẫu: $N = 1,360$ ngày giao dịch.
 
 | Model | 1D DA ($p$-val) | 5D DA ($p$-val) | 20D DA ($p$-val) | 60D DA ($p$-val) | 120D DA ($p$-val) | Tỷ lệ Dự báo Dương (120D) |
@@ -174,10 +174,10 @@ Khi kiểm định giả thuyết hai phía ($H_0: \mathbb{E}[d_t] = 0$ vs $H_1:
 | 15 | ARIMAX | 1D | +1.2136 | $0.112565$ | $0.012500$ | **Không (Trượt)** | **Không (Trượt)** | *Không hợp lệ (Rò rỉ)* |
 
 > [!CAUTION]
-> **ĐÍNH CHÍNH QUAN TRỌNG VỀ KẾT QUẢ FDR:**  
-> Bản thảo Report 08 trước đây tuyên bố rằng *"Tại 20D, 60D, 120D: Các mô hình AR kiểm soát FDR (Benjamini-Hochberg) ở mức $q = 0.05$"*.  
-> **Kiểm toán thực nghiệm xác nhận tuyên bố này là SAI LỆCH VÀ KHÔNG THỂ TÁI LẬP.**  
-> Tại hạng $k = 4$, $p_{(4)} = 0.006176 > \frac{4}{60} \times 0.05 = 0.003333$. Do đó, quá trình Benjamini-Hochberg dừng lại ngay sau hạng 3.  
+> **ĐÍNH CHÍNH QUAN TRỌNG VỀ KẾT QUẢ FDR:**
+> Bản thảo Report 08 trước đây tuyên bố rằng *"Tại 20D, 60D, 120D: Các mô hình AR kiểm soát FDR (Benjamini-Hochberg) ở mức $q = 0.05$"*.
+> **Kiểm toán thực nghiệm xác nhận tuyên bố này là SAI LỆCH VÀ KHÔNG THỂ TÁI LẬP.**
+> Tại hạng $k = 4$, $p_{(4)} = 0.006176 > \frac{4}{60} \times 0.05 = 0.003333$. Do đó, quá trình Benjamini-Hochberg dừng lại ngay sau hạng 3.
 > **Chỉ có đúng 3 phép kiểm định tại chân trời 5D sống sót sau hiệu chỉnh FDR $q = 0.05$** (trùng khớp hoàn toàn với kết quả của Bonferroni). Toàn bộ các kiểm định tại 20D, 60D và 120D đều thất bại trong việc kiểm soát FDR.
 
 ---
@@ -186,7 +186,7 @@ Khi kiểm định giả thuyết hai phía ($H_0: \mathbb{E}[d_t] = 0$ vs $H_1:
 
 Dòng mô hình Tự hồi quy (ARIMA, ARIMAX, SARIMA) là nhóm mô hình duy nhất có thống kê DM dương và đạt ý nghĩa thống kê dưới hiệu chỉnh Bonferroni và FDR tại 5D. Tuy nhiên, trước khi xem đây là bằng chứng khoa học, nghiên cứu đã tiến hành kiểm toán mã nguồn toàn diện:
 
-1. **Truy vết mã nguồn pipeline:**  
+1. **Truy vết mã nguồn pipeline:**
    Trong tệp [arimax.py](file:///e:/IS403.R12-equity-return-predictability/src/training/baselines/arimax/arimax.py#L53-L56), quá trình tạo dự báo được thực hiện bằng lệnh:
    ```python
    applied = res.apply(test_series)
@@ -229,3 +229,4 @@ Sau khi kiểm toán và hiệu chỉnh các sai lệch phương pháp luận, c
   1. Sử dụng số liệu kiểm định đã được tái lập và chuẩn hóa trong `results/analysis/statistical_tests_corrected.csv`.
   2. Cách ly triệt để dòng ARIMA; trình bày rõ ràng lỗi rò rỉ lọc 1 bước như một phát hiện phương pháp luận quan trọng.
   3. Thống nhất thông điệp khoa học: Thị trường chứng khoán tuân theo quy luật suy giảm năng lực dự báo, và không có mô hình học máy nào đánh bại được mốc chuẩn ngây thơ trên dữ liệu ngoại mẫu thực tế.
+

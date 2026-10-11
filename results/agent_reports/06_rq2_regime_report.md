@@ -1,10 +1,10 @@
 # Báo Cáo Nghiên Cứu Câu Hỏi 2: Năng Lực Dự Báo Theo Chế Độ Biến Động Thị Trường & Kiểm Định Phương Pháp Luận Toàn Diện (06_rq2_regime_report.md)
 
-**Mã tài liệu:** `IS403-REP-06`  
-**Ngày thực hiện:** 2026-10-08  
-**Tập tin mục tiêu:** `results/analysis/rq2_regime.csv`  
-**Tập tin đối chiếu:** `results/predictions/all_oos_predictions.csv`, `results/fold_metrics/all_fold_metrics.csv`, `results/summary/model_horizon_summary.csv`, `results/analysis/rq1_horizon.csv`  
-**Người thực hiện:** Senior Research Methodology Auditor (Antigravity System)  
+**Mã tài liệu:** `IS403-REP-06`
+**Ngày thực hiện:** 2026-10-08
+**Tập tin mục tiêu:** `results/analysis/rq2_regime.csv`
+**Tập tin đối chiếu:** `results/predictions/all_oos_predictions.csv`, `results/fold_metrics/all_fold_metrics.csv`, `results/summary/model_horizon_summary.csv`, `results/analysis/rq1_horizon.csv`
+**Người thực hiện:** Senior Research Methodology Auditor (Antigravity System)
 **Nghiên cứu:** *"When Does Equity Return Predictability Decay? A Multi-Horizon and Regime-Dependent Out-of-Sample Analysis"*
 
 ---
@@ -12,8 +12,8 @@
 ## 1. Mục Tiêu Nghiên Cứu RQ2 (Research Question 2 Focus)
 
 Báo cáo này tập trung phân tích và kiểm định câu hỏi nghiên cứu số 2:
-> **Research Question 2 (RQ2):**  
-> *"How does the relationship between forecast horizon and predictive skill differ across market volatility regimes?"*  
+> **Research Question 2 (RQ2):**
+> *"How does the relationship between forecast horizon and predictive skill differ across market volatility regimes?"*
 > *(Mối quan hệ giữa chân trời dự báo và năng lực dự báo khác biệt như thế nào giữa các chế độ biến động thị trường: Biến động Thấp [Low], Bình thường [Normal], và Biến động Cao [High]?)*
 
 ### Phân biệt các cấp độ diễn giải khoa học bắt buộc
@@ -35,7 +35,9 @@ Báo cáo này tập trung phân tích và kiểm định câu hỏi nghiên c�
 
 ### 2.2 Phân định chế độ biến động (Regime Assignment)
 Chế độ biến động được phân định ngoại sinh tại thời điểm gốc dự báo $t$ dựa trên biến động thực tế 20 phiên trước đó (`Volatility_20D`):
+
 $$\text{Regime}_t = \begin{cases} \text{Low}, & \text{nếu } \text{Volatility\_20D}_t \le Q_{33}(t) \\ \text{Normal}, & \text{nếu } Q_{33}(t) < \text{Volatility\_20D}_t \le Q_{67}(t) \\ \text{High}, & \text{nếu } \text{Volatility\_20D}_t > Q_{67}(t) \end{cases}$$
+
 - **Quy mô mẫu kiểm định ngoại mẫu:**
   - **Low Regime (Biến động thấp):** $N = 669$ quan sát ($49.19\%$).
   - **Normal Regime (Bình thường):** $N = 274$ quan sát ($20.15\%$).
@@ -47,7 +49,7 @@ $$\text{Regime}_t = \begin{cases} \text{Low}, & \text{nếu } \text{Volatility\_
 
 ## 3. Ma Trận Hiệu Năng $OOS\_R^2$ Theo Từng Chế Độ Biến Động (Descriptive Breakdown)
 
-> ⚠️ **Lưu ý thuật ngữ phương pháp:**  
+> ⚠️ **Lưu ý thuật ngữ phương pháp:**
 > Đại lượng so sánh mút $\Delta_{120D - 1D} = OOS\_R^2_{120D} - OOS\_R^2_{1D}$ là **Thay đổi hiệu năng qua chân trời (Horizon Change in $OOS\_R^2$, $\Delta OOS\_R^2$)**, không phải độ dốc hồi quy tuyến tính (regression slope). Tránh so sánh tỷ lệ suy giảm khi các số hạng là số âm nhỏ tiệm cận 0.
 
 ### 3.1 Chế độ Biến Động Thấp (Low Volatility Regime, N = 669)
@@ -165,7 +167,7 @@ Tại chân trời 120D trong chế độ biến động cao (High Regime, $N=41
 - **Mô hình LightGBM:** $P(\hat{y} > 0) = 50.36\% \implies \mathbf{DA = 50.12\%}$.
 
 > [!IMPORTANT]
-> **Kết luận Phương Pháp Luận Về Directional Accuracy:**  
+> **Kết luận Phương Pháp Luận Về Directional Accuracy:**
 > Việc các mô hình chuỗi thời gian hay mô hình đơn giản đạt $DA \approx 97\%$ tại chân trời 120D trong High Regime **KHÔNG PHẢI LÀ BẰNG CHỨNG CỦA KỸ NĂNG DỰ BÁO HƯỚNG ĐI ĐẶC XUẤT SẮC**. Toàn bộ mức DA này được giải thích bởi **tỷ lệ cơ sở lợi suất dương áp đảo ($97.36\%$)** do đà phục hồi mạnh mẽ sau khủng hoảng. Bất kỳ mô hình nào thiên lệch dự báo dương đều đạt $DA > 95\%$.
 
 ---
@@ -205,7 +207,9 @@ Tại chân trời 120D trong chế độ biến động cao (High Regime, $N=41
 ## 7. Đánh Giá Tương Tác Horizon × Regime (Interaction Assessment)
 
 Câu hỏi RQ2 yêu cầu đánh giá:
+
 $$\text{Predictive Skill} \sim \beta_0 + \beta_1 \text{Horizon} + \beta_2 \text{Regime} + \beta_3 (\text{Horizon} \times \text{Regime})$$
+
 1. **Bằng chứng mô tả:** Bảng số liệu cho thấy rõ ràng hệ số góc suy thoái theo chân trời dốc hơn nhiều trong High Regime so với Low Regime đối với các mô hình hồi quy Machine Learning.
 2. **Kiểm định thống kê chính quy:** Hiện chưa thể khẳng định tương tác này có ý nghĩa thống kê ở mức khắt khe vì:
    - Các chuỗi mục tiêu ngoại mẫu dài hạn bị phụ thuộc gối đầu cực mạnh (overlapping target dependence).
@@ -231,7 +235,7 @@ $$\text{Predictive Skill} \sim \beta_0 + \beta_1 \text{Horizon} + \beta_2 \text{
 | **10** | Benchmark có được xây dựng trên cùng định nghĩa mục tiêu không? | Historical Mean dự báo cùng chuỗi mục tiêu, nhưng tính bằng trung bình mở rộng trong quá khứ, không có cơ chế lọc 1 bước trên chuỗi gối đầu. | ⚠️ Mất tính tương thích đánh giá |
 
 > [!CAUTION]
-> **Hệ Quả Bắt Buộc:**  
+> **Hệ Quả Bắt Buộc:**
 > Do cơ chế lọc 1 bước trên chuỗi gối đầu (`applied.predict` trong `statsmodels`) dẫn đến rò rỉ $h-1$ ngày tương lai cho dòng ARIMA khi $h \ge 5$, hiệu năng $OOS\_R^2 > 0.9$ của dòng mô hình này là **ảo ảnh kỹ thuật (methodological artifact)**. Do đó, toàn bộ kết luận RQ2 liên quan đến dòng ARIMA **KHÔNG ĐƯỢC CHẤP NHẬN**.
 
 ---
@@ -239,12 +243,16 @@ $$\text{Predictive Skill} \sim \beta_0 + \beta_1 \text{Horizon} + \beta_2 \text{
 ## 9. Phụ Thuộc Chuỗi Mục Tiêu Gối Đầu (Overlapping Target Dependence Audit)
 
 Chuỗi mục tiêu ngoại mẫu chân trời $h$ được định nghĩa:
+
 $$Target_{h, t} = \sum_{i=1}^h r_{t+i}$$
+
 Hai điểm dữ liệu liên tiếp $t$ và $t+1$ chia sẻ chung $h-1$ ngày lợi suất.
 - Tại chân trời $120D$: Hệ số tương quan lý thuyết giữa hai quan sát kế tiếp là $\frac{119}{120} \approx 0.9917$.
 - Trong chế độ biến động cao (High Regime, $N = 417$ ngày giao dịch), các quan sát tập trung thành các đợt khủng hoảng liên tục (Q4/2018, Q1/2020).
 - **Số bậc tự do hiệu dụng (Effective Sample Size):**
-  $$N_{\text{eff}} \approx \frac{N}{h} = \frac{417}{120} \approx \mathbf{3.5} \text{ đợt quan sát độc lập!}$$
+
+$$N_{\text{eff}} \approx \frac{N}{h} = \frac{417}{120} \approx \mathbf{3.5} \text{ đợt quan sát độc lập!}$$
+
 - **Hệ quả kiểm định:**
   - Mọi kiểm định $t$, ANOVA hoặc hồi quy OLS thông thường không hiệu chỉnh đều bị phồng sai số loại I (Type I error inflation) nghiêm trọng.
   - Bắt buộc phải sử dụng sai số chuẩn Newey-West với độ trễ băng thông tối thiểu $L \ge 120$ phiên, hoặc kiểm định Block Bootstrap / Non-overlapping subsampling trước khi khẳng định ý nghĩa thống kê.
@@ -270,17 +278,17 @@ Hai điểm dữ liệu liên tiếp $t$ và $t+1$ chia sẻ chung $h-1$ ngày l
 
 Dưới đây là kết luận khoa học chính xác thay thế cho toàn bộ phần kết luận cũ:
 
-1. **Câu trả lời trực tiếp cho RQ2:**  
+1. **Câu trả lời trực tiếp cho RQ2:**
    Về mặt **mô tả ngoại mẫu (descriptive out-of-sample)**, mối quan hệ giữa chân trời dự báo và năng lực dự báo phân hóa rõ rệt giữa các chế độ biến động được xác định tại gốc dự báo $t$:
    - **Trong chế độ biến động thấp (Low Regime, $N=669$):** Năng lực dự báo của các mô hình Machine Learning suy giảm với tốc độ rất chậm qua các chân trời ($\Delta OOS\_R^2 \in [-0.04, -0.23]$ từ 1D đến 120D), RMSE duy trì ở mức thấp ($0.6\%$ tại 1D đến $6.7\%$ tại 120D).
    - **Trong chế độ biến động cao (High Regime, $N=417$):** Năng lực dự báo suy giảm mạnh mẽ hơn khi chân trời mở rộng ra 60D và 120D ($\Delta OOS\_R^2 \in [-1.68, -3.28]$), RMSE tăng lên khoảng $12.7\% - 15.3\%$ tại 120D.
-2. **Bản chất kinh tế lượng của sự suy giảm trong High Regime:**  
+2. **Bản chất kinh tế lượng của sự suy giảm trong High Regime:**
    Hiện tượng $OOS\_R^2$ âm sâu trong High Regime ở chân trời dài hạn không xuất phát từ việc phương sai chuỗi mục tiêu bùng nổ (tỷ số phương sai tại 120D giữa High và Low chỉ là $1.28\times$), mà do **độ lệch dự báo kỳ vọng (conditional mean shift)**: thị trường sau khủng hoảng trải qua đà phục hồi chữ V mạnh mẽ với mức tăng trung bình $+11.41\%$, khiến các mô hình dự báo thận trọng quanh trung bình lịch sử bị trừng phạt nặng nề bởi hàm tổn thất bình phương trên mẫu số phương sai tương đối hẹp của chế độ.
-3. **Cảnh báo về tỷ lệ cơ sở (Directional Accuracy Base-Rate):**  
+3. **Cảnh báo về tỷ lệ cơ sở (Directional Accuracy Base-Rate):**
    Mức độ chính xác hướng đi cao ($DA > 95\%$) tại chân trời 120D trong High Regime hoàn toàn bị chi phối bởi tỷ lệ cơ sở lợi suất dương áp đảo ($97.36\%$). Không được xem đây là bằng chứng của kỹ năng định hướng độc lập.
-4. **Hạn chế chuyển tiếp chế độ (Regime Transition Over Time):**  
+4. **Hạn chế chuyển tiếp chế độ (Regime Transition Over Time):**
    Nhãn chế độ biến động được cố định tại gốc dự báo $t$. Trong khoảng thời gian 120 phiên (khoảng 6 tháng), trạng thái thị trường thực tế có thể đã chuyển dịch từ High sang Normal/Low, dẫn đến việc đo lường bị pha tạp tác động giữa các chế độ.
-5. **Cách ly dòng ARIMA:**  
+5. **Cách ly dòng ARIMA:**
    Kết quả của dòng mô hình ARIMA/ARIMAX/SARIMA bị loại khỏi kết luận khoa học của RQ2 do phát hiện lỗi phương pháp luận lọc 1 bước trên chuỗi gối đầu.
 
 ---
@@ -306,7 +314,7 @@ Căn cứ trên các tiêu chí thẩm định phương pháp luận:
 
 ### QUYẾT NGHỊ CHÍNH THỨC:
 
-> ### **RQ2 DESCRIPTIVELY SUPPORTED — STATISTICAL/METHODOLOGICAL VALIDATION PENDING**  
+> ### **RQ2 DESCRIPTIVELY SUPPORTED — STATISTICAL/METHODOLOGICAL VALIDATION PENDING**
 > *(Nội dung mô tả về sự khác biệt giữa các chế độ đối với các mô hình Machine Learning được hỗ trợ đầy đủ bởi dữ liệu thực nghiệm hiện có; tuy nhiên kiểm định thống kê suy diễn chính quy và tính hợp lệ của dòng ARIMA vẫn đang chờ hiệu đính phương pháp luận).*
 
 ---
@@ -319,3 +327,4 @@ Căn cứ trên các tiêu chí thẩm định phương pháp luận:
 1. Bản thân tệp phân tích `results/analysis/rq2_regime.csv` và dữ liệu nền tảng `all_oos_predictions.csv` hoàn toàn nhất quán về mặt số học và cấu trúc dữ liệu.
 2. Các mẫu hình mô tả đối với nhóm mô hình Machine Learning (Tree Ensembles, Linear Regularized, Neural Networks) là có giá trị thực nghiệm và đủ cơ sở để so sánh với tính ổn định theo thời gian trong RQ3 (`rq3_time.csv`).
 3. **Điều kiện tiên quyết cho Bước 7:** Khi chuyển sang phân tích `rq3_time.csv`, phải duy trì việc **cách ly tuyệt đối dòng ARIMA** khỏi các kết luận chính và áp dụng đầy đủ các phát hiện về tỷ lệ cơ sở (base-rate) cũng như phụ thuộc gối đầu (overlapping dependence).
+

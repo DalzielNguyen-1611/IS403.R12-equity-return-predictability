@@ -1,9 +1,9 @@
 # Báo Cáo Kiểm Toán Dữ Liệu: Tính Toàn Vẹn Thực Nghiệm & Đo Lường Cấp Fold (01_all_fold_metrics_report.md)
 
-**Tập tin nguồn:** `results/fold_metrics/all_fold_metrics.csv`  
-**Thời điểm thực hiện kiểm toán:** 2026-10-08 16:15:00 UTC+7  
-**Vai trò:** Research Data Analyst (Financial Econometrics & Machine Learning)  
-**Đề tài nghiên cứu:** *"When Does Equity Return Predictability Decay? A Multi-Horizon and Regime-Dependent Out-of-Sample Analysis"*  
+**Tập tin nguồn:** `results/fold_metrics/all_fold_metrics.csv`
+**Thời điểm thực hiện kiểm toán:** 2026-10-08 16:15:00 UTC+7
+**Vai trò:** Research Data Analyst (Financial Econometrics & Machine Learning)
+**Đề tài nghiên cứu:** *"When Does Equity Return Predictability Decay? A Multi-Horizon and Regime-Dependent Out-of-Sample Analysis"*
 **Trạng thái phiên bản:** Đã kiểm toán phương pháp luận (Methodologically Audited)
 
 ---
@@ -11,6 +11,7 @@
 ## 1. Mô Tả Tập Tin & Mục Đích Kiểm Toán (File Description & Audit Purpose)
 
 Tập tin `results/fold_metrics/all_fold_metrics.csv` là bản ghi chi tiết cấp cơ sở của toàn bộ quy trình kiểm định ngoại mẫu mở rộng (walk-forward expanding window). Tập tin lưu trữ các chỉ số hiệu năng riêng lẻ, các siêu tham số được chọn, ranh giới chu kỳ huấn luyện/kiểm định và cấu hình phần cứng cho từng tổ hợp:
+
 $$\text{Model} \times \text{Horizon} \times \text{Fold}$$
 
 Mục tiêu của cuộc kiểm toán này là thiết lập **Tính Toàn Vẹn Thực Nghiệm (Experimental Integrity)** và rà soát lại các nhận định ban đầu nhằm tránh diễn giải quá mức (over-interpretation):
@@ -90,8 +91,8 @@ Ranh giới thời gian của 5 Folds mở rộng (expanding windows):
 - **Fold 5:** Train `1990-03-27` $\to$ `2019-10-03` ($N=7,439$) $\implies$ Val `2019-10-04` $\to$ `2020-10-30` ($N=272$)
 
 #### Kết luận kiểm toán rò rỉ dữ liệu (Audit Conclusion on Leakage):
-> **Tuyên bố phương pháp luận thận trọng:**  
-> *"No evidence of temporal leakage was identified from fold boundaries in this file."*  
+> **Tuyên bố phương pháp luận thận trọng:**
+> *"No evidence of temporal leakage was identified from fold boundaries in this file."*
 > *(Không tìm thấy bằng chứng về rò rỉ thời gian từ các ranh giới fold trong tập tin này).*
 
 Tuy nhiên, **tuyệt đối không được kết luận "zero data leakage" hay "hoàn toàn không có rò rỉ"** đối với toàn bộ pipeline thực nghiệm chỉ dựa trên các cột ngày tháng `Train_Start`, `Train_End`, `Val_Start`, `Val_End`.
@@ -118,9 +119,9 @@ Tuy nhiên, **tuyệt đối không được kết luận "zero data leakage" ha
 5. **Giá trị vô cùng (Infinite values):** Đúng 0 trường hợp xuất hiện `Inf` hoặc `-Inf`.
 
 ### 4.2 Giải trình các ô khuyết thiếu (Missing Value Audit)
-- **25 ô khuyết thiếu ở `MAE`, `RMSE`, `OOS_R2`, `DA`:**  
+- **25 ô khuyết thiếu ở `MAE`, `RMSE`, `OOS_R2`, `DA`:**
   Tất cả 25 ô này thuộc về `Logistic_Regression` ($5 \text{ horizons} \times 5 \text{ folds}$). Đây là đặc tính kỹ thuật **hoàn toàn kỳ vọng và chính xác (expected)**, vì Logistic Regression là mô hình phân loại hướng đi nhị phẩn, không dự báo mức lợi suất thực tế liên tục.
-- **1 ô khuyết thiếu ở `ROC_AUC` (`Logistic_Regression`, `Horizon=120D`, `Fold=2`):**  
+- **1 ô khuyết thiếu ở `ROC_AUC` (`Logistic_Regression`, `Horizon=120D`, `Fold=2`):**
   Trong Fold 2 ở chân trời 120D (`2016-07-08` $\to$ `2017-08-04`), nhãn thực tế $y_{\text{val}}$ dương $100\%$ ($272/272$ ngày có lợi suất tích lũy $> 0$). Khi tập kiểm định chỉ chứa duy nhất một lớp (single-class ground truth), mẫu số trong công thức tích phân ROC-AUC bị triệt tiêu ($\frac{0}{0}$ không xác định). Giá trị `NaN` ở đây là **kết quả toán học hoàn toàn chuẩn xác (mathematically expected)**. Tuyệt đối **không được thay thế NaN bằng 0.5** vì điều đó sẽ tạo ra giả định sai lệch về năng lực phân loại.
 
 ---
@@ -164,15 +165,17 @@ Trong tập dữ liệu, có đúng 10 trường hợp ghi nhận $OOS\_R^2 < -3
 | **Transformer** | 120D | 2 | -5.3721 | 0.003665 | 0.000575 | 0.002368 | -5.3721 | -0.5476 |
 
 #### Phân tích khách quan dựa thuần túy trên số liệu:
-1. **Công thức toán học thực tế được sử dụng trong tập tin:**  
+1. **Công thức toán học thực tế được sử dụng trong tập tin:**
    Giá trị `OOS_R2` trong file được tính theo công thức:
-   $$R^2 = 1 - \frac{\text{Model\_MSE}}{\text{Var}(y_{\text{val}})}$$
+
+$$R^2 = 1 - \frac{\text{Model\_MSE}}{\text{Var}(y_{\text{val}})}$$
+
    với mẫu số là phương sai mẫu của tập validation ($\text{Var}(y_{\text{val}})$), thay vì công thức Campbell-Thompson chuẩn mực sử dụng sai số của mô hình benchmark ($1 - \frac{\text{Model\_MSE}}{\text{Bench\_MSE}}$). Điều này được minh chứng khi cột `Reported OOS_R2` khớp chính xác 100% với `Recomputed R2_var`.
-2. **Hiện tượng tập trung tại Fold 2:**  
-   9/10 trường hợp âm sâu tập trung tại **Fold 2**.  
-   *Mô tả thuần dữ liệu:* **"Fold 2 exhibits unusually low realized target variance"** (Phương sai thực tế của lợi suất tại Fold 2 rất thấp: $\text{Var}(y) = 0.000575$ tại 120D so với mức $0.003789 - 0.015636$ ở các Fold khác).  
-   > **Kết luận kiểm toán:**  
-   > *"Potentially explained by a small benchmark-error denominator, but this cannot be established from the current file alone."*  
+2. **Hiện tượng tập trung tại Fold 2:**
+   9/10 trường hợp âm sâu tập trung tại **Fold 2**.
+   *Mô tả thuần dữ liệu:* **"Fold 2 exhibits unusually low realized target variance"** (Phương sai thực tế của lợi suất tại Fold 2 rất thấp: $\text{Var}(y) = 0.000575$ tại 120D so với mức $0.003789 - 0.015636$ ở các Fold khác).
+   > **Kết luận kiểm toán:**
+   > *"Potentially explained by a small benchmark-error denominator, but this cannot be established from the current file alone."*
    > *(Hiện tượng này có khả năng được giải thích bởi mẫu số sai số chuẩn quá nhỏ, nhưng điều này chưa thể khẳng định chắc chắn chỉ từ tập tin hiện tại mà cần đối chiếu chuỗi dự báo chi tiết).*
 
 ---
@@ -197,16 +200,16 @@ Dưới đây là bảng trích mẫu các trường hợp tiêu biểu:
 | **ARIMAX**| 120D | 5 | 0.9815 | 0.000262 | 0.014204 | 0.017659 | 0.9815 | 0.9852 |
 | **SARIMA**| 120D | 5 | 0.9605 | 0.000561 | 0.014204 | 0.017659 | 0.9605 | 0.9682 |
 
-> **Cảnh báo học thuật nghiêm ngặt:**  
-> **Tuyệt đối KHÔNG kết luận rằng đây là năng lực dự báo thực chất (genuine predictability)** trước khi kiểm tra công thức xây dựng mục tiêu và cơ chế tạo dự báo.  
+> **Cảnh báo học thuật nghiêm ngặt:**
+> **Tuyệt đối KHÔNG kết luận rằng đây là năng lực dự báo thực chất (genuine predictability)** trước khi kiểm tra công thức xây dựng mục tiêu và cơ chế tạo dự báo.
 > Cần làm rõ:
 > - **ARIMA target:** Biến mục tiêu đưa vào mô hình là gì?
 > - **ARIMAX target:** Biến mục tiêu và biến ngoại sinh được xử lý như thế nào?
 > - **SARIMA target:** Chu kỳ mùa vụ và mục tiêu được thiết lập ra sao?
-> - **Forecast construction for 1D/5D/20D/60D/120D:** Mô hình dự báo là direct forecast hay recursive/filtering forecast?  
-> 
-> **Kết luận kiểm toán:**  
-> *"Target formulation cannot be verified from all_fold_metrics.csv alone."*  
+> - **Forecast construction for 1D/5D/20D/60D/120D:** Mô hình dự báo là direct forecast hay recursive/filtering forecast?
+>
+> **Kết luận kiểm toán:**
+> *"Target formulation cannot be verified from all_fold_metrics.csv alone."*
 > *(Công thức xây dựng mục tiêu không thể xác minh chỉ từ tập tin all_fold_metrics.csv mà bắt buộc phải kiểm toán mã nguồn và dữ liệu dự báo ở các bước tiếp theo).*
 
 ---
@@ -237,3 +240,4 @@ Phần này ghi nhận các vấn đề phương pháp luận trọng yếu cầ
 - Tập tin `all_fold_metrics.csv` đã vượt qua các kiểm định về tính toàn vẹn cấu trúc ($350/350$ lượt chạy đầy đủ, không trùng lặp, giá trị số học hợp lệ).
 - Báo cáo đã điều chỉnh toàn bộ các nhận định mang tính phỏng đoán thị trường, thay thế bằng các mô tả thuần số liệu khách quan.
 - Báo cáo đã xác lập cờ kiểm toán ưu tiên cao nhất (`HIGH PRIORITY AUDIT`) cho họ mô hình Tự hồi quy và chuyển giao vấn đề này sang các bước kiểm toán tiếp theo.
+

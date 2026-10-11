@@ -1,9 +1,9 @@
 # Báo Cáo Đánh Giá Tinh Chỉnh Siêu Tham Số & Kiểm Soát Rò Rỉ Dữ Liệu (04_best_hyperparameters_report.md)
 
-**Mã tài liệu:** `IS403-REP-04`  
-**Ngày thực hiện:** 2026-10-08  
-**Tập tin mục tiêu:** `results/tuning/best_hyperparameters.csv`  
-**Người thực hiện:** Research Data Analyst (Antigravity System)  
+**Mã tài liệu:** `IS403-REP-04`
+**Ngày thực hiện:** 2026-10-08
+**Tập tin mục tiêu:** `results/tuning/best_hyperparameters.csv`
+**Người thực hiện:** Research Data Analyst (Antigravity System)
 **Nghiên cứu:** *"When Does Equity Return Predictability Decay? A Multi-Horizon and Regime-Dependent Out-of-Sample Analysis"*
 
 ---
@@ -101,8 +101,8 @@ Bảng dưới đây thống kê số lượng cấu hình siêu tham số độ
 > **Quy định ngặt nghèo:** Siêu tham số TUYỆT ĐỐI KHÔNG được lựa chọn dựa trên tập kiểm định ngoại mẫu cuối cùng (final test set / outer validation fold). Mọi bước chuẩn hóa và tinh chỉnh phải được thực hiện khép kín bên trong phần dữ liệu huấn luyện của outer fold.
 
 ### 6.1 Đánh giá dựa trên tập tin `best_hyperparameters.csv` độc lập
-- **Kết luận theo chuẩn quy định:**  
-  *"Unable to verify from this file alone."*  
+- **Kết luận theo chuẩn quy định:**
+  *"Unable to verify from this file alone."*
   *(Không thể xác nhận tính miễn nhiễm rò rỉ chỉ từ tập tin này, vì bảng dữ liệu chỉ lưu trữ các giá trị tham số tối ưu và điểm số, không chứa thông tin về chỉ số dòng thời gian phân chia nội bộ).*
 
 ### 6.2 Đánh giá kết hợp kiểm toán mã nguồn triển khai (Codebase Verification)
@@ -431,7 +431,7 @@ Rà soát và chuẩn hóa các tuyên bố học thuật trong Report 04:
 
 ### ĐÁNH GIÁ CHUYỂN BƯỚC:
 > ### **READY FOR STEP 5 (CONDITIONAL)**
-> 
+>
 > Pipeline thực nghiệm **ĐỦ ĐIỀU KIỆN** để chuyển sang **STEP 5 — RQ1 Horizon Analysis**, với điều kiện tiên quyết: **Khi phân tích quy luật suy thoái theo chân trời (RQ1), nhóm mô hình Machine Learning và Deep Learning được sử dụng làm trọng tâm phân tích thực nghiệm; nhóm mô hình chuỗi thời gian ARIMA/ARIMAX/SARIMA phải được trình bày kèm theo ghi chú phương pháp luận về cơ chế lọc 1 bước trên chuỗi mục tiêu nhiều kỳ.**
 
 ---
@@ -443,4 +443,5 @@ Dưới đây là 3 hành động quan trọng nhất cần thực hiện trư�
 1. **Cô lập phân tích dòng ARIMA trong RQ1:** Khi vẽ biểu đồ và phân tích bảng suy thoái hiệu năng theo chân trời ($1D \to 120D$), tách riêng đường biểu diễn của dòng ARIMA/ARIMAX/SARIMA thành một nhánh phân tích riêng biệt (Filtering Benchmark) để tránh làm méo mó bức tranh suy thoái năng lực dự báo của các mô hình Machine Learning và Deep Learning.
 2. **Sử dụng Pooled $OOS\_R^2$ làm thước đo chính:** Tránh sử dụng trung bình cộng $OOS\_R^2$ theo từng fold do hiện tượng méo mó cục bộ tại các fold có phương sai mẫu hẹp (như Fold 2 ở 120D); ưu tiên Pooled $OOS\_R^2$ và Diebold-Mariano có hiệu chỉnh Newey-West.
 3. **Đánh giá Directional Accuracy so với Naive Drift ($77.79\%$):** Luôn so sánh $DA$ ở các chân trời 60D và 120D với tỷ lệ dương nền của thị trường để phản ánh đúng thực chất năng lực định thời của các mô hình.
+
 

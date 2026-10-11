@@ -19,6 +19,11 @@ Historical_Mean,5D,Binomial,50% DA,0.6184,0.0,Yes
 Historical_Mean,20D,Binomial,50% DA,0.6846,0.0,Yes
 Historical_Mean,60D,Binomial,50% DA,0.7456,0.0,Yes
 Historical_Mean,120D,Binomial,50% DA,0.7779,0.0,Yes
+LSTM,1D,Binomial,50% DA,0.525,0.0346,Yes
+LSTM,5D,Binomial,50% DA,0.5478,0.0002,Yes
+LSTM,20D,Binomial,50% DA,0.586,0.0,Yes
+LSTM,60D,Binomial,50% DA,0.6735,0.0,Yes
+LSTM,120D,Binomial,50% DA,0.6581,0.0,Yes
 LightGBM,1D,Binomial,50% DA,0.5368,0.0036,Yes
 LightGBM,5D,Binomial,50% DA,0.5853,0.0,Yes
 LightGBM,20D,Binomial,50% DA,0.6419,0.0,Yes
@@ -29,6 +34,11 @@ Logistic_Regression,5D,Binomial,50% DA,0.5228,0.049,Yes
 Logistic_Regression,20D,Binomial,50% DA,0.6397,0.0,Yes
 Logistic_Regression,60D,Binomial,50% DA,0.6846,0.0,Yes
 Logistic_Regression,120D,Binomial,50% DA,0.7456,0.0,Yes
+RNN,1D,Binomial,50% DA,0.4993,0.5324,No
+RNN,5D,Binomial,50% DA,0.5081,0.2845,No
+RNN,20D,Binomial,50% DA,0.6007,0.0,Yes
+RNN,60D,Binomial,50% DA,0.6338,0.0,Yes
+RNN,120D,Binomial,50% DA,0.7301,0.0,Yes
 Random_Forest,1D,Binomial,50% DA,0.5404,0.0016,Yes
 Random_Forest,5D,Binomial,50% DA,0.5934,0.0,Yes
 Random_Forest,20D,Binomial,50% DA,0.6228,0.0,Yes
@@ -49,6 +59,11 @@ SVR,5D,Binomial,50% DA,0.5515,0.0001,Yes
 SVR,20D,Binomial,50% DA,0.5706,0.0,Yes
 SVR,60D,Binomial,50% DA,0.6691,0.0,Yes
 SVR,120D,Binomial,50% DA,0.6676,0.0,Yes
+Transformer,1D,Binomial,50% DA,0.4971,0.5964,No
+Transformer,5D,Binomial,50% DA,0.5382,0.0026,Yes
+Transformer,20D,Binomial,50% DA,0.5184,0.092,No
+Transformer,60D,Binomial,50% DA,0.6059,0.0,Yes
+Transformer,120D,Binomial,50% DA,0.5441,0.0006,Yes
 XGBoost,1D,Binomial,50% DA,0.5434,0.0008,Yes
 XGBoost,5D,Binomial,50% DA,0.6132,0.0,Yes
 XGBoost,20D,Binomial,50% DA,0.6515,0.0,Yes

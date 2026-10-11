@@ -1,17 +1,17 @@
 # Báo Cáo Nghiên Cứu Câu Hỏi 1: Sự Suy Thoái Của Năng Lực Dự Báo Theo Chân Trời Thời Gian (05_rq1_horizon_report.md)
 
-**Mã tài liệu:** `IS403-REP-05`  
-**Ngày thực hiện:** 2026-10-08  
-**Tập tin mục tiêu:** `results/analysis/rq1_horizon.csv`  
-**Người thực hiện:** Research Data Analyst (Antigravity System)  
+**Mã tài liệu:** `IS403-REP-05`
+**Ngày thực hiện:** 2026-10-08
+**Tập tin mục tiêu:** `results/analysis/rq1_horizon.csv`
+**Người thực hiện:** Research Data Analyst (Antigravity System)
 **Nghiên cứu:** *"When Does Equity Return Predictability Decay? A Multi-Horizon and Regime-Dependent Out-of-Sample Analysis"*
 
 ---
 
 ## 1. Mục Tiêu Nghiên Cứu RQ1 (Research Question 1 Focus)
 Báo cáo này tập trung giải quyết câu hỏi nghiên cứu số 1:
-> **Research Question 1 (RQ1):**  
-> *"How does out-of-sample equity return predictability change across forecast horizons?"*  
+> **Research Question 1 (RQ1):**
+> *"How does out-of-sample equity return predictability change across forecast horizons?"*
 > *(Năng lực dự báo ngoại mẫu của lợi suất cổ phiếu biến đổi như thế nào qua các chân trời dự báo: 1D $\to$ 5D $\to$ 20D $\to$ 60D $\to$ 120D? Có tồn tại quy luật suy thoái dự báo (predictability decay) hay không? Quy luật đó có tính đơn điệu (monotonic) và nhất quán giữa các họ mô hình không?)*
 
 ---
@@ -107,7 +107,9 @@ Cần phân biệt rõ hai khái niệm kinh tế lượng:
 
 ### 5.3 Giải mã hiện tượng Directional Accuracy tăng theo chân trời
 - Thực tế dữ liệu cho thấy: Tỷ lệ các ngày có lợi suất dương của S&P 500 tăng đều đặn theo chân trời:
-  $$1D: 54.85\% \to 5D: 61.84\% \to 20D: 68.46\% \to 60D: 74.56\% \to 120D: 77.79\%$$
+
+$$1D: 54.85\% \to 5D: 61.84\% \to 20D: 68.46\% \to 60D: 74.56\% \to 120D: 77.79\%$$
+
 - Benchmark `Historical_Mean` luôn dự báo một giá trị dương ($\hat{y} > 0$), do đó $DA$ của Historical Mean **tự động tăng đúng bằng tỷ lệ dương của thị trường** ($77.79\%$ tại 120D).
 - Tất cả các mô hình ML và Deep Learning tại 120D đều có $DA$ thấp hơn hoặc bằng mức $77.79\%$ này (Elastic Net đạt $77.79\%$ vì dự báo dương $100\%$ các ngày; XGBoost đạt $71.69\%$; LightGBM chỉ đạt $58.38\%$).
 - **Kết luận:** Mức $DA > 70\%$ ở chân trời 120D của các mô hình ML phản ánh xu hướng tăng trưởng nền dài hạn của thị trường chứng khoán Mỹ (equity risk premium drift), **hoàn toàn không phải là bằng chứng của năng lực định thời thị trường (market timing skill)**.
@@ -168,13 +170,17 @@ Kiểm tra đối chiếu chéo số liệu giữa các tệp kết quả:
 
 ### 3.1 Cơ chế tạo mẫu số và giá trị $OOS\_R^2$
 - **Công thức chuẩn (Campbell & Thompson, 2008):**
-  $$OOS\_R^2 = 1 - \frac{\sum_{t=1}^N (y_t - \hat{y}_t)^2}{\sum_{t=1}^N (y_t - \hat{y}_{\text{HM}, t})^2}$$
+
+$$OOS\_R^2 = 1 - \frac{\sum_{t=1}^N (y_t - \hat{y}_t)^2}{\sum_{t=1}^N (y_t - \hat{y}_{\text{HM}, t})^2}$$
+
   Nếu mô hình chính là benchmark ở mẫu số, thì theo định nghĩa toán học: $OOS\_R^2_{\text{HM}} \equiv 0.0000$.
 - **Thực tế trong `rq1_horizon.csv`:**
   Historical Mean ghi nhận: $1D = -0.0001, 5D = -0.0003, 20D = -0.0016, 60D = -0.0115, 120D = -0.0607$.
 - **Nguyên nhân toán học:**
   Dự báo của Historical Mean được cập nhật theo trung bình mở rộng qua các fold kiểm định ngoại mẫu:
-  $$\hat{y}_t = \frac{1}{N_{\text{train}} + i} \sum_{k=1}^{N_{\text{train}} + i - 1} y_k$$
+
+$$\hat{y}_t = \frac{1}{N_{\text{train}} + i} \sum_{k=1}^{N_{\text{train}} + i - 1} y_k$$
+
   Trong khi đó, mẫu số trong hàm tính toán tổng hợp sử dụng trung bình tĩnh của toàn bộ mẫu kiểm định ngoại mẫu $\bar{y}_{\text{val}}$. Sự chênh lệch giữa trung bình mở rộng và trung bình tĩnh ngoại mẫu tạo ra phần dư nhỏ $(\bar{y}_{\text{val}} - \hat{y}_t)^2$, khiến $OOS\_R^2$ của Historical Mean âm nhẹ ($-0.0001$ tại 1D và $-0.0607$ tại 120D).
 - **Trạng thái:** `Verified` (Cơ chế toán học đã được làm rõ; tiệm cận 0 ở các chân trời ngắn và có độ lệch mở rộng ở 120D).
 
@@ -397,7 +403,7 @@ Hiệu ứng chân trời đối với khả năng dự báo lợi suất cổ p
 
 ### ĐÁNH GIÁ CHUYỂN BƯỚC:
 > ### **RQ1 DESCRIPTIVELY SUPPORTED — METHODOLOGICALLY QUALIFIED & READY FOR STEP 6**
-> 
+>
 > Báo cáo RQ1 đã được hiệu chỉnh hoàn toàn chuẩn mực về phương pháp luận và thống kê:
 > 1. Dữ liệu mô tả được xác nhận $100\%$.
 > 2. Vấn đề dòng ARIMA đã được làm rõ và cô lập trong phần diễn giải.
@@ -414,4 +420,5 @@ Dưới đây là 3 hành động quan trọng nhất cần ghi nhớ khi tiến
 1. **Duy trì phân lập dòng ARIMA trong RQ2:** Khi phân tích hiệu năng theo các chế độ biến động (Low, Normal, High Volatility Regimes) trong `rq2_regime.csv`, tiếp tục tách riêng dòng ARIMA/ARIMAX thành nhánh phụ trợ, tập trung phân tích hành vi thích ứng chế độ của dòng Machine Learning và Deep Learning.
 2. **Đối chiếu DA theo từng Regime với Tỷ lệ Dương Nội bộ của Regime đó:** Không so sánh $DA$ thô giữa các regime; phải so sánh với tỷ lệ dương thực tế của chính regime đó ($P(Y > 0 \mid \text{Regime})$) vì trong chế độ High Volatility, thị trường có tỷ lệ ngày giảm cao hơn đáng kể.
 3. **Sử dụng Loss Differential có điều chỉnh độ biến động:** Khi đánh giá tác động của chế độ biến động, xem xét cả sai số tuyệt đối lẫn sai số tỷ đối để không bị chi phối bởi độ biến động cơ sở phình to trong thời kỳ khủng hoảng.
+
 

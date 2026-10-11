@@ -1,10 +1,10 @@
 # Báo Cáo Kiểm Toán Dữ Liệu: Tổng Hợp Hiệu Năng Đa Mô Hình & Đa Chân Trời (02_model_horizon_summary_report.md)
 
-**Tập tin nguồn:** `results/summary/model_horizon_summary.csv`  
-**Tập tin đối chiếu:** `results/fold_metrics/all_fold_metrics.csv`  
-**Thời điểm kiểm toán:** 2026-10-08 16:20:00 UTC+7  
-**Vai trò chuyên gia:** Research Data Analyst (Kinh tế lượng tài chính & Học máy)  
-**Đề tài nghiên cứu:** *"When Does Equity Return Predictability Decay? A Multi-Horizon and Regime-Dependent Out-of-Sample Analysis"*  
+**Tập tin nguồn:** `results/summary/model_horizon_summary.csv`
+**Tập tin đối chiếu:** `results/fold_metrics/all_fold_metrics.csv`
+**Thời điểm kiểm toán:** 2026-10-08 16:20:00 UTC+7
+**Vai trò chuyên gia:** Research Data Analyst (Kinh tế lượng tài chính & Học máy)
+**Đề tài nghiên cứu:** *"When Does Equity Return Predictability Decay? A Multi-Horizon and Regime-Dependent Out-of-Sample Analysis"*
 **Trạng thái phiên bản:** Đã kiểm toán phương pháp luận (Methodologically Audited)
 
 ---
@@ -137,16 +137,22 @@ Trong bảng tóm tắt, `Historical_Mean` có:
 
 #### Nguyên nhân kỹ thuật được xác minh chính xác:
 1. **Dự báo của Historical Mean:** $\hat{y}_t = \bar{y}_{\text{train}}$ (trung bình mẫu của cửa sổ huấn luyện mở rộng trước thời điểm $t$).
-2. **Mẫu số của $OOS\_R^2$ trong mã nguồn:**  
+2. **Mẫu số của $OOS\_R^2$ trong mã nguồn:**
    Hàm `calc_regression_metrics` tính toán:
-   $$R^2 = 1 - \frac{\text{MSE}}{\text{Var}(y_{\text{val}})} = 1 - \frac{\frac{1}{N}\sum (y_{\text{val}} - \hat{y})^2}{\frac{1}{N}\sum (y_{\text{val}} - \bar{y}_{\text{val}})^2}$$
+
+$$R^2 = 1 - \frac{\text{MSE}}{\text{Var}(y_{\text{val}})} = 1 - \frac{\frac{1}{N}\sum (y_{\text{val}} - \hat{y})^2}{\frac{1}{N}\sum (y_{\text{val}} - \bar{y}_{\text{val}})^2}$$
+
    Mẫu số là **phương sai mẫu của tập kiểm định** ($\text{Var}(y_{\text{val}})$), KHÔNG PHẢI sai số của mô hình benchmark ($\text{MSE}_{\text{HM}}$).
-3. **Mối quan hệ toán học:**  
+3. **Mối quan hệ toán học:**
    Sai số của Historical Mean trên tập kiểm định phân rã thành:
-   $$\text{MSE}_{\text{HM}} = \text{Var}(y_{\text{val}}) + (\bar{y}_{\text{val}} - \bar{y}_{\text{train}})^2 \ge \text{Var}(y_{\text{val}})$$
+
+$$\text{MSE}_{\text{HM}} = \text{Var}(y_{\text{val}}) + (\bar{y}_{\text{val}} - \bar{y}_{\text{train}})^2 \ge \text{Var}(y_{\text{val}})$$
+
    Do đó:
-   $$R^2_{\text{HM}} = 1 - \frac{\text{Var}(y_{\text{val}}) + (\bar{y}_{\text{val}} - \bar{y}_{\text{train}})^2}{\text{Var}(y_{\text{val}})} = - \frac{(\bar{y}_{\text{val}} - \bar{y}_{\text{train}})^2}{\text{Var}(y_{\text{val}})} \le 0$$
-4. **Mức độ ảnh hưởng:**  
+
+$$R^2_{\text{HM}} = 1 - \frac{\text{Var}(y_{\text{val}}) + (\bar{y}_{\text{val}} - \bar{y}_{\text{train}})^2}{\text{Var}(y_{\text{val}})} = - \frac{(\bar{y}_{\text{val}} - \bar{y}_{\text{train}})^2}{\text{Var}(y_{\text{val}})} \le 0$$
+
+4. **Mức độ ảnh hưởng:**
    - Theo định nghĩa chuẩn Campbell-Thompson ($1 - \text{MSE}_{\text{model}} / \text{MSE}_{\text{HM}}$), $OOS\_R^2$ của Historical Mean bắt buộc phải bằng $0.0000$ trên mọi fold.
    - Việc `Historical_Mean` bị ghi nhận giá trị âm (đặc biệt $-0.6974$ tại 120D) là do độ lệch giữa trung bình ngoại mẫu và trung bình nội mẫu $(\bar{y}_{\text{val}} - \bar{y}_{\text{train}})^2$ bị khuếch đại bởi phương sai mẫu nhỏ tại Fold 2.
 
@@ -161,16 +167,18 @@ Kết quả thực nghiệm ghi nhận dòng Tự hồi quy đạt hiệu năng 
    - Mã nguồn nối chuỗi `full_y = np.concatenate([train_y, val_y])`.
    - Mô hình sau khi fit trên `train_y` được gọi `applied = fitted_model.apply(full_y)`.
    - Dự báo được lấy qua `val_preds = applied.predict(start=n_train, end=n_train + n_val - 1)`.
-3. **Vấn đề phương pháp luận cốt lõi:**  
+3. **Vấn đề phương pháp luận cốt lõi:**
    Trong thư viện `statsmodels`, phương thức `apply(full_y).predict(...)` thực hiện phép **lọc/dự báo 1 bước tiến trong mẫu (one-step-ahead in-sample filtering)** trên chuỗi được truyền vào.
    - Đối với mô hình AR(1), dự báo cho thời điểm $t$ dựa trên giá trị trễ $y_{t-1}$.
    - Khi mục tiêu là chuỗi lợi suất cộng dồn chồng lấn ($h > 1$), giá trị trễ là:
-     $$y_{t-1} = Target_{h, t-1} = \ln(Close_{t+h-1}/Close_{t-1})$$
+
+$$y_{t-1} = Target_{h, t-1} = \ln(Close_{t+h-1}/Close_{t-1})$$
+
    - Giá trị này chứa mức giá $Close_{t+h-1}$, vốn là **mức giá tương lai chưa được quan sát tại thời điểm $t$** (ví dụ với $h=120$, $Close_{t+119}$ nằm trước 119 ngày so với mục tiêu $t+120$).
    - Trong khi đó, các mô hình Machine Learning/Deep Learning (Ridge, XGBoost, Random Forest, LSTM) nhận các đặc trưng hoàn toàn tại thời điểm $t$ ($X_t$) để dự báo trực tiếp $Target_{h, t}$.
-4. **Kết luận kiểm toán:**  
-   Dòng mô hình Tự hồi quy đang giải một bài toán lọc (filtering) hoàn toàn khác biệt với bài toán dự báo đa bước trực tiếp (direct multi-step forecasting) của các mô hình học máy.  
-   > **Trạng thái:** `ARIMA target/forecast comparability: NOT VERIFIED`  
+4. **Kết luận kiểm toán:**
+   Dòng mô hình Tự hồi quy đang giải một bài toán lọc (filtering) hoàn toàn khác biệt với bài toán dự báo đa bước trực tiếp (direct multi-step forecasting) của các mô hình học máy.
+   > **Trạng thái:** `ARIMA target/forecast comparability: NOT VERIFIED`
    > *(Không thể so sánh trực tiếp hiệu năng giữa dòng Tự hồi quy và dòng Học máy trên cùng một mặt bằng phương pháp luận).*
 
 ---
@@ -198,8 +206,8 @@ Bảng kiểm toán ma trận nhầm lẫn (Confusion Matrix) trên toàn bộ $
 | **LSTM** | 86.40% | **65.81%** | 884 | 11 | 291 | 174 | TN chỉ đạt 11/302 |
 | **Transformer** | 66.18% | **54.41%** | 669 | 71 | 231 | 389 | Dao động kém ổn định |
 
-> **Cảnh báo học thuật nghiêm ngặt:**  
-> Tuyệt đối **không được sử dụng chỉ số DA cao ở các chân trời dài hạn để kết luận mô hình có năng lực định thời thị trường (market timing skill)**.  
+> **Cảnh báo học thuật nghiêm ngặt:**
+> Tuyệt đối **không được sử dụng chỉ số DA cao ở các chân trời dài hạn để kết luận mô hình có năng lực định thời thị trường (market timing skill)**.
 > Tỷ lệ ngày có lợi suất dương của S&P 500 ở chu kỳ 120 ngày là $77.79\%$. Một mô hình ngây thơ chỉ cần luôn dự báo dương (như Historical Mean hoặc Elastic Net) đã tự động đạt được $DA = 77.79\%$. Chỉ số DA cao ở các mô hình ML phản ánh việc mô hình khai thác phí bù rủi ro vốn cổ phần dài hạn (positive equity drift / base rate effect) chứ không chứng minh được kỹ năng dự báo thời điểm đảo chiều.
 
 ---
@@ -210,9 +218,9 @@ Bảng kiểm toán ma trận nhầm lẫn (Confusion Matrix) trên toàn bộ $
   - `XGBoost`: $1\text{D} (-0.0069) \to \mathbf{5\text{D} (-0.0067)} \to 20\text{D} (-0.0453) \to 60\text{D} (-0.3875) \to 120\text{D} (-1.0514)$. (Giá trị tại 5D cao hơn 1D).
   - `RNN`: $1\text{D} (-0.0711) \to \mathbf{5\text{D} (-0.0528)} \to 20\text{D} (-0.1110) \to 60\text{D} (-0.5103) \to 120\text{D} (-1.4222)$. (Giá trị tại 5D cao hơn 1D).
   - `Transformer`: $1\text{D} (-2.3800) \to 5\text{D} (-0.8244) \to 20\text{D} (-0.7016) \to 60\text{D} (-1.0473) \to 120\text{D} (-2.0454)$. (Biến thiên phi đơn điệu).
-- **Thuật ngữ chuẩn hóa:**  
-  Thay thế cụm từ `strict monotonic decay` bằng phát biểu khách quan:  
-  > *"Out-of-sample predictive performance generally deteriorates as the forecast horizon increases for most machine learning models."*  
+- **Thuật ngữ chuẩn hóa:**
+  Thay thế cụm từ `strict monotonic decay` bằng phát biểu khách quan:
+  > *"Out-of-sample predictive performance generally deteriorates as the forecast horizon increases for most machine learning models."*
   > *(Hiệu năng dự báo ngoại mẫu nhìn chung suy giảm khi chân trời dự báo kéo dài đối với hầu hết các mô hình học máy).*
 
 ---
@@ -220,8 +228,8 @@ Bảng kiểm toán ma trận nhầm lẫn (Confusion Matrix) trên toàn bộ $
 ### 4.6 Điều chỉnh nhận định về Transformer (Không suy đoán quá khớp khi thiếu bằng chứng loss)
 - **Nhận định cũ:** Tuyên bố Transformer bị "overfitting do cấu trúc phức tạp".
 - **Điều chỉnh kiểm toán:** Trong tập tin này chỉ có các thước đo ngoại mẫu ($OOS\_R^2, MAE, RMSE$), không có dữ liệu về hàm mất mát nội mẫu (training loss) để chứng minh khoảng cách train-val generalization gap.
-- **Thuật ngữ chuẩn hóa:**  
-  > *"The Transformer exhibits poor and unstable out-of-sample performance across forecast horizons."*  
+- **Thuật ngữ chuẩn hóa:**
+  > *"The Transformer exhibits poor and unstable out-of-sample performance across forecast horizons."*
   > *(Mô hình Transformer thể hiện hiệu năng ngoại mẫu kém và không ổn định qua các chân trời dự báo).*
 
 ---
@@ -263,3 +271,4 @@ Bảng kiểm toán ma trận nhầm lẫn (Confusion Matrix) trên toàn bộ $
 
 ### Final Conclusion
 Hiệu năng dự báo của các mô hình Machine Learning nhìn chung xấu đi khi chân trời dự báo kéo dài từ 1D đến 120D trên thước đo phương sai giải thích cấp fold. Tuy nhiên, kết quả vượt trội bất thường của dòng Tự hồi quy (ARIMA, ARIMAX, SARIMA) và chỉ số DA cao ở các chân trời dài hạn là các hiện tượng mang tính cấu trúc phương pháp luận (cơ chế filtering chuỗi chồng lấn và hiệu ứng trôi dạt thị trường), cần được kiểm chứng độc lập ở cấp độ dữ liệu dự báo từng quan sát.
+

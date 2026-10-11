@@ -1,13 +1,13 @@
 # Báo Cáo Kiểm Toán Phương Pháp Luận & Thống Kê: Báo Cáo 08 (Statistical Tests Audit Log)
 
-**Mã tài liệu:** `IS403-AUDIT-08`  
-**Ngày thực hiện:** 2026-10-09  
-**Tập tin kiểm toán:** `results/agent_reports/08_statistical_tests_report.md`  
-**Tập tin dữ liệu gốc:** `results/analysis/statistical_tests.csv`  
-**Tập tin dữ liệu hiệu chỉnh:** `results/analysis/statistical_tests_corrected.csv`  
-**Tập tin đối chiếu:** `results/predictions/all_oos_predictions.csv`, `results/fold_metrics/all_fold_metrics.csv`, `src/training/baselines/generate_rq_analysis.py`, `src/training/baselines/utils.py`  
-**Kiểm toán viên:** Senior Research Methodology Auditor (Antigravity System)  
-**Nghiên cứu:** *"When Does Equity Return Predictability Decay? A Multi-Horizon and Regime-Dependent Out-of-Sample Analysis"*  
+**Mã tài liệu:** `IS403-AUDIT-08`
+**Ngày thực hiện:** 2026-10-09
+**Tập tin kiểm toán:** `results/agent_reports/08_statistical_tests_report.md`
+**Tập tin dữ liệu gốc:** `results/analysis/statistical_tests.csv`
+**Tập tin dữ liệu hiệu chỉnh:** `results/analysis/statistical_tests_corrected.csv`
+**Tập tin đối chiếu:** `results/predictions/all_oos_predictions.csv`, `results/fold_metrics/all_fold_metrics.csv`, `src/training/baselines/generate_rq_analysis.py`, `src/training/baselines/utils.py`
+**Kiểm toán viên:** Senior Research Methodology Auditor (Antigravity System)
+**Nghiên cứu:** *"When Does Equity Return Predictability Decay? A Multi-Horizon and Regime-Dependent Out-of-Sample Analysis"*
 **Nhiệm vụ:** Kiểm toán toàn diện tính đúng đắn phương pháp luận, tái lập 100% số liệu kiểm định suy diễn thống kê (Diebold-Mariano & Binomial Directional Accuracy), kiểm tra quy trình hiệu chỉnh đa giả thuyết (Bonferroni, Benjamini-Hochberg FDR), và thẩm định tính hợp lệ của các tuyên bố vượt trội thống kê.
 
 ---
@@ -254,3 +254,4 @@
 
 ### KẾT LUẬN SẴN SÀNG CHO STEP 9 (FINAL SYNTHESIS): **CÓ (YES - VỚI ĐIỀU KIỆN)**
 *Điều kiện tiên quyết:* Trong tài liệu tổng hợp cuối cùng `results/agent_reports/FINAL_SYNTHESIS.md`, **tuyệt đối không kết luận dòng ARIMA có năng lực dự báo vượt trội**, và phải trình bày nhất quán thông điệp rằng lợi suất chứng khoán ngoại mẫu thể hiện tính suy giảm năng lực dự báo mạnh mẽ mà không có mô hình học máy nào đánh bại được mốc chuẩn ngây thơ.
+

@@ -1,9 +1,9 @@
 # Báo Cáo Phân Tích Dữ Liệu Dự Báo Ngoại Mẫu (03_all_oos_predictions_report.md)
 
-**Mã tài liệu:** `IS403-REP-03`  
-**Ngày thực hiện:** 2026-10-08  
-**Tập tin mục tiêu:** `results/predictions/all_oos_predictions.csv`  
-**Người thực hiện:** Research Data Analyst (Antigravity System)  
+**Mã tài liệu:** `IS403-REP-03`
+**Ngày thực hiện:** 2026-10-08
+**Tập tin mục tiêu:** `results/predictions/all_oos_predictions.csv`
+**Người thực hiện:** Research Data Analyst (Antigravity System)
 **Nghiên cứu:** *"When Does Equity Return Predictability Decay? A Multi-Horizon and Regime-Dependent Out-of-Sample Analysis"*
 
 ---
@@ -93,7 +93,8 @@ Tái tính toán độc lập cho $13$ mô hình hồi quy $\times 5$ chân tr�
 - **Sai số tuyệt đối cực đại RMSE:** $\Delta_{\max} = 1.25 \times 10^{-16}$.
 - **Sai số tuyệt đối cực đại $OOS\_R^2$:** $\Delta_{\max} = 5.86 \times 10^{-14}$.
 - **Sai số tuyệt đối cực đại Directional Accuracy (DA):** $\Delta_{\max} = 1.11 \times 10^{-16}$ khi áp dụng đúng định nghĩa toán học đồng nhất:
-  $$\text{DA} = \frac{1}{N} \sum_{t=1}^N \mathbb{I}\left( (\text{Actual}_t > 0) == (\text{Prediction}_t > 0) \right)$$
+
+$$\text{DA} = \frac{1}{N} \sum_{t=1}^N \mathbb{I}\left( (\text{Actual}_t > 0) == (\text{Prediction}_t > 0) \right)$$
 
 #### Phân tích hiện tượng dị biệt DA tại Fold 2 (Discrepancy Clarification)
 Trong quá trình kiểm tra sơ bộ với công thức $\text{sign}(\text{Actual}) == \text{sign}(\text{Prediction})$ hoặc $\text{Actual} \times \text{Prediction} > 0$, ghi nhận độ lệch $\Delta_{\text{DA}} = 0.003676$ tại Fold 2.
@@ -164,7 +165,7 @@ Dưới đây là ma trận hiệu năng gộp (Pooled $OOS\_R^2$) tính trên t
 Audit phương pháp luận này nhằm kiểm định độc lập tính hợp lệ khoa học và tính toàn vẹn của pipeline thực nghiệm cho nghiên cứu:
 **"When Does Equity Return Predictability Decay? A Multi-Horizon and Regime-Dependent Out-of-Sample Analysis"**
 
-- **Phạm vi dữ liệu:** 
+- **Phạm vi dữ liệu:**
   - `results/predictions/all_oos_predictions.csv` ($95,200$ quan sát)
   - `results/fold_metrics/all_fold_metrics.csv` ($325$ lượt đánh giá)
   - `results/summary/model_horizon_summary.csv` ($65$ cặp Model $\times$ Horizon)
@@ -181,7 +182,9 @@ Audit phương pháp luận này nhằm kiểm định độc lập tính hợp 
 
 ### 2.1 Cơ chế tạo dự báo Benchmark
 - **Cơ chế triển khai:** Trong `models/baselines/historical_mean.py`, dự báo của Historical Mean được thiết kế theo dạng trung bình mở rộng (expanding mean) trên tập kiểm định ngoại mẫu:
-  $$\hat{y}_{t} = \frac{1}{N_{\text{train}} + i} \left( \sum_{k \in \text{train}} y_k + \sum_{j=0}^{i-1} y_{\text{val}, j} \right)$$
+
+$$\hat{y}_{t} = \frac{1}{N_{\text{train}} + i} \left( \sum_{k \in \text{train}} y_k + \sum_{j=0}^{i-1} y_{\text{val}, j} \right)$$
+
 - **Đánh giá rò rỉ thông tin (Lookahead Audit):**
   - Đối với chân trời $h = 1$: Tại ngày $t$ ($i$ bước vào validation), giá trị cập nhật là $y_{\text{val}, i-1} = Target_{1, t-1} = \ln(Close_{t} / Close_{t-1})$. Thông tin này hoàn toàn có sẵn tại gốc dự báo $t$ (sau giờ đóng cửa ngày $t-1$).
   - Đối với chân trời $h > 1$ (ví dụ 120D): Biến $y_{\text{val}, i-1} = Target_{120, t-1} = \ln(Close_{t-1+120} / Close_{t-1})$. Về mặt lý thuyết thuần túy, giá trị $Close_{t+119}$ nằm ở tương lai so với thời điểm $t$. Do đó, việc cộng trực tiếp $Target_{h, t-1}$ vào chuỗi trung bình mở rộng tại ngày $t$ có chứa thành phần giá tương lai.
@@ -190,15 +193,23 @@ Audit phương pháp luận này nhằm kiểm định độc lập tính hợp 
 
 ### 2.2 Công thức và Sự Bất Thường $OOS\_R^2$ của Historical Mean
 - **Định nghĩa chuẩn (Campbell & Thompson, 2008):**
-  $$OOS\_R^2 = 1 - \frac{\sum_{t} (y_t - \hat{y}_t)^2}{\sum_{t} (y_t - \hat{y}_{\text{benchmark}, t})^2}$$
+
+$$OOS\_R^2 = 1 - \frac{\sum_{t} (y_t - \hat{y}_t)^2}{\sum_{t} (y_t - \hat{y}_{\text{benchmark}, t})^2}$$
+
   Nếu mô hình chính là benchmark ở mẫu số, thì $OOS\_R^2$ của Historical Mean về mặt định nghĩa phải bằng $0.0000$.
 - **Nguyên nhân phát hiện tại Report 02 ($OOS\_R^2_{120D} \approx -0.6974$ theo Fold Mean):**
   - Kiểm tra hàm `calculate_metrics` trong `models/utils.py` cho thấy: Mẫu số của $OOS\_R^2$ trong `all_fold_metrics.csv` được tính bằng phương sai mẫu của tập validation:
-    $$\text{Denominator} = \sum_{t=1}^{N_{\text{val}}} (y_t - \bar{y}_{\text{val}})^2 = N_{\text{val}} \cdot \text{Var}(y_{\text{val}})$$
+
+$$\text{Denominator} = \sum_{t=1}^{N_{\text{val}}} (y_t - \bar{y}_{\text{val}})^2 = N_{\text{val}} \cdot \text{Var}(y_{\text{val}})$$
+
   - Trong khi đó, dự báo của Historical Mean xuất phát từ trung bình tập train ($\bar{y}_{\text{train}}$). Sai số bình phương trung bình của Historical Mean trên tập val là:
-    $$\text{MSE}(\text{HM}) = \frac{1}{N_{\text{val}}} \sum_{t=1}^{N_{\text{val}}} (y_t - \bar{y}_{\text{train}})^2 = \text{Var}(y_{\text{val}}) + (\bar{y}_{\text{val}} - \bar{y}_{\text{train}})^2$$
+
+$$\text{MSE}(\text{HM}) = \frac{1}{N_{\text{val}}} \sum_{t=1}^{N_{\text{val}}} (y_t - \bar{y}_{\text{train}})^2 = \text{Var}(y_{\text{val}}) + (\bar{y}_{\text{val}} - \bar{y}_{\text{train}})^2$$
+
   - Khi đó, công thức tính trong code cho Historical Mean trở thành:
-    $$OOS\_R^2_{\text{HM}} = 1 - \frac{\text{MSE}(\text{HM})}{\text{Var}(y_{\text{val}})} = - \frac{(\bar{y}_{\text{val}} - \bar{y}_{\text{train}})^2}{\text{Var}(y_{\text{val}})} \le 0$$
+
+$$OOS\_R^2_{\text{HM}} = 1 - \frac{\text{MSE}(\text{HM})}{\text{Var}(y_{\text{val}})} = - \frac{(\bar{y}_{\text{val}} - \bar{y}_{\text{train}})^2}{\text{Var}(y_{\text{val}})} \le 0$$
+
   - Tại Fold 2 chân trời 120D: $\bar{y}_{\text{train}} = 0.0272$, $\bar{y}_{\text{val}} = 0.0881$, $\text{Var}(y_{\text{val}}) = 0.001188$. Chênh lệch bình phương là $(0.0881 - 0.0272)^2 = 0.003704 \implies OOS\_R^2_{\text{Fold 2}} = - \frac{0.003704}{0.001188} \approx -3.1175$.
   - Khi lấy trung bình cộng 5 Folds, giá trị âm sâu của Fold 2 kéo trung bình xuống $-0.6974$.
   - Ngược lại, khi tính $OOS\_R^2$ gộp (pooled) trên toàn bộ $1,360$ ngày ngoại mẫu trong Report 03, giá trị là $-0.0607$.
@@ -228,9 +239,13 @@ Audit phương pháp luận này nhằm kiểm định độc lập tính hợp 
 - **Bản chất toán học của `apply()` trong statsmodels:**
   - Lệnh `applied.predict(start=n_train, ...)` trên đối tượng `SARIMAXResultsWrapper` tính toán **dự báo lọc một bước (one-step-ahead in-sample filtered predictions)** trên chuỗi nối tiếp.
   - Đối với mô hình tự hồi quy AR(1) trên chuỗi $y_t = Target_{h,t}$:
-    $$\hat{y}_t = \mu + \phi (y_{t-1} - \mu)$$
+
+$$\hat{y}_t = \mu + \phi (y_{t-1} - \mu)$$
+
   - Giá trị trễ $y_{t-1}$ chính là:
-    $$y_{t-1} = Target_{h, t-1} = \ln(Close_{t-1+h} / Close_{t-1})$$
+
+$$y_{t-1} = Target_{h, t-1} = \ln(Close_{t-1+h} / Close_{t-1})$$
+
   - Tại gốc dự báo $t$, giá trị $Close_{t-1+h}$ là giá đóng cửa tại ngày $t + h - 1$. Với $h = 120$, đây là giá đóng cửa **119 ngày trong tương lai** so với ngày $t$!
 - **Hệ quả phương pháp luận:**
   - Mô hình ARIMA/SARIMA/ARIMAX không thực hiện dự báo $h$ bước vào tương lai từ thông tin tại ngày $t$, mà thực chất đang dự báo bước trễ 1 ngày của chuỗi lợi suất gối đầu (overlapping return).
@@ -287,7 +302,9 @@ Kiểm tra chi tiết tập biến ngoại sinh được sử dụng trong `mode
   X_val_scaled = scaler.transform(X_val)
   ```
 - **Đánh giá nguyên tắc:**
-  $$\text{Fit}(X_{\text{train}}) \to \text{Transform}(X_{\text{train}}) \to \text{Transform}(X_{\text{val}})$$
+
+$$\text{Fit}(X_{\text{train}}) \to \text{Transform}(X_{\text{train}}) \to \text{Transform}(X_{\text{val}})$$
+
   - Scaler chỉ được fit trên dữ liệu của tập huấn luyện của từng fold tương ứng.
   - Tập validation hoàn toàn không tham gia vào việc ước lượng trung bình ($\mu$) hoặc độ lệch chuẩn ($\sigma$).
   - Không có hiện tượng `Fit(X_all)` hay rò rỉ phân phối dữ liệu qua biên giới giữa các fold.
@@ -311,7 +328,9 @@ Kiểm tra chi tiết tập biến ngoại sinh được sử dụng trong `mode
 ### 8.2 Cấu trúc chuỗi thời gian (Lookback Sequence)
 - **Kiểm tra mã nguồn:** Hàm `create_sequences` trong `models/utils.py`:
   - Chuỗi đầu vào được tạo với cửa sổ quan sát quá khứ $L$ (lookback length):
-    $$X_t = [x_{t-L+1}, x_{t-L+2}, \dots, x_t], \quad y_t = Target_{h,t}$$
+
+$$X_t = [x_{t-L+1}, x_{t-L+2}, \dots, x_t], \quad y_t = Target_{h,t}$$
+
   - **Kiểm tra rò rỉ tại biên giới tập Train/Validation:**
     Để tạo chuỗi đầu vào cho những ngày đầu tiên của tập validation ($t = 0, \dots, L-1$), mã nguồn sử dụng phần đuôi của tập huấn luyện ($X_{\text{train}}$) làm ngữ cảnh lịch sử hợp lệ (legitimate historical context).
     Tập validation không bị dịch chuyển vào tương lai, và không có bất kỳ điểm dữ liệu nào của validation bị dùng để tạo chuỗi cho tập huấn luyện.
@@ -339,11 +358,15 @@ Kiểm tra chi tiết tập biến ngoại sinh được sử dụng trong `mode
 Tại chân trời 120D, độ chính xác định hướng ($DA$) của nhiều mô hình đạt mức rất cao ($>70\%$ ở ML, $>97\%$ ở ARIMA). Cần xác định liệu đây là năng lực định thời thực sự hay chỉ là sự phản ánh của xu hướng nền thị trường (positive equity drift).
 
 - **Tỷ lệ thực tế dương trong mẫu kiểm định ngoại mẫu ($1,360$ ngày):**
-  $$P(Y > 0) = \frac{1,058}{1,360} = \mathbf{77.79\%}$$
-  $$P(Y \le 0) = \frac{302}{1,360} = \mathbf{22.21\%}$$
+
+$$P(Y > 0) = \frac{1,058}{1,360} = \mathbf{77.79\%}$$
+
+$$P(Y \le 0) = \frac{302}{1,360} = \mathbf{22.21\%}$$
+
 - **Benchmark Luôn Dương (Always-Positive Benchmark):**
   Một mô hình thô thiển luôn dự báo thị trường tăng ($\hat{y}_t > 0, \forall t$) sẽ tự động đạt được:
-  $$DA_{\text{always+}} = 77.79\%$$
+
+$$DA_{\text{always+}} = 77.79\%$$
 
 ### 10.2 So sánh phân phối dự báo và ma trận nhầm lẫn (Confusion Matrix Audit)
 Bảng đối chiếu phân phối dấu tại chân trời 120D trên toàn bộ $1,360$ ngày ngoại mẫu:
@@ -386,10 +409,14 @@ Bảng đối chiếu phân phối dấu tại chân trời 120D trên toàn b�
 ### 12.1 Phân biệt toán học giữa hai phương pháp tổng hợp
 Cần phân biệt rõ ràng hai khái niệm thường bị nhầm lẫn trong các báo cáo:
 1. **Trung bình $OOS\_R^2$ theo từng Fold (Mean Fold $OOS\_R^2$ - dùng trong Report 01 & Report 02):**
-   $$\overline{OOS\_R^2} = \frac{1}{K} \sum_{k=1}^K R^2_k, \quad \text{với } R^2_k = 1 - \frac{\sum_{t \in \text{val}_k} (y_t - \hat{y}_t)^2}{\sum_{t \in \text{val}_k} (y_t - \bar{y}_{\text{val}_k})^2}$$
+
+$$\overline{OOS\_R^2} = \frac{1}{K} \sum_{k=1}^K R^2_k, \quad \text{với } R^2_k = 1 - \frac{\sum_{t \in \text{val}_k} (y_t - \hat{y}_t)^2}{\sum_{t \in \text{val}_k} (y_t - \bar{y}_{\text{val}_k})^2}$$
+
    - Nhược điểm: Rất nhạy cảm với các fold có phương sai mẫu $\text{Var}(y_{\text{val}_k})$ nhỏ và độ lệch trung bình lớn (như trường hợp Fold 2 ở 120D kéo trung bình xuống âm sâu).
 2. **$OOS\_R^2$ Gộp Ngoại Mẫu (Pooled $OOS\_R^2$ - dùng trong Report 03):**
-   $$OOS\_R^2_{\text{pooled}} = 1 - \frac{\sum_{k=1}^K \sum_{t \in \text{val}_k} (y_t - \hat{y}_t)^2}{\sum_{k=1}^K \sum_{t \in \text{val}_k} (y_t - \bar{y}_{\text{val}})^2}$$
+
+$$OOS\_R^2_{\text{pooled}} = 1 - \frac{\sum_{k=1}^K \sum_{t \in \text{val}_k} (y_t - \hat{y}_t)^2}{\sum_{k=1}^K \sum_{t \in \text{val}_k} (y_t - \bar{y}_{\text{val}})^2}$$
+
    - Ưu điểm: Phản ánh tổng thể toàn bộ chuỗi $1,360$ ngày kiểm thử, triệt tiêu sự méo mó cục bộ của từng fold riêng lẻ.
 - **Khuyến nghị chuẩn hóa:** Trong các phần báo cáo tiếp theo, cần ghi rõ loại $OOS\_R^2$ đang được trình bày để tránh gây hiểu lầm số liệu.
 - **Trạng thái:** `Verified` (Cả hai cách tính đều đúng với định nghĩa tương ứng, cần phân biệt rõ ràng trong văn bản).
@@ -469,4 +496,5 @@ Dưới đây là các bước hành động tiếp theo được sắp xếp th
 - **Priority 3 — Đánh giá Directional Accuracy so với Naive Drift:** Luôn báo cáo kèm chỉ số $DA - DA_{\text{always+}}$ để làm rõ năng lực định thời thực chất của các mô hình ở các chân trời 60D và 120D.
 - **Priority 4 — Sử dụng kiểm định Diebold-Mariano có hiệu chỉnh Newey-West:** Đảm bảo mọi so sánh ý nghĩa thống kê trên chuỗi sai số dự báo gối đầu đều được hiệu chỉnh bậc tự tương quan $h-1$.
 - **Priority 5 — Chuyển tiếp sang Phân tích Chuyên sâu RQ1/RQ2/RQ3:** Sử dụng dữ liệu ngoại mẫu đã được kiểm định phương pháp luận để trả lời các câu hỏi nghiên cứu một cách khách quan, khoa học và chặt chẽ.
+
 

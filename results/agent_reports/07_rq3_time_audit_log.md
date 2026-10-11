@@ -1,12 +1,12 @@
 # Báo Cáo Kiểm Toán Phương Pháp Luận & Thống Kê: Báo Cáo 07 (RQ3 Time Stability Audit Log)
 
-**Mã tài liệu:** `IS403-AUDIT-07`  
-**Ngày thực hiện:** 2026-10-09  
-**Tập tin kiểm toán:** `results/agent_reports/07_rq3_time_report.md`  
-**Tập tin dữ liệu chính:** `results/analysis/rq3_time.csv`  
-**Tập tin đối chiếu:** `results/predictions/all_oos_predictions.csv`, `results/fold_metrics/all_fold_metrics.csv`, `results/summary/model_horizon_summary.csv`, `src/training/baselines/generate_rq_analysis.py`, `src/training/baselines/config.py`  
-**Kiểm toán viên:** Senior Research Methodology Auditor (Antigravity System)  
-**Nghiên cứu:** *"When Does Equity Return Predictability Decay? A Multi-Horizon and Regime-Dependent Out-of-Sample Analysis"*  
+**Mã tài liệu:** `IS403-AUDIT-07`
+**Ngày thực hiện:** 2026-10-09
+**Tập tin kiểm toán:** `results/agent_reports/07_rq3_time_report.md`
+**Tập tin dữ liệu chính:** `results/analysis/rq3_time.csv`
+**Tập tin đối chiếu:** `results/predictions/all_oos_predictions.csv`, `results/fold_metrics/all_fold_metrics.csv`, `results/summary/model_horizon_summary.csv`, `src/training/baselines/generate_rq_analysis.py`, `src/training/baselines/config.py`
+**Kiểm toán viên:** Senior Research Methodology Auditor (Antigravity System)
+**Nghiên cứu:** *"When Does Equity Return Predictability Decay? A Multi-Horizon and Regime-Dependent Out-of-Sample Analysis"*
 **Câu hỏi nghiên cứu (RQ3):** *"Are the observed horizon- and regime-dependent patterns of predictability stable over time?"*
 
 ---
@@ -149,3 +149,4 @@ Toàn bộ các giá trị trong bảng dưới đây được tính toán trự
 
 ### KẾT LUẬN SẴN SÀNG SANG BƯỚC 8: **CÓ (YES - VỚI ĐIỀU KIỆN)**
 *Điều kiện bắt buộc:* Trong Step 8 (Kiểm định thống kê Diebold-Mariano & Directional Accuracy Tests), **tuyệt đối không sử dụng kết quả dòng ARIMA làm thước đo đối sánh hợp lệ**, và mọi kiểm định so sánh phải tuân thủ việc hiệu chỉnh tự tương quan do chuỗi mục tiêu gối đầu.
+
