@@ -7,25 +7,34 @@ REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(BASELINES_DIR)))
 DATA_PATH = os.path.join(REPO_ROOT, 'dataset', '3.0.3_val_folds.csv')
 FOLD_DEF_PATH = os.path.join(BASELINES_DIR, 'fold_definition.csv')
 
-# 3-Tier Results Directory Structure
-RESULTS_DIR = os.path.join(REPO_ROOT, 'results')
+# ==============================================================================
+# Dynamic Run Structure (Organized strictly into Run Folders: Lan01, Lan02, ...)
+# ==============================================================================
+RUN_NAME = os.environ.get('EXP_RUN_NAME', 'Lan01')
+
+RESULTS_BASE_DIR = os.path.join(REPO_ROOT, 'results')
+RESULTS_DIR = os.path.join(RESULTS_BASE_DIR, RUN_NAME)
+
 FOLD_METRICS_DIR = os.path.join(RESULTS_DIR, 'fold_metrics')
 SUMMARY_DIR = os.path.join(RESULTS_DIR, 'summary')
 PREDICTIONS_DIR = os.path.join(RESULTS_DIR, 'predictions')
 ANALYSIS_DIR = os.path.join(RESULTS_DIR, 'analysis')
 TUNING_DIR = os.path.join(RESULTS_DIR, 'tuning')
 
-ALL_FOLD_METRICS_PATH = os.path.join(FOLD_METRICS_DIR, 'all_fold_metrics.csv')
-MODEL_HORIZON_SUMMARY_PATH = os.path.join(SUMMARY_DIR, 'model_horizon_summary.csv')
-ALL_PREDICTIONS_PATH = os.path.join(PREDICTIONS_DIR, 'all_oos_predictions.csv')
+PREFIX = '3.0.3_' if RUN_NAME == 'Lan01' else ''
 
-RQ1_HORIZON_PATH = os.path.join(ANALYSIS_DIR, 'rq1_horizon.csv')
-RQ2_REGIME_PATH = os.path.join(ANALYSIS_DIR, 'rq2_regime.csv')
-RQ3_TIME_PATH = os.path.join(ANALYSIS_DIR, 'rq3_time.csv')
-STATISTICAL_TESTS_PATH = os.path.join(ANALYSIS_DIR, 'statistical_tests.csv')
-BEST_HYPERPARAMS_PATH = os.path.join(TUNING_DIR, 'best_hyperparameters.csv')
+ALL_FOLD_METRICS_PATH = os.path.join(FOLD_METRICS_DIR, f'{PREFIX}all_fold_metrics.csv')
+MODEL_HORIZON_SUMMARY_PATH = os.path.join(SUMMARY_DIR, f'{PREFIX}model_horizon_summary.csv')
+CLASSIFICATION_SUMMARY_PATH = os.path.join(SUMMARY_DIR, f'{PREFIX}classification_horizon_summary.csv')
+ALL_PREDICTIONS_PATH = os.path.join(PREDICTIONS_DIR, f'{PREFIX}all_oos_predictions.csv')
 
-# Ensure results directories exist
+RQ1_HORIZON_PATH = os.path.join(ANALYSIS_DIR, f'{PREFIX}rq1_horizon.csv')
+RQ2_REGIME_PATH = os.path.join(ANALYSIS_DIR, f'{PREFIX}rq2_regime.csv')
+RQ3_TIME_PATH = os.path.join(ANALYSIS_DIR, f'{PREFIX}rq3_time.csv')
+STATISTICAL_TESTS_PATH = os.path.join(ANALYSIS_DIR, f'{PREFIX}statistical_tests.csv')
+BEST_HYPERPARAMS_PATH = os.path.join(TUNING_DIR, f'{PREFIX}best_hyperparameters.csv')
+
+# Ensure run directories exist
 for _d in [RESULTS_DIR, FOLD_METRICS_DIR, SUMMARY_DIR, PREDICTIONS_DIR, ANALYSIS_DIR, TUNING_DIR]:
     os.makedirs(_d, exist_ok=True)
 

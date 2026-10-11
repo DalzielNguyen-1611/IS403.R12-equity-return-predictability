@@ -368,6 +368,26 @@ def save_model_latest_results(model_dir, metrics_df, preds_df):
             summary_df = pd.DataFrame(summary_rows)
             summary_df.to_csv(config.MODEL_HORIZON_SUMMARY_PATH, index=False)
             
+        cls_df = combined_m[combined_m['Model'].str.lower().isin(['logistic_regression'])].copy()
+        if not cls_df.empty:
+            cls_summary_rows = []
+            for (mod, hrz), grp in cls_df.groupby(['Model', 'Horizon']):
+                row = {
+                    'Model': mod, 'Horizon': hrz,
+                    'ROC_AUC_Mean': grp['ROC_AUC'].mean() if 'ROC_AUC' in grp.columns else np.nan,
+                    'ROC_AUC_Std': grp['ROC_AUC'].std() if 'ROC_AUC' in grp.columns else np.nan,
+                    'Accuracy_Mean': grp['Accuracy'].mean() if 'Accuracy' in grp.columns else np.nan,
+                    'Accuracy_Std': grp['Accuracy'].std() if 'Accuracy' in grp.columns else np.nan,
+                    'DA_Mean': grp['DA'].mean() if 'DA' in grp.columns else np.nan,
+                    'DA_Std': grp['DA'].std() if 'DA' in grp.columns else np.nan,
+                    'F1_Mean': grp['F1'].mean() if 'F1' in grp.columns else np.nan,
+                    'F1_Std': grp['F1'].std() if 'F1' in grp.columns else np.nan
+                }
+                cls_summary_rows.append(row)
+            cls_summary_df = pd.DataFrame(cls_summary_rows)
+            cls_path = getattr(config, 'CLASSIFICATION_SUMMARY_PATH', os.path.join(config.SUMMARY_DIR, 'classification_horizon_summary.csv'))
+            cls_summary_df.to_csv(cls_path, index=False)
+            
     # 5. Auto-update DASHBOARD.md directly
     try:
         update_dashboard_direct()
