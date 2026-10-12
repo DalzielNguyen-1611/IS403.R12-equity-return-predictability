@@ -75,3 +75,15 @@ IS403.R12-equity-return-predictability/
 │   └── training/       # Mã nguồn và notebook huấn luyện, đánh giá mô hình
 └── README.md           # Tài liệu giới thiệu học phần và đồ án
 ```
+
+---
+
+## 🚫 6. QUY TẮC ĐƯỜNG DẪN & KHÔNG GIAN LƯU TRỮ (WORKSPACE ISOLATION RULES)
+
+- **Vị trí thư mục gốc chính thức của dự án:**  
+  E:\Repo Project\IS403.R12-equity-return-predictability
+- **Quy tắc cô lập không gian làm việc (Workspace Isolation):**
+  1. **Tuyệt đối không tạo file/thư mục ra ngoài phạm vi repository:** Mọi tập tin, mã nguồn, dữ liệu, thư mục tạm thời (scratch/), kết quả thực nghiệm (
+esults/) hay tài liệu (docs/) bắt buộc phải được tạo và lưu trữ bên trong thư mục gốc của repository.
+  2. **Cấm tạo symlink / junction ngoài ổ đĩa:** Tuyệt đối không tạo đường dẫn liên kết, directory junction, hay thư mục trùng tên ra ngoài root ổ đĩa (ví dụ E:\IS403...) hoặc sang các thư mục dự án khác trong E:\Repo Project\.
+  3. **Sử dụng đường dẫn tương đối:** Mọi script, notebook và lệnh thực thi phải sử dụng đường dẫn tương đối xuất phát từ gốc thư mục dự án (ví dụ ./dataset/, ./src/, ./results/), đảm bảo tính độc lập và khả chuyển khi chạy trên các môi trường khác nhau.
