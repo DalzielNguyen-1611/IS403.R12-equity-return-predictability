@@ -74,81 +74,6 @@ Elastic_Net,120D,2,"{'alpha': 0.1, 'l1_ratio': 0.3}",0.122534,CV_RMSE
 Elastic_Net,120D,3,"{'alpha': 0.1, 'l1_ratio': 0.3}",0.120742,CV_RMSE
 Elastic_Net,120D,4,"{'alpha': 0.1, 'l1_ratio': 0.3}",0.118428,CV_RMSE
 Elastic_Net,120D,5,"{'alpha': 0.1, 'l1_ratio': 0.3}",0.117128,CV_RMSE
-ARIMA,1D,1,"{'order': (1, 0, 1)}",-38850.087642,AIC
-ARIMA,1D,2,"{'order': (1, 0, 1)}",-40547.92928,AIC
-ARIMA,1D,3,"{'order': (1, 0, 1)}",-42437.922805,AIC
-ARIMA,1D,4,"{'order': (1, 0, 1)}",-44254.526094,AIC
-ARIMA,1D,5,"{'order': (1, 0, 1)}",-45970.154885,AIC
-ARIMA,5D,1,"{'order': (1, 0, 1)}",-34974.16925,AIC
-ARIMA,5D,2,"{'order': (1, 0, 1)}",-36517.947884,AIC
-ARIMA,5D,3,"{'order': (1, 0, 1)}",-38241.620065,AIC
-ARIMA,5D,4,"{'order': (1, 0, 1)}",-39890.263523,AIC
-ARIMA,5D,5,"{'order': (1, 0, 1)}",-41444.794894,AIC
-ARIMA,20D,1,"{'order': (1, 0, 0)}",-34610.193207,AIC
-ARIMA,20D,2,"{'order': (1, 0, 0)}",-36158.377828,AIC
-ARIMA,20D,3,"{'order': (1, 0, 0)}",-37865.544597,AIC
-ARIMA,20D,4,"{'order': (1, 0, 0)}",-39497.075417,AIC
-ARIMA,20D,5,"{'order': (1, 0, 0)}",-41018.329195,AIC
-ARIMA,60D,1,"{'order': (1, 0, 1)}",-34168.909883,AIC
-ARIMA,60D,2,"{'order': (1, 0, 1)}",-35701.34405,AIC
-ARIMA,60D,3,"{'order': (1, 0, 1)}",-37386.239071,AIC
-ARIMA,60D,4,"{'order': (1, 0, 1)}",-39024.08523,AIC
-ARIMA,60D,5,"{'order': (1, 0, 1)}",-40569.646635,AIC
-ARIMA,120D,1,"{'order': (1, 0, 1)}",-33706.061858,AIC
-ARIMA,120D,2,"{'order': (1, 0, 1)}",-35216.027543,AIC
-ARIMA,120D,3,"{'order': (1, 0, 1)}",-36884.02872,AIC
-ARIMA,120D,4,"{'order': (1, 0, 1)}",-38538.7713,AIC
-ARIMA,120D,5,"{'order': (1, 0, 1)}",-40076.657367,AIC
-ARIMAX,1D,1,"{'order': (1, 0, 1)}",-38857.237728,AIC
-ARIMAX,1D,2,"{'order': (1, 0, 1)}",-40556.891376,AIC
-ARIMAX,1D,3,"{'order': (1, 0, 1)}",-42445.58397,AIC
-ARIMAX,1D,4,"{'order': (1, 0, 1)}",-44263.347338,AIC
-ARIMAX,1D,5,"{'order': (1, 0, 1)}",-45979.011936,AIC
-ARIMAX,5D,1,"{'order': (1, 0, 1)}",-37857.79827,AIC
-ARIMAX,5D,2,"{'order': (1, 0, 1)}",-39524.670008,AIC
-ARIMAX,5D,3,"{'order': (1, 0, 1)}",-41364.986995,AIC
-ARIMAX,5D,4,"{'order': (1, 0, 1)}",-43138.728101,AIC
-ARIMAX,5D,5,"{'order': (1, 0, 1)}",-44808.962404,AIC
-ARIMAX,20D,1,"{'order': (1, 0, 1)}",-37826.903567,AIC
-ARIMAX,20D,2,"{'order': (1, 0, 1)}",-39515.442883,AIC
-ARIMAX,20D,3,"{'order': (1, 0, 1)}",-41358.143943,AIC
-ARIMAX,20D,4,"{'order': (1, 0, 1)}",-43134.253523,AIC
-ARIMAX,20D,5,"{'order': (1, 0, 1)}",-44803.892261,AIC
-ARIMAX,60D,1,"{'order': (1, 0, 1)}",-37679.019882,AIC
-ARIMAX,60D,2,"{'order': (1, 0, 1)}",-39357.85724,AIC
-ARIMAX,60D,3,"{'order': (1, 0, 1)}",-41204.402979,AIC
-ARIMAX,60D,4,"{'order': (1, 0, 1)}",-42961.622183,AIC
-ARIMAX,60D,5,"{'order': (1, 0, 1)}",-44653.8615,AIC
-ARIMAX,120D,1,"{'order': (1, 0, 1)}",-37235.551528,AIC
-ARIMAX,120D,2,"{'order': (1, 0, 1)}",-38914.479911,AIC
-ARIMAX,120D,3,"{'order': (1, 0, 1)}",-40750.881655,AIC
-ARIMAX,120D,4,"{'order': (1, 0, 1)}",-42512.974237,AIC
-ARIMAX,120D,5,"{'order': (1, 0, 1)}",-44214.993315,AIC
-SARIMA,1D,1,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-38849.610055,AIC
-SARIMA,1D,2,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-40545.761882,AIC
-SARIMA,1D,3,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-42436.009045,AIC
-SARIMA,1D,4,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-44253.403077,AIC
-SARIMA,1D,5,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-45969.882464,AIC
-SARIMA,5D,1,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-36758.851888,AIC
-SARIMA,5D,2,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-38366.285834,AIC
-SARIMA,5D,3,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-40160.082992,AIC
-SARIMA,5D,4,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-41880.488745,AIC
-SARIMA,5D,5,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-43504.605542,AIC
-SARIMA,20D,1,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-34607.36577,AIC
-SARIMA,20D,2,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-36155.650384,AIC
-SARIMA,20D,3,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-37862.814883,AIC
-SARIMA,20D,4,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-39495.164234,AIC
-SARIMA,20D,5,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-41015.494439,AIC
-SARIMA,60D,1,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-34169.64741,AIC
-SARIMA,60D,2,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-35702.415327,AIC
-SARIMA,60D,3,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-37387.346241,AIC
-SARIMA,60D,4,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-39024.5292,AIC
-SARIMA,60D,5,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-40570.387987,AIC
-SARIMA,120D,1,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-33693.299261,AIC
-SARIMA,120D,2,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-35205.637062,AIC
-SARIMA,120D,3,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-36872.491946,AIC
-SARIMA,120D,4,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-38526.916752,AIC
-SARIMA,120D,5,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-40063.563365,AIC
 LightGBM,1D,1,"{'n_estimators': 400, 'learning_rate': 0.11049890000613266, 'num_leaves': 49, 'max_depth': 10, 'min_child_samples': 34, 'subsample': 0.7840602059905246, 'colsample_bytree': 0.7428464775168512, 'reg_alpha': 0.44766655633145197, 'reg_lambda': 1.1488808987955952}",0.008778,Internal_Val_RMSE
 LightGBM,1D,2,"{'n_estimators': 400, 'learning_rate': 0.165733299290735, 'num_leaves': 30, 'max_depth': 9, 'min_child_samples': 5, 'subsample': 0.6845692314699523, 'colsample_bytree': 0.688110778739281, 'reg_alpha': 0.4965633317958376, 'reg_lambda': 0.20238896974979587}",0.00829,Internal_Val_RMSE
 LightGBM,1D,3,"{'n_estimators': 600, 'learning_rate': 0.1969736343909609, 'num_leaves': 72, 'max_depth': 6, 'min_child_samples': 27, 'subsample': 0.6121469995581234, 'colsample_bytree': 0.7974379566652847, 'reg_alpha': 0.4378329885291274, 'reg_lambda': 0.1387268048826412}",0.007695,Internal_Val_RMSE
@@ -324,3 +249,78 @@ Transformer,120D,2,"{'lookback': 60, 'd_model': 32, 'nhead': 2, 'num_encoder_lay
 Transformer,120D,3,"{'lookback': 60, 'd_model': 32, 'nhead': 2, 'num_encoder_layers': 2, 'dim_feedforward': 128, 'dropout': 0.20485393971724664, 'learning_rate': 0.0002614391772436833, 'weight_decay': 0.0001, 'batch_size': 32, 'epochs': 40, 'patience': 7}",0.065218,Internal_Val_RMSE
 Transformer,120D,4,"{'lookback': 60, 'd_model': 32, 'nhead': 2, 'num_encoder_layers': 1, 'dim_feedforward': 128, 'dropout': 0.14033021096018644, 'learning_rate': 2.490103182139718e-05, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}",0.062185,Internal_Val_RMSE
 Transformer,120D,5,"{'lookback': 60, 'd_model': 64, 'nhead': 2, 'num_encoder_layers': 1, 'dim_feedforward': 128, 'dropout': 0.1000397117480112, 'learning_rate': 0.0004859061734665338, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}",0.069423,Internal_Val_RMSE
+ARIMA,1D,1,"{'order': (1, 0, 1)}",-38850.087642,AIC
+ARIMA,1D,2,"{'order': (1, 0, 1)}",-40547.92928,AIC
+ARIMA,1D,3,"{'order': (1, 0, 1)}",-42437.922805,AIC
+ARIMA,1D,4,"{'order': (1, 0, 1)}",-44254.526094,AIC
+ARIMA,1D,5,"{'order': (1, 0, 1)}",-45970.154885,AIC
+ARIMA,5D,1,"{'order': (1, 0, 1)}",-34974.16925,AIC
+ARIMA,5D,2,"{'order': (1, 0, 1)}",-36517.947884,AIC
+ARIMA,5D,3,"{'order': (1, 0, 1)}",-38241.620065,AIC
+ARIMA,5D,4,"{'order': (1, 0, 1)}",-39890.263523,AIC
+ARIMA,5D,5,"{'order': (1, 0, 1)}",-41444.794894,AIC
+ARIMA,20D,1,"{'order': (1, 0, 0)}",-34610.193207,AIC
+ARIMA,20D,2,"{'order': (1, 0, 0)}",-36158.377828,AIC
+ARIMA,20D,3,"{'order': (1, 0, 0)}",-37865.544597,AIC
+ARIMA,20D,4,"{'order': (1, 0, 0)}",-39497.075417,AIC
+ARIMA,20D,5,"{'order': (1, 0, 0)}",-41018.329195,AIC
+ARIMA,60D,1,"{'order': (1, 0, 1)}",-34168.909883,AIC
+ARIMA,60D,2,"{'order': (1, 0, 1)}",-35701.34405,AIC
+ARIMA,60D,3,"{'order': (1, 0, 1)}",-37386.239071,AIC
+ARIMA,60D,4,"{'order': (1, 0, 1)}",-39024.08523,AIC
+ARIMA,60D,5,"{'order': (1, 0, 1)}",-40569.646635,AIC
+ARIMA,120D,1,"{'order': (1, 0, 1)}",-33706.061858,AIC
+ARIMA,120D,2,"{'order': (1, 0, 1)}",-35216.027543,AIC
+ARIMA,120D,3,"{'order': (1, 0, 1)}",-36884.02872,AIC
+ARIMA,120D,4,"{'order': (1, 0, 1)}",-38538.7713,AIC
+ARIMA,120D,5,"{'order': (1, 0, 1)}",-40076.657367,AIC
+SARIMA,1D,1,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-38849.610055,AIC
+SARIMA,1D,2,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-40545.761882,AIC
+SARIMA,1D,3,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-42436.009045,AIC
+SARIMA,1D,4,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-44253.403077,AIC
+SARIMA,1D,5,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-45969.882464,AIC
+SARIMA,5D,1,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-36758.851888,AIC
+SARIMA,5D,2,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-38366.285834,AIC
+SARIMA,5D,3,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-40160.082992,AIC
+SARIMA,5D,4,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-41880.488745,AIC
+SARIMA,5D,5,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-43504.605542,AIC
+SARIMA,20D,1,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-34607.36577,AIC
+SARIMA,20D,2,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-36155.650384,AIC
+SARIMA,20D,3,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-37862.814883,AIC
+SARIMA,20D,4,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-39495.164234,AIC
+SARIMA,20D,5,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-41015.494439,AIC
+SARIMA,60D,1,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-34169.64741,AIC
+SARIMA,60D,2,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-35702.415327,AIC
+SARIMA,60D,3,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-37387.346241,AIC
+SARIMA,60D,4,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-39024.5292,AIC
+SARIMA,60D,5,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-40570.387987,AIC
+SARIMA,120D,1,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-33693.299261,AIC
+SARIMA,120D,2,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-35205.637062,AIC
+SARIMA,120D,3,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-36872.491946,AIC
+SARIMA,120D,4,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-38526.916752,AIC
+SARIMA,120D,5,"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-40063.563365,AIC
+ARIMAX,1D,1,"{'order': (1, 0, 1)}",-38857.237728,AIC
+ARIMAX,1D,2,"{'order': (1, 0, 1)}",-40556.891376,AIC
+ARIMAX,1D,3,"{'order': (1, 0, 1)}",-42445.58397,AIC
+ARIMAX,1D,4,"{'order': (1, 0, 1)}",-44263.347338,AIC
+ARIMAX,1D,5,"{'order': (1, 0, 1)}",-45979.011936,AIC
+ARIMAX,5D,1,"{'order': (1, 0, 1)}",-37857.79827,AIC
+ARIMAX,5D,2,"{'order': (1, 0, 1)}",-39524.670008,AIC
+ARIMAX,5D,3,"{'order': (1, 0, 1)}",-41364.986995,AIC
+ARIMAX,5D,4,"{'order': (1, 0, 1)}",-43138.728101,AIC
+ARIMAX,5D,5,"{'order': (1, 0, 1)}",-44808.962404,AIC
+ARIMAX,20D,1,"{'order': (1, 0, 1)}",-37826.903567,AIC
+ARIMAX,20D,2,"{'order': (1, 0, 1)}",-39515.442883,AIC
+ARIMAX,20D,3,"{'order': (1, 0, 1)}",-41358.143943,AIC
+ARIMAX,20D,4,"{'order': (1, 0, 1)}",-43134.253523,AIC
+ARIMAX,20D,5,"{'order': (1, 0, 1)}",-44803.892261,AIC
+ARIMAX,60D,1,"{'order': (1, 0, 1)}",-37679.019882,AIC
+ARIMAX,60D,2,"{'order': (1, 0, 1)}",-39357.85724,AIC
+ARIMAX,60D,3,"{'order': (1, 0, 1)}",-41204.402979,AIC
+ARIMAX,60D,4,"{'order': (1, 0, 1)}",-42961.622183,AIC
+ARIMAX,60D,5,"{'order': (1, 0, 1)}",-44653.8615,AIC
+ARIMAX,120D,1,"{'order': (1, 0, 1)}",-37235.551528,AIC
+ARIMAX,120D,2,"{'order': (1, 0, 1)}",-38914.479911,AIC
+ARIMAX,120D,3,"{'order': (1, 0, 1)}",-40750.881655,AIC
+ARIMAX,120D,4,"{'order': (1, 0, 1)}",-42512.974237,AIC
+ARIMAX,120D,5,"{'order': (1, 0, 1)}",-44214.993315,AIC

@@ -1,0 +1,409 @@
+[2026-10-12 12:01:52][INFO] ======================================================================
+[2026-10-12 12:01:52][INFO] STARTING OUT-OF-SAMPLE TEST EVALUATION (SPLIT 3: 2020-2026)
+[2026-10-12 12:01:52][INFO] ======================================================================
+[2026-10-12 12:01:52][INFO] Loaded Train Set (Splits 1+2): 7711 rows (1990-03-27 -> 2020-10-30)
+[2026-10-12 12:01:52][INFO] Loaded Test Set (Split 3): 1362 rows (2020-11-02 -> 2026-04-07)
+[2026-10-12 12:01:52][INFO] Target Models: ['historical_mean', 'ridge', 'logistic_regression']
+[2026-10-12 12:01:52][INFO] Target Horizons: ['1', '5']
+[2026-10-12 12:01:52][INFO] 
+================ Processing Horizon 1 ================
+[2026-10-12 12:02:31][INFO] ======================================================================
+[2026-10-12 12:02:31][INFO] STARTING OUT-OF-SAMPLE TEST EVALUATION (SPLIT 3: 2020-2026)
+[2026-10-12 12:02:31][INFO] ======================================================================
+[2026-10-12 12:02:31][INFO] Loaded Train Set (Splits 1+2): 7711 rows (1990-03-27 -> 2020-10-30)
+[2026-10-12 12:02:31][INFO] Loaded Test Set (Split 3): 1362 rows (2020-11-02 -> 2026-04-07)
+[2026-10-12 12:02:31][INFO] Target Models: ['historical_mean', 'ridge', 'logistic_regression']
+[2026-10-12 12:02:31][INFO] Target Horizons: ['1D', '5D']
+[2026-10-12 12:02:31][INFO] 
+================ Processing Horizon 1D ================
+[2026-10-12 12:02:32][INFO] Evaluating Historical_Mean [1D] with params: {}
+[2026-10-12 12:02:32][INFO] Evaluating Ridge [1D] with params: {'alpha': 100}
+[2026-10-12 12:02:32][INFO] Evaluating Logistic_Regression [1D] with params: {'C': 0.001, 'class_weight': 'balanced'}
+[2026-10-12 12:02:32][INFO] 
+================ Processing Horizon 5D ================
+[2026-10-12 12:02:32][INFO] Evaluating Historical_Mean [5D] with params: {}
+[2026-10-12 12:02:32][INFO] Evaluating Ridge [5D] with params: {'alpha': 100}
+[2026-10-12 12:02:32][INFO] Evaluating Logistic_Regression [5D] with params: {'C': 0.001, 'class_weight': 'balanced'}
+[2026-10-12 12:02:32][INFO] Saved 8172 test predictions to E:\IS403.R12-equity-return-predictability\results\test_evaluation\4.0.0_test_predictions.csv
+[2026-10-12 12:02:32][INFO] 
+Computing statistical inference tests (Diebold-Mariano & Sign Tests) and regime breakdowns...
+[2026-10-12 12:02:50][INFO] ======================================================================
+[2026-10-12 12:02:50][INFO] STARTING OUT-OF-SAMPLE TEST EVALUATION (SPLIT 3: 2020-2026)
+[2026-10-12 12:02:50][INFO] ======================================================================
+[2026-10-12 12:02:50][INFO] Loaded Train Set (Splits 1+2): 7711 rows (1990-03-27 -> 2020-10-30)
+[2026-10-12 12:02:50][INFO] Loaded Test Set (Split 3): 1362 rows (2020-11-02 -> 2026-04-07)
+[2026-10-12 12:02:50][INFO] Target Models: ['historical_mean', 'ridge', 'logistic_regression']
+[2026-10-12 12:02:50][INFO] Target Horizons: ['1D', '5D']
+[2026-10-12 12:02:50][INFO] 
+================ Processing Horizon 1D ================
+[2026-10-12 12:02:50][INFO] Evaluating Historical_Mean [1D] with params: {}
+[2026-10-12 12:02:50][INFO] Evaluating Ridge [1D] with params: {'alpha': 100}
+[2026-10-12 12:02:50][INFO] Evaluating Logistic_Regression [1D] with params: {'C': 0.001, 'class_weight': 'balanced'}
+[2026-10-12 12:02:50][INFO] 
+================ Processing Horizon 5D ================
+[2026-10-12 12:02:50][INFO] Evaluating Historical_Mean [5D] with params: {}
+[2026-10-12 12:02:50][INFO] Evaluating Ridge [5D] with params: {'alpha': 100}
+[2026-10-12 12:02:50][INFO] Evaluating Logistic_Regression [5D] with params: {'C': 0.001, 'class_weight': 'balanced'}
+[2026-10-12 12:02:50][INFO] Saved 8172 test predictions to E:\IS403.R12-equity-return-predictability\results\test_evaluation\4.0.0_test_predictions.csv
+[2026-10-12 12:02:50][INFO] 
+Computing statistical inference tests (Diebold-Mariano & Sign Tests) and regime breakdowns...
+[2026-10-12 12:02:50][INFO] 
+Saved Markdown Report to: E:\IS403.R12-equity-return-predictability\results\test_evaluation\4.0.0_test_evaluation_report.md
+[2026-10-12 12:02:50][INFO] ======================================================================
+[2026-10-12 12:02:50][INFO] OUT-OF-SAMPLE TEST EVALUATION COMPLETED SUCCESSFULLY!
+[2026-10-12 12:02:50][INFO] ======================================================================
+[2026-10-12 12:08:53][INFO] ======================================================================
+[2026-10-12 12:08:53][INFO] STARTING OUT-OF-SAMPLE TEST EVALUATION (SPLIT 3: 2020-2026)
+[2026-10-12 12:08:53][INFO] ======================================================================
+[2026-10-12 12:08:53][INFO] Loaded Train Set (Splits 1+2): 7711 rows (1990-03-27 -> 2020-10-30)
+[2026-10-12 12:08:53][INFO] Loaded Test Set (Split 3): 1362 rows (2020-11-02 -> 2026-04-07)
+[2026-10-12 12:08:53][INFO] Target Models: ['historical_mean', 'ridge', 'logistic_regression']
+[2026-10-12 12:08:53][INFO] Target Horizons: ['1D', '5D']
+[2026-10-12 12:08:53][INFO] 
+================ Processing Horizon 1D ================
+[2026-10-12 12:08:54][INFO] Evaluating Historical_Mean [1D] with params: {}
+[2026-10-12 12:08:54][INFO] Evaluating Ridge [1D] with params: {'alpha': 100}
+[2026-10-12 12:08:54][INFO] Evaluating Logistic_Regression [1D] with params: {'C': 0.001, 'class_weight': 'balanced'}
+[2026-10-12 12:08:54][INFO] 
+================ Processing Horizon 5D ================
+[2026-10-12 12:08:54][INFO] Evaluating Historical_Mean [5D] with params: {}
+[2026-10-12 12:08:54][INFO] Evaluating Ridge [5D] with params: {'alpha': 100}
+[2026-10-12 12:08:54][INFO] Evaluating Logistic_Regression [5D] with params: {'C': 0.001, 'class_weight': 'balanced'}
+[2026-10-12 12:08:54][INFO] Saved 8172 test predictions to E:\IS403.R12-equity-return-predictability\results\test_evaluation\3.0.3_test_predictions.csv
+[2026-10-12 12:08:54][INFO] 
+Computing statistical inference tests (Diebold-Mariano & Sign Tests) and regime breakdowns...
+[2026-10-12 12:08:54][INFO] 
+Saved Markdown Report to: E:\IS403.R12-equity-return-predictability\results\test_evaluation\3.0.3_test_evaluation_report.md
+[2026-10-12 12:08:54][INFO] ======================================================================
+[2026-10-12 12:08:54][INFO] OUT-OF-SAMPLE TEST EVALUATION COMPLETED SUCCESSFULLY!
+[2026-10-12 12:08:54][INFO] ======================================================================
+[2026-10-12 12:14:57][INFO] ======================================================================
+[2026-10-12 12:14:57][INFO] STARTING OUT-OF-SAMPLE TEST EVALUATION (SPLIT 3: 2020-2026)
+[2026-10-12 12:14:57][INFO] ======================================================================
+[2026-10-12 12:14:57][INFO] Loaded Train Set (Splits 1+2): 7711 rows (1990-03-27 -> 2020-10-30)
+[2026-10-12 12:14:57][INFO] Loaded Test Set (Split 3): 1362 rows (2020-11-02 -> 2026-04-07)
+[2026-10-12 12:14:57][INFO] Target Models: ['historical_mean', 'ridge', 'elastic_net', 'arima', 'arimax', 'sarima', 'svr', 'random_forest', 'xgboost', 'lightgbm', 'rnn', 'lstm', 'transformer', 'logistic_regression']
+[2026-10-12 12:14:57][INFO] Target Horizons: ['1D', '5D', '20D', '60D', '120D']
+[2026-10-12 12:14:57][INFO] 
+================ Processing Horizon 1D ================
+[2026-10-12 12:14:57][INFO] Evaluating Historical_Mean [1D] with params: {}
+[2026-10-12 12:14:57][INFO] Evaluating Ridge [1D] with params: {'alpha': 100}
+[2026-10-12 12:14:57][INFO] Evaluating Elastic_Net [1D] with params: {'alpha': 0.001, 'l1_ratio': 0.5}
+[2026-10-12 12:14:57][INFO] Evaluating ARIMA [1D] with params: {'order': (1, 0, 1)}
+[2026-10-12 12:14:58][INFO] Evaluating ARIMAX [1D] with params: {'order': (1, 0, 1)}
+[2026-10-12 12:14:59][INFO] Evaluating SARIMA [1D] with params: {'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}
+[2026-10-12 12:14:59][INFO] Evaluating SVR [1D] with params: {'C': 0.1, 'epsilon': 0.01, 'gamma': 0.001, 'kernel': 'rbf'}
+[2026-10-12 12:15:00][INFO] Evaluating Random_Forest [1D] with params: {'n_estimators': 200, 'max_depth': 5, 'min_samples_split': 5, 'min_samples_leaf': 1, 'max_features': 'sqrt'}
+[2026-10-12 12:15:00][INFO] Evaluating XGBoost [1D] with params: {'n_estimators': 200, 'learning_rate': 0.09346777377493276, 'max_depth': 9, 'min_child_weight': 1, 'subsample': 0.7219192643841313, 'colsample_bytree': 0.6558289950203557, 'gamma': 0.0015032555243577606, 'reg_alpha': 0.14113536657860465, 'reg_lambda': 2.879747417492425}
+[2026-10-12 12:15:01][INFO] Evaluating LightGBM [1D] with params: {'n_estimators': 500, 'learning_rate': 0.017709597800863956, 'num_leaves': 56, 'max_depth': 2, 'min_child_samples': 22, 'subsample': 0.8439440638588244, 'colsample_bytree': 0.962726780479557, 'reg_alpha': 0.03669978237679096, 'reg_lambda': 3.5016679319694397}
+[2026-10-12 12:15:01][INFO] Evaluating RNN [1D] with params: {'lookback': 40, 'hidden_size': 64, 'num_layers': 1, 'dropout': 0.3017249991009523, 'learning_rate': 0.000305485208547517, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}
+[2026-10-12 12:15:17][INFO] Evaluating LSTM [1D] with params: {'lookback': 20, 'hidden_size': 64, 'num_layers': 3, 'dropout': 0.3538584597651602, 'learning_rate': 0.0007662150068129557, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}
+[2026-10-12 12:15:25][INFO] Evaluating Transformer [1D] with params: {'lookback': 60, 'd_model': 32, 'nhead': 4, 'num_encoder_layers': 1, 'dim_feedforward': 128, 'dropout': 0.2833143475684623, 'learning_rate': 0.00020235315003022192, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}
+[2026-10-12 12:16:12][INFO] Evaluating Logistic_Regression [1D] with params: {'C': 0.001, 'class_weight': 'balanced'}
+[2026-10-12 12:16:12][INFO] 
+================ Processing Horizon 5D ================
+[2026-10-12 12:16:12][INFO] Evaluating Historical_Mean [5D] with params: {}
+[2026-10-12 12:16:12][INFO] Evaluating Ridge [5D] with params: {'alpha': 100}
+[2026-10-12 12:16:12][INFO] Evaluating Elastic_Net [5D] with params: {'alpha': 0.001, 'l1_ratio': 0.9}
+[2026-10-12 12:16:12][INFO] Evaluating ARIMA [5D] with params: {'order': (1, 0, 1)}
+[2026-10-12 12:16:13][INFO] Evaluating ARIMAX [5D] with params: {'order': (1, 0, 1)}
+[2026-10-12 12:16:19][INFO] Evaluating SARIMA [5D] with params: {'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}
+[2026-10-12 12:16:19][INFO] Evaluating SVR [5D] with params: {'C': 0.1, 'epsilon': 0.01, 'gamma': 0.001, 'kernel': 'rbf'}
+[2026-10-12 12:16:20][INFO] Evaluating Random_Forest [5D] with params: {'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 10, 'min_samples_leaf': 2, 'max_features': 0.5}
+[2026-10-12 12:16:21][INFO] Evaluating XGBoost [5D] with params: {'n_estimators': 500, 'learning_rate': 0.044940141673554874, 'max_depth': 5, 'min_child_weight': 4, 'subsample': 0.6940483727591255, 'colsample_bytree': 0.7802963569765408, 'gamma': 0.038205855949074774, 'reg_alpha': 0.008288295439113044, 'reg_lambda': 0.15621495477525174}
+[2026-10-12 12:16:21][INFO] Evaluating LightGBM [5D] with params: {'n_estimators': 700, 'learning_rate': 0.028986070520949335, 'num_leaves': 67, 'max_depth': 6, 'min_child_samples': 9, 'subsample': 0.9310084734098819, 'colsample_bytree': 0.9572203681943565, 'reg_alpha': 3.2553314288692103, 'reg_lambda': 1.7758898941908814}
+[2026-10-12 12:16:21][INFO] Evaluating RNN [5D] with params: {'lookback': 20, 'hidden_size': 64, 'num_layers': 1, 'dropout': 0.2622779137308282, 'learning_rate': 0.000786477284633486, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}
+[2026-10-12 12:16:33][INFO] Evaluating LSTM [5D] with params: {'lookback': 40, 'hidden_size': 64, 'num_layers': 1, 'dropout': 0.43573029509385885, 'learning_rate': 0.00040489662225846743, 'weight_decay': 0.0001, 'batch_size': 32, 'epochs': 40, 'patience': 7}
+[2026-10-12 12:16:38][INFO] Evaluating Transformer [5D] with params: {'lookback': 40, 'd_model': 32, 'nhead': 4, 'num_encoder_layers': 2, 'dim_feedforward': 128, 'dropout': 0.2962756788032009, 'learning_rate': 0.0001735773782470367, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}
+[2026-10-12 12:16:55][INFO] Evaluating Logistic_Regression [5D] with params: {'C': 0.001, 'class_weight': 'balanced'}
+[2026-10-12 12:16:55][INFO] 
+================ Processing Horizon 20D ================
+[2026-10-12 12:16:55][INFO] Evaluating Historical_Mean [20D] with params: {}
+[2026-10-12 12:16:55][INFO] Evaluating Ridge [20D] with params: {'alpha': 100}
+[2026-10-12 12:16:55][INFO] Evaluating Elastic_Net [20D] with params: {'alpha': 0.01, 'l1_ratio': 0.5}
+[2026-10-12 12:16:55][INFO] Evaluating ARIMA [20D] with params: {'order': (1, 0, 0)}
+[2026-10-12 12:16:55][INFO] Evaluating ARIMAX [20D] with params: {'order': (1, 0, 1)}
+[2026-10-12 12:17:01][INFO] Evaluating SARIMA [20D] with params: {'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}
+[2026-10-12 12:17:02][INFO] Evaluating SVR [20D] with params: {'C': 0.1, 'epsilon': 0.01, 'gamma': 0.001, 'kernel': 'rbf'}
+[2026-10-12 12:17:03][INFO] Evaluating Random_Forest [20D] with params: {'n_estimators': 200, 'max_depth': 5, 'min_samples_split': 10, 'min_samples_leaf': 2, 'max_features': 'sqrt'}
+[2026-10-12 12:17:03][INFO] Evaluating XGBoost [20D] with params: {'n_estimators': 300, 'learning_rate': 0.19145311972695062, 'max_depth': 9, 'min_child_weight': 4, 'subsample': 0.642220926251284, 'colsample_bytree': 0.6249733157038994, 'gamma': 0.09899401413215997, 'reg_alpha': 0.0001588239743053469, 'reg_lambda': 16.5549592009347}
+[2026-10-12 12:17:03][INFO] Evaluating LightGBM [20D] with params: {'n_estimators': 900, 'learning_rate': 0.10177869850495169, 'num_leaves': 32, 'max_depth': 7, 'min_child_samples': 35, 'subsample': 0.7579133537718414, 'colsample_bytree': 0.9060140859477831, 'reg_alpha': 8.126418990015443, 'reg_lambda': 1.7706866414426934}
+[2026-10-12 12:17:03][INFO] Evaluating RNN [20D] with params: {'lookback': 40, 'hidden_size': 64, 'num_layers': 1, 'dropout': 0.43573029509385885, 'learning_rate': 0.00040489662225846743, 'weight_decay': 0.0001, 'batch_size': 32, 'epochs': 40, 'patience': 7}
+[2026-10-12 12:17:08][INFO] Evaluating LSTM [20D] with params: {'lookback': 40, 'hidden_size': 64, 'num_layers': 3, 'dropout': 0.3861223846483287, 'learning_rate': 2.497073714505272e-05, 'weight_decay': 0.0001, 'batch_size': 32, 'epochs': 40, 'patience': 7}
+[2026-10-12 12:17:12][INFO] Evaluating Transformer [20D] with params: {'lookback': 20, 'd_model': 64, 'nhead': 2, 'num_encoder_layers': 2, 'dim_feedforward': 128, 'dropout': 0.22754562430001113, 'learning_rate': 0.0004800378231362783, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}
+[2026-10-12 12:17:51][INFO] Evaluating Logistic_Regression [20D] with params: {'C': 100, 'class_weight': None}
+[2026-10-12 12:17:51][INFO] 
+================ Processing Horizon 60D ================
+[2026-10-12 12:17:51][INFO] Evaluating Historical_Mean [60D] with params: {}
+[2026-10-12 12:17:51][INFO] Evaluating Ridge [60D] with params: {'alpha': 100}
+[2026-10-12 12:17:51][INFO] Evaluating Elastic_Net [60D] with params: {'alpha': 0.1, 'l1_ratio': 0.3}
+[2026-10-12 12:17:51][INFO] Evaluating ARIMA [60D] with params: {'order': (1, 0, 1)}
+[2026-10-12 12:17:51][INFO] Evaluating ARIMAX [60D] with params: {'order': (1, 0, 1)}
+[2026-10-12 12:17:57][INFO] Evaluating SARIMA [60D] with params: {'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}
+[2026-10-12 12:17:58][INFO] Evaluating SVR [60D] with params: {'C': 0.1, 'epsilon': 0.001, 'gamma': 0.001, 'kernel': 'rbf'}
+[2026-10-12 12:17:59][INFO] Evaluating Random_Forest [60D] with params: {'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 2, 'min_samples_leaf': 2, 'max_features': 'sqrt'}
+[2026-10-12 12:18:00][INFO] Evaluating XGBoost [60D] with params: {'n_estimators': 900, 'learning_rate': 0.09017195441448847, 'max_depth': 3, 'min_child_weight': 6, 'subsample': 0.6630780084659571, 'colsample_bytree': 0.8072261917689363, 'gamma': 4.258905611621719, 'reg_alpha': 0.0469076970012189, 'reg_lambda': 0.27651975491831876}
+[2026-10-12 12:18:00][INFO] Evaluating LightGBM [60D] with params: {'n_estimators': 700, 'learning_rate': 0.041743971025763715, 'num_leaves': 12, 'max_depth': 5, 'min_child_samples': 20, 'subsample': 0.6017148426091806, 'colsample_bytree': 0.7586408931727296, 'reg_alpha': 9.441872300725256, 'reg_lambda': 0.7468611502423925}
+[2026-10-12 12:18:00][INFO] Evaluating RNN [60D] with params: {'lookback': 60, 'hidden_size': 64, 'num_layers': 3, 'dropout': 0.3747383957604866, 'learning_rate': 0.0001837145924804805, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}
+[2026-10-12 12:18:15][INFO] Evaluating LSTM [60D] with params: {'lookback': 10, 'hidden_size': 64, 'num_layers': 3, 'dropout': 0.4202685958641559, 'learning_rate': 5.341629700497827e-05, 'weight_decay': 0.0001, 'batch_size': 32, 'epochs': 40, 'patience': 7}
+[2026-10-12 12:18:19][INFO] Evaluating Transformer [60D] with params: {'lookback': 20, 'd_model': 64, 'nhead': 2, 'num_encoder_layers': 2, 'dim_feedforward': 128, 'dropout': 0.2767459929366228, 'learning_rate': 0.00036822810258819354, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}
+[2026-10-12 12:18:37][INFO] Evaluating Logistic_Regression [60D] with params: {'C': 100, 'class_weight': None}
+[2026-10-12 12:18:37][INFO] 
+================ Processing Horizon 120D ================
+[2026-10-12 12:18:37][INFO] Evaluating Historical_Mean [120D] with params: {}
+[2026-10-12 12:18:37][INFO] Evaluating Ridge [120D] with params: {'alpha': 100}
+[2026-10-12 12:18:37][INFO] Evaluating Elastic_Net [120D] with params: {'alpha': 0.1, 'l1_ratio': 0.3}
+[2026-10-12 12:18:37][INFO] Evaluating ARIMA [120D] with params: {'order': (1, 0, 1)}
+[2026-10-12 12:18:38][INFO] Evaluating ARIMAX [120D] with params: {'order': (1, 0, 1)}
+[2026-10-12 12:18:44][INFO] Evaluating SARIMA [120D] with params: {'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}
+[2026-10-12 12:18:44][INFO] Evaluating SVR [120D] with params: {'C': 0.1, 'epsilon': 0.1, 'gamma': 0.1, 'kernel': 'rbf'}
+[2026-10-12 12:18:45][INFO] Evaluating Random_Forest [120D] with params: {'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 2, 'min_samples_leaf': 5, 'max_features': 'sqrt'}
+[2026-10-12 12:18:45][INFO] Evaluating XGBoost [120D] with params: {'n_estimators': 500, 'learning_rate': 0.04027448760837812, 'max_depth': 3, 'min_child_weight': 1, 'subsample': 0.7722240644985903, 'colsample_bytree': 0.9320474141643308, 'gamma': 3.62270958106528, 'reg_alpha': 0.12601284472593474, 'reg_lambda': 0.017065132603293003}
+[2026-10-12 12:18:45][INFO] Evaluating LightGBM [120D] with params: {'n_estimators': 600, 'learning_rate': 0.15826541904647565, 'num_leaves': 17, 'max_depth': 1, 'min_child_samples': 9, 'subsample': 0.7301321323053057, 'colsample_bytree': 0.7554709158757928, 'reg_alpha': 2.7678419414850017e-06, 'reg_lambda': 13.921548533046511}
+[2026-10-12 12:18:46][INFO] Evaluating RNN [120D] with params: {'lookback': 10, 'hidden_size': 128, 'num_layers': 3, 'dropout': 0.25029088451059456, 'learning_rate': 0.0001604025443901114, 'weight_decay': 0.0001, 'batch_size': 64, 'epochs': 40, 'patience': 7}
+[2026-10-12 12:18:47][INFO] Evaluating LSTM [120D] with params: {'lookback': 40, 'hidden_size': 64, 'num_layers': 3, 'dropout': 0.21355615281666593, 'learning_rate': 0.0002883724954669892, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}
+[2026-10-12 12:18:56][INFO] Evaluating Transformer [120D] with params: {'lookback': 60, 'd_model': 64, 'nhead': 2, 'num_encoder_layers': 1, 'dim_feedforward': 128, 'dropout': 0.1000397117480112, 'learning_rate': 0.0004859061734665338, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}
+[2026-10-12 12:19:07][INFO] Evaluating Logistic_Regression [120D] with params: {'C': 0.001, 'class_weight': None}
+[2026-10-12 12:19:08][INFO] Saved 95340 test predictions to E:\Repo Project\IS403.R12-equity-return-predictability\results\test_evaluation\3.0.3_test_predictions.csv
+[2026-10-12 12:19:08][INFO] 
+Computing statistical inference tests (Diebold-Mariano & Sign Tests) and regime breakdowns...
+[2026-10-12 12:19:09][INFO] 
+Saved Markdown Report to: E:\Repo Project\IS403.R12-equity-return-predictability\results\test_evaluation\3.0.3_test_evaluation_report.md
+[2026-10-12 12:19:09][INFO] ======================================================================
+[2026-10-12 12:19:09][INFO] OUT-OF-SAMPLE TEST EVALUATION COMPLETED SUCCESSFULLY!
+[2026-10-12 12:19:09][INFO] ======================================================================
+[2026-10-12 12:37:13][INFO] ======================================================================
+[2026-10-12 12:37:13][INFO] STARTING OUT-OF-SAMPLE TEST EVALUATION (SPLIT 3: 2020-2026)
+[2026-10-12 12:37:13][INFO] ======================================================================
+[2026-10-12 12:37:13][INFO] Loaded Train Set (Splits 1+2): 7711 rows (1990-03-27 -> 2020-10-30)
+[2026-10-12 12:37:13][INFO] Loaded Test Set (Split 3): 1362 rows (2020-11-02 -> 2026-04-07)
+[2026-10-12 12:37:13][INFO] Target Models: ['historical_mean', 'ridge', 'elastic_net', 'arima', 'arimax', 'sarima', 'svr', 'random_forest', 'xgboost', 'lightgbm', 'rnn', 'lstm', 'transformer', 'logistic_regression']
+[2026-10-12 12:37:13][INFO] Target Horizons: ['1D', '5D', '20D', '60D', '120D']
+[2026-10-12 12:37:13][INFO] 
+================ Processing Horizon 1D ================
+[2026-10-12 12:37:13][INFO] Evaluating Historical_Mean [1D] with params: {}
+[2026-10-12 12:37:13][INFO] Evaluating Ridge [1D] with params: {'alpha': 100}
+[2026-10-12 12:37:13][INFO] Evaluating Elastic_Net [1D] with params: {'alpha': 0.001, 'l1_ratio': 0.5}
+[2026-10-12 12:37:13][INFO] Evaluating ARIMA [1D] with params: {'order': (1, 0, 1)}
+[2026-10-12 12:37:14][INFO] Evaluating ARIMAX [1D] with params: {'order': (1, 0, 1)}
+[2026-10-12 12:37:15][INFO] Evaluating SARIMA [1D] with params: {'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}
+[2026-10-12 12:37:16][INFO] Evaluating SVR [1D] with params: {'C': 0.1, 'epsilon': 0.01, 'gamma': 0.001, 'kernel': 'rbf'}
+[2026-10-12 12:37:16][INFO] Evaluating Random_Forest [1D] with params: {'n_estimators': 200, 'max_depth': 5, 'min_samples_split': 5, 'min_samples_leaf': 1, 'max_features': 'sqrt'}
+[2026-10-12 12:37:16][INFO] Evaluating XGBoost [1D] with params: {'n_estimators': 200, 'learning_rate': 0.09346777377493276, 'max_depth': 9, 'min_child_weight': 1, 'subsample': 0.7219192643841313, 'colsample_bytree': 0.6558289950203557, 'gamma': 0.0015032555243577606, 'reg_alpha': 0.14113536657860465, 'reg_lambda': 2.879747417492425}
+[2026-10-12 12:37:18][INFO] Evaluating LightGBM [1D] with params: {'n_estimators': 500, 'learning_rate': 0.017709597800863956, 'num_leaves': 56, 'max_depth': 2, 'min_child_samples': 22, 'subsample': 0.8439440638588244, 'colsample_bytree': 0.962726780479557, 'reg_alpha': 0.03669978237679096, 'reg_lambda': 3.5016679319694397}
+[2026-10-12 12:37:18][INFO] Evaluating RNN [1D] with params: {'lookback': 40, 'hidden_size': 64, 'num_layers': 1, 'dropout': 0.3017249991009523, 'learning_rate': 0.000305485208547517, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}
+[2026-10-12 12:37:37][INFO] Evaluating LSTM [1D] with params: {'lookback': 20, 'hidden_size': 64, 'num_layers': 3, 'dropout': 0.3538584597651602, 'learning_rate': 0.0007662150068129557, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}
+[2026-10-12 12:37:44][INFO] Evaluating Transformer [1D] with params: {'lookback': 60, 'd_model': 32, 'nhead': 4, 'num_encoder_layers': 1, 'dim_feedforward': 128, 'dropout': 0.2833143475684623, 'learning_rate': 0.00020235315003022192, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}
+[2026-10-12 12:38:35][INFO] Evaluating Logistic_Regression [1D] with params: {'C': 0.001, 'class_weight': 'balanced'}
+[2026-10-12 12:38:35][INFO] 
+================ Processing Horizon 5D ================
+[2026-10-12 12:38:35][INFO] Evaluating Historical_Mean [5D] with params: {}
+[2026-10-12 12:38:35][INFO] Evaluating Ridge [5D] with params: {'alpha': 100}
+[2026-10-12 12:38:35][INFO] Evaluating Elastic_Net [5D] with params: {'alpha': 0.001, 'l1_ratio': 0.9}
+[2026-10-12 12:38:35][INFO] Evaluating ARIMA [5D] with params: {'order': (1, 0, 1)}
+[2026-10-12 12:38:36][INFO] Evaluating ARIMAX [5D] with params: {'order': (1, 0, 1)}
+[2026-10-12 12:38:42][INFO] Evaluating SARIMA [5D] with params: {'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}
+[2026-10-12 12:38:43][INFO] Evaluating SVR [5D] with params: {'C': 0.1, 'epsilon': 0.01, 'gamma': 0.001, 'kernel': 'rbf'}
+[2026-10-12 12:38:44][INFO] Evaluating Random_Forest [5D] with params: {'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 10, 'min_samples_leaf': 2, 'max_features': 0.5}
+[2026-10-12 12:38:45][INFO] Evaluating XGBoost [5D] with params: {'n_estimators': 500, 'learning_rate': 0.044940141673554874, 'max_depth': 5, 'min_child_weight': 4, 'subsample': 0.6940483727591255, 'colsample_bytree': 0.7802963569765408, 'gamma': 0.038205855949074774, 'reg_alpha': 0.008288295439113044, 'reg_lambda': 0.15621495477525174}
+[2026-10-12 12:38:45][INFO] Evaluating LightGBM [5D] with params: {'n_estimators': 700, 'learning_rate': 0.028986070520949335, 'num_leaves': 67, 'max_depth': 6, 'min_child_samples': 9, 'subsample': 0.9310084734098819, 'colsample_bytree': 0.9572203681943565, 'reg_alpha': 3.2553314288692103, 'reg_lambda': 1.7758898941908814}
+[2026-10-12 12:38:45][INFO] Evaluating RNN [5D] with params: {'lookback': 20, 'hidden_size': 64, 'num_layers': 1, 'dropout': 0.2622779137308282, 'learning_rate': 0.000786477284633486, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}
+[2026-10-12 12:38:57][INFO] Evaluating LSTM [5D] with params: {'lookback': 40, 'hidden_size': 64, 'num_layers': 1, 'dropout': 0.43573029509385885, 'learning_rate': 0.00040489662225846743, 'weight_decay': 0.0001, 'batch_size': 32, 'epochs': 40, 'patience': 7}
+[2026-10-12 12:39:01][INFO] Evaluating Transformer [5D] with params: {'lookback': 40, 'd_model': 32, 'nhead': 4, 'num_encoder_layers': 2, 'dim_feedforward': 128, 'dropout': 0.2962756788032009, 'learning_rate': 0.0001735773782470367, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}
+[2026-10-12 12:39:18][INFO] Evaluating Logistic_Regression [5D] with params: {'C': 0.001, 'class_weight': 'balanced'}
+[2026-10-12 12:39:18][INFO] 
+================ Processing Horizon 20D ================
+[2026-10-12 12:39:18][INFO] Evaluating Historical_Mean [20D] with params: {}
+[2026-10-12 12:39:18][INFO] Evaluating Ridge [20D] with params: {'alpha': 100}
+[2026-10-12 12:39:18][INFO] Evaluating Elastic_Net [20D] with params: {'alpha': 0.01, 'l1_ratio': 0.5}
+[2026-10-12 12:39:18][INFO] Evaluating ARIMA [20D] with params: {'order': (1, 0, 0)}
+[2026-10-12 12:39:18][INFO] Evaluating ARIMAX [20D] with params: {'order': (1, 0, 1)}
+[2026-10-12 12:39:25][INFO] Evaluating SARIMA [20D] with params: {'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}
+[2026-10-12 12:39:25][INFO] Evaluating SVR [20D] with params: {'C': 0.1, 'epsilon': 0.01, 'gamma': 0.001, 'kernel': 'rbf'}
+[2026-10-12 12:39:27][INFO] Evaluating Random_Forest [20D] with params: {'n_estimators': 200, 'max_depth': 5, 'min_samples_split': 10, 'min_samples_leaf': 2, 'max_features': 'sqrt'}
+[2026-10-12 12:39:27][INFO] Evaluating XGBoost [20D] with params: {'n_estimators': 300, 'learning_rate': 0.19145311972695062, 'max_depth': 9, 'min_child_weight': 4, 'subsample': 0.642220926251284, 'colsample_bytree': 0.6249733157038994, 'gamma': 0.09899401413215997, 'reg_alpha': 0.0001588239743053469, 'reg_lambda': 16.5549592009347}
+[2026-10-12 12:39:27][INFO] Evaluating LightGBM [20D] with params: {'n_estimators': 900, 'learning_rate': 0.10177869850495169, 'num_leaves': 32, 'max_depth': 7, 'min_child_samples': 35, 'subsample': 0.7579133537718414, 'colsample_bytree': 0.9060140859477831, 'reg_alpha': 8.126418990015443, 'reg_lambda': 1.7706866414426934}
+[2026-10-12 12:39:27][INFO] Evaluating RNN [20D] with params: {'lookback': 40, 'hidden_size': 64, 'num_layers': 1, 'dropout': 0.43573029509385885, 'learning_rate': 0.00040489662225846743, 'weight_decay': 0.0001, 'batch_size': 32, 'epochs': 40, 'patience': 7}
+[2026-10-12 12:39:32][INFO] Evaluating LSTM [20D] with params: {'lookback': 40, 'hidden_size': 64, 'num_layers': 3, 'dropout': 0.3861223846483287, 'learning_rate': 2.497073714505272e-05, 'weight_decay': 0.0001, 'batch_size': 32, 'epochs': 40, 'patience': 7}
+[2026-10-12 12:39:36][INFO] Evaluating Transformer [20D] with params: {'lookback': 20, 'd_model': 64, 'nhead': 2, 'num_encoder_layers': 2, 'dim_feedforward': 128, 'dropout': 0.22754562430001113, 'learning_rate': 0.0004800378231362783, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}
+[2026-10-12 12:40:08][INFO] Evaluating Logistic_Regression [20D] with params: {'C': 100, 'class_weight': None}
+[2026-10-12 12:40:09][INFO] 
+================ Processing Horizon 60D ================
+[2026-10-12 12:40:09][INFO] Evaluating Historical_Mean [60D] with params: {}
+[2026-10-12 12:40:09][INFO] Evaluating Ridge [60D] with params: {'alpha': 100}
+[2026-10-12 12:40:09][INFO] Evaluating Elastic_Net [60D] with params: {'alpha': 0.1, 'l1_ratio': 0.3}
+[2026-10-12 12:40:09][INFO] Evaluating ARIMA [60D] with params: {'order': (1, 0, 1)}
+[2026-10-12 12:40:09][INFO] Evaluating ARIMAX [60D] with params: {'order': (1, 0, 1)}
+[2026-10-12 12:40:15][INFO] Evaluating SARIMA [60D] with params: {'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}
+[2026-10-12 12:40:16][INFO] Evaluating SVR [60D] with params: {'C': 0.1, 'epsilon': 0.001, 'gamma': 0.001, 'kernel': 'rbf'}
+[2026-10-12 12:40:17][INFO] Evaluating Random_Forest [60D] with params: {'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 2, 'min_samples_leaf': 2, 'max_features': 'sqrt'}
+[2026-10-12 12:40:18][INFO] Evaluating XGBoost [60D] with params: {'n_estimators': 900, 'learning_rate': 0.09017195441448847, 'max_depth': 3, 'min_child_weight': 6, 'subsample': 0.6630780084659571, 'colsample_bytree': 0.8072261917689363, 'gamma': 4.258905611621719, 'reg_alpha': 0.0469076970012189, 'reg_lambda': 0.27651975491831876}
+[2026-10-12 12:40:18][INFO] Evaluating LightGBM [60D] with params: {'n_estimators': 700, 'learning_rate': 0.041743971025763715, 'num_leaves': 12, 'max_depth': 5, 'min_child_samples': 20, 'subsample': 0.6017148426091806, 'colsample_bytree': 0.7586408931727296, 'reg_alpha': 9.441872300725256, 'reg_lambda': 0.7468611502423925}
+[2026-10-12 12:40:18][INFO] Evaluating RNN [60D] with params: {'lookback': 60, 'hidden_size': 64, 'num_layers': 3, 'dropout': 0.3747383957604866, 'learning_rate': 0.0001837145924804805, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}
+[2026-10-12 12:40:32][INFO] Evaluating LSTM [60D] with params: {'lookback': 10, 'hidden_size': 64, 'num_layers': 3, 'dropout': 0.4202685958641559, 'learning_rate': 5.341629700497827e-05, 'weight_decay': 0.0001, 'batch_size': 32, 'epochs': 40, 'patience': 7}
+[2026-10-12 12:40:36][INFO] Evaluating Transformer [60D] with params: {'lookback': 20, 'd_model': 64, 'nhead': 2, 'num_encoder_layers': 2, 'dim_feedforward': 128, 'dropout': 0.2767459929366228, 'learning_rate': 0.00036822810258819354, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}
+[2026-10-12 12:40:51][INFO] Evaluating Logistic_Regression [60D] with params: {'C': 100, 'class_weight': None}
+[2026-10-12 12:40:51][INFO] 
+================ Processing Horizon 120D ================
+[2026-10-12 12:40:51][INFO] Evaluating Historical_Mean [120D] with params: {}
+[2026-10-12 12:40:51][INFO] Evaluating Ridge [120D] with params: {'alpha': 100}
+[2026-10-12 12:40:51][INFO] Evaluating Elastic_Net [120D] with params: {'alpha': 0.1, 'l1_ratio': 0.3}
+[2026-10-12 12:40:51][INFO] Evaluating ARIMA [120D] with params: {'order': (1, 0, 1)}
+[2026-10-12 12:40:51][INFO] Evaluating ARIMAX [120D] with params: {'order': (1, 0, 1)}
+[2026-10-12 12:40:58][INFO] Evaluating SARIMA [120D] with params: {'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}
+[2026-10-12 12:40:58][INFO] Evaluating SVR [120D] with params: {'C': 0.1, 'epsilon': 0.1, 'gamma': 0.1, 'kernel': 'rbf'}
+[2026-10-12 12:40:59][INFO] Evaluating Random_Forest [120D] with params: {'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 2, 'min_samples_leaf': 5, 'max_features': 'sqrt'}
+[2026-10-12 12:41:00][INFO] Evaluating XGBoost [120D] with params: {'n_estimators': 500, 'learning_rate': 0.04027448760837812, 'max_depth': 3, 'min_child_weight': 1, 'subsample': 0.7722240644985903, 'colsample_bytree': 0.9320474141643308, 'gamma': 3.62270958106528, 'reg_alpha': 0.12601284472593474, 'reg_lambda': 0.017065132603293003}
+[2026-10-12 12:41:00][INFO] Evaluating LightGBM [120D] with params: {'n_estimators': 600, 'learning_rate': 0.15826541904647565, 'num_leaves': 17, 'max_depth': 1, 'min_child_samples': 9, 'subsample': 0.7301321323053057, 'colsample_bytree': 0.7554709158757928, 'reg_alpha': 2.7678419414850017e-06, 'reg_lambda': 13.921548533046511}
+[2026-10-12 12:41:00][INFO] Evaluating RNN [120D] with params: {'lookback': 10, 'hidden_size': 128, 'num_layers': 3, 'dropout': 0.25029088451059456, 'learning_rate': 0.0001604025443901114, 'weight_decay': 0.0001, 'batch_size': 64, 'epochs': 40, 'patience': 7}
+[2026-10-12 12:41:02][INFO] Evaluating LSTM [120D] with params: {'lookback': 40, 'hidden_size': 64, 'num_layers': 3, 'dropout': 0.21355615281666593, 'learning_rate': 0.0002883724954669892, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}
+[2026-10-12 12:41:10][INFO] Evaluating Transformer [120D] with params: {'lookback': 60, 'd_model': 64, 'nhead': 2, 'num_encoder_layers': 1, 'dim_feedforward': 128, 'dropout': 0.1000397117480112, 'learning_rate': 0.0004859061734665338, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}
+[2026-10-12 12:41:23][INFO] Evaluating Logistic_Regression [120D] with params: {'C': 0.001, 'class_weight': None}
+[2026-10-12 12:41:23][INFO] Saved 95340 test predictions to E:\IS403.R12-equity-return-predictability\results\test_evaluation\3.0.3_test_predictions.csv
+[2026-10-12 12:41:23][INFO] 
+Computing statistical inference tests (Diebold-Mariano & Sign Tests) and regime breakdowns...
+[2026-10-12 12:41:24][INFO] 
+Saved Markdown Report to: E:\IS403.R12-equity-return-predictability\results\test_evaluation\3.0.3_test_evaluation_report.md
+[2026-10-12 12:41:24][INFO] ======================================================================
+[2026-10-12 12:41:24][INFO] OUT-OF-SAMPLE TEST EVALUATION COMPLETED SUCCESSFULLY!
+[2026-10-12 12:41:24][INFO] ======================================================================
+[2026-10-12 13:47:00][INFO] ======================================================================
+[2026-10-12 13:47:00][INFO] STARTING OUT-OF-SAMPLE TEST EVALUATION (SPLIT 3: 2020-2026)
+[2026-10-12 13:47:00][INFO] ======================================================================
+[2026-10-12 13:47:00][INFO] Mode: --report-only. Recomputing metrics and generating report...
+[2026-10-12 13:47:02][INFO] Report generated successfully at: E:\IS403.R12-equity-return-predictability\results\test_evaluation\3.0.3_test_evaluation_report.md
+[2026-10-13 08:43:12][INFO] ======================================================================
+[2026-10-13 08:43:12][INFO] STARTING OUT-OF-SAMPLE TEST EVALUATION (SPLIT 3: 2020-2026)
+[2026-10-13 08:43:12][INFO] ======================================================================
+[2026-10-13 08:43:12][INFO] Loaded Train Set (Splits 1+2): 7711 rows (1990-03-27 -> 2020-10-30)
+[2026-10-13 08:43:12][INFO] Loaded Test Set (Split 3): 1362 rows (2020-11-02 -> 2026-04-07)
+[2026-10-13 08:43:12][INFO] Target Models: ['historical_mean', 'arima', 'sarima', 'arimax']
+[2026-10-13 08:43:12][INFO] Target Horizons: ['1D', '5D', '20D', '60D', '120D']
+[2026-10-13 08:43:12][INFO] 
+================ Processing Horizon 1D ================
+[2026-10-13 08:43:13][INFO] Evaluating Historical_Mean [1D] with params: {}
+[2026-10-13 08:43:13][INFO] Evaluating ARIMA [1D] with params: {'order': (1, 0, 1)}
+[2026-10-13 08:43:14][INFO] Evaluating SARIMA [1D] with params: {'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}
+[2026-10-13 08:43:14][INFO] Evaluating ARIMAX [1D] with params: {'order': (1, 0, 1)}
+[2026-10-13 08:43:18][INFO] 
+================ Processing Horizon 5D ================
+[2026-10-13 08:43:18][INFO] Evaluating Historical_Mean [5D] with params: {}
+[2026-10-13 08:43:18][INFO] Evaluating ARIMA [5D] with params: {'order': (1, 0, 1)}
+[2026-10-13 08:43:21][INFO] Evaluating SARIMA [5D] with params: {'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}
+[2026-10-13 08:43:23][INFO] Evaluating ARIMAX [5D] with params: {'order': (1, 0, 1)}
+[2026-10-13 08:43:25][INFO] ======================================================================
+[2026-10-13 08:43:25][INFO] STARTING OUT-OF-SAMPLE TEST EVALUATION (SPLIT 3: 2020-2026)
+[2026-10-13 08:43:25][INFO] ======================================================================
+[2026-10-13 08:43:25][INFO] Loaded Train Set (Splits 1+2): 7711 rows (1990-03-27 -> 2020-10-30)
+[2026-10-13 08:43:25][INFO] Loaded Test Set (Split 3): 1362 rows (2020-11-02 -> 2026-04-07)
+[2026-10-13 08:43:25][INFO] Target Models: ['historical_mean', 'arima', 'sarima', 'arimax']
+[2026-10-13 08:43:25][INFO] Target Horizons: ['1D', '5D', '20D', '60D', '120D']
+[2026-10-13 08:43:25][INFO] 
+================ Processing Horizon 1D ================
+[2026-10-13 08:43:25][INFO] Evaluating Historical_Mean [1D] with params: {}
+[2026-10-13 08:43:25][INFO] Evaluating ARIMA [1D] with params: {'order': (1, 0, 1)}
+[2026-10-13 08:43:27][INFO] Evaluating SARIMA [1D] with params: {'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}
+[2026-10-13 08:43:27][INFO] Evaluating ARIMAX [1D] with params: {'order': (1, 0, 1)}
+[2026-10-13 08:43:33][INFO] 
+================ Processing Horizon 5D ================
+[2026-10-13 08:43:33][INFO] Evaluating Historical_Mean [5D] with params: {}
+[2026-10-13 08:43:33][INFO] Evaluating ARIMA [5D] with params: {'order': (1, 0, 1)}
+[2026-10-13 08:43:35][INFO] Evaluating SARIMA [5D] with params: {'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}
+[2026-10-13 08:43:37][INFO] Evaluating ARIMAX [5D] with params: {'order': (1, 0, 1)}
+[2026-10-13 08:43:43][INFO] 
+================ Processing Horizon 20D ================
+[2026-10-13 08:43:43][INFO] Evaluating Historical_Mean [20D] with params: {}
+[2026-10-13 08:43:43][INFO] Evaluating ARIMA [20D] with params: {'order': (1, 0, 0)}
+[2026-10-13 08:43:43][INFO] Evaluating SARIMA [20D] with params: {'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}
+[2026-10-13 08:43:46][INFO] Evaluating ARIMAX [20D] with params: {'order': (1, 0, 1)}
+[2026-10-13 08:43:56][INFO] 
+================ Processing Horizon 20D ================
+[2026-10-13 08:43:56][INFO] Evaluating Historical_Mean [20D] with params: {}
+[2026-10-13 08:43:56][INFO] Evaluating ARIMA [20D] with params: {'order': (1, 0, 0)}
+[2026-10-13 08:43:57][INFO] Evaluating SARIMA [20D] with params: {'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}
+[2026-10-13 08:43:59][INFO] Evaluating ARIMAX [20D] with params: {'order': (1, 0, 1)}
+[2026-10-13 08:44:04][INFO] 
+================ Processing Horizon 60D ================
+[2026-10-13 08:44:04][INFO] Evaluating Historical_Mean [60D] with params: {}
+[2026-10-13 08:44:04][INFO] Evaluating ARIMA [60D] with params: {'order': (1, 0, 1)}
+[2026-10-13 08:44:05][INFO] Evaluating SARIMA [60D] with params: {'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}
+[2026-10-13 08:44:09][INFO] Evaluating ARIMAX [60D] with params: {'order': (1, 0, 1)}
+[2026-10-13 08:44:19][INFO] 
+================ Processing Horizon 60D ================
+[2026-10-13 08:44:19][INFO] Evaluating Historical_Mean [60D] with params: {}
+[2026-10-13 08:44:19][INFO] Evaluating ARIMA [60D] with params: {'order': (1, 0, 1)}
+[2026-10-13 08:44:20][INFO] Evaluating SARIMA [60D] with params: {'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}
+[2026-10-13 08:44:23][INFO] Evaluating ARIMAX [60D] with params: {'order': (1, 0, 1)}
+[2026-10-13 08:44:29][INFO] 
+================ Processing Horizon 120D ================
+[2026-10-13 08:44:29][INFO] Evaluating Historical_Mean [120D] with params: {}
+[2026-10-13 08:44:29][INFO] Evaluating ARIMA [120D] with params: {'order': (1, 0, 1)}
+[2026-10-13 08:44:30][INFO] Evaluating SARIMA [120D] with params: {'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}
+[2026-10-13 08:44:33][INFO] Evaluating ARIMAX [120D] with params: {'order': (1, 0, 1)}
+[2026-10-13 08:44:44][INFO] 
+================ Processing Horizon 120D ================
+[2026-10-13 08:44:44][INFO] Evaluating Historical_Mean [120D] with params: {}
+[2026-10-13 08:44:44][INFO] Evaluating ARIMA [120D] with params: {'order': (1, 0, 1)}
+[2026-10-13 08:44:46][INFO] Evaluating SARIMA [120D] with params: {'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}
+[2026-10-13 08:44:47][INFO] Evaluating ARIMAX [120D] with params: {'order': (1, 0, 1)}
+[2026-10-13 08:44:52][INFO] Saved 95340 total test predictions (27240 newly evaluated) to E:\Repo Project\IS403.R12-equity-return-predictability\results\Lan01\test_evaluation\3.0.3_test_predictions.csv
+[2026-10-13 08:44:52][INFO] 
+Computing statistical inference tests (Diebold-Mariano & Sign Tests) and regime breakdowns...
+[2026-10-13 08:44:57][INFO] 
+Saved Markdown Report to: E:\Repo Project\IS403.R12-equity-return-predictability\results\Lan01\test_evaluation\3.0.3_test_evaluation_report.md
+[2026-10-13 08:44:57][INFO] ======================================================================
+[2026-10-13 08:44:57][INFO] OUT-OF-SAMPLE TEST EVALUATION COMPLETED SUCCESSFULLY!
+[2026-10-13 08:44:57][INFO] ======================================================================
+[2026-10-13 08:45:02][INFO] Saved 95340 total test predictions (27240 newly evaluated) to E:\Repo Project\IS403.R12-equity-return-predictability\results\Lan01\test_evaluation\3.0.3_test_predictions.csv
+[2026-10-13 08:45:02][INFO] 
+Computing statistical inference tests (Diebold-Mariano & Sign Tests) and regime breakdowns...
+[2026-10-13 08:45:03][INFO] 
+Saved Markdown Report to: E:\Repo Project\IS403.R12-equity-return-predictability\results\Lan01\test_evaluation\3.0.3_test_evaluation_report.md
+[2026-10-13 08:45:03][INFO] ======================================================================
+[2026-10-13 08:45:03][INFO] OUT-OF-SAMPLE TEST EVALUATION COMPLETED SUCCESSFULLY!
+[2026-10-13 08:45:03][INFO] ======================================================================
+[2026-10-13 08:47:15][INFO] ======================================================================
+[2026-10-13 08:47:15][INFO] STARTING OUT-OF-SAMPLE TEST EVALUATION (SPLIT 3: 2020-2026)
+[2026-10-13 08:47:15][INFO] ======================================================================
+[2026-10-13 08:47:15][INFO] Loaded Train Set (Splits 1+2): 7711 rows (1990-03-27 -> 2020-10-30)
+[2026-10-13 08:47:15][INFO] Loaded Test Set (Split 3): 1362 rows (2020-11-02 -> 2026-04-07)
+[2026-10-13 08:47:15][INFO] Target Models: ['historical_mean', 'arima', 'sarima', 'arimax']
+[2026-10-13 08:47:15][INFO] Target Horizons: ['1D', '5D', '20D', '60D', '120D']
+[2026-10-13 08:47:15][INFO] 
+================ Processing Horizon 1D ================
+[2026-10-13 08:47:15][INFO] Evaluating Historical_Mean [1D] with params: {}
+[2026-10-13 08:47:15][INFO] Evaluating ARIMA [1D] with params: {'order': (1, 0, 1)}
+[2026-10-13 08:47:16][INFO] Evaluating SARIMA [1D] with params: {'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}
+[2026-10-13 08:47:24][INFO] Evaluating ARIMAX [1D] with params: {'order': (1, 0, 1)}
+[2026-10-13 08:47:29][INFO] 
+================ Processing Horizon 5D ================
+[2026-10-13 08:47:29][INFO] Evaluating Historical_Mean [5D] with params: {}
+[2026-10-13 08:47:29][INFO] Evaluating ARIMA [5D] with params: {'order': (1, 0, 1)}
+[2026-10-13 08:47:31][INFO] Evaluating SARIMA [5D] with params: {'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}
+[2026-10-13 08:47:38][INFO] Evaluating ARIMAX [5D] with params: {'order': (1, 0, 1)}
+[2026-10-13 08:47:56][INFO] 
+================ Processing Horizon 20D ================
+[2026-10-13 08:47:56][INFO] Evaluating Historical_Mean [20D] with params: {}
+[2026-10-13 08:47:56][INFO] Evaluating ARIMA [20D] with params: {'order': (1, 0, 0)}
+[2026-10-13 08:47:56][INFO] Evaluating SARIMA [20D] with params: {'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}
+[2026-10-13 08:48:03][INFO] Evaluating ARIMAX [20D] with params: {'order': (1, 0, 1)}
+[2026-10-13 08:48:22][INFO] 
+================ Processing Horizon 60D ================
+[2026-10-13 08:48:22][INFO] Evaluating Historical_Mean [60D] with params: {}
+[2026-10-13 08:48:22][INFO] Evaluating ARIMA [60D] with params: {'order': (1, 0, 1)}
+[2026-10-13 08:48:23][INFO] Evaluating SARIMA [60D] with params: {'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}
+[2026-10-13 08:48:26][INFO] Evaluating ARIMAX [60D] with params: {'order': (1, 0, 1)}
+[2026-10-13 08:48:35][INFO] 
+================ Processing Horizon 120D ================
+[2026-10-13 08:48:35][INFO] Evaluating Historical_Mean [120D] with params: {}
+[2026-10-13 08:48:35][INFO] Evaluating ARIMA [120D] with params: {'order': (1, 0, 1)}
+[2026-10-13 08:48:36][INFO] Evaluating SARIMA [120D] with params: {'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}
+[2026-10-13 08:48:37][INFO] Evaluating ARIMAX [120D] with params: {'order': (1, 0, 1)}
+[2026-10-13 08:48:44][INFO] Saved 95340 total test predictions (27240 newly evaluated) to E:\Repo Project\IS403.R12-equity-return-predictability\results\Lan01\test_evaluation\3.0.3_test_predictions.csv
+[2026-10-13 08:48:44][INFO] 
+Computing statistical inference tests (Diebold-Mariano & Sign Tests) and regime breakdowns...
+[2026-10-13 08:48:44][INFO] 
+Saved Markdown Report to: E:\Repo Project\IS403.R12-equity-return-predictability\results\Lan01\test_evaluation\3.0.3_test_evaluation_report.md
+[2026-10-13 08:48:44][INFO] ======================================================================
+[2026-10-13 08:48:44][INFO] OUT-OF-SAMPLE TEST EVALUATION COMPLETED SUCCESSFULLY!
+[2026-10-13 08:48:44][INFO] ======================================================================

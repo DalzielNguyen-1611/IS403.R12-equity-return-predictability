@@ -58,7 +58,20 @@ def run_model(df=None, horizons=config.HORIZONS, logger=None):
                 n_train, n_val = len(train_y), len(val_y)
                 val_preds = applied.predict(start=n_train, end=n_train + n_val - 1, exog=val_exog)
             else:
-                val_preds = res.forecast(steps=len(val_y), exog=val_exog)
+                # Rolling-origin direct multi-horizon forecasting with exogenous variables
+                n_val = len(val_y)
+                preds_static = res.forecast(steps=n_val, exog=val_exog)
+                phi = float(res.arparams[0]) if len(getattr(res, 'arparams', [])) > 0 else 0.0
+                
+                val_preds_list = []
+                for t in range(n_val):
+                    if t < h_step:
+                        val_preds_list.append(preds_static[t])
+                    else:
+                        y_obs = val_y[t - h_step]
+                        y_hat = preds_static[t] + (phi ** h_step) * (y_obs - preds_static[t - h_step])
+                        val_preds_list.append(y_hat)
+                val_preds = np.array(val_preds_list)
             
             y_bench = np.full_like(val_y, np.mean(train_y))
             m = utils.calc_regression_metrics(val_y, val_preds, y_bench=y_bench, h=h_step)

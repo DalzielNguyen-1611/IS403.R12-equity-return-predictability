@@ -229,14 +229,11 @@ def calc_regression_metrics(y_true, y_pred, y_bench=None, h=1, y_train=None):
     mae = mean_absolute_error(y_true, y_pred)
     rmse = np.sqrt(mean_squared_error(y_true, y_pred))
     
-    # OOS R2 (Campbell & Thompson 2008 Standard)
+    # OOS R2 (Campbell & Thompson 2008 Standard - Direct calculation without artificial hardcoding)
     if y_bench is not None:
-        if np.allclose(y_pred, y_bench, atol=1e-8):
-            oos_r2 = 0.0000
-        else:
-            sse_model = np.sum((y_true - y_pred) ** 2)
-            sse_bench = np.sum((y_true - y_bench) ** 2)
-            oos_r2 = 1.0 - (sse_model / (sse_bench + 1e-12))
+        sse_model = np.sum((y_true - y_pred) ** 2)
+        sse_bench = np.sum((y_true - y_bench) ** 2)
+        oos_r2 = 1.0 - (sse_model / (sse_bench + 1e-12))
     elif y_train is not None:
         bench_val = np.mean(y_train)
         sse_model = np.sum((y_true - y_pred) ** 2)
@@ -245,8 +242,10 @@ def calc_regression_metrics(y_true, y_pred, y_bench=None, h=1, y_train=None):
     else:
         oos_r2 = r2_score(y_true, y_pred)
         
-    # Directional Accuracy & Sign/Binomial Test
+    # Directional Accuracy & Horizon-Specific Naive Base Rate
     da, sign_pval = directional_binomial_test(y_true, y_pred, alternative='greater')
+    naive_pos_da = float(np.mean(y_true > 0)) if len(y_true) > 0 else 0.5
+    excess_da = float(da - naive_pos_da)
     
     res = {
         'OOS_R2': float(oos_r2),
@@ -255,6 +254,8 @@ def calc_regression_metrics(y_true, y_pred, y_bench=None, h=1, y_train=None):
         'RMSE': float(rmse),
         'DA': float(da),
         'Directional_Accuracy': float(da),
+        'Naive_Positive_DA': float(naive_pos_da),
+        'Excess_DA': float(excess_da),
         'Sign_pvalue': float(sign_pval)
     }
     
@@ -296,14 +297,50 @@ def calc_classification_metrics(y_true, y_prob, y_pred=None):
         'DA': float(acc)
     }
 
+
+def in_place_update_dataframe(existing_df, new_df, key_cols):
+    """
+    Updates matching rows in existing_df in-place based on key_cols.
+    Strictly preserves 100% of row order and leaves all non-matching rows untouched.
+    """
+    if existing_df is None or existing_df.empty:
+        return new_df.copy()
+    
+    df = existing_df.copy()
+    new_records = {}
+    for _, row in new_df.iterrows():
+        key = tuple(row[k] for k in key_cols)
+        new_records[key] = row.to_dict()
+    
+    for idx, row in df.iterrows():
+        key = tuple(row[k] for k in key_cols)
+        if key in new_records:
+            new_rec = new_records[key]
+            for col, val in new_rec.items():
+                if col in df.columns:
+                    df.at[idx, col] = val
+                else:
+                    df[col] = np.nan
+                    df.at[idx, col] = val
+                    
+    # If any keys are strictly missing from existing_df, append them at the end
+    existing_keys_set = set(tuple(row[k] for k in key_cols) for _, row in df.iterrows())
+    new_keys_to_append = [rec for key, rec in new_records.items() if key not in existing_keys_set]
+    if new_keys_to_append:
+        append_df = pd.DataFrame(new_keys_to_append)
+        df = pd.concat([df, append_df], ignore_index=True)
+        
+    return df
+
 def save_model_latest_results(model_dir, metrics_df, preds_df):
     """
-    Saves outputs following the 3-tier architecture:
+    Saves outputs following strict in-place row updates:
     1. Local copy in model directory: latest_metrics.csv, latest_predictions.csv
-    2. Central Tier 1: results/fold_metrics/all_fold_metrics.csv and results/summary/model_horizon_summary.csv
-    3. Central Tier 2: results/predictions/all_oos_predictions.csv
+    2. Central Tier 1: results/fold_metrics/all_fold_metrics.csv (in-place row update on [Model, Horizon, Fold])
+    3. Central Tier 2: results/predictions/all_oos_predictions.csv (in-place row update on [Date, Model, Horizon, Fold])
+    4. Summary Tier: results/summary/model_horizon_summary.csv (in-place row update on [Model, Horizon])
+    All rows belonging to other models are strictly preserved without any modification.
     """
-    # Standardize column names
     col_map = {
         'model': 'Model', 'horizon': 'Horizon', 'fold': 'Fold',
         'train_start': 'Train_Start', 'train_end': 'Train_End',
@@ -319,54 +356,51 @@ def save_model_latest_results(model_dir, metrics_df, preds_df):
     m_clean.to_csv(metrics_path, index=False)
     p_clean.to_csv(preds_path, index=False)
     
-    # 2. Central Tier 1: all_fold_metrics.csv (upsert)
+    # 2. Central Tier 1: all_fold_metrics.csv (strict in-place row update)
     all_folds_path = config.ALL_FOLD_METRICS_PATH
     if os.path.exists(all_folds_path):
-        try:
-            existing_m = pd.read_csv(all_folds_path)
-            # Filter out existing entries for the same model and horizons present in m_clean
-            cond = ~((existing_m['Model'].isin(m_clean['Model'])) & (existing_m['Horizon'].isin(m_clean['Horizon'])))
-            combined_m = pd.concat([existing_m[cond], m_clean], ignore_index=True)
-        except Exception:
-            combined_m = m_clean
+        existing_m = pd.read_csv(all_folds_path)
+        combined_m = in_place_update_dataframe(existing_m, m_clean, key_cols=['Model', 'Horizon', 'Fold'])
     else:
         combined_m = m_clean
     combined_m.to_csv(all_folds_path, index=False)
     
-    # 3. Central Tier 2: all_oos_predictions.csv (upsert)
+    # 3. Central Tier 2: all_oos_predictions.csv (strict in-place row update)
     all_preds_path = config.ALL_PREDICTIONS_PATH
     if os.path.exists(all_preds_path):
-        try:
-            existing_p = pd.read_csv(all_preds_path)
-            cond_p = ~((existing_p['Model'].isin(p_clean['Model'])) & (existing_p['Horizon'].isin(p_clean['Horizon'])))
-            combined_p = pd.concat([existing_p[cond_p], p_clean], ignore_index=True)
-        except Exception:
-            combined_p = p_clean
+        existing_p = pd.read_csv(all_preds_path)
+        combined_p = in_place_update_dataframe(existing_p, p_clean, key_cols=['Date', 'Model', 'Horizon', 'Fold'])
     else:
         combined_p = p_clean
     combined_p.to_csv(all_preds_path, index=False)
     
-    # 4. Central Tier 1: model_horizon_summary.csv (aggregate mean & std across folds)
-    if 'MAE' in combined_m.columns and 'RMSE' in combined_m.columns:
-        reg_df = combined_m[~combined_m['Model'].str.lower().isin(['logistic_regression'])].copy()
-        if not reg_df.empty:
-            summary_rows = []
-            for (mod, hrz), grp in reg_df.groupby(['Model', 'Horizon']):
-                row = {
-                    'Model': mod,
-                    'Horizon': hrz,
-                    'MAE_Mean': grp['MAE'].mean(),
-                    'MAE_Std': grp['MAE'].std(),
-                    'RMSE_Mean': grp['RMSE'].mean(),
-                    'RMSE_Std': grp['RMSE'].std(),
-                    'OOS_R2_Mean': grp['OOS_R2'].mean() if 'OOS_R2' in grp.columns else np.nan,
-                    'OOS_R2_Std': grp['OOS_R2'].std() if 'OOS_R2' in grp.columns else np.nan,
-                    'DA_Mean': grp['DA'].mean() if 'DA' in grp.columns else np.nan,
-                    'DA_Std': grp['DA'].std() if 'DA' in grp.columns else np.nan,
-                }
-                summary_rows.append(row)
-            summary_df = pd.DataFrame(summary_rows)
-            summary_df.to_csv(config.MODEL_HORIZON_SUMMARY_PATH, index=False)
+    # 4. Central Tier 1: model_horizon_summary.csv (strict in-place row update)
+    summary_path = config.MODEL_HORIZON_SUMMARY_PATH
+    if 'MAE' in m_clean.columns and 'RMSE' in m_clean.columns:
+        # Calculate summary rows for the current model only
+        model_summary_rows = []
+        for (mod, hrz), grp in m_clean.groupby(['Model', 'Horizon']):
+            row = {
+                'Model': mod,
+                'Horizon': hrz,
+                'MAE_Mean': grp['MAE'].mean(),
+                'MAE_Std': grp['MAE'].std(),
+                'RMSE_Mean': grp['RMSE'].mean(),
+                'RMSE_Std': grp['RMSE'].std(),
+                'OOS_R2_Mean': grp['OOS_R2'].mean() if 'OOS_R2' in grp.columns else np.nan,
+                'OOS_R2_Std': grp['OOS_R2'].std() if 'OOS_R2' in grp.columns else np.nan,
+                'DA_Mean': grp['DA'].mean() if 'DA' in grp.columns else np.nan,
+                'DA_Std': grp['DA'].std() if 'DA' in grp.columns else np.nan,
+            }
+            model_summary_rows.append(row)
+        new_summary_df = pd.DataFrame(model_summary_rows)
+        
+        if os.path.exists(summary_path):
+            existing_s = pd.read_csv(summary_path)
+            combined_s = in_place_update_dataframe(existing_s, new_summary_df, key_cols=['Model', 'Horizon'])
+        else:
+            combined_s = new_summary_df
+        combined_s.to_csv(summary_path, index=False)
             
         cls_df = combined_m[combined_m['Model'].str.lower().isin(['logistic_regression'])].copy()
         if not cls_df.empty:

@@ -29,14 +29,9 @@ def run_model(df=None, horizons=config.HORIZONS, logger=None):
             train_target = train_df_purged[target_col].values
             val_target = val_df[target_col].values
             
-            cum_sum = np.sum(train_target)
-            cum_count = len(train_target)
-            val_preds = []
-            for i in range(len(val_target)):
-                val_preds.append(cum_sum / cum_count)
-                cum_sum += val_target[i]
-                cum_count += 1
-            val_preds = np.array(val_preds)
+            # Clean Fixed Training Mean Baseline (Strict zero-leakage, Campbell-Thompson standard)
+            train_mean = float(np.mean(train_target))
+            val_preds = np.full(len(val_target), train_mean, dtype=float)
             
             m = utils.calc_regression_metrics(val_target, val_preds, y_bench=val_preds)
             fold_metrics.append({

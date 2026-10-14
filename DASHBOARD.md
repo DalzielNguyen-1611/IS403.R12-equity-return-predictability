@@ -1,75 +1,73 @@
-# 📊 BẢNG THEO DÕI TIẾN TRÌNH HUẤN LUYỆN (REAL-TIME DASHBOARD)
-**Mô hình:** Transformer | **Dataset:** S&P 500 (Walk-Forward 5 Folds) | **Ghi nhận:** 2026-10-12 06:44:53  
-💡 *Mẹo VS Code: Bấm `Ctrl + Shift + V` để mở giao diện xem trước (Markdown Preview) — Tự động cập nhật sau mỗi Fold.*
+# 📊 BẢNG THEO DÕI TIẾN TRÌNH & KẾT QUẢ HUẤN LUYỆN (REAL-TIME RESEARCH DASHBOARD)
+**Đề tài:** *When Does Equity Return Predictability Decay? A Multi-Horizon and Regime-Dependent Out-of-Sample Analysis*  
+**Dữ liệu:** S&P 500 Equity Returns | **Ghi nhận:** 2026-10-13 10:10:00  
+💡 *Mẹo VS Code: Bấm `Ctrl + Shift + V` để mở giao diện xem trước (Markdown Preview) — Tự động cập nhật sau mỗi giai đoạn.*
 
 ---
 
-## 📌 1. THÔNG SỐ TIẾN ĐỘ & DỰ BÁO HOÀN THÀNH
+## 📌 1. THÔNG SỐ TIẾN ĐỘ & TRẠNG THÁI TỔNG THỂ
 
-| THÔNG SỐ TIẾN ĐỘ | GIÁ TRỊ | KẾT QUẢ & DỰ BÁO | GIÁ TRỊ |
+| THÔNG SỐ TIẾN ĐỘ | GIÁ TRỊ | KẾT QUẢ & ĐÁNH GIÁ | GIÁ TRỊ |
 | :--- | :--- | :--- | :--- |
-| **Mô hình huấn luyện** | **`Transformer`** | **Fold vừa hoàn tất** | Fold 5/5 (Horizon 120D) |
-| **Bộ dữ liệu** | S&P 500 Equity Returns | **OOS R² Fold vừa xong** | `-0.1775` |
-| **Tiến trình Mô hình** | **`14/14 Models (100.0%)`** | **Directional Accuracy (DA)** | `60.66%` |
-| **Tiến trình Folds tổng** | **`350/350 Folds (100.0%)`** | **RMSE Fold vừa xong** | `0.1448` |
-| **Kỷ lục OOS R² cao nhất** | `0.6473` | **Loss / MAE Fold vừa xong** | `0.1330` |
-| **Mô hình giữ Kỷ lục** | ARIMAX (H=120D, Fold=5) | **Best Horizon của Model** | Horizon 120D |
-| **Thời gian đã chạy (chính nó)** | **`-`** | **Tốc độ chạy (chính nó)** | **`-`** |
-| **Tiến độ Nhóm Linear & Stats** | `✅ ĐÃ HOÀN TẤT 7/7 MODELS` | **Trạng thái Nhóm 1** | `Đã lưu Fold Metrics & OOS Preds` |
-| **Dự kiến XONG mô hình này** | Đã xong 100% (còn 0 folds) | **Thời gian còn lại (chính nó)** | Đã xong 100% (còn 0 folds) |
-| **Trạng thái mô hình** | 🎉 ĐÃ HOÀN TẤT 100% TOÀN BỘ 14/14 MÔ HÌNH (350/350 FOLDS)! | **Chế độ cập nhật** | 🔄 TỰ ĐỘNG SAU MỖI FOLD (Zero manual action) |
+| **Tiến trình Huấn luyện (Pha 1: Walk-Forward)** | **`14/14 Models (100.0%)`** | **Tổng số Folds hoàn tất** | **`350/350 Folds (100.0%)`** |
+| **Số lượt dự báo ngoại mẫu OOS (Pha 1)** | **`95,200 dự báo`** (2015–2020) | **Zero-Data-Leakage Purging** | `✅ Đạt 100% (Marcos López de Prado)` |
+| **Tiến trình Kiểm thử (Pha 2: Test độc lập)** | **`14/14 Models (100.0%)`** | **Tổng số lượt Test Split 3** | **`95,340 dự báo`** (2020–2026) |
+| **Tập dữ liệu Test độc lập (Split 3)** | 1,362 phiên (02/11/2020 → 07/04/2026) | **Siêu tham số Test** | Frozen từ Fold 5 (Khép kín tuyệt đối) |
+| **Kỷ lục OOS R² Test (60D)** | **`+0.0464` (+4.64%)** | **Mô hình giữ kỷ lục Test 60D** | **`SVR (RBF Kernel)`** |
+| **Kỷ lục OOS R² Test (120D)** | **`+0.0573` (+5.73%)** | **Mô hình giữ kỷ lục Test 120D** | **`SARIMA`** (bắt độ trôi nền dài hạn) |
+| **Mô hình ổn định nhất toàn diện** | **`Ridge Regression`** | **OOS R² Test của Ridge** | Dương ở 4/5 chân trời (1D, 5D, 20D, 60D) |
+| **Trạng thái thực nghiệm** | 🎉 **HOÀN TẤT 100% CẢ 2 PHA (WALK-FORWARD & INDEPENDENT TEST)** | **Kiểm toán dữ liệu & Thư mục** | `✅ Đồng nhất duy nhất tại results/Lan01` |
 
 ---
 
-## 🔍 2. CHI TIẾT 5 BƯỚC FOLD GẦN NHẤT CỦA MÔ HÌNH HIỆN TẠI (`Transformer`)
+## 📋 2. BẢNG TỔNG HỢP TIẾN TRÌNH 14 MÔ HÌNH (CẢ HUẤN LUYỆN & KIỂM THỬ)
 
-> 💡 **Quy luật huấn luyện Time-Series:** Mô hình chạy tuần tự theo Horizon: **`1D` (Fold 1→2→3→4→5)** rồi mới chuyển sang **`5D` (Fold 1→2→3→4→5)**, kế tiếp là `20D`, `60D`, `120D`.  
-> Bảng dưới đây trích xuất **5 bước vừa chạy xong gần nhất** theo đúng dòng thời gian:
-
-| BƯỚC | HORIZON | FOLD | GIAI ĐOẠN VALIDATION | TRẠNG THÁI | VAL OOS R² | VAL DA | VAL RMSE | VAL MAE |
-| :-: | :-: | :-: | :--- | :--- | :---: | :---: | :---: | :---: |
-| **#21** | **120D** | Fold 1/5 | `2015-06-10 → 2016-07-07` | ✅ Hoàn thành | `-2.4921` | `35.66%` | `0.1158` | `0.0975` |
-| **#22** | **120D** | Fold 2/5 | `2016-07-08 → 2017-08-04` | ✅ Hoàn thành | `-0.4792` | `80.88%` | `0.0609` | `0.0503` |
-| **#23** | **120D** | Fold 3/5 | `2017-08-07 → 2018-09-04` | ✅ Hoàn thành | `-1.0479` | `52.57%` | `0.0853` | `0.0662` |
-| **#24** | **120D** | Fold 4/5 | `2018-09-05 → 2019-10-03` | ✅ Hoàn thành | `-1.2062` | `47.79%` | `0.1139` | `0.0861` |
-| **#25** | **120D** | Fold 5/5 | `2019-10-04 → 2020-10-30` | ✅ Hoàn thành | `-0.1775` | `60.66%` | `0.1448` | `0.1330` |
-
----
-
-## 📋 3. TIẾN ĐỘ TỔNG HỢP 14 MÔ HÌNH & DỰ BÁO HOÀN THÀNH
-
-> ⚠️ **Nguyên tắc vàng:** Thời gian ước lượng (ETA) **bắt buộc tính dựa trên tốc độ và thời gian quá khứ của CHÍNH model đó**, tuyệt đối không suy đoán chéo giữa các model khác nhau.
-
-| # | Mô hình | Nhóm thuật toán | Tiến độ | Trạng thái | Thời gian thực tế của chính nó | Tốc độ 1 fold | Dự báo hoàn thành (ETA của chính model) |
-| :-: | :--- | :--- | :-: | :-: | :---: | :---: | :--- |
-| 1 | **`Historical_Mean`** | Benchmark | `25/25` | ✅ Hoàn thành | Hoàn tất | `-` | Đã xong |
-| 2 | **`Ridge`** | Linear Regression | `25/25` | ✅ Hoàn thành | Hoàn tất | `-` | Đã xong |
-| 3 | **`Logistic_Regression`** | Classification | `25/25` | ✅ Hoàn thành | Hoàn tất | `-` | Đã xong |
-| 4 | **`Elastic_Net`** | Linear Regression | `25/25` | ✅ Hoàn thành | Hoàn tất | `-` | Đã xong |
-| 5 | **`ARIMA`** | Statistical TS | `25/25` | ✅ Hoàn thành | Hoàn tất | `-` | Đã xong |
-| 6 | **`ARIMAX`** | Statistical TS | `25/25` | ✅ Hoàn thành | Hoàn tất | `-` | Đã xong |
-| 7 | **`SARIMA`** | Statistical TS | `25/25` | ✅ Hoàn thành | Hoàn tất | `-` | Đã xong |
-| 8 | **`LightGBM`** | Tree Ensemble | `25/25` | ✅ Hoàn thành | Hoàn tất | `-` | Đã xong |
-| 9 | **`SVR`** | Kernel Method | `25/25` | ✅ Hoàn thành | Hoàn tất | `-` | Đã xong |
-| 10 | **`Random_Forest`** | Tree Ensemble | `25/25` | ✅ Hoàn thành | Hoàn tất | `-` | Đã xong |
-| 11 | **`XGBoost`** | Tree Ensemble | `25/25` | ✅ Hoàn thành | Hoàn tất | `-` | Đã xong |
-| 12 | **`RNN`** | Deep Learning | `25/25` | ✅ Hoàn thành | Hoàn tất | `-` | Đã xong |
-| 13 | **`LSTM`** | Deep Learning | `25/25` | ✅ Hoàn thành | Hoàn tất | `-` | Đã xong |
-| 14 | **`Transformer`** | Deep Learning | `25/25` | ✅ Hoàn thành | Hoàn tất | `-` | Đã xong |
+| # | Mô hình | Nhóm thuật toán | Pha 1: Walk-Forward (2015–2020) | Pha 2: Test Độc Lập Split 3 (2020–2026) | Trạng thái | Ghi chú & Hiệu năng nổi bật |
+| :-: | :--- | :--- | :-: | :-: | :-: | :--- |
+| 1 | **`Historical_Mean`** | Benchmark | `25/25 Folds` | `5/5 Horizons` (6,810 mẫu) | ✅ Hoàn tất | Mốc chuẩn Campbell–Thompson ($OOS\_R^2 = 0.0000$) |
+| 2 | **`Ridge`** | Linear Regression | `25/25 Folds` | `5/5 Horizons` (6,810 mẫu) | ✅ Hoàn tất | Dẫn đầu 5D ($+0.0179$), bền vững nhất toàn diện |
+| 3 | **`Logistic_Regression`** | Classification | `25/25 Folds` | `5/5 Horizons` (6,810 mẫu) | ✅ Hoàn tất | ROC-AUC đạt đỉnh $0.6264$ tại 60D, DA $74.60\%$ |
+| 4 | **`Elastic_Net`** | Linear Regression | `25/25 Folds` | `5/5 Horizons` (6,810 mẫu) | ✅ Hoàn tất | Co cụm tham số triệt để, kháng nhiễu tốt |
+| 5 | **`ARIMA`** | Statistical TS | `25/25 Folds` | `5/5 Horizons` (6,810 mẫu) | ✅ Hoàn tất | $OOS\_R^2 = +0.0195$ tại 120D sau khi Purging |
+| 6 | **`ARIMAX`** | Statistical TS | `25/25 Folds` | `5/5 Horizons` (6,810 mẫu) | ✅ Hoàn tất | Ngoại sinh VIX/Mom phát huy tốt ở 1D và 60D ($+0.0252$) |
+| 7 | **`SARIMA`** | Statistical TS | `25/25 Folds` | `5/5 Horizons` (6,810 mẫu) | ✅ Hoàn tất | **Quán quân 120D** ($OOS\_R^2 = +0.0573, DA = 76.14\%$) |
+| 8 | **`LightGBM`** | Tree Ensemble | `25/25 Folds` | `5/5 Horizons` (6,810 mẫu) | ✅ Hoàn tất | **Quán quân 1D** ($+0.0208$), xuất sắc ở 60D ($+0.0289$) |
+| 9 | **`SVR`** | Kernel Method | `25/25 Folds` | `5/5 Horizons` (6,810 mẫu) | ✅ Hoàn tất | **Kỷ lục Test 60D** ($+0.0464$), dẫn đầu 20D ($+0.0305$) |
+| 10 | **`Random_Forest`** | Tree Ensemble | `25/25 Folds` | `5/5 Horizons` (6,810 mẫu) | ✅ Hoàn tất | Đạt $OOS\_R^2 > 0$ tại 1D ($+0.0177$) và 60D ($+0.0033$) |
+| 11 | **`XGBoost`** | Tree Ensemble | `25/25 Folds` | `5/5 Horizons` (6,810 mẫu) | ✅ Hoàn tất | Ổn định cao, $DA$ đạt $74.96\%$ tại 60D |
+| 12 | **`RNN`** | Deep Learning | `25/25 Folds` | `5/5 Horizons` (6,810 mẫu) | ✅ Hoàn tất | Vượt mốc chuẩn tại 20D ($+0.0048$), suy giảm ở 1D/5D |
+| 13 | **`LSTM`** | Deep Learning | `25/25 Folds` | `5/5 Horizons` (6,810 mẫu) | ✅ Hoàn tất | Điểm sáng Deep Learning tại 20D ($+0.0148, DM = +1.22$) |
+| 14 | **`Transformer`** | Deep Learning | `25/25 Folds` | `5/5 Horizons` (6,810 mẫu) | ✅ Hoàn tất | Quá khớp tham số, sụp đổ ngoại mẫu ($-0.12$ đến $-0.59$) |
 
 ---
 
-## 🏆 4. KẾT QUẢ NGHIÊN CỨU & BÁO CÁO LUẬN VĂN (ĐÃ HOÀN TẤT)
+## 🏆 3. KẾT QUẢ NGHIÊN CỨU & HỆ THỐNG TÀI LIỆU BÁO CÁO TOÀN DIỆN
 
-✅ **Toàn bộ 14 mô hình (350/350 Folds) đã hoàn tất 100%!** Hệ thống đã hoàn thành trọn vẹn, không còn tác vụ nào đang chờ.
+Hệ thống kết quả nghiên cứu và báo cáo khoa học đã được kiểm toán, chuẩn hóa và lưu trữ đồng nhất tại `results/Lan01/`:
 
-Tất cả các tệp phân tích câu hỏi nghiên cứu (RQ) và kiểm định thống kê đã được tạo hoàn chỉnh trong thư mục `results/`:
-- 📄 **RQ1 (Forecasting Horizon):** `results/analysis/rq1_horizon.csv`
-- 📄 **RQ2 (Volatility Regime):** `results/analysis/rq2_regime.csv`
-- 📄 **RQ3 (Temporal Stability):** `results/analysis/rq3_time.csv`
-- 📄 **Kiểm định Thống kê (DM-Test & Sign-Test):** `results/analysis/statistical_tests.csv`
-- 📄 **Dự báo ngoài mẫu (OOS Predictions):** `results/predictions/all_oos_predictions.csv` (18,000+ dự báo)
-- 📄 **Bảng tổng hợp Model-Horizon Metrics:** `results/summary/model_horizon_summary.csv`
+### 3.1 Dữ liệu thực nghiệm gốc (Raw Artifacts)
+- 📊 **Walk-Forward Fold Metrics (Pha 1):** `results/Lan01/fold_metrics/3.0.3_all_fold_metrics.csv` (350 dòng)
+- 📊 **Model Horizon Summary (Pha 1):** `results/Lan01/summary/3.0.3_model_horizon_summary.csv` (70 dòng)
+- 📊 **OOS Predictions (Pha 1):** `results/Lan01/predictions/3.0.3_all_oos_predictions.csv` (95,200 dòng)
+- 📊 **Best Hyperparameters (Pha 1):** `results/Lan01/tuning/3.0.3_best_hyperparameters.csv` (325 dòng)
+- 📊 **Independent Test Predictions (Pha 2):** `results/Lan01/test_evaluation/3.0.3_test_predictions.csv` (95,340 dòng)
+- 📊 **Independent Test Metrics Summary (Pha 2):** `results/Lan01/test_evaluation/3.0.3_test_metrics_summary.csv` (65 dòng)
+- 📊 **Independent Test Classification (Pha 2):** `results/Lan01/test_evaluation/3.0.3_test_classification_summary.csv` (5 dòng)
+
+### 3.2 Hệ thống 12 Báo Cáo Chuyên Sâu & Báo Cáo Hợp Nhất
+1. [3.0.3_FINAL_SYNTHESIS.md](file:///e:/Repo%20Project/IS403.R12-equity-return-predictability/results/Lan01/agent_reports/3.0.3_FINAL_SYNTHESIS.md) — Tổng hợp kết quả nghiên cứu toàn diện.
+2. [3.0.3_01_all_fold_metrics_report.md](file:///e:/Repo%20Project/IS403.R12-equity-return-predictability/results/Lan01/agent_reports/3.0.3_01_all_fold_metrics_report.md) — Báo cáo đo lường cấp fold & kiểm toán dữ liệu.
+3. [3.0.3_02_model_horizon_summary_report.md](file:///e:/Repo%20Project/IS403.R12-equity-return-predictability/results/Lan01/agent_reports/3.0.3_02_model_horizon_summary_report.md) — Tổng hợp hiệu năng đa mô hình & đa chân trời.
+4. [3.0.3_03_all_oos_predictions_report.md](file:///e:/Repo%20Project/IS403.R12-equity-return-predictability/results/Lan01/agent_reports/3.0.3_03_all_oos_predictions_report.md) — Phân tích dữ liệu dự báo ngoại mẫu (OOS).
+5. [3.0.3_04_best_hyperparameters_report.md](file:///e:/Repo%20Project/IS403.R12-equity-return-predictability/results/Lan01/agent_reports/3.0.3_04_best_hyperparameters_report.md) — Đánh giá tinh chỉnh siêu tham số.
+6. [3.0.3_05_rq1_horizon_report.md](file:///e:/Repo%20Project/IS403.R12-equity-return-predictability/results/Lan01/agent_reports/3.0.3_05_rq1_horizon_report.md) — Suy thoái năng lực dự báo theo chân trời thời gian.
+7. [3.0.3_06_rq2_regime_report.md](file:///e:/Repo%20Project/IS403.R12-equity-return-predictability/results/Lan01/agent_reports/3.0.3_06_rq2_regime_report.md) — Năng lực dự báo theo chế độ biến động thị trường.
+8. [3.0.3_07_rq3_time_report.md](file:///e:/Repo%20Project/IS403.R12-equity-return-predictability/results/Lan01/agent_reports/3.0.3_07_rq3_time_report.md) — Tính ổn định năng lực dự báo qua các chu kỳ thời gian.
+9. [3.0.3_07_rq3_time_audit_log.md](file:///e:/Repo%20Project/IS403.R12-equity-return-predictability/results/Lan01/agent_reports/3.0.3_07_rq3_time_audit_log.md) — Kiểm toán phương pháp luận & thống kê RQ3.
+10. [3.0.3_08_statistical_tests_report.md](file:///e:/Repo%20Project/IS403.R12-equity-return-predictability/results/Lan01/agent_reports/3.0.3_08_statistical_tests_report.md) — Kiểm định thống kê (Diebold–Mariano, Clark–West, SPA).
+11. [3.0.3_08_statistical_tests_audit_log.md](file:///e:/Repo%20Project/IS403.R12-equity-return-predictability/results/Lan01/agent_reports/3.0.3_08_statistical_tests_audit_log.md) — Kiểm toán phương pháp luận kiểm định thống kê.
+12. [3.0.3_09_test_evaluation_report.md](file:///e:/Repo%20Project/IS403.R12-equity-return-predictability/results/Lan01/agent_reports/3.0.3_09_test_evaluation_report.md) — **Đánh giá tập kiểm thử độc lập (Split 3: 2020–2026)**.
+13. ⭐ **BÁO CÁO HỢP NHẤT TOÀN DIỆN:** [3.0.3_ALL_REPORTS_COMBINED.md](file:///e:/Repo%20Project/IS403.R12-equity-return-predictability/results/Lan01/agent_reports/3.0.3_ALL_REPORTS_COMBINED.md) (Hợp nhất trọn vẹn cả 12 báo cáo).
 
 ---
-*Bảng điều khiển được cập nhật **hoàn toàn tự động** sau mỗi Fold bằng hook nội bộ (Atomic File Swap).*
+*Bảng điều khiển phản ánh trạng thái hoàn tất 100% của toàn bộ hệ thống thực nghiệm dự án IS403.*

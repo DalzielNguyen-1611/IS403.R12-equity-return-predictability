@@ -60,7 +60,22 @@ def run_model(df=None, horizons=config.HORIZONS, logger=None):
                 n_train, n_val = len(train_y), len(val_y)
                 val_preds = applied.predict(start=n_train, end=n_train + n_val - 1)
             else:
-                val_preds = fitted_model.forecast(steps=len(val_y))
+                # Rolling-origin direct multi-horizon forecasting (Strict zero-leakage)
+                # At day t, target val_y[t - h] has completed at day t.
+                n_val = len(val_y)
+                preds_static = fitted_model.forecast(steps=n_val)
+                mu = float(fitted_model.params[0]) if len(fitted_model.params) > 0 else float(np.mean(train_y))
+                phi = float(fitted_model.arparams[0]) if len(getattr(fitted_model, 'arparams', [])) > 0 else 0.0
+                
+                val_preds_list = []
+                for t in range(n_val):
+                    if t < h_step:
+                        val_preds_list.append(preds_static[t])
+                    else:
+                        y_obs = val_y[t - h_step]
+                        y_hat = mu + (phi ** h_step) * (y_obs - mu)
+                        val_preds_list.append(y_hat)
+                val_preds = np.array(val_preds_list)
             
             y_bench = np.full_like(val_y, np.mean(train_y))
             m = utils.calc_regression_metrics(val_y, val_preds, y_bench=y_bench, h=h_step)

@@ -1,7 +1,8 @@
 import os
 import re
 
-report_dir = r"e:\IS403.R12-equity-return-predictability\results\agent_reports"
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+report_dir = os.path.join(REPO_ROOT, "results", "Lan01", "agent_reports")
 files = [f for f in os.listdir(report_dir) if f.endswith(".md") and f != "ALL_REPORTS_COMBINED.md"]
 
 for fname in files:
