@@ -1,0 +1,1 @@
+{"model": "TCN", "horizon": "1D", "fold": 1, "epoch": 12, "total_epochs": 1000, "pct": 1.2, "vloss": 0.001385, "best_loss": 0.001385, "timestamp": "17:38:50"}

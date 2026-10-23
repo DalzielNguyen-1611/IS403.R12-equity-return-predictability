@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IS403 Research AI Dashboard | Real-Time Model Tracking</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #070B14;
+      --bg-secondary: #0D1424;
+      --card-bg: rgba(16, 26, 46, 0.72);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-hover: rgba(255, 255, 255, 0.14);
+      --text-main: #F3F4F6;
+      --text-muted: #94A3B8;
+      --accent-cyan: #00F2FE;
+      --accent-blue: #38BDF8;
+      --accent-green: #10B981;
+      --accent-yellow: #F59E0B;
+      --accent-purple: #8B5CF6;
+      --accent-pink: #EC4899;
+      --accent-red: #EF4444;
+      --glow-blue: rgba(56, 189, 248, 0.25);
+      --glow-green: rgba(16, 185, 129, 0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background-color: var(--bg-primary);
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(139, 92, 246, 0.08) 0%, transparent 45%);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 24px;
+      overflow-x: hidden;
+    }
+
+    /* Container */
+    .dashboard-container {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Header Bar */
+    header {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 20px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo-badge {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #00F2FE 0%, #4FACFE 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 22px;
+      color: #050B14;
+      box-shadow: 0 4px 20px rgba(0, 242, 254, 0.35);
+    }
+
+    .header-title h1 {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(90deg, #FFFFFF, #CBD5E1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .header-title p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: var(--accent-green);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      letter-spacing: 0.02em;
+    }
+
+    .status-pill.running {
+      background: rgba(56, 189, 248, 0.12);
+      border-color: rgba(56, 189, 248, 0.4);
+      color: var(--accent-blue);
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: currentColor;
+      box-shadow: 0 0 10px currentColor;
+      animation: pulse 1.6s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.3); }
+    }
+
+    .gpu-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(139, 92, 246, 0.12);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      color: #C4B5FD;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 9999px;
+    }
+
+    .btn-action {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 8px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-action:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-1px);
+    }
+
+    /* Run Switcher Navigation Tabs */
+    .tab-bar {
+      display: flex;
+      gap: 8px;
+      background: var(--bg-secondary);
+      padding: 6px;
+      border-radius: 16px;
+      border: 1px solid var(--card-border);
+      width: fit-content;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 8px 18px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(139, 92, 246, 0.2));
+      color: #FFFFFF;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    }
+
+    /* KPI Summary Cards */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .kpi-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 20px;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .kpi-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--card-hover);
+    }
+
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue));
+    }
+
+    .kpi-card.purple::before { background: linear-gradient(90deg, #8B5CF6, #EC4899); }
+    .kpi-card.green::before { background: linear-gradient(90deg, #10B981, #00F2FE); }
+    .kpi-card.yellow::before { background: linear-gradient(90deg, #F59E0B, #EF4444); }
+
+    .kpi-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .kpi-value {
+      font-size: 28px;
+      font-weight: 800;
+      color: #FFFFFF;
+      letter-spacing: -0.02em;
+    }
+
+    .kpi-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Live Epoch Progress Monitor */
+    .epoch-card {
+      background: linear-gradient(135deg, rgba(16, 26, 46, 0.9) 0%, rgba(13, 20, 36, 0.95) 100%);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(0, 242, 254, 0.35);
+      border-radius: 18px;
+      padding: 20px 24px;
+      box-shadow: 0 10px 30px rgba(0, 242, 254, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .epoch-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, #00F2FE, #38BDF8, #8B5CF6);
+    }
+
+    .epoch-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .epoch-progress-track {
+      width: 100%;
+      height: 16px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 9999px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+
+    .epoch-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #00F2FE 0%, #38BDF8 50%, #8B5CF6 100%);
+      background-size: 200% 100%;
+      border-radius: 9999px;
+      transition: width 0.35s ease;
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.6);
+      animation: shimmer 2.5s infinite linear;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* Main Grid Layout */
+    .content-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 1024px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Model Cards Grid */
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .models-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .model-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 18px;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .model-card:hover {
+      border-color: rgba(56, 189, 248, 0.4);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .model-card.active-run {
+      border-color: rgba(56, 189, 248, 0.6);
+      background: linear-gradient(180deg, rgba(56, 189, 248, 0.08) 0%, rgba(16, 26, 46, 0.8) 100%);
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.15);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .model-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    .model-category {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .badge-status {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+
+    .badge-status.waiting {
+      background: rgba(148, 163, 184, 0.15);
+      color: #94A3B8;
+    }
+
+    .badge-status.running {
+      background: rgba(56, 189, 248, 0.2);
+      color: var(--accent-blue);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+    }
+
+    .badge-status.done {
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--accent-green);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+
+    /* Progress bar */
+    .progress-track {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 9999px;
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue));
+      transition: width 0.4s ease;
+    }
+
+    .progress-fill.done {
+      background: linear-gradient(90deg, #10B981, #00F2FE);
+    }
+
+    .card-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .metric-box {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .metric-box span:first-child {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .metric-box span:last-child {
+      font-size: 13px;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      color: #FFFFFF;
+    }
+
+    /* Live Terminal Log Component */
+    .terminal-card {
+      background: #050811;
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 440px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .terminal-header {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .terminal-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .terminal-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .terminal-dot.red { background: #EF4444; }
+    .terminal-dot.yellow { background: #F59E0B; }
+    .terminal-dot.green { background: #10B981; }
+
+    .terminal-title {
+      font-size: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-muted);
+    }
+
+    .terminal-body {
+      padding: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #93C5FD;
+      overflow-y: auto;
+      flex: 1;
+      max-height: 520px;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .terminal-body::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .terminal-body::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 3px;
+    }
+
+    /* Detailed Metrics Table */
+    .table-container {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 20px;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+
+    th {
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    td {
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text-main);
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+    }
+
+    .val-pos { color: var(--accent-green); }
+    .val-neg { color: var(--accent-red); }
+    .val-neutral { color: var(--text-muted); }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 24px 0 12px 0;
+      font-size: 12px;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dashboard-container">
+
+    <!-- Top Header -->
+    <header>
+      <div class="header-left">
+        <div class="logo-badge">IS</div>
+        <div class="header-title">
+          <h1>Hệ Thống Giám Sát Huấn Luyện AI — Real-Time Research Dashboard</h1>
+          <p>Đề tài: <em>When Does Equity Return Predictability Decay? Multi-Horizon & Regime Analysis</em></p>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div id="liveStatusPill" class="status-pill running">
+          <div class="pulse-dot"></div>
+          <span id="liveStatusText">Đang Huấn Luyện (Lan02)</span>
+        </div>
+        <div class="gpu-pill">
+          <span>⚡ NVIDIA RTX 4060 GPU</span>
+        </div>
+        <button class="btn-action" onclick="document.getElementById('manualFileInput').click()" title="Nếu mở bằng file:// và bị chặn CORS, chọn tệp CSV/log tại đây">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Nạp File Thủ Công
+        </button>
+        <input type="file" id="manualFileInput" style="display: none;" onchange="handleManualFile(event)">
+        <button class="btn-action" id="btnRefresh" onclick="refreshDashboard()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+          Làm mới
+        </button>
+      </div>
+    </header>
+
+    <!-- Run Switcher Tabs -->
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+      <div class="tab-bar">
+        <button class="tab-btn active" id="tabLan02" onclick="switchRun('Lan02')">🔥 Lần 02 (7 DL - Tham số Mặc định)</button>
+        <button class="tab-btn" id="tabLan03" onclick="switchRun('Lan03')">✨ Lần 03 (7 DL - Tối ưu Optuna)</button>
+        <button class="tab-btn" id="tabLan01" onclick="switchRun('Lan01')">✅ Lần 01 (14 Baseline Models - Hoàn Tất)</button>
+      </div>
+
+      <div style="font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 8px;">
+        <span>Tự động cập nhật:</span>
+        <select id="selInterval" onchange="changeInterval()" style="background: var(--bg-secondary); border: 1px solid var(--card-border); color: #fff; padding: 4px 8px; border-radius: 8px; font-size: 12px; outline: none;">
+          <option value="3000" selected>Mỗi 3 giây</option>
+          <option value="5000">Mỗi 5 giây</option>
+          <option value="10000">Mỗi 10 giây</option>
+          <option value="0">Tạm dừng</option>
+        </select>
+        <span id="lastUpdated" style="font-family: 'JetBrains Mono'; margin-left: 6px;">Vừa cập nhật: 16:56:12</span>
+      </div>
+    </div>
+
+    <!-- KPI Metric Cards -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Tiến Trình Folds Tổng</div>
+        <div class="kpi-value" id="kpiProgress">0 / 175</div>
+        <div class="kpi-sub">
+          <span id="kpiPct">0.0% Hoàn thành</span> • 5 Horizons × 5 Folds
+        </div>
+      </div>
+
+      <div class="kpi-card green">
+        <div class="kpi-label">Kỷ Lục OOS R² Cao Nhất</div>
+        <div class="kpi-value val-pos" id="kpiBestR2">+0.0000</div>
+        <div class="kpi-sub" id="kpiBestR2Model">
+          Đang cập nhật từ fold đầu tiên...
+        </div>
+      </div>
+
+      <div class="kpi-card purple">
+        <div class="kpi-label">Directional Accuracy (DA)</div>
+        <div class="kpi-value" id="kpiBestDA">--%</div>
+        <div class="kpi-sub" id="kpiBestDAModel">
+          Đo lường năng lực đoán đúng xu hướng
+        </div>
+      </div>
+
+      <div class="kpi-card" style="border-color: rgba(0, 242, 254, 0.4);">
+        <div class="kpi-label">Ước Lượng Hoàn Thành (ETA)</div>
+        <div class="kpi-value" id="kpiETA" style="color: var(--accent-cyan);">--</div>
+        <div class="kpi-sub" id="kpiETASub">
+          Đang ước lượng tốc độ chạy...
+        </div>
+      </div>
+
+      <div class="kpi-card yellow">
+        <div class="kpi-label">Mô Hình Đang Huấn Luyện</div>
+        <div class="kpi-value" id="kpiActiveModel" style="font-size: 24px; color: var(--accent-cyan);">TCN</div>
+        <div class="kpi-sub" id="kpiActiveFold">
+          Horizon 1D • Fold 1/5 (Epoch loop)
+        </div>
+      </div>
+    </div>
+    
+    <!-- Live Epoch Progress Monitor -->
+    <div class="epoch-card" id="liveEpochMonitor">
+      <div class="epoch-card-header">
+        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+          <div class="pulse-dot" style="background: var(--accent-cyan); box-shadow: 0 0 10px var(--accent-cyan);"></div>
+          <span style="font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: #fff;">
+            TIẾN TRÌNH EPOCH THỜI GIAN THỰC (LIVE EPOCH MONITOR)
+          </span>
+          <span class="badge-status running" id="epochModelBadge">⚡ TCN • Horizon 1D • Fold 1/5</span>
+        </div>
+        <div style="font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--text-muted);" id="epochTimestamp">
+          Đang theo dõi từng epoch...
+        </div>
+      </div>
+
+      <div>
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+          <div>
+            <span style="font-size: 28px; font-weight: 800; color: #fff; font-family: 'JetBrains Mono';" id="epochCounterText">Epoch -- / 1000</span>
+            <span style="font-size: 14px; font-weight: 700; color: var(--accent-cyan); margin-left: 8px;" id="epochPctText">(0.0%)</span>
+          </div>
+          <div style="display: flex; gap: 20px; font-size: 13px; flex-wrap: wrap;">
+            <div>
+              <span style="color: var(--text-muted);">Current Val Loss:</span>
+              <span style="font-weight: 700; color: var(--accent-yellow); font-family: 'JetBrains Mono'; margin-left: 4px;" id="epochCurLoss">0.00866</span>
+            </div>
+            <div>
+              <span style="color: var(--text-muted);">Best Val Loss:</span>
+              <span style="font-weight: 700; color: var(--accent-green); font-family: 'JetBrains Mono'; margin-left: 4px;" id="epochBestLoss">0.00866</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="epoch-progress-track">
+          <div class="epoch-progress-fill" id="epochProgressBar" style="width: 12.5%;"></div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 12px; color: var(--text-muted); flex-wrap: wrap; gap: 8px;">
+          <div>
+            <span>⏱️ Tốc độ: </span><strong style="color: #fff; font-family: 'JetBrains Mono';" id="epochSpeedText">-- s/epoch</strong>
+            <span style="margin: 0 8px;">•</span>
+            <span>Dự kiến xong Fold này: </span><strong style="color: var(--accent-cyan); font-family: 'JetBrains Mono';" id="epochFoldETAText">--</strong>
+          </div>
+          <div>
+            <span>⏱️ Dự kiến xong toàn bộ: </span><strong style="color: var(--accent-green); font-family: 'JetBrains Mono';" id="epochTotalETAText">--</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content Layout (Models Grid + Live Log Terminal) -->
+    <div class="content-grid">
+      
+      <!-- Left: Models Grid -->
+      <div>
+        <div class="section-title">
+          <span>DANH SÁCH MÔ HÌNH HUẤN LUYỆN LẦN 02 (LAN02)</span>
+          <span style="font-size: 12px; font-weight: normal; color: var(--text-muted);" id="modelsSubtitle">7 Kiến trúc chuỗi thời gian tiên tiến</span>
+        </div>
+
+        <div class="models-grid" id="modelsGridContainer">
+          <!-- Model Cards injected via JavaScript -->
+        </div>
+      </div>
+
+      <!-- Right: Live Log Terminal -->
+      <div>
+        <div class="section-title">
+          <span>TERMINAL LOG (THỜI GIAN THỰC)</span>
+          <span style="font-size: 11px; color: var(--accent-green);">● Live Stream</span>
+        </div>
+
+        <div class="terminal-card">
+          <div class="terminal-header">
+            <div class="terminal-dots">
+              <div class="terminal-dot red"></div>
+              <div class="terminal-dot yellow"></div>
+              <div class="terminal-dot green"></div>
+            </div>
+            <div class="terminal-title">lan02_execution.log</div>
+          </div>
+          <div class="terminal-body" id="terminalLogBody">
+[2026-10-22 16:56:11][INFO] ===========================================================================
+[2026-10-22 16:56:11][INFO]    STARTING RUN 2 (LAN02) — 7 ADVANCED TIME-SERIES DEEP LEARNING ARCHITECTURES
+[2026-10-22 16:56:11][INFO]    Device: cuda | Run Name: Lan02 | Output: results\Lan02
+[2026-10-22 16:56:11][INFO]    Models: ALL | Horizons: all | Optuna Tuning: False
+[2026-10-22 16:56:11][INFO] ===========================================================================
+[2026-10-22 16:56:11][INFO] Loaded dataset: dataset\3.0.3_val_folds.csv (9,073 trading days, 16 features).
+[2026-10-22 16:56:11][INFO] Initializing Historical_Mean benchmark baseline for Lan02...
+[2026-10-22 16:56:12][INFO] Running Historical_Mean across horizons: ['1D', '5D', '20D', '60D', '120D']
+[2026-10-22 16:56:12][INFO] Completed Historical_Mean.
+[2026-10-22 16:56:12][INFO] ✓ Benchmark Historical_Mean ready for Lan02.
+[2026-10-22 16:56:12][INFO] Launching Model: TCN from tcn/tcn_model.py
+[2026-10-22 16:56:12][INFO] Running TCN on device 'cuda' across horizons: ['1D', '5D', '20D', '60D', '120D']
+▶ [TCN] Horizon 1D | Fold 1/5: Đang xử lý Train: 1990-03-27 → 2015-06-09 (1990–2015, 6,351 ngày) | Test OOS: 2015-06-10 → 2016-07-07...
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Detailed Fold Metrics Table -->
+    <div class="table-container">
+      <div class="section-title">
+        <span>BẢNG CHI TIẾT TỪNG FOLD ĐÃ HOÀN TẤT (VAL OOS METRICS)</span>
+        <span style="font-size: 12px; font-weight: normal; color: var(--text-muted);" id="tableCount">0 Folds ghi nhận</span>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Mô hình</th>
+            <th>Horizon</th>
+            <th>Fold</th>
+            <th>Giai đoạn Train</th>
+            <th>Giai đoạn Validation OOS</th>
+            <th>OOS R²</th>
+            <th>DA (%)</th>
+            <th>RMSE</th>
+            <th>MAE</th>
+            <th>Thời Gian Fold</th>
+            <th>Trạng thái</th>
+          </tr>
+        </thead>
+        <tbody id="foldMetricsTableBody">
+          <tr>
+            <td colspan="11" style="text-align: center; color: var(--text-muted); padding: 24px;">
+              🔄 Đang chờ fold đầu tiên hoàn tất và ghi vào hệ thống checkpoint...
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>Hệ Thống Nghiên Cứu Tài Chính Định Lượng IS403.R12 • Nhóm 6 • Cập nhật tự động sau mỗi Fold (Atomic Swap)</p>
+    </footer>
+
+  </div>
+
+  <script>
+    let currentRun = 'Lan02';
+    let pollTimer = null;
+
+    const LAN02_MODELS_META = [
+      { key: 'tcn', name: 'TCN', category: 'Temporal CNN', foldsTotal: 25, icon: '⚡' },
+      { key: 'nbeats', name: 'N-BEATS', category: 'Basis Expansion MLP', foldsTotal: 25, icon: '🔷' },
+      { key: 'nhits', name: 'N-HiTS', category: 'Hierarchical Interpolation', foldsTotal: 25, icon: '🔺' },
+      { key: 'patchtst', name: 'PatchTST', category: 'Patch Transformer', foldsTotal: 25, icon: '🧩' },
+      { key: 'tsmixer', name: 'TSMixer', category: 'All-MLP Architecture', foldsTotal: 25, icon: '🎛️' },
+      { key: 'itransformer', name: 'iTransformer', category: 'Inverted Transformer', foldsTotal: 25, icon: '🔄' },
+      { key: 'cnn', name: 'CNN', category: '1D Convolution Baseline', foldsTotal: 25, icon: '📊' }
+    ];
+
+    const LAN01_MODELS_META = [
+      { key: 'historical_mean', name: 'Historical_Mean', category: 'Benchmark', foldsTotal: 25, icon: '📐' },
+      { key: 'ridge', name: 'Ridge', category: 'Linear Regression', foldsTotal: 25, icon: '📈' },
+      { key: 'logistic_regression', name: 'Logistic_Regression', category: 'Classification', foldsTotal: 25, icon: '🎯' },
+      { key: 'elastic_net', name: 'Elastic_Net', category: 'Linear Regression', foldsTotal: 25, icon: '📉' },
+      { key: 'arima', name: 'ARIMA', category: 'Statistical TS', foldsTotal: 25, icon: '⏱️' },
+      { key: 'arimax', name: 'ARIMAX', category: 'Statistical TS', foldsTotal: 25, icon: '📊' },
+      { key: 'sarima', name: 'SARIMA', category: 'Statistical TS', foldsTotal: 25, icon: '📅' },
+      { key: 'lightgbm', name: 'LightGBM', category: 'Tree Ensemble', foldsTotal: 25, icon: '🌳' },
+      { key: 'svr', name: 'SVR', category: 'Kernel Method', foldsTotal: 25, icon: '🛡️' },
+      { key: 'random_forest', name: 'Random_Forest', category: 'Tree Ensemble', foldsTotal: 25, icon: '🌲' },
+      { key: 'xgboost', name: 'XGBoost', category: 'Tree Ensemble', foldsTotal: 25, icon: '🚀' },
+      { key: 'rnn', name: 'RNN', category: 'Deep Learning', foldsTotal: 25, icon: '🧠' },
+      { key: 'lstm', name: 'LSTM', category: 'Deep Learning', foldsTotal: 25, icon: '🔁' },
+      { key: 'transformer', name: 'Transformer', category: 'Deep Learning', foldsTotal: 25, icon: '✨' }
+    ];
+
+    function renderModelCards(models, completedCounts = {}, modelMetrics = {}) {
+      const container = document.getElementById('modelsGridContainer');
+      container.innerHTML = '';
+
+      models.forEach(m => {
+        const cnt = completedCounts[m.name] || 0;
+        const total = m.foldsTotal;
+        const pct = Math.min(100, Math.round((cnt / total) * 100));
+        const isRunning = cnt > 0 && cnt < total;
+        const isDone = cnt >= total;
+
+        let statusClass = 'waiting';
+        let statusText = 'Chờ chạy';
+        if (isRunning) {
+          statusClass = 'running';
+          statusText = `Đang chạy (${cnt}/${total})`;
+        } else if (isDone) {
+          statusClass = 'done';
+          statusText = 'Hoàn tất 25/25';
+        }
+
+        const metrics = modelMetrics[m.name] || { r2: '-', da: '-', rmse: '-' };
+
+        const card = document.createElement('div');
+        card.className = `model-card ${isRunning ? 'active-run' : ''}`;
+        card.innerHTML = `
+          <div class="card-top">
+            <div>
+              <div class="model-name">${m.icon} ${m.name}</div>
+              <div class="model-category">${m.category}</div>
+            </div>
+            <div class="badge-status ${statusClass}">${statusText}</div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted);">
+            <span>Tiến độ Folds</span>
+            <span style="font-weight: 600; color: #fff;">${cnt}/${total} (${pct}%)</span>
+          </div>
+
+          <div class="progress-track">
+            <div class="progress-fill ${isDone ? 'done' : ''}" style="width: ${pct}%"></div>
+          </div>
+
+          <div class="card-metrics">
+            <div class="metric-box">
+              <span>OOS R²</span>
+              <span class="${parseFloat(metrics.r2) > 0 ? 'val-pos' : (parseFloat(metrics.r2) < 0 ? 'val-neg' : 'val-neutral')}">${metrics.r2}</span>
+            </div>
+            <div class="metric-box">
+              <span>DA</span>
+              <span>${metrics.da}</span>
+            </div>
+            <div class="metric-box">
+              <span>RMSE</span>
+              <span>${metrics.rmse}</span>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    async function fetchJSON(url) {
+      try {
+        const res = await fetch(url + '?t=' + Date.now());
+        if (!res.ok) return null;
+        return await res.json();
+      } catch (e) {
+        return null;
+      }
+    }
+
+    async function fetchCSV(url) {
+      try {
+        const res = await fetch(url + '?t=' + Date.now());
+        if (!res.ok) return null;
+        const text = await res.text();
+        return parseCSV(text);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    async function fetchText(url) {
+      try {
+        const res = await fetch(url + '?t=' + Date.now());
+        if (!res.ok) return null;
+        return await res.text();
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function parseCSV(text) {
+      const lines = text.trim().split('\n');
+      if (lines.length < 2) return [];
+      const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+      const rows = [];
+      for (let i = 1; i < lines.length; i++) {
+        const cols = lines[i].split(',').map(c => c.trim().replace(/^"|"$/g, ''));
+        if (cols.length === headers.length) {
+          const obj = {};
+          headers.forEach((h, idx) => obj[h] = cols[idx]);
+          rows.push(obj);
+        }
+      }
+      return rows;
+    }
+
+    function formatDuration(sec) {
+      if (!sec || isNaN(sec) || sec <= 0) return '--';
+      if (sec < 60) return `${Math.round(sec)}s`;
+      const m = Math.floor(sec / 60);
+      const s = Math.round(sec % 60);
+      if (m < 60) return `${m}m ${s > 0 ? s + 's' : ''}`.trim();
+      const h = Math.floor(m / 60);
+      const remM = m % 60;
+      return `${h}h ${remM > 0 ? remM + 'm' : ''}`.trim();
+    }
+
+    function formatClockTime(secFromNow) {
+      if (!secFromNow || isNaN(secFromNow) || secFromNow <= 0) return '--:--:--';
+      const d = new Date(Date.now() + secFromNow * 1000);
+      return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    }
+
+    async function refreshDashboard() {
+      const now = new Date();
+      document.getElementById('lastUpdated').innerText = 'Cập nhật: ' + now.toTimeString().split(' ')[0];
+
+      const prefix = '3.0.3_';
+      const basePath = `results/${currentRun}`;
+      const logName = currentRun === 'Lan03' ? 'lan03_execution.log' : 'lan02_execution.log';
+
+      // 1. Fetch live fold metrics & logs
+      const foldMetrics = await fetchCSV(`${basePath}/fold_metrics/${prefix}all_fold_metrics.csv`);
+      const summaryMetrics = await fetchCSV(`${basePath}/summary/${prefix}model_horizon_summary.csv`);
+      const liveLog = await fetchText(`${basePath}/${logName}`);
+
+      if (liveLog) {
+        const term = document.getElementById('terminalLogBody');
+        term.innerText = liveLog;
+        term.scrollTop = term.scrollHeight;
+      }
+
+      // 2. Measure live epoch speed from log timestamps if available
+      let logSecPerEpoch = null;
+      if (liveLog) {
+        const epTimeMatches = [...liveLog.matchAll(/\[(\d{4}-\d{2}-\d{2}\s+(\d{2}):(\d{2}):(\d{2}))\]\[INFO\]\s+↳\s+\[Epoch\s+(\d+)\/(\d+)\]/g)];
+        if (epTimeMatches.length >= 2) {
+          const first = epTimeMatches[0];
+          const last = epTimeMatches[epTimeMatches.length - 1];
+          const t0 = new Date(first[1].replace(' ', 'T')).getTime();
+          const t1 = new Date(last[1].replace(' ', 'T')).getTime();
+          const epSpan = parseInt(last[5]) - parseInt(first[5]);
+          if (epSpan > 0 && t1 > t0) {
+            logSecPerEpoch = (t1 - t0) / (epSpan * 1000);
+          }
+        }
+      }
+
+      // 3. Update Live Epoch Progress Monitor (Dual Engine: JSON + Log Regex)
+      let epochHandled = false;
+      let curEpochSec = logSecPerEpoch;
+      let curFoldEtaSec = null;
+
+      if (currentRun === 'Lan02' || currentRun === 'Lan03') {
+        const epochData = await fetchJSON(`${basePath}/epoch_progress.json`);
+        if (epochData && epochData.epoch) {
+          epochHandled = true;
+          document.getElementById('liveEpochMonitor').style.display = 'flex';
+          document.getElementById('epochModelBadge').innerText = `⚡ ${epochData.model} • Horizon ${epochData.horizon} • Fold ${epochData.fold}/5`;
+          document.getElementById('epochCounterText').innerText = `Epoch ${String(epochData.epoch).padStart(2, '0')} / ${epochData.total_epochs}`;
+          document.getElementById('epochPctText').innerText = `(${epochData.pct}%)`;
+          document.getElementById('epochProgressBar').style.width = `${epochData.pct}%`;
+          document.getElementById('epochCurLoss').innerText = epochData.vloss;
+          document.getElementById('epochBestLoss').innerText = epochData.best_loss;
+          document.getElementById('epochTimestamp').innerText = `Ghi nhận lúc: ${epochData.timestamp}`;
+          document.getElementById('kpiActiveModel').innerText = epochData.model;
+          document.getElementById('kpiActiveFold').innerText = `Horizon ${epochData.horizon} • Fold ${epochData.fold}/5 (Epoch ${epochData.epoch}/${epochData.total_epochs})`;
+
+          if (epochData.epoch_sec) curEpochSec = epochData.epoch_sec;
+          if (epochData.fold_eta_sec) curFoldEtaSec = epochData.fold_eta_sec;
+        }
+      }
+
+      if (!epochHandled && liveLog) {
+        const epochMatches = [...liveLog.matchAll(/↳ \[Epoch (\d+)\/(\d+)\] .*? Inner Val Loss: ([\d\.]+) \(Best: ([\d\.]+)\)/g)];
+        const modelMatches = [...liveLog.matchAll(/▶ \[(\w+)\] Horizon (\w+) \| Fold (\d+)\/5/g)];
+        
+        let mName = "TCN", hName = "1D", fNum = "1";
+        if (modelMatches.length > 0) {
+          const lastM = modelMatches[modelMatches.length - 1];
+          mName = lastM[1];
+          hName = lastM[2];
+          fNum = lastM[3];
+        }
+
+        if (epochMatches.length > 0) {
+          const lastEp = epochMatches[epochMatches.length - 1];
+          const ep = parseInt(lastEp[1]);
+          const tot = parseInt(lastEp[2]);
+          const curL = lastEp[3];
+          const bestL = lastEp[4];
+          const pct = Math.round((ep / tot) * 100);
+
+          document.getElementById('liveEpochMonitor').style.display = 'flex';
+          document.getElementById('epochModelBadge').innerText = `⚡ ${mName} • Horizon ${hName} • Fold ${fNum}/5`;
+          document.getElementById('epochCounterText').innerText = `Epoch ${String(ep).padStart(2, '0')} / ${tot}`;
+          document.getElementById('epochPctText').innerText = `(${pct}%)`;
+          document.getElementById('epochProgressBar').style.width = `${pct}%`;
+          document.getElementById('epochCurLoss').innerText = curL;
+          document.getElementById('epochBestLoss').innerText = bestL;
+          document.getElementById('epochTimestamp').innerText = `Phân tích từ Terminal Log`;
+          document.getElementById('kpiActiveModel').innerText = mName;
+          document.getElementById('kpiActiveFold').innerText = `Horizon ${hName} • Fold ${fNum}/5 (Epoch ${ep}/${tot})`;
+        } else if (currentRun === 'Lan01') {
+          document.getElementById('liveEpochMonitor').style.display = 'none';
+        }
+      }
+
+      // Display live epoch timing and fold ETA in Live Monitor
+      if (curEpochSec) {
+        document.getElementById('epochSpeedText').innerText = `${curEpochSec.toFixed(1)} s/epoch`;
+        if (!curFoldEtaSec) {
+          // With early stopping (patience 25), typical fold converges around 25-45 epochs
+          const epNow = parseInt(document.getElementById('epochCounterText').innerText.replace(/\D+/g, '') || 1);
+          const remEst = Math.max(5, 35 - epNow);
+          curFoldEtaSec = remEst * curEpochSec;
+        }
+      } else {
+        document.getElementById('epochSpeedText').innerText = `-- s/epoch`;
+      }
+
+      if (curFoldEtaSec) {
+        document.getElementById('epochFoldETAText').innerText = `~${formatDuration(curFoldEtaSec)} (dự kiến ${formatClockTime(curFoldEtaSec)})`;
+      } else {
+        document.getElementById('epochFoldETAText').innerText = `--`;
+      }
+
+      const activeMeta = currentRun === 'Lan02' ? LAN02_MODELS_META : LAN01_MODELS_META;
+      const completedCounts = {};
+      const modelMetricSummary = {};
+
+      const totalDone = foldMetrics ? foldMetrics.length : 0;
+      const totalTarget = currentRun === 'Lan02' ? 175 : 350;
+      document.getElementById('kpiProgress').innerText = `${totalDone} / ${totalTarget}`;
+      document.getElementById('kpiPct').innerText = `${((totalDone / totalTarget) * 100).toFixed(1)}% Hoàn thành`;
+
+      // 4. Calculate ETA for total run
+      const remainingFolds = Math.max(0, totalTarget - totalDone);
+      let avgFoldSec = null;
+
+      if (currentRun === 'Lan01') {
+        document.getElementById('kpiETA').innerText = "Hoàn tất";
+        document.getElementById('kpiETASub').innerText = "Đã hoàn thành 100% (350/350 folds)";
+        document.getElementById('epochTotalETAText').innerText = "Đã hoàn tất";
+      } else {
+        // Collect actual completed fold durations
+        let foldDurations = [];
+        if (foldMetrics && foldMetrics.length > 0) {
+          foldDurations = foldMetrics
+            .map(r => parseFloat(r.Duration_Seconds || r.duration_seconds || 0))
+            .filter(d => d > 0);
+        }
+
+        if (foldDurations.length > 0) {
+          avgFoldSec = foldDurations.reduce((a, b) => a + b, 0) / foldDurations.length;
+        } else if (curEpochSec) {
+          // Fallback: estimate fold duration as ~30 epochs per fold with early stopping
+          avgFoldSec = curEpochSec * 30;
+        }
+
+        if (remainingFolds === 0) {
+          document.getElementById('kpiETA').innerText = "Hoàn tất";
+          document.getElementById('kpiETASub').innerText = "Đã hoàn thành 100% (175/175 folds)";
+          document.getElementById('epochTotalETAText').innerText = "Đã hoàn tất";
+        } else if (avgFoldSec) {
+          const totalETASec = remainingFolds * avgFoldSec;
+          document.getElementById('kpiETA').innerText = `~${formatDuration(totalETASec)}`;
+          const foldSpeedStr = avgFoldSec < 60 ? `${avgFoldSec.toFixed(0)}s` : `${(avgFoldSec / 60).toFixed(1)}m`;
+          document.getElementById('kpiETASub').innerText = `Tốc độ: ~${foldSpeedStr} / fold • Xong lúc: ${formatClockTime(totalETASec)}`;
+          document.getElementById('epochTotalETAText').innerText = `~${formatDuration(totalETASec)} (xong lúc ${formatClockTime(totalETASec)})`;
+        } else {
+          document.getElementById('kpiETA').innerText = "--";
+          document.getElementById('kpiETASub').innerText = "Đang ước lượng tốc độ chạy...";
+          document.getElementById('epochTotalETAText').innerText = "--";
+        }
+      }
+
+      // 5. Process fold metrics & update Best R2 Card (with fold execution time)
+      if (foldMetrics && foldMetrics.length > 0) {
+        let bestR2 = -999;
+        let bestR2Model = '';
+        let bestR2Horizon = '';
+        let bestR2Fold = '';
+        let bestR2Duration = null;
+        let bestDA = 0;
+        let bestDAInfo = '-';
+
+        foldMetrics.forEach(r => {
+          const m = r.Model || r.model;
+          completedCounts[m] = (completedCounts[m] || 0) + 1;
+
+          const r2 = parseFloat(r.OOS_R2 || r.R2 || 0);
+          const da = parseFloat(r.DA || r.Directional_Accuracy || 0);
+
+          if (r2 > bestR2) {
+            bestR2 = r2;
+            bestR2Model = m;
+            bestR2Horizon = r.Horizon || r.horizon;
+            bestR2Fold = r.Fold || r.fold;
+            const dur = parseFloat(r.Duration_Seconds || r.duration_seconds || 0);
+            bestR2Duration = dur > 0 ? dur : null;
+          }
+          if (da > bestDA) {
+            bestDA = da;
+            bestDAInfo = `${m} (${r.Horizon || r.horizon}, Fold ${r.Fold || r.fold})`;
+          }
+        });
+
+        if (bestR2 > -999) {
+          document.getElementById('kpiBestR2').innerText = (bestR2 >= 0 ? '+' : '') + bestR2.toFixed(4);
+          const durStr = bestR2Duration ? ` • Thời gian: ${bestR2Duration < 60 ? bestR2Duration.toFixed(1) + 's' : formatDuration(bestR2Duration)}` : '';
+          document.getElementById('kpiBestR2Model').innerText = `Kỷ lục: ${bestR2Model} (${bestR2Horizon}, Fold ${bestR2Fold})${durStr}`;
+        }
+        if (bestDA > 0) {
+          document.getElementById('kpiBestDA').innerText = (bestDA * 100).toFixed(2) + '%';
+          document.getElementById('kpiBestDAModel').innerText = `Dẫn đầu: ${bestDAInfo}`;
+        }
+
+        // Render Table Rows with Fold Duration column
+        const tbody = document.getElementById('foldMetricsTableBody');
+        tbody.innerHTML = '';
+        foldMetrics.slice(-25).reverse().forEach(r => {
+          const tr = document.createElement('tr');
+          const r2Val = parseFloat(r.OOS_R2 || r.R2 || 0);
+          const r2Class = r2Val > 0 ? 'val-pos' : (r2Val < 0 ? 'val-neg' : 'val-neutral');
+          const daVal = parseFloat(r.DA || r.Directional_Accuracy || 0);
+          const durVal = parseFloat(r.Duration_Seconds || r.duration_seconds || 0);
+          const durDisplay = durVal > 0 ? (durVal < 60 ? `${durVal.toFixed(1)}s` : formatDuration(durVal)) : '-';
+
+          tr.innerHTML = `
+            <td><strong>${r.Model || r.model}</strong></td>
+            <td><span class="badge-status waiting">${r.Horizon || r.horizon}</span></td>
+            <td>Fold ${r.Fold || r.fold}/5</td>
+            <td style="color: var(--text-muted); font-size: 11px;">${r.train_start || r.Train_Start || '-'} → ${r.train_end || r.Train_End || '-'}</td>
+            <td style="color: var(--text-muted); font-size: 11px;">${r.val_start || r.Val_Start || '-'} → ${r.val_end || r.Val_End || '-'}</td>
+            <td class="mono ${r2Class}">${(r2Val >= 0 ? '+' : '') + r2Val.toFixed(4)}</td>
+            <td class="mono">${(daVal * 100).toFixed(2)}%</td>
+            <td class="mono">${parseFloat(r.RMSE || 0).toFixed(4)}</td>
+            <td class="mono">${parseFloat(r.MAE || 0).toFixed(4)}</td>
+            <td class="mono" style="color: var(--accent-cyan); font-weight: 600;">${durDisplay}</td>
+            <td><span class="badge-status done">✓ Hoàn tất</span></td>
+          `;
+          tbody.appendChild(tr);
+        });
+        document.getElementById('tableCount').innerText = `${foldMetrics.length} Folds ghi nhận`;
+      } else {
+        document.getElementById('kpiBestR2').innerText = "+0.0000";
+        document.getElementById('kpiBestR2Model').innerText = "Đang chờ fold đầu tiên hoàn tất...";
+        document.getElementById('kpiBestDA').innerText = "--%";
+        document.getElementById('kpiBestDAModel').innerText = "Đo lường năng lực đoán đúng xu hướng";
+      }
+
+      // Compute averages for cards from summary if available
+      if (summaryMetrics) {
+        summaryMetrics.forEach(s => {
+          const m = s.Model;
+          if (!modelMetricSummary[m]) {
+            modelMetricSummary[m] = {
+              r2: s.OOS_R2_Mean ? parseFloat(s.OOS_R2_Mean).toFixed(4) : '-',
+              da: s.DA_Mean ? (parseFloat(s.DA_Mean) * 100).toFixed(1) + '%' : '-',
+              rmse: s.RMSE_Mean ? parseFloat(s.RMSE_Mean).toFixed(4) : '-'
+            };
+          }
+        });
+      }
+
+      renderModelCards(activeMeta, completedCounts, modelMetricSummary);
+    }
+
+    function switchRun(runName) {
+      currentRun = runName;
+      document.getElementById('tabLan02').className = 'tab-btn' + (runName === 'Lan02' ? ' active' : '');
+      document.getElementById('tabLan03').className = 'tab-btn' + (runName === 'Lan03' ? ' active' : '');
+      document.getElementById('tabLan01').className = 'tab-btn' + (runName === 'Lan01' ? ' active' : '');
+
+      if (runName === 'Lan01') {
+        document.getElementById('liveStatusPill').className = 'status-pill';
+        document.getElementById('liveStatusText').innerText = 'Đã Hoàn Tất 100% (Lan01)';
+        document.getElementById('modelsSubtitle').innerText = '14 Mô hình Baseline (350/350 Folds)';
+      } else if (runName === 'Lan03') {
+        document.getElementById('liveStatusPill').className = 'status-pill running';
+        document.getElementById('liveStatusText').innerText = 'Tối Ưu Optuna (Lan03)';
+        document.getElementById('modelsSubtitle').innerText = '7 Kiến trúc chuỗi thời gian tối ưu 30 trials (175 Folds)';
+      } else {
+        document.getElementById('liveStatusPill').className = 'status-pill running';
+        document.getElementById('liveStatusText').innerText = 'Đang Huấn Luyện (Lan02)';
+        document.getElementById('modelsSubtitle').innerText = '7 Kiến trúc chuỗi thời gian tham số mặc định chuẩn (175 Folds)';
+      }
+
+      refreshDashboard();
+    }
+
+    function changeInterval() {
+      const val = parseInt(document.getElementById('selInterval').value);
+      if (pollTimer) clearInterval(pollTimer);
+      if (val > 0) {
+        pollTimer = setInterval(refreshDashboard, val);
+      }
+    }
+
+    function handleManualFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const content = e.target.result;
+        if (file.name.endsWith('.log')) {
+          const term = document.getElementById('terminalLogBody');
+          term.innerText = content;
+          term.scrollTop = term.scrollHeight;
+
+          // Parse latest epoch
+          const epochMatches = [...content.matchAll(/↳ \[Epoch (\d+)\/(\d+)\] .*? Inner Val Loss: ([\d\.]+) \(Best: ([\d\.]+)\)/g)];
+          const modelMatches = [...content.matchAll(/▶ \[(\w+)\] Horizon (\w+) \| Fold (\d+)\/5/g)];
+          if (epochMatches.length > 0) {
+            let mName = "TCN", hName = "1D", fNum = "1";
+            if (modelMatches.length > 0) {
+              const lastM = modelMatches[modelMatches.length - 1];
+              mName = lastM[1]; hName = lastM[2]; fNum = lastM[3];
+            }
+            const lastEp = epochMatches[epochMatches.length - 1];
+            const ep = parseInt(lastEp[1]);
+            const tot = parseInt(lastEp[2]);
+            const curL = lastEp[3];
+            const bestL = lastEp[4];
+            const pct = Math.round((ep / tot) * 100);
+
+            document.getElementById('liveEpochMonitor').style.display = 'flex';
+            document.getElementById('epochModelBadge').innerText = `⚡ ${mName} • Horizon ${hName} • Fold ${fNum}/5`;
+            document.getElementById('epochCounterText').innerText = `Epoch ${String(ep).padStart(2, '0')} / ${tot}`;
+            document.getElementById('epochPctText').innerText = `(${pct}%)`;
+            document.getElementById('epochProgressBar').style.width = `${pct}%`;
+            document.getElementById('epochCurLoss').innerText = curL;
+            document.getElementById('epochBestLoss').innerText = bestL;
+            document.getElementById('epochTimestamp').innerText = `Nạp thủ công: ${file.name}`;
+          }
+        } else if (file.name.endsWith('.json')) {
+          try {
+            const data = JSON.parse(content);
+            if (data.epoch) {
+              document.getElementById('liveEpochMonitor').style.display = 'flex';
+              document.getElementById('epochModelBadge').innerText = `⚡ ${data.model} • Horizon ${data.horizon} • Fold ${data.fold}/5`;
+              document.getElementById('epochCounterText').innerText = `Epoch ${String(data.epoch).padStart(2, '0')} / ${data.total_epochs}`;
+              document.getElementById('epochPctText').innerText = `(${data.pct}%)`;
+              document.getElementById('epochProgressBar').style.width = `${data.pct}%`;
+              document.getElementById('epochCurLoss').innerText = data.vloss;
+              document.getElementById('epochBestLoss').innerText = data.best_loss;
+              document.getElementById('epochTimestamp').innerText = `Nạp thủ công: ${file.name}`;
+            }
+          } catch(err){}
+        } else if (file.name.endsWith('.csv')) {
+          const parsed = parseCSV(content);
+          if (parsed && parsed.length > 0) {
+            alert(`Đã nạp thành công ${parsed.length} dòng dữ liệu từ ${file.name}!`);
+          }
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    // Initial render & timer setup
+    renderModelCards(LAN02_MODELS_META);
+    refreshDashboard();
+    pollTimer = setInterval(refreshDashboard, 3000);
+  </script>
+</body>
+</html>

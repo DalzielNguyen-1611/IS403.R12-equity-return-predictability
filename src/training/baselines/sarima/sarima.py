@@ -35,8 +35,16 @@ def run_model(df=None, horizons=config.HORIZONS, logger=None):
             order = (1, 0, 0)
             seasonal_order = (1, 0, 0, SEASONAL_PERIOD)
             try:
-                mod = ARIMA(train_y, order=order, seasonal_order=seasonal_order)
-                res = mod.fit()
+                mod_seasonal = ARIMA(train_y, order=order, seasonal_order=seasonal_order)
+                res_seasonal = mod_seasonal.fit()
+                mod_ar = ARIMA(train_y, order=order)
+                res_ar = mod_ar.fit()
+                # If seasonal order does not significantly improve AIC by > 2, prefer stable non-seasonal
+                if getattr(res_seasonal, 'aic', 1e9) < getattr(res_ar, 'aic', 1e9) - 2.0:
+                    res = res_seasonal
+                else:
+                    res = res_ar
+                    seasonal_order = (0, 0, 0, 0)
             except Exception:
                 mod = ARIMA(train_y, order=order)
                 res = mod.fit()

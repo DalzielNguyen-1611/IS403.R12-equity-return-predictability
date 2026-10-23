@@ -1,0 +1,294 @@
+[2026-10-15 22:40:15][INFO] ======================================================================
+[2026-10-15 22:40:15][INFO] STARTING BASELINES BENCHMARK SUITE
+[2026-10-15 22:40:15][INFO] Device: cuda | Horizons: all | Tuning: False
+[2026-10-15 22:40:15][INFO] ======================================================================
+[2026-10-15 22:40:15][INFO] 
+[1/1] Running model: ELASTIC_NET (elastic_net/)...
+[2026-10-15 22:40:16][INFO] Running Elastic_Net across horizons: ['1D', '5D', '20D', '60D', '120D']
+[2026-10-15 22:40:34][INFO] ✓ Model ELASTIC_NET completed successfully.
+[2026-10-15 22:46:26][INFO] ======================================================================
+[2026-10-15 22:46:26][INFO] STARTING BASELINES BENCHMARK SUITE
+[2026-10-15 22:46:26][INFO] Device: cuda | Horizons: all | Tuning: False
+[2026-10-15 22:46:26][INFO] ======================================================================
+[2026-10-15 22:46:26][INFO] 
+[1/1] Running model: SARIMA (sarima/)...
+[2026-10-15 22:46:26][INFO] Running SARIMA (s=5) across horizons: ['1D', '5D', '20D', '60D', '120D']
+[2026-10-15 22:47:20][INFO] Completed SARIMA.
+[2026-10-15 22:47:20][INFO] ✓ Model SARIMA completed successfully.
+[2026-10-15 22:47:20][INFO] Updated regression summary at: E:\Repo Project\IS403.R12-equity-return-predictability\results\Lan01\summary\3.0.3_model_horizon_summary.csv
+[2026-10-15 22:47:20][INFO] Updated classification summary at: E:\Repo Project\IS403.R12-equity-return-predictability\results\Lan01\summary\3.0.3_classification_horizon_summary.csv
+[2026-10-15 22:47:23][INFO] 
+======================================================================
+[2026-10-15 22:47:23][INFO] ALL REQUESTED BASELINE RUNS FINISHED SUCCESSFULLY!
+[2026-10-15 22:47:23][INFO] ======================================================================
+[2026-10-15 22:49:44][INFO] ======================================================================
+[2026-10-15 22:49:44][INFO] STARTING BASELINES BENCHMARK SUITE
+[2026-10-15 22:49:44][INFO] Device: cuda | Horizons: all | Tuning: False
+[2026-10-15 22:49:44][INFO] ======================================================================
+[2026-10-15 22:49:44][INFO] 
+[1/1] Running model: TRANSFORMER (transformer/)...
+[2026-10-15 22:49:44][INFO] Running Transformer on device 'cuda' across horizons: ['1D', '5D', '20D', '60D', '120D']
+[2026-10-15 22:49:44][INFO] ⚡ Found 25 cached tuning records in results/tuning/best_hyperparameters.csv.
+[2026-10-15 22:49:44][INFO] 
+▶ [Transformer] Horizon 1D | Fold 1/5: Đang xử lý Train: 1990-03-27 → 2015-06-09 (1990–2015, 6,351 ngày) | Test OOS: 2015-06-10 → 2016-07-07 (2015–2016, 272 ngày)...
+[2026-10-15 22:49:44][INFO] ⚡ [CACHED] Đã nạp tham số tối ưu Horizon 1D Fold 1. Bỏ qua Optuna!
+[2026-10-15 22:49:51][INFO]    ↳ [Epoch 05/40] Dữ liệu học đến năm 2015 | Inner Val Loss: 0.00027 (Best: 0.00013)
+[2026-10-15 22:49:56][INFO]    ↳ [Epoch 10/40] Dữ liệu học đến năm 2015 | Inner Val Loss: 0.00011 (Best: 0.00009)
+[2026-10-15 22:50:01][INFO]    ↳ [Epoch 15/40] Dữ liệu học đến năm 2015 | Inner Val Loss: 0.00009 (Best: 0.00008)
+[2026-10-15 22:50:05][INFO]    ↳ [Epoch 20/40] Dữ liệu học đến năm 2015 | Inner Val Loss: 0.00010 (Best: 0.00008)
+[2026-10-15 22:50:08][INFO]    ↳ [Epoch 23/40] Dữ liệu học đến năm 2015 | Inner Val Loss: 0.00013 (Best: 0.00008)
+[2026-10-15 22:50:08][INFO] ✓ [HOÀN TẤT FOLD 1 (2015–2016)] Val OOS R²: -0.0856 | DA: 52.21% | RMSE: 0.0111
+[2026-10-15 22:50:08][INFO] ✓ Completed & check-pointed Transformer | Horizon: 1D | Fold: 1
+[2026-10-15 22:50:08][INFO] 
+▶ [Transformer] Horizon 1D | Fold 2/5: Đang xử lý Train: 1990-03-27 → 2016-07-07 (1990–2016, 6,623 ngày) | Test OOS: 2016-07-08 → 2017-08-04 (2016–2017, 272 ngày)...
+[2026-10-15 22:50:08][INFO] ⚡ [CACHED] Đã nạp tham số tối ưu Horizon 1D Fold 2. Bỏ qua Optuna!
+[2026-10-15 22:50:18][INFO]    ↳ [Epoch 05/40] Dữ liệu học đến năm 2016 | Inner Val Loss: 0.00021 (Best: 0.00021)
+[2026-10-15 22:50:27][INFO]    ↳ [Epoch 10/40] Dữ liệu học đến năm 2016 | Inner Val Loss: 0.00027 (Best: 0.00011)
+[2026-10-15 22:50:32][INFO]    ↳ [Epoch 13/40] Dữ liệu học đến năm 2016 | Inner Val Loss: 0.00020 (Best: 0.00011)
+[2026-10-15 22:50:32][INFO] ✓ [HOÀN TẤT FOLD 2 (2016–2017)] Val OOS R²: -0.4088 | DA: 50.37% | RMSE: 0.0059
+[2026-10-15 22:50:32][INFO] ✓ Completed & check-pointed Transformer | Horizon: 1D | Fold: 2
+[2026-10-15 22:50:32][INFO] 
+▶ [Transformer] Horizon 1D | Fold 3/5: Đang xử lý Train: 1990-03-27 → 2017-08-04 (1990–2017, 6,895 ngày) | Test OOS: 2017-08-07 → 2018-09-04 (2017–2018, 272 ngày)...
+[2026-10-15 22:50:32][INFO] ⚡ [CACHED] Đã nạp tham số tối ưu Horizon 1D Fold 3. Bỏ qua Optuna!
+[2026-10-15 22:50:41][INFO]    ↳ [Epoch 05/40] Dữ liệu học đến năm 2017 | Inner Val Loss: 0.00011 (Best: 0.00011)
+[2026-10-15 22:50:51][INFO]    ↳ [Epoch 10/40] Dữ liệu học đến năm 2017 | Inner Val Loss: 0.00009 (Best: 0.00008)
+[2026-10-15 22:51:01][INFO]    ↳ [Epoch 15/40] Dữ liệu học đến năm 2017 | Inner Val Loss: 0.00008 (Best: 0.00007)
+[2026-10-15 22:51:10][INFO]    ↳ [Epoch 20/40] Dữ liệu học đến năm 2017 | Inner Val Loss: 0.00007 (Best: 0.00006)
+[2026-10-15 22:51:18][INFO]    ↳ [Epoch 24/40] Dữ liệu học đến năm 2017 | Inner Val Loss: 0.00006 (Best: 0.00006)
+[2026-10-15 22:51:18][INFO] ✓ [HOÀN TẤT FOLD 3 (2017–2018)] Val OOS R²: -0.0683 | DA: 47.06% | RMSE: 0.0080
+[2026-10-15 22:51:18][INFO] ✓ Completed & check-pointed Transformer | Horizon: 1D | Fold: 3
+[2026-10-15 22:51:18][INFO] 
+▶ [Transformer] Horizon 1D | Fold 4/5: Đang xử lý Train: 1990-03-27 → 2018-09-04 (1990–2018, 7,167 ngày) | Test OOS: 2018-09-05 → 2019-10-03 (2018–2019, 272 ngày)...
+[2026-10-15 22:51:18][INFO] ⚡ [CACHED] Đã nạp tham số tối ưu Horizon 1D Fold 4. Bỏ qua Optuna!
+[2026-10-15 22:51:28][INFO]    ↳ [Epoch 05/40] Dữ liệu học đến năm 2018 | Inner Val Loss: 0.00012 (Best: 0.00012)
+[2026-10-15 22:51:37][INFO]    ↳ [Epoch 10/40] Dữ liệu học đến năm 2018 | Inner Val Loss: 0.00008 (Best: 0.00007)
+[2026-10-15 22:51:47][INFO]    ↳ [Epoch 15/40] Dữ liệu học đến năm 2018 | Inner Val Loss: 0.00008 (Best: 0.00007)
+[2026-10-15 22:51:54][INFO]    ↳ [Epoch 18/40] Dữ liệu học đến năm 2018 | Inner Val Loss: 0.00008 (Best: 0.00007)
+[2026-10-15 22:51:54][INFO] ✓ [HOÀN TẤT FOLD 4 (2018–2019)] Val OOS R²: -0.0888 | DA: 54.78% | RMSE: 0.0107
+[2026-10-15 22:51:54][INFO] ✓ Completed & check-pointed Transformer | Horizon: 1D | Fold: 4
+[2026-10-15 22:51:54][INFO] 
+▶ [Transformer] Horizon 1D | Fold 5/5: Đang xử lý Train: 1990-03-27 → 2019-10-03 (1990–2019, 7,439 ngày) | Test OOS: 2019-10-04 → 2020-10-30 (2019–2020, 272 ngày)...
+[2026-10-15 22:51:54][INFO] ⚡ [CACHED] Đã nạp tham số tối ưu Horizon 1D Fold 5. Bỏ qua Optuna!
+[2026-10-15 22:52:01][INFO]    ↳ [Epoch 05/40] Dữ liệu học đến năm 2019 | Inner Val Loss: 0.00028 (Best: 0.00028)
+[2026-10-15 22:52:08][INFO]    ↳ [Epoch 10/40] Dữ liệu học đến năm 2019 | Inner Val Loss: 0.00015 (Best: 0.00015)
+[2026-10-15 22:52:15][INFO]    ↳ [Epoch 15/40] Dữ liệu học đến năm 2019 | Inner Val Loss: 0.00010 (Best: 0.00010)
+[2026-10-15 22:52:21][INFO]    ↳ [Epoch 20/40] Dữ liệu học đến năm 2019 | Inner Val Loss: 0.00018 (Best: 0.00010)
+[2026-10-15 22:52:27][INFO]    ↳ [Epoch 25/40] Dữ liệu học đến năm 2019 | Inner Val Loss: 0.00009 (Best: 0.00009)
+[2026-10-15 22:52:34][INFO]    ↳ [Epoch 30/40] Dữ liệu học đến năm 2019 | Inner Val Loss: 0.00009 (Best: 0.00008)
+[2026-10-15 22:52:40][INFO]    ↳ [Epoch 34/40] Dữ liệu học đến năm 2019 | Inner Val Loss: 0.00009 (Best: 0.00008)
+[2026-10-15 22:52:40][INFO] ✓ [HOÀN TẤT FOLD 5 (2019–2020)] Val OOS R²: -0.1079 | DA: 47.43% | RMSE: 0.0220
+[2026-10-15 22:52:40][INFO] ✓ Completed & check-pointed Transformer | Horizon: 1D | Fold: 5
+[2026-10-15 22:52:40][INFO] 
+▶ [Transformer] Horizon 5D | Fold 1/5: Đang xử lý Train: 1990-03-27 → 2015-06-09 (1990–2015, 6,351 ngày) | Test OOS: 2015-06-10 → 2016-07-07 (2015–2016, 272 ngày)...
+[2026-10-15 22:52:40][INFO] ⚡ [CACHED] Đã nạp tham số tối ưu Horizon 5D Fold 1. Bỏ qua Optuna!
+[2026-10-15 22:52:49][INFO]    ↳ [Epoch 05/40] Dữ liệu học đến năm 2015 | Inner Val Loss: 0.00041 (Best: 0.00041)
+[2026-10-15 22:52:57][INFO]    ↳ [Epoch 10/40] Dữ liệu học đến năm 2015 | Inner Val Loss: 0.00041 (Best: 0.00041)
+[2026-10-15 22:53:01][INFO]    ↳ [Epoch 12/40] Dữ liệu học đến năm 2015 | Inner Val Loss: 0.00043 (Best: 0.00041)
+[2026-10-15 22:53:01][INFO] ✓ [HOÀN TẤT FOLD 1 (2015–2016)] Val OOS R²: -0.1002 | DA: 48.16% | RMSE: 0.0239
+[2026-10-15 22:53:01][INFO] ✓ Completed & check-pointed Transformer | Horizon: 5D | Fold: 1
+[2026-10-15 22:53:01][INFO] 
+▶ [Transformer] Horizon 5D | Fold 2/5: Đang xử lý Train: 1990-03-27 → 2016-07-07 (1990–2016, 6,623 ngày) | Test OOS: 2016-07-08 → 2017-08-04 (2016–2017, 272 ngày)...
+[2026-10-15 22:53:01][INFO] ⚡ [CACHED] Đã nạp tham số tối ưu Horizon 5D Fold 2. Bỏ qua Optuna!
+[2026-10-15 22:53:11][INFO]    ↳ [Epoch 05/40] Dữ liệu học đến năm 2016 | Inner Val Loss: 0.00097 (Best: 0.00097)
+[2026-10-15 22:53:22][INFO]    ↳ [Epoch 10/40] Dữ liệu học đến năm 2016 | Inner Val Loss: 0.00060 (Best: 0.00054)
+[2026-10-15 22:53:32][INFO]    ↳ [Epoch 15/40] Dữ liệu học đến năm 2016 | Inner Val Loss: 0.00040 (Best: 0.00040)
+[2026-10-15 22:53:42][INFO]    ↳ [Epoch 20/40] Dữ liệu học đến năm 2016 | Inner Val Loss: 0.00046 (Best: 0.00036)
+[2026-10-15 22:53:52][INFO]    ↳ [Epoch 25/40] Dữ liệu học đến năm 2016 | Inner Val Loss: 0.00042 (Best: 0.00036)
+[2026-10-15 22:53:52][INFO] ✓ [HOÀN TẤT FOLD 2 (2016–2017)] Val OOS R²: -0.3161 | DA: 43.75% | RMSE: 0.0113
+[2026-10-15 22:53:52][INFO] ✓ Completed & check-pointed Transformer | Horizon: 5D | Fold: 2
+[2026-10-15 22:53:52][INFO] 
+▶ [Transformer] Horizon 5D | Fold 3/5: Đang xử lý Train: 1990-03-27 → 2017-08-04 (1990–2017, 6,895 ngày) | Test OOS: 2017-08-07 → 2018-09-04 (2017–2018, 272 ngày)...
+[2026-10-15 22:53:52][INFO] ⚡ [CACHED] Đã nạp tham số tối ưu Horizon 5D Fold 3. Bỏ qua Optuna!
+[2026-10-15 22:54:03][INFO]    ↳ [Epoch 05/40] Dữ liệu học đến năm 2017 | Inner Val Loss: 0.00036 (Best: 0.00036)
+[2026-10-15 22:54:12][INFO]    ↳ [Epoch 10/40] Dữ liệu học đến năm 2017 | Inner Val Loss: 0.00052 (Best: 0.00031)
+[2026-10-15 22:54:18][INFO]    ↳ [Epoch 13/40] Dữ liệu học đến năm 2017 | Inner Val Loss: 0.00040 (Best: 0.00031)
+[2026-10-15 22:54:18][INFO] ✓ [HOÀN TẤT FOLD 3 (2017–2018)] Val OOS R²: -0.2196 | DA: 59.19% | RMSE: 0.0180
+[2026-10-15 22:54:18][INFO] ✓ Completed & check-pointed Transformer | Horizon: 5D | Fold: 3
+[2026-10-15 22:54:18][INFO] 
+▶ [Transformer] Horizon 5D | Fold 4/5: Đang xử lý Train: 1990-03-27 → 2018-09-04 (1990–2018, 7,167 ngày) | Test OOS: 2018-09-05 → 2019-10-03 (2018–2019, 272 ngày)...
+[2026-10-15 22:54:18][INFO] ⚡ [CACHED] Đã nạp tham số tối ưu Horizon 5D Fold 4. Bỏ qua Optuna!
+[2026-10-15 22:54:29][INFO]    ↳ [Epoch 05/40] Dữ liệu học đến năm 2018 | Inner Val Loss: 0.00041 (Best: 0.00041)
+[2026-10-15 22:54:39][INFO]    ↳ [Epoch 10/40] Dữ liệu học đến năm 2018 | Inner Val Loss: 0.00031 (Best: 0.00031)
+[2026-10-15 22:54:48][INFO]    ↳ [Epoch 15/40] Dữ liệu học đến năm 2018 | Inner Val Loss: 0.00031 (Best: 0.00031)
+[2026-10-15 22:54:58][INFO]    ↳ [Epoch 20/40] Dữ liệu học đến năm 2018 | Inner Val Loss: 0.00033 (Best: 0.00030)
+[2026-10-15 22:55:05][INFO]    ↳ [Epoch 24/40] Dữ liệu học đến năm 2018 | Inner Val Loss: 0.00032 (Best: 0.00030)
+[2026-10-15 22:55:05][INFO] ✓ [HOÀN TẤT FOLD 4 (2018–2019)] Val OOS R²: 0.0237 | DA: 58.82% | RMSE: 0.0221
+[2026-10-15 22:55:05][INFO] ✓ Completed & check-pointed Transformer | Horizon: 5D | Fold: 4
+[2026-10-15 22:55:05][INFO] 
+▶ [Transformer] Horizon 5D | Fold 5/5: Đang xử lý Train: 1990-03-27 → 2019-10-03 (1990–2019, 7,439 ngày) | Test OOS: 2019-10-04 → 2020-10-30 (2019–2020, 272 ngày)...
+[2026-10-15 22:55:05][INFO] ⚡ [CACHED] Đã nạp tham số tối ưu Horizon 5D Fold 5. Bỏ qua Optuna!
+[2026-10-15 22:55:16][INFO]    ↳ [Epoch 05/40] Dữ liệu học đến năm 2019 | Inner Val Loss: 0.00039 (Best: 0.00039)
+[2026-10-15 22:55:26][INFO]    ↳ [Epoch 10/40] Dữ liệu học đến năm 2019 | Inner Val Loss: 0.00036 (Best: 0.00036)
+[2026-10-15 22:55:36][INFO]    ↳ [Epoch 15/40] Dữ liệu học đến năm 2019 | Inner Val Loss: 0.00040 (Best: 0.00036)
+[2026-10-15 22:55:40][INFO]    ↳ [Epoch 17/40] Dữ liệu học đến năm 2019 | Inner Val Loss: 0.00041 (Best: 0.00036)
+[2026-10-15 22:55:40][INFO] ✓ [HOÀN TẤT FOLD 5 (2019–2020)] Val OOS R²: -0.1171 | DA: 67.65% | RMSE: 0.0420
+[2026-10-15 22:55:40][INFO] ✓ Completed & check-pointed Transformer | Horizon: 5D | Fold: 5
+[2026-10-15 22:55:40][INFO] 
+▶ [Transformer] Horizon 20D | Fold 1/5: Đang xử lý Train: 1990-03-27 → 2015-06-09 (1990–2015, 6,351 ngày) | Test OOS: 2015-06-10 → 2016-07-07 (2015–2016, 272 ngày)...
+[2026-10-15 22:55:40][INFO] ⚡ [CACHED] Đã nạp tham số tối ưu Horizon 20D Fold 1. Bỏ qua Optuna!
+[2026-10-15 22:55:49][INFO]    ↳ [Epoch 05/40] Dữ liệu học đến năm 2015 | Inner Val Loss: 0.00200 (Best: 0.00170)
+[2026-10-15 22:55:57][INFO]    ↳ [Epoch 10/40] Dữ liệu học đến năm 2015 | Inner Val Loss: 0.00123 (Best: 0.00119)
+[2026-10-15 22:56:06][INFO]    ↳ [Epoch 15/40] Dữ liệu học đến năm 2015 | Inner Val Loss: 0.00107 (Best: 0.00106)
+[2026-10-15 22:56:15][INFO]    ↳ [Epoch 20/40] Dữ liệu học đến năm 2015 | Inner Val Loss: 0.00100 (Best: 0.00100)
+[2026-10-15 22:56:23][INFO]    ↳ [Epoch 25/40] Dữ liệu học đến năm 2015 | Inner Val Loss: 0.00098 (Best: 0.00096)
+[2026-10-15 22:56:32][INFO]    ↳ [Epoch 30/40] Dữ liệu học đến năm 2015 | Inner Val Loss: 0.00098 (Best: 0.00096)
+[2026-10-15 22:56:34][INFO]    ↳ [Epoch 31/40] Dữ liệu học đến năm 2015 | Inner Val Loss: 0.00101 (Best: 0.00096)
+[2026-10-15 22:56:34][INFO] ✓ [HOÀN TẤT FOLD 1 (2015–2016)] Val OOS R²: -0.0383 | DA: 44.85% | RMSE: 0.0414
+[2026-10-15 22:56:34][INFO] ✓ Completed & check-pointed Transformer | Horizon: 20D | Fold: 1
+[2026-10-15 22:56:34][INFO] 
+▶ [Transformer] Horizon 20D | Fold 2/5: Đang xử lý Train: 1990-03-27 → 2016-07-07 (1990–2016, 6,623 ngày) | Test OOS: 2016-07-08 → 2017-08-04 (2016–2017, 272 ngày)...
+[2026-10-15 22:56:34][INFO] ⚡ [CACHED] Đã nạp tham số tối ưu Horizon 20D Fold 2. Bỏ qua Optuna!
+[2026-10-15 22:56:38][INFO]    ↳ [Epoch 05/40] Dữ liệu học đến năm 2016 | Inner Val Loss: 0.00172 (Best: 0.00172)
+[2026-10-15 22:56:43][INFO]    ↳ [Epoch 10/40] Dữ liệu học đến năm 2016 | Inner Val Loss: 0.00189 (Best: 0.00148)
+[2026-10-15 22:56:48][INFO]    ↳ [Epoch 15/40] Dữ liệu học đến năm 2016 | Inner Val Loss: 0.00145 (Best: 0.00135)
+[2026-10-15 22:56:52][INFO]    ↳ [Epoch 20/40] Dữ liệu học đến năm 2016 | Inner Val Loss: 0.00176 (Best: 0.00135)
+[2026-10-15 22:56:52][INFO] ✓ [HOÀN TẤT FOLD 2 (2016–2017)] Val OOS R²: -2.2334 | DA: 31.62% | RMSE: 0.0316
+[2026-10-15 22:56:52][INFO] ✓ Completed & check-pointed Transformer | Horizon: 20D | Fold: 2
+[2026-10-15 22:56:52][INFO] 
+▶ [Transformer] Horizon 20D | Fold 3/5: Đang xử lý Train: 1990-03-27 → 2017-08-04 (1990–2017, 6,895 ngày) | Test OOS: 2017-08-07 → 2018-09-04 (2017–2018, 272 ngày)...
+[2026-10-15 22:56:52][INFO] ⚡ [CACHED] Đã nạp tham số tối ưu Horizon 20D Fold 3. Bỏ qua Optuna!
+[2026-10-15 22:57:02][INFO]    ↳ [Epoch 05/40] Dữ liệu học đến năm 2017 | Inner Val Loss: 0.00365 (Best: 0.00280)
+[2026-10-15 22:57:13][INFO]    ↳ [Epoch 10/40] Dữ liệu học đến năm 2017 | Inner Val Loss: 0.00168 (Best: 0.00153)
+[2026-10-15 22:57:23][INFO]    ↳ [Epoch 15/40] Dữ liệu học đến năm 2017 | Inner Val Loss: 0.00115 (Best: 0.00106)
+[2026-10-15 22:57:33][INFO]    ↳ [Epoch 20/40] Dữ liệu học đến năm 2017 | Inner Val Loss: 0.00093 (Best: 0.00093)
+[2026-10-15 22:57:44][INFO]    ↳ [Epoch 25/40] Dữ liệu học đến năm 2017 | Inner Val Loss: 0.00094 (Best: 0.00088)
+[2026-10-15 22:57:54][INFO]    ↳ [Epoch 30/40] Dữ liệu học đến năm 2017 | Inner Val Loss: 0.00088 (Best: 0.00088)
+[2026-10-15 22:58:04][INFO]    ↳ [Epoch 35/40] Dữ liệu học đến năm 2017 | Inner Val Loss: 0.00091 (Best: 0.00083)
+[2026-10-15 22:58:14][INFO]    ↳ [Epoch 40/40] Dữ liệu học đến năm 2017 | Inner Val Loss: 0.00085 (Best: 0.00083)
+[2026-10-15 22:58:14][INFO] ✓ [HOÀN TẤT FOLD 3 (2017–2018)] Val OOS R²: 0.0312 | DA: 73.90% | RMSE: 0.0256
+[2026-10-15 22:58:14][INFO] ✓ Completed & check-pointed Transformer | Horizon: 20D | Fold: 3
+[2026-10-15 22:58:14][INFO] 
+▶ [Transformer] Horizon 20D | Fold 4/5: Đang xử lý Train: 1990-03-27 → 2018-09-04 (1990–2018, 7,167 ngày) | Test OOS: 2018-09-05 → 2019-10-03 (2018–2019, 272 ngày)...
+[2026-10-15 22:58:14][INFO] ⚡ [CACHED] Đã nạp tham số tối ưu Horizon 20D Fold 4. Bỏ qua Optuna!
+[2026-10-15 22:58:26][INFO]    ↳ [Epoch 05/40] Dữ liệu học đến năm 2018 | Inner Val Loss: 0.00089 (Best: 0.00089)
+[2026-10-15 22:58:35][INFO]    ↳ [Epoch 10/40] Dữ liệu học đến năm 2018 | Inner Val Loss: 0.00100 (Best: 0.00087)
+[2026-10-15 22:58:45][INFO]    ↳ [Epoch 15/40] Dữ liệu học đến năm 2018 | Inner Val Loss: 0.00121 (Best: 0.00087)
+[2026-10-15 22:58:45][INFO] ✓ [HOÀN TẤT FOLD 4 (2018–2019)] Val OOS R²: -0.0596 | DA: 58.46% | RMSE: 0.0442
+[2026-10-15 22:58:45][INFO] ✓ Completed & check-pointed Transformer | Horizon: 20D | Fold: 4
+[2026-10-15 22:58:45][INFO] 
+▶ [Transformer] Horizon 20D | Fold 5/5: Đang xử lý Train: 1990-03-27 → 2019-10-03 (1990–2019, 7,439 ngày) | Test OOS: 2019-10-04 → 2020-10-30 (2019–2020, 272 ngày)...
+[2026-10-15 22:58:45][INFO] ⚡ [CACHED] Đã nạp tham số tối ưu Horizon 20D Fold 5. Bỏ qua Optuna!
+[2026-10-15 22:58:55][INFO]    ↳ [Epoch 05/40] Dữ liệu học đến năm 2019 | Inner Val Loss: 0.00111 (Best: 0.00111)
+[2026-10-15 22:59:05][INFO]    ↳ [Epoch 10/40] Dữ liệu học đến năm 2019 | Inner Val Loss: 0.00104 (Best: 0.00104)
+[2026-10-15 22:59:16][INFO]    ↳ [Epoch 15/40] Dữ liệu học đến năm 2019 | Inner Val Loss: 0.00110 (Best: 0.00104)
+[2026-10-15 22:59:20][INFO]    ↳ [Epoch 17/40] Dữ liệu học đến năm 2019 | Inner Val Loss: 0.00109 (Best: 0.00104)
+[2026-10-15 22:59:20][INFO] ✓ [HOÀN TẤT FOLD 5 (2019–2020)] Val OOS R²: -0.1438 | DA: 76.47% | RMSE: 0.0929
+[2026-10-15 22:59:20][INFO] ✓ Completed & check-pointed Transformer | Horizon: 20D | Fold: 5
+[2026-10-15 22:59:20][INFO] 
+▶ [Transformer] Horizon 60D | Fold 1/5: Đang xử lý Train: 1990-03-27 → 2015-06-09 (1990–2015, 6,351 ngày) | Test OOS: 2015-06-10 → 2016-07-07 (2015–2016, 272 ngày)...
+[2026-10-15 22:59:20][INFO] ⚡ [CACHED] Đã nạp tham số tối ưu Horizon 60D Fold 1. Bỏ qua Optuna!
+[2026-10-15 22:59:26][INFO]    ↳ [Epoch 05/40] Dữ liệu học đến năm 2015 | Inner Val Loss: 0.00562 (Best: 0.00562)
+[2026-10-15 22:59:32][INFO]    ↳ [Epoch 10/40] Dữ liệu học đến năm 2015 | Inner Val Loss: 0.00478 (Best: 0.00456)
+[2026-10-15 22:59:37][INFO]    ↳ [Epoch 15/40] Dữ liệu học đến năm 2015 | Inner Val Loss: 0.00368 (Best: 0.00368)
+[2026-10-15 22:59:43][INFO]    ↳ [Epoch 20/40] Dữ liệu học đến năm 2015 | Inner Val Loss: 0.00344 (Best: 0.00344)
+[2026-10-15 22:59:49][INFO]    ↳ [Epoch 25/40] Dữ liệu học đến năm 2015 | Inner Val Loss: 0.00328 (Best: 0.00325)
+[2026-10-15 22:59:54][INFO]    ↳ [Epoch 30/40] Dữ liệu học đến năm 2015 | Inner Val Loss: 0.00313 (Best: 0.00300)
+[2026-10-15 23:00:00][INFO]    ↳ [Epoch 35/40] Dữ liệu học đến năm 2015 | Inner Val Loss: 0.00279 (Best: 0.00279)
+[2026-10-15 23:00:05][INFO]    ↳ [Epoch 40/40] Dữ liệu học đến năm 2015 | Inner Val Loss: 0.00282 (Best: 0.00263)
+[2026-10-15 23:00:05][INFO] ✓ [HOÀN TẤT FOLD 1 (2015–2016)] Val OOS R²: -0.8111 | DA: 39.34% | RMSE: 0.0791
+[2026-10-15 23:00:05][INFO] ✓ Completed & check-pointed Transformer | Horizon: 60D | Fold: 1
+[2026-10-15 23:00:05][INFO] 
+▶ [Transformer] Horizon 60D | Fold 2/5: Đang xử lý Train: 1990-03-27 → 2016-07-07 (1990–2016, 6,623 ngày) | Test OOS: 2016-07-08 → 2017-08-04 (2016–2017, 272 ngày)...
+[2026-10-15 23:00:05][INFO] ⚡ [CACHED] Đã nạp tham số tối ưu Horizon 60D Fold 2. Bỏ qua Optuna!
+[2026-10-15 23:00:14][INFO]    ↳ [Epoch 05/40] Dữ liệu học đến năm 2016 | Inner Val Loss: 0.00859 (Best: 0.00859)
+[2026-10-15 23:00:23][INFO]    ↳ [Epoch 10/40] Dữ liệu học đến năm 2016 | Inner Val Loss: 0.00631 (Best: 0.00631)
+[2026-10-15 23:00:32][INFO]    ↳ [Epoch 15/40] Dữ liệu học đến năm 2016 | Inner Val Loss: 0.00492 (Best: 0.00492)
+[2026-10-15 23:00:40][INFO]    ↳ [Epoch 20/40] Dữ liệu học đến năm 2016 | Inner Val Loss: 0.00506 (Best: 0.00485)
+[2026-10-15 23:00:49][INFO]    ↳ [Epoch 25/40] Dữ liệu học đến năm 2016 | Inner Val Loss: 0.00456 (Best: 0.00449)
+[2026-10-15 23:00:58][INFO]    ↳ [Epoch 30/40] Dữ liệu học đến năm 2016 | Inner Val Loss: 0.00416 (Best: 0.00374)
+[2026-10-15 23:01:08][INFO]    ↳ [Epoch 35/40] Dữ liệu học đến năm 2016 | Inner Val Loss: 0.00349 (Best: 0.00349)
+[2026-10-15 23:01:21][INFO]    ↳ [Epoch 40/40] Dữ liệu học đến năm 2016 | Inner Val Loss: 0.00415 (Best: 0.00349)
+[2026-10-15 23:01:21][INFO] ✓ [HOÀN TẤT FOLD 2 (2016–2017)] Val OOS R²: -0.1532 | DA: 89.71% | RMSE: 0.0314
+[2026-10-15 23:01:21][INFO] ✓ Completed & check-pointed Transformer | Horizon: 60D | Fold: 2
+[2026-10-15 23:01:21][INFO] 
+▶ [Transformer] Horizon 60D | Fold 3/5: Đang xử lý Train: 1990-03-27 → 2017-08-04 (1990–2017, 6,895 ngày) | Test OOS: 2017-08-07 → 2018-09-04 (2017–2018, 272 ngày)...
+[2026-10-15 23:01:21][INFO] ⚡ [CACHED] Đã nạp tham số tối ưu Horizon 60D Fold 3. Bỏ qua Optuna!
+[2026-10-15 23:01:34][INFO]    ↳ [Epoch 05/40] Dữ liệu học đến năm 2017 | Inner Val Loss: 0.00313 (Best: 0.00313)
+[2026-10-15 23:01:44][INFO]    ↳ [Epoch 10/40] Dữ liệu học đến năm 2017 | Inner Val Loss: 0.00265 (Best: 0.00166)
+[2026-10-15 23:01:51][INFO]    ↳ [Epoch 13/40] Dữ liệu học đến năm 2017 | Inner Val Loss: 0.00169 (Best: 0.00166)
+[2026-10-15 23:01:51][INFO] ✓ [HOÀN TẤT FOLD 3 (2017–2018)] Val OOS R²: -0.4556 | DA: 64.34% | RMSE: 0.0552
+[2026-10-15 23:01:51][INFO] ✓ Completed & check-pointed Transformer | Horizon: 60D | Fold: 3
+[2026-10-15 23:01:51][INFO] 
+▶ [Transformer] Horizon 60D | Fold 4/5: Đang xử lý Train: 1990-03-27 → 2018-09-04 (1990–2018, 7,167 ngày) | Test OOS: 2018-09-05 → 2019-10-03 (2018–2019, 272 ngày)...
+[2026-10-15 23:01:51][INFO] ⚡ [CACHED] Đã nạp tham số tối ưu Horizon 60D Fold 4. Bỏ qua Optuna!
+[2026-10-15 23:01:58][INFO]    ↳ [Epoch 05/40] Dữ liệu học đến năm 2018 | Inner Val Loss: 0.00332 (Best: 0.00310)
+[2026-10-15 23:02:10][INFO]    ↳ [Epoch 10/40] Dữ liệu học đến năm 2018 | Inner Val Loss: 0.00250 (Best: 0.00250)
+[2026-10-15 23:02:22][INFO]    ↳ [Epoch 15/40] Dữ liệu học đến năm 2018 | Inner Val Loss: 0.00257 (Best: 0.00235)
+[2026-10-15 23:02:35][INFO]    ↳ [Epoch 20/40] Dữ liệu học đến năm 2018 | Inner Val Loss: 0.00254 (Best: 0.00226)
+[2026-10-15 23:02:46][INFO]    ↳ [Epoch 24/40] Dữ liệu học đến năm 2018 | Inner Val Loss: 0.00238 (Best: 0.00226)
+[2026-10-15 23:02:46][INFO] ✓ [HOÀN TẤT FOLD 4 (2018–2019)] Val OOS R²: -0.6566 | DA: 65.07% | RMSE: 0.0819
+[2026-10-15 23:02:46][INFO] ✓ Completed & check-pointed Transformer | Horizon: 60D | Fold: 4
+[2026-10-15 23:02:46][INFO] 
+▶ [Transformer] Horizon 60D | Fold 5/5: Đang xử lý Train: 1990-03-27 → 2019-10-03 (1990–2019, 7,439 ngày) | Test OOS: 2019-10-04 → 2020-10-30 (2019–2020, 272 ngày)...
+[2026-10-15 23:02:46][INFO] ⚡ [CACHED] Đã nạp tham số tối ưu Horizon 60D Fold 5. Bỏ qua Optuna!
+[2026-10-15 23:03:28][INFO]    ↳ [Epoch 05/40] Dữ liệu học đến năm 2019 | Inner Val Loss: 0.00268 (Best: 0.00258)
+[2026-10-15 23:04:10][INFO]    ↳ [Epoch 10/40] Dữ liệu học đến năm 2019 | Inner Val Loss: 0.00239 (Best: 0.00239)
+[2026-10-15 23:04:51][INFO]    ↳ [Epoch 15/40] Dữ liệu học đến năm 2019 | Inner Val Loss: 0.00254 (Best: 0.00239)
+[2026-10-15 23:05:08][INFO]    ↳ [Epoch 17/40] Dữ liệu học đến năm 2019 | Inner Val Loss: 0.00279 (Best: 0.00239)
+[2026-10-15 23:05:08][INFO] ✓ [HOÀN TẤT FOLD 5 (2019–2020)] Val OOS R²: 0.1095 | DA: 75.00% | RMSE: 0.1197
+[2026-10-15 23:05:08][INFO] ✓ Completed & check-pointed Transformer | Horizon: 60D | Fold: 5
+[2026-10-15 23:05:08][INFO] 
+▶ [Transformer] Horizon 120D | Fold 1/5: Đang xử lý Train: 1990-03-27 → 2015-06-09 (1990–2015, 6,351 ngày) | Test OOS: 2015-06-10 → 2016-07-07 (2015–2016, 272 ngày)...
+[2026-10-15 23:05:08][INFO] ⚡ [CACHED] Đã nạp tham số tối ưu Horizon 120D Fold 1. Bỏ qua Optuna!
+[2026-10-15 23:05:41][INFO]    ↳ [Epoch 05/40] Dữ liệu học đến năm 2015 | Inner Val Loss: 0.01045 (Best: 0.01045)
+[2026-10-15 23:06:15][INFO]    ↳ [Epoch 10/40] Dữ liệu học đến năm 2015 | Inner Val Loss: 0.00785 (Best: 0.00777)
+[2026-10-15 23:06:49][INFO]    ↳ [Epoch 15/40] Dữ liệu học đến năm 2015 | Inner Val Loss: 0.00718 (Best: 0.00696)
+[2026-10-15 23:07:24][INFO]    ↳ [Epoch 20/40] Dữ liệu học đến năm 2015 | Inner Val Loss: 0.00674 (Best: 0.00661)
+[2026-10-15 23:07:57][INFO]    ↳ [Epoch 25/40] Dữ liệu học đến năm 2015 | Inner Val Loss: 0.00666 (Best: 0.00602)
+[2026-10-15 23:08:32][INFO]    ↳ [Epoch 30/40] Dữ liệu học đến năm 2015 | Inner Val Loss: 0.00629 (Best: 0.00602)
+[2026-10-15 23:08:39][INFO]    ↳ [Epoch 31/40] Dữ liệu học đến năm 2015 | Inner Val Loss: 0.00605 (Best: 0.00602)
+[2026-10-15 23:08:39][INFO] ✓ [HOÀN TẤT FOLD 1 (2015–2016)] Val OOS R²: -1.4747 | DA: 32.35% | RMSE: 0.0975
+[2026-10-15 23:08:39][INFO] ✓ Completed & check-pointed Transformer | Horizon: 120D | Fold: 1
+[2026-10-15 23:08:39][INFO] 
+▶ [Transformer] Horizon 120D | Fold 2/5: Đang xử lý Train: 1990-03-27 → 2016-07-07 (1990–2016, 6,623 ngày) | Test OOS: 2016-07-08 → 2017-08-04 (2016–2017, 272 ngày)...
+[2026-10-15 23:08:39][INFO] ⚡ [CACHED] Đã nạp tham số tối ưu Horizon 120D Fold 2. Bỏ qua Optuna!
+[2026-10-15 23:09:02][INFO]    ↳ [Epoch 05/40] Dữ liệu học đến năm 2016 | Inner Val Loss: 0.02210 (Best: 0.02210)
+[2026-10-15 23:09:22][INFO]    ↳ [Epoch 10/40] Dữ liệu học đến năm 2016 | Inner Val Loss: 0.01416 (Best: 0.01357)
+[2026-10-15 23:09:44][INFO]    ↳ [Epoch 15/40] Dữ liệu học đến năm 2016 | Inner Val Loss: 0.01149 (Best: 0.01105)
+[2026-10-15 23:10:05][INFO]    ↳ [Epoch 20/40] Dữ liệu học đến năm 2016 | Inner Val Loss: 0.00997 (Best: 0.00997)
+[2026-10-15 23:10:26][INFO]    ↳ [Epoch 25/40] Dữ liệu học đến năm 2016 | Inner Val Loss: 0.00996 (Best: 0.00903)
+[2026-10-15 23:10:49][INFO]    ↳ [Epoch 30/40] Dữ liệu học đến năm 2016 | Inner Val Loss: 0.00864 (Best: 0.00864)
+[2026-10-15 23:11:11][INFO]    ↳ [Epoch 35/40] Dữ liệu học đến năm 2016 | Inner Val Loss: 0.00906 (Best: 0.00864)
+[2026-10-15 23:11:20][INFO]    ↳ [Epoch 37/40] Dữ liệu học đến năm 2016 | Inner Val Loss: 0.00873 (Best: 0.00864)
+[2026-10-15 23:11:20][INFO] ✓ [HOÀN TẤT FOLD 2 (2016–2017)] Val OOS R²: -1.1254 | DA: 81.25% | RMSE: 0.0730
+[2026-10-15 23:11:20][INFO] ✓ Completed & check-pointed Transformer | Horizon: 120D | Fold: 2
+[2026-10-15 23:11:20][INFO] 
+▶ [Transformer] Horizon 120D | Fold 3/5: Đang xử lý Train: 1990-03-27 → 2017-08-04 (1990–2017, 6,895 ngày) | Test OOS: 2017-08-07 → 2018-09-04 (2017–2018, 272 ngày)...
+[2026-10-15 23:11:20][INFO] ⚡ [CACHED] Đã nạp tham số tối ưu Horizon 120D Fold 3. Bỏ qua Optuna!
+[2026-10-15 23:11:40][INFO]    ↳ [Epoch 05/40] Dữ liệu học đến năm 2017 | Inner Val Loss: 0.00326 (Best: 0.00326)
+[2026-10-15 23:11:58][INFO]    ↳ [Epoch 10/40] Dữ liệu học đến năm 2017 | Inner Val Loss: 0.00329 (Best: 0.00317)
+[2026-10-15 23:12:10][INFO]    ↳ [Epoch 13/40] Dữ liệu học đến năm 2017 | Inner Val Loss: 0.00327 (Best: 0.00317)
+[2026-10-15 23:12:11][INFO] ✓ [HOÀN TẤT FOLD 3 (2017–2018)] Val OOS R²: -0.6778 | DA: 54.78% | RMSE: 0.0772
+[2026-10-15 23:12:11][INFO] ✓ Completed & check-pointed Transformer | Horizon: 120D | Fold: 3
+[2026-10-15 23:12:11][INFO] 
+▶ [Transformer] Horizon 120D | Fold 4/5: Đang xử lý Train: 1990-03-27 → 2018-09-04 (1990–2018, 7,167 ngày) | Test OOS: 2018-09-05 → 2019-10-03 (2018–2019, 272 ngày)...
+[2026-10-15 23:12:11][INFO] ⚡ [CACHED] Đã nạp tham số tối ưu Horizon 120D Fold 4. Bỏ qua Optuna!
+[2026-10-15 23:12:35][INFO]    ↳ [Epoch 05/40] Dữ liệu học đến năm 2018 | Inner Val Loss: 0.00768 (Best: 0.00768)
+[2026-10-15 23:13:00][INFO]    ↳ [Epoch 10/40] Dữ liệu học đến năm 2018 | Inner Val Loss: 0.00602 (Best: 0.00588)
+[2026-10-15 23:13:22][INFO]    ↳ [Epoch 15/40] Dữ liệu học đến năm 2018 | Inner Val Loss: 0.00513 (Best: 0.00512)
+[2026-10-15 23:13:46][INFO]    ↳ [Epoch 20/40] Dữ liệu học đến năm 2018 | Inner Val Loss: 0.00499 (Best: 0.00474)
+[2026-10-15 23:14:09][INFO]    ↳ [Epoch 25/40] Dữ liệu học đến năm 2018 | Inner Val Loss: 0.00473 (Best: 0.00435)
+[2026-10-15 23:14:32][INFO]    ↳ [Epoch 30/40] Dữ liệu học đến năm 2018 | Inner Val Loss: 0.00449 (Best: 0.00427)
+[2026-10-15 23:14:58][INFO]    ↳ [Epoch 35/40] Dữ liệu học đến năm 2018 | Inner Val Loss: 0.00448 (Best: 0.00427)
+[2026-10-15 23:15:03][INFO]    ↳ [Epoch 36/40] Dữ liệu học đến năm 2018 | Inner Val Loss: 0.00440 (Best: 0.00427)
+[2026-10-15 23:15:03][INFO] ✓ [HOÀN TẤT FOLD 4 (2018–2019)] Val OOS R²: -1.1745 | DA: 47.06% | RMSE: 0.1131
+[2026-10-15 23:15:03][INFO] ✓ Completed & check-pointed Transformer | Horizon: 120D | Fold: 4
+[2026-10-15 23:15:03][INFO] 
+▶ [Transformer] Horizon 120D | Fold 5/5: Đang xử lý Train: 1990-03-27 → 2019-10-03 (1990–2019, 7,439 ngày) | Test OOS: 2019-10-04 → 2020-10-30 (2019–2020, 272 ngày)...
+[2026-10-15 23:15:03][INFO] ⚡ [CACHED] Đã nạp tham số tối ưu Horizon 120D Fold 5. Bỏ qua Optuna!
+[2026-10-15 23:15:30][INFO]    ↳ [Epoch 05/40] Dữ liệu học đến năm 2019 | Inner Val Loss: 0.00532 (Best: 0.00491)
+[2026-10-15 23:15:54][INFO]    ↳ [Epoch 10/40] Dữ liệu học đến năm 2019 | Inner Val Loss: 0.00361 (Best: 0.00361)
+[2026-10-15 23:16:20][INFO]    ↳ [Epoch 15/40] Dữ liệu học đến năm 2019 | Inner Val Loss: 0.00377 (Best: 0.00333)
+[2026-10-15 23:16:46][INFO]    ↳ [Epoch 20/40] Dữ liệu học đến năm 2019 | Inner Val Loss: 0.00327 (Best: 0.00327)
+[2026-10-15 23:17:12][INFO]    ↳ [Epoch 25/40] Dữ liệu học đến năm 2019 | Inner Val Loss: 0.00420 (Best: 0.00327)
+[2026-10-15 23:17:22][INFO]    ↳ [Epoch 27/40] Dữ liệu học đến năm 2019 | Inner Val Loss: 0.00486 (Best: 0.00327)
+[2026-10-15 23:17:22][INFO] ✓ [HOÀN TẤT FOLD 5 (2019–2020)] Val OOS R²: 0.4575 | DA: 66.54% | RMSE: 0.0983
+[2026-10-15 23:17:22][INFO] ✓ Completed & check-pointed Transformer | Horizon: 120D | Fold: 5
+[2026-10-15 23:17:42][INFO] Completed Transformer.
+[2026-10-15 23:17:42][INFO] ✓ Model TRANSFORMER completed successfully.
+[2026-10-15 23:17:42][INFO] Updated regression summary at: E:\Repo Project\IS403.R12-equity-return-predictability\results\Lan01\summary\3.0.3_model_horizon_summary.csv
+[2026-10-15 23:17:42][INFO] Updated classification summary at: E:\Repo Project\IS403.R12-equity-return-predictability\results\Lan01\summary\3.0.3_classification_horizon_summary.csv
+[2026-10-15 23:17:53][INFO] 
+======================================================================
+[2026-10-15 23:17:53][INFO] ALL REQUESTED BASELINE RUNS FINISHED SUCCESSFULLY!
+[2026-10-15 23:17:53][INFO] ======================================================================

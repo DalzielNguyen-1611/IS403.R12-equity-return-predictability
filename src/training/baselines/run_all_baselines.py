@@ -35,36 +35,53 @@ def aggregate_summary(logger=None):
             continue
             
         m_df = pd.read_csv(metrics_file)
+        
+        # Standardize column casing
+        rename_map = {}
+        for col in m_df.columns:
+            if col.lower() == 'horizon':
+                rename_map[col] = 'Horizon'
+            elif col.lower() == 'model':
+                rename_map[col] = 'Model'
+            elif col.lower() in ['oos_r2', 'r2']:
+                rename_map[col] = 'OOS_R2'
+            elif col.lower() in ['da', 'directional_accuracy']:
+                rename_map[col] = 'DA'
+        m_df = m_df.rename(columns=rename_map)
+        
+        if 'Horizon' not in m_df.columns:
+            continue
+            
         if m_key == 'logistic_regression':
-            for h, grp in m_df.groupby('horizon'):
+            for h, grp in m_df.groupby('Horizon'):
                 cls_rows.append({
                     'Model': 'Logistic_Regression',
                     'Horizon': h,
-                    'Mean_Accuracy': grp['Accuracy'].mean(),
-                    'Std_Accuracy': grp['Accuracy'].std(),
-                    'Mean_Precision': grp['Precision'].mean(),
-                    'Std_Precision': grp['Precision'].std(),
-                    'Mean_Recall': grp['Recall'].mean(),
-                    'Std_Recall': grp['Recall'].std(),
-                    'Mean_F1': grp['F1'].mean(),
-                    'Std_F1': grp['F1'].std(),
-                    'Mean_ROC_AUC': grp['ROC_AUC'].mean(),
-                    'Std_ROC_AUC': grp['ROC_AUC'].std(),
+                    'Mean_Accuracy': grp['Accuracy'].mean() if 'Accuracy' in grp.columns else np.nan,
+                    'Std_Accuracy': grp['Accuracy'].std() if 'Accuracy' in grp.columns else np.nan,
+                    'Mean_Precision': grp['Precision'].mean() if 'Precision' in grp.columns else np.nan,
+                    'Std_Precision': grp['Precision'].std() if 'Precision' in grp.columns else np.nan,
+                    'Mean_Recall': grp['Recall'].mean() if 'Recall' in grp.columns else np.nan,
+                    'Std_Recall': grp['Recall'].std() if 'Recall' in grp.columns else np.nan,
+                    'Mean_F1': grp['F1'].mean() if 'F1' in grp.columns else np.nan,
+                    'Std_F1': grp['F1'].std() if 'F1' in grp.columns else np.nan,
+                    'Mean_ROC_AUC': grp['ROC_AUC'].mean() if 'ROC_AUC' in grp.columns else np.nan,
+                    'Std_ROC_AUC': grp['ROC_AUC'].std() if 'ROC_AUC' in grp.columns else np.nan,
                 })
         else:
-            model_name = m_df['model'].iloc[0] if 'model' in m_df.columns else m_key
-            for h, grp in m_df.groupby('horizon'):
+            model_name = m_df['Model'].iloc[0] if 'Model' in m_df.columns else m_key
+            for h, grp in m_df.groupby('Horizon'):
                 reg_rows.append({
                     'Model': model_name,
                     'Horizon': h,
-                    'Mean_MAE': grp['MAE'].mean(),
-                    'Std_MAE': grp['MAE'].std(),
-                    'Mean_RMSE': grp['RMSE'].mean(),
-                    'Std_RMSE': grp['RMSE'].std(),
-                    'Mean_R2': grp['R2'].mean(),
-                    'Std_R2': grp['R2'].std(),
-                    'Mean_Directional_Accuracy': grp['Directional_Accuracy'].mean(),
-                    'Std_Directional_Accuracy': grp['Directional_Accuracy'].std(),
+                    'Mean_MAE': grp['MAE'].mean() if 'MAE' in grp.columns else np.nan,
+                    'Std_MAE': grp['MAE'].std() if 'MAE' in grp.columns else np.nan,
+                    'Mean_RMSE': grp['RMSE'].mean() if 'RMSE' in grp.columns else np.nan,
+                    'Std_RMSE': grp['RMSE'].std() if 'RMSE' in grp.columns else np.nan,
+                    'Mean_R2': grp['OOS_R2'].mean() if 'OOS_R2' in grp.columns else (grp['R2'].mean() if 'R2' in grp.columns else np.nan),
+                    'Std_R2': grp['OOS_R2'].std() if 'OOS_R2' in grp.columns else (grp['R2'].std() if 'R2' in grp.columns else np.nan),
+                    'Mean_Directional_Accuracy': grp['DA'].mean() if 'DA' in grp.columns else (grp['Directional_Accuracy'].mean() if 'Directional_Accuracy' in grp.columns else np.nan),
+                    'Std_Directional_Accuracy': grp['DA'].std() if 'DA' in grp.columns else (grp['Directional_Accuracy'].std() if 'Directional_Accuracy' in grp.columns else np.nan),
                 })
                 
     if reg_rows:

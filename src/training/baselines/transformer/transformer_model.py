@@ -78,6 +78,7 @@ def train_fold(X_train, y_train, X_val, params=None, tune=False, n_trials=30, me
                     bx, by = bx.to(config.DEVICE), by.to(config.DEVICE)
                     opt.zero_grad()
                     crit(m(bx), by).backward()
+                    torch.nn.utils.clip_grad_norm_(m.parameters(), max_norm=1.0)
                     opt.step()
                 m.eval()
                 vloss = 0.0
@@ -110,7 +111,7 @@ def train_fold(X_train, y_train, X_val, params=None, tune=False, n_trials=30, me
     ).to(config.DEVICE)
     
     criterion = nn.MSELoss()
-    optimizer = torch.optim.AdamW(model.parameters(), lr=p['learning_rate'])
+    optimizer = torch.optim.AdamW(model.parameters(), lr=p['learning_rate'], weight_decay=p.get('weight_decay', 1e-3))
     
     best_loss = float('inf')
     best_weights = None
@@ -123,6 +124,7 @@ def train_fold(X_train, y_train, X_val, params=None, tune=False, n_trials=30, me
             optimizer.zero_grad()
             loss = criterion(model(bx), by)
             loss.backward()
+            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
             optimizer.step()
             
         model.eval()
@@ -135,7 +137,7 @@ def train_fold(X_train, y_train, X_val, params=None, tune=False, n_trials=30, me
         
         if vloss < best_loss:
             best_loss = vloss
-            best_weights = model.state_dict().copy()
+            best_weights = {k: v.cpu().clone() for k, v in model.state_dict().items()}
             no_improve = 0
         else:
             no_improve += 1
@@ -149,7 +151,7 @@ def train_fold(X_train, y_train, X_val, params=None, tune=False, n_trials=30, me
             break
                 
     if best_weights:
-        model.load_state_dict(best_weights)
+        model.load_state_dict({k: v.to(config.DEVICE) for k, v in best_weights.items()})
         
     # Predict strictly on test fold validation set
     _, _, final_val_seq = utils.create_sequences(X_train, y_train, X_val, lookback=lookback)

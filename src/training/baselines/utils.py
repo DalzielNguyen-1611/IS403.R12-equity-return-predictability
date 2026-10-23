@@ -20,22 +20,59 @@ try:
 except (ImportError, ValueError):
     import config
 
+import json
+import datetime
+import sys
+
+class FlushFileHandler(logging.FileHandler):
+    """FileHandler that flushes immediately after every write for real-time tracking."""
+    def emit(self, record):
+        super().emit(record)
+        self.flush()
+
 def setup_logger(name="baseline_runner", log_file=None):
-    """Setup console and file logger."""
+    """Setup console and immediate-flush file logger."""
     logger = logging.getLogger(name)
     logger.setLevel(logging.INFO)
     if not logger.handlers:
         formatter = logging.Formatter('[%(asctime)s][%(levelname)s] %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
-        ch = logging.StreamHandler()
+        ch = logging.StreamHandler(sys.stdout)
         ch.setFormatter(formatter)
         logger.addHandler(ch)
         
         if log_file:
             os.makedirs(os.path.dirname(log_file), exist_ok=True)
-            fh = logging.FileHandler(log_file, encoding='utf-8')
+            fh = FlushFileHandler(log_file, encoding='utf-8')
             fh.setFormatter(formatter)
             logger.addHandler(fh)
     return logger
+
+def save_epoch_progress(model_name, horizon, fold, epoch, total_epochs, vloss, best_loss, epoch_duration=None):
+    """Save live epoch progress and ETA metrics to results/epoch_progress.json for real-time dashboard tracking."""
+    progress_file = os.path.join(config.RESULTS_DIR, "epoch_progress.json")
+    rem_epochs = max(0, total_epochs - epoch)
+    epoch_sec = round(float(epoch_duration), 2) if epoch_duration else None
+    fold_eta_sec = round(rem_epochs * (epoch_duration or 1.0), 1) if epoch_duration else None
+    data = {
+        "model": model_name,
+        "horizon": str(horizon),
+        "fold": int(fold),
+        "epoch": int(epoch),
+        "total_epochs": int(total_epochs),
+        "pct": round((epoch / total_epochs) * 100, 1),
+        "vloss": round(float(vloss), 6),
+        "best_loss": round(float(best_loss), 6),
+        "epoch_sec": epoch_sec,
+        "fold_eta_sec": fold_eta_sec,
+        "timestamp": datetime.datetime.now().strftime("%H:%M:%S")
+    }
+    tmp_file = progress_file + ".tmp"
+    try:
+        with open(tmp_file, "w", encoding="utf-8") as f:
+            json.dump(data, f)
+        os.replace(tmp_file, progress_file)
+    except Exception:
+        pass
 
 def set_all_seeds(seed=config.RANDOM_SEED):
     """Set random seed across all libraries for deterministic execution."""
@@ -474,30 +511,54 @@ def get_internal_train_val_split(X_train, y_train, val_ratio=0.15, horizon=None)
     y_val_inner = y_train[split_idx:]
     return X_tr_inner, y_tr_inner, X_val_inner, y_val_inner
 
-def load_checkpoint(model_dir):
+def load_checkpoint(model_dir, model_name=None):
     """
-    Load in-progress fold metrics and predictions from local checkpoint files.
+    Load in-progress fold metrics and predictions from local checkpoint files
+    AND central all_fold_metrics.csv to support seamless continue-on-interrupt.
     Returns:
         completed_set: set of (str(horizon), int(fold))
         fold_metrics: list of metric dicts
         oos_preds: list of prediction dicts
     """
+    completed_set = set()
+    fold_metrics = []
+    oos_preds = []
+
+    # 1. Check local model checkpoint files
     ckpt_m_path = os.path.join(model_dir, "checkpoint_metrics.csv")
     ckpt_p_path = os.path.join(model_dir, "checkpoint_predictions.csv")
     if os.path.exists(ckpt_m_path) and os.path.exists(ckpt_p_path):
         try:
             m_df = pd.read_csv(ckpt_m_path)
             p_df = pd.read_csv(ckpt_p_path)
-            completed_set = set(zip(m_df['horizon'].astype(str), m_df['fold'].astype(int)))
-            return completed_set, m_df.to_dict('records'), p_df.to_dict('records')
+            for _, r in m_df.iterrows():
+                completed_set.add((str(r.get('horizon', r.get('Horizon'))), int(r.get('fold', r.get('Fold')))))
+            fold_metrics = m_df.to_dict('records')
+            oos_preds = p_df.to_dict('records')
         except Exception:
             pass
-    return set(), [], []
 
-def save_checkpoint_step(model_dir, fold_metrics, oos_preds):
+    # 2. Check central all_fold_metrics.csv as master persistence
+    m_name = model_name or os.path.basename(os.path.normpath(model_dir))
+    if os.path.exists(config.ALL_FOLD_METRICS_PATH):
+        try:
+            af_df = pd.read_csv(config.ALL_FOLD_METRICS_PATH)
+            m_col = 'Model' if 'Model' in af_df.columns else 'model'
+            h_col = 'Horizon' if 'Horizon' in af_df.columns else 'horizon'
+            f_col = 'Fold' if 'Fold' in af_df.columns else 'fold'
+            mod_rows = af_df[af_df[m_col].astype(str).str.lower() == str(m_name).lower()]
+            for _, r in mod_rows.iterrows():
+                completed_set.add((str(r[h_col]), int(r[f_col])))
+        except Exception:
+            pass
+
+    return completed_set, fold_metrics, oos_preds
+
+def save_checkpoint_step(model_dir, fold_metrics, oos_preds, model_name=None, fold_duration=None):
     """
     Save current fold progress to checkpoint files after each fold finishes.
-    And automatically update DASHBOARD.md in real-time with atomic swap.
+    Immediately updates central all_fold_metrics.csv and all_oos_predictions.csv
+    to guarantee atomic fold-by-fold persistence (zero loss upon interruption).
     """
     ckpt_m_path = os.path.join(model_dir, "checkpoint_metrics.csv")
     ckpt_p_path = os.path.join(model_dir, "checkpoint_predictions.csv")
@@ -514,6 +575,42 @@ def save_checkpoint_step(model_dir, fold_metrics, oos_preds):
             pd.DataFrame(oos_preds).to_csv(ckpt_p_path, index=False)
         except Exception:
             pass
+
+    # Master Persistence: Update central all_fold_metrics.csv and all_oos_predictions.csv fold-by-fold
+    try:
+        m_df = pd.DataFrame(fold_metrics)
+        p_df = pd.DataFrame(oos_preds)
+        if not m_df.empty:
+            m_clean = m_df.rename(columns={
+                'model': 'Model', 'horizon': 'Horizon', 'fold': 'Fold',
+                'train_start': 'Train_Start', 'train_end': 'Train_End',
+                'val_start': 'Val_Start', 'val_end': 'Val_End',
+                'directional_accuracy': 'DA', 'Directional_Accuracy': 'DA',
+                'r2': 'OOS_R2', 'R2': 'OOS_R2', 'rmse': 'RMSE', 'mae': 'MAE',
+                'duration_seconds': 'Duration_Seconds'
+            })
+            if os.path.exists(config.ALL_FOLD_METRICS_PATH):
+                ex_m = pd.read_csv(config.ALL_FOLD_METRICS_PATH)
+                comb_m = in_place_update_dataframe(ex_m, m_clean, key_cols=['Model', 'Horizon', 'Fold'])
+            else:
+                comb_m = m_clean
+            os.makedirs(os.path.dirname(config.ALL_FOLD_METRICS_PATH), exist_ok=True)
+            comb_m.to_csv(config.ALL_FOLD_METRICS_PATH, index=False)
+            
+        if not p_df.empty:
+            p_clean = p_df.rename(columns={
+                'date': 'Date', 'model': 'Model', 'horizon': 'Horizon',
+                'fold': 'Fold', 'actual': 'Actual', 'prediction': 'Prediction', 'regime': 'Regime'
+            })
+            if os.path.exists(config.ALL_PREDICTIONS_PATH):
+                ex_p = pd.read_csv(config.ALL_PREDICTIONS_PATH)
+                comb_p = in_place_update_dataframe(ex_p, p_clean, key_cols=['Date', 'Model', 'Horizon', 'Fold'])
+            else:
+                comb_p = p_clean
+            os.makedirs(os.path.dirname(config.ALL_PREDICTIONS_PATH), exist_ok=True)
+            comb_p.to_csv(config.ALL_PREDICTIONS_PATH, index=False)
+    except Exception:
+        pass
 
     # 1. Non-blocking Try-Catch Hook (Tuyệt đối không khóa hay gián đoạn GPU training)
     try:
@@ -553,6 +650,13 @@ def update_dashboard_direct(force=False):
         {"name": "RNN", "category": "Deep Learning", "total_folds": 25, "folder": "rnn"},
         {"name": "LSTM", "category": "Deep Learning", "total_folds": 25, "folder": "lstm"},
         {"name": "Transformer", "category": "Deep Learning", "total_folds": 25, "folder": "transformer"},
+        {"name": "TCN", "category": "Deep Learning (CNN)", "total_folds": 25, "folder": "tcn"},
+        {"name": "N-BEATS", "category": "Deep Learning (MLP)", "total_folds": 25, "folder": "nbeats"},
+        {"name": "N-HiTS", "category": "Deep Learning (MLP)", "total_folds": 25, "folder": "nhits"},
+        {"name": "PatchTST", "category": "Deep Learning (Transformer)", "total_folds": 25, "folder": "patchtst"},
+        {"name": "TSMixer", "category": "Deep Learning (MLP)", "total_folds": 25, "folder": "tsmixer"},
+        {"name": "iTransformer", "category": "Deep Learning (Transformer)", "total_folds": 25, "folder": "itransformer"},
+        {"name": "CNN", "category": "Deep Learning (CNN)", "total_folds": 25, "folder": "cnn"},
     ]
     
     def fmt_dur(sec):
@@ -825,7 +929,7 @@ Tất cả các tệp phân tích câu hỏi nghiên cứu (RQ) và kiểm đị
 
 Chạy toàn bộ mô hình còn lại tự động trong 1 lệnh duy nhất:
 ```powershell
-python run_remaining.py
+python src/training/baselines/run_all_baselines.py
 ```
 """
 

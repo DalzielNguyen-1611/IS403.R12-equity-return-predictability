@@ -407,3 +407,59 @@ Saved Markdown Report to: E:\Repo Project\IS403.R12-equity-return-predictability
 [2026-10-13 08:48:44][INFO] ======================================================================
 [2026-10-13 08:48:44][INFO] OUT-OF-SAMPLE TEST EVALUATION COMPLETED SUCCESSFULLY!
 [2026-10-13 08:48:44][INFO] ======================================================================
+[2026-10-16 07:39:57][INFO] ======================================================================
+[2026-10-16 07:39:57][INFO] STARTING OUT-OF-SAMPLE TEST EVALUATION (SPLIT 3: 2020-2026)
+[2026-10-16 07:39:57][INFO] ======================================================================
+[2026-10-16 07:39:57][INFO] Loaded Train Set (Splits 1+2): 7711 rows (1990-03-27 -> 2020-10-30)
+[2026-10-16 07:39:57][INFO] Loaded Test Set (Split 3): 1362 rows (2020-11-02 -> 2026-04-07)
+[2026-10-16 07:39:57][INFO] Target Models: ['elastic_net', 'sarima', 'transformer']
+[2026-10-16 07:39:57][INFO] Target Horizons: ['1D', '5D', '20D', '60D', '120D']
+[2026-10-16 07:39:57][INFO] 
+================ Processing Horizon 1D ================
+[2026-10-16 07:39:57][INFO] Evaluating Elastic_Net [1D] with params: {'alpha': 0.001, 'l1_ratio': 0.5}
+[2026-10-16 07:39:57][INFO] Evaluating SARIMA [1D] with params: {'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}
+[2026-10-16 07:40:00][INFO] Evaluating Transformer [1D] with params: {'lookback': 60, 'd_model': 32, 'nhead': 4, 'num_encoder_layers': 1, 'dim_feedforward': 128, 'dropout': 0.2833143475684623, 'learning_rate': 0.00020235315003022192, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}
+[2026-10-16 07:40:49][INFO] 
+================ Processing Horizon 5D ================
+[2026-10-16 07:40:49][INFO] Evaluating Elastic_Net [5D] with params: {'alpha': 0.001, 'l1_ratio': 0.9}
+[2026-10-16 07:40:49][INFO] Evaluating SARIMA [5D] with params: {'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}
+[2026-10-16 07:40:59][INFO] ======================================================================
+[2026-10-16 07:40:59][INFO] STARTING OUT-OF-SAMPLE TEST EVALUATION (SPLIT 3: 2020-2026)
+[2026-10-16 07:40:59][INFO] ======================================================================
+[2026-10-16 07:40:59][INFO] Loaded Train Set (Splits 1+2): 7711 rows (1990-03-27 -> 2020-10-30)
+[2026-10-16 07:40:59][INFO] Loaded Test Set (Split 3): 1362 rows (2020-11-02 -> 2026-04-07)
+[2026-10-16 07:40:59][INFO] Target Models: ['elastic_net', 'sarima', 'transformer']
+[2026-10-16 07:40:59][INFO] Target Horizons: ['1D', '5D', '20D', '60D', '120D']
+[2026-10-16 07:40:59][INFO] 
+================ Processing Horizon 1D ================
+[2026-10-16 07:40:59][INFO] Evaluating Elastic_Net [1D] with params: {'alpha': 0.001, 'l1_ratio': 0.5}
+[2026-10-16 07:40:59][INFO] Evaluating SARIMA [1D] with params: {'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}
+[2026-10-16 07:41:02][INFO] Evaluating Transformer [1D] with params: {'lookback': 60, 'd_model': 32, 'nhead': 4, 'num_encoder_layers': 1, 'dim_feedforward': 128, 'dropout': 0.2833143475684623, 'learning_rate': 0.00020235315003022192, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}
+[2026-10-16 07:41:58][INFO] 
+================ Processing Horizon 5D ================
+[2026-10-16 07:41:58][INFO] Evaluating Elastic_Net [5D] with params: {'alpha': 0.001, 'l1_ratio': 0.9}
+[2026-10-16 07:41:58][INFO] Evaluating SARIMA [5D] with params: {'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}
+[2026-10-16 07:42:01][INFO] Evaluating Transformer [5D] with params: {'lookback': 40, 'd_model': 32, 'nhead': 4, 'num_encoder_layers': 2, 'dim_feedforward': 128, 'dropout': 0.2962756788032009, 'learning_rate': 0.0001735773782470367, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}
+[2026-10-16 07:42:23][INFO] 
+================ Processing Horizon 20D ================
+[2026-10-16 07:42:23][INFO] Evaluating Elastic_Net [20D] with params: {'alpha': 0.005, 'l1_ratio': 0.9}
+[2026-10-16 07:42:23][INFO] Evaluating SARIMA [20D] with params: {'order': (1, 0, 0), 'seasonal_order': (0, 0, 0, 0)}
+[2026-10-16 07:42:24][INFO] Evaluating Transformer [20D] with params: {'lookback': 20, 'd_model': 64, 'nhead': 2, 'num_encoder_layers': 2, 'dim_feedforward': 128, 'dropout': 0.22754562430001113, 'learning_rate': 0.0004800378231362783, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}
+[2026-10-16 07:43:18][INFO] 
+================ Processing Horizon 60D ================
+[2026-10-16 07:43:18][INFO] Evaluating Elastic_Net [60D] with params: {'alpha': 0.05, 'l1_ratio': 0.3}
+[2026-10-16 07:43:18][INFO] Evaluating SARIMA [60D] with params: {'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}
+[2026-10-16 07:43:20][INFO] Evaluating Transformer [60D] with params: {'lookback': 20, 'd_model': 64, 'nhead': 2, 'num_encoder_layers': 2, 'dim_feedforward': 128, 'dropout': 0.2767459929366228, 'learning_rate': 0.00036822810258819354, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}
+[2026-10-16 07:43:37][INFO] 
+================ Processing Horizon 120D ================
+[2026-10-16 07:43:37][INFO] Evaluating Elastic_Net [120D] with params: {'alpha': 0.05, 'l1_ratio': 0.5}
+[2026-10-16 07:43:37][INFO] Evaluating SARIMA [120D] with params: {'order': (1, 0, 0), 'seasonal_order': (0, 0, 0, 0)}
+[2026-10-16 07:43:38][INFO] Evaluating Transformer [120D] with params: {'lookback': 60, 'd_model': 64, 'nhead': 2, 'num_encoder_layers': 1, 'dim_feedforward': 128, 'dropout': 0.1000397117480112, 'learning_rate': 0.0004859061734665338, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}
+[2026-10-16 07:44:10][INFO] Saved 95340 total test predictions (20430 newly evaluated) to E:\Repo Project\IS403.R12-equity-return-predictability\results\Lan01\test_evaluation\3.0.3_test_predictions.csv
+[2026-10-16 07:44:10][INFO] 
+Computing statistical inference tests (Diebold-Mariano & Sign Tests) and regime breakdowns...
+[2026-10-16 07:44:10][INFO] 
+Saved Markdown Report to: E:\Repo Project\IS403.R12-equity-return-predictability\results\Lan01\test_evaluation\3.0.3_test_evaluation_report.md
+[2026-10-16 07:44:10][INFO] ======================================================================
+[2026-10-16 07:44:10][INFO] OUT-OF-SAMPLE TEST EVALUATION COMPLETED SUCCESSFULLY!
+[2026-10-16 07:44:10][INFO] ======================================================================

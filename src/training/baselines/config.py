@@ -21,7 +21,7 @@ PREDICTIONS_DIR = os.path.join(RESULTS_DIR, 'predictions')
 ANALYSIS_DIR = os.path.join(RESULTS_DIR, 'analysis')
 TUNING_DIR = os.path.join(RESULTS_DIR, 'tuning')
 
-PREFIX = '3.0.3_' if RUN_NAME == 'Lan01' else ''
+PREFIX = '3.0.3_' if RUN_NAME.startswith('Lan') else ''
 
 ALL_FOLD_METRICS_PATH = os.path.join(FOLD_METRICS_DIR, f'{PREFIX}all_fold_metrics.csv')
 MODEL_HORIZON_SUMMARY_PATH = os.path.join(SUMMARY_DIR, f'{PREFIX}model_horizon_summary.csv')
@@ -154,7 +154,16 @@ MODEL_REGISTRY = {
     'lstm': ('lstm', 'lstm_model.py'),
     'transformer': ('transformer', 'transformer_model.py'),
     
-    # 6. Classification Side-task
+    # 6. Advanced Deep Learning / Time-Series (Run 2: Lan02)
+    'tcn': ('tcn', 'tcn_model.py'),
+    'nbeats': ('nbeats', 'nbeats_model.py'),
+    'nhits': ('nhits', 'nhits_model.py'),
+    'patchtst': ('patchtst', 'patchtst_model.py'),
+    'tsmixer': ('tsmixer', 'tsmixer_model.py'),
+    'itransformer': ('itransformer', 'itransformer_model.py'),
+    'cnn': ('cnn', 'cnn_model.py'),
+    
+    # 7. Classification Side-task
     'logistic_regression': ('logistic_regression', 'logistic_regression.py'),
 }
 
@@ -178,7 +187,14 @@ HYPERPARAM_STRATEGY = {
     'lightgbm': 'Optuna',
     'rnn': 'Optuna',
     'lstm': 'Optuna',
-    'transformer': 'Optuna'
+    'transformer': 'Optuna',
+    'tcn': 'Optuna',
+    'nbeats': 'Optuna',
+    'nhits': 'Optuna',
+    'patchtst': 'Optuna',
+    'tsmixer': 'Optuna',
+    'itransformer': 'Optuna',
+    'cnn': 'Optuna'
 }
 
 OPTUNA_TRIALS = {
@@ -187,7 +203,14 @@ OPTUNA_TRIALS = {
     'lightgbm': 50,
     'rnn': 30,
     'lstm': 30,
-    'transformer': 30
+    'transformer': 30,
+    'tcn': 30,
+    'nbeats': 30,
+    'nhits': 30,
+    'patchtst': 30,
+    'tsmixer': 30,
+    'itransformer': 30,
+    'cnn': 30
 }
 
 # 1. Logistic Regression (Grid Search, 12 combinations)
@@ -206,7 +229,7 @@ RIDGE_PARAM_GRID = {
 
 # 3. Elastic Net (Grid Search, 30 combinations)
 ELASTIC_NET_PARAM_GRID = {
-    'alpha': [0.001, 0.01, 0.1, 1, 10, 100],
+    'alpha': [1e-5, 5e-5, 1e-4, 5e-4, 0.001, 0.005, 0.01, 0.05, 0.1, 1.0],
     'l1_ratio': [0.1, 0.3, 0.5, 0.7, 0.9],
     'max_iter': 10000
 }
@@ -320,6 +343,187 @@ TRANSFORMER_OPTUNA_SPACE = {
     'weight_decay': (1e-6, 1e-2),
     'batch_size': [16, 32],
     'epochs': 40,
+    'patience': 7
+}
+
+# 9. TCN (Temporal Convolutional Network)
+TCN_PARAMS = {
+    'lookback': 20,
+    'hidden_size': 64,
+    'num_levels': 3,
+    'kernel_size': 3,
+    'dropout': 0.1,
+    'learning_rate': 1e-4,
+    'weight_decay': 1e-4,
+    'batch_size': 32,
+    'epochs': 1000,
+    'patience': 7
+}
+TCN_OPTUNA_SPACE = {
+    'lookback': [20, 40, 60],
+    'hidden_size': [32, 64],
+    'num_levels': [2, 3],
+    'kernel_size': [3, 5],
+    'dropout': (0.05, 0.3),
+    'learning_rate': (1e-5, 5e-4),
+    'batch_size': [16, 32],
+    'epochs': 1000,
+    'patience': 7
+}
+
+# 10. N-BEATS (Neural Basis Expansion Analysis)
+NBEATS_PARAMS = {
+    'lookback': 20,
+    'num_stacks': 3,
+    'num_blocks': 2,
+    'hidden_dim': 128,
+    'dropout': 0.1,
+    'learning_rate': 1e-4,
+    'weight_decay': 1e-4,
+    'batch_size': 32,
+    'epochs': 1000,
+    'patience': 7
+}
+NBEATS_OPTUNA_SPACE = {
+    'lookback': [20, 40, 60],
+    'num_stacks': [2, 3],
+    'num_blocks': [1, 2],
+    'hidden_dim': [64, 128],
+    'dropout': (0.05, 0.3),
+    'learning_rate': (1e-5, 5e-4),
+    'batch_size': [16, 32],
+    'epochs': 1000,
+    'patience': 7
+}
+
+# 11. N-HiTS (Neural Hierarchical Interpolation)
+NHITS_PARAMS = {
+    'lookback': 20,
+    'pooling_kernels': (4, 2, 1),
+    'num_blocks_per_stack': 1,
+    'hidden_dim': 128,
+    'dropout': 0.1,
+    'learning_rate': 1e-4,
+    'weight_decay': 1e-4,
+    'batch_size': 32,
+    'epochs': 1000,
+    'patience': 7
+}
+NHITS_OPTUNA_SPACE = {
+    'lookback': [20, 40, 60],
+    'pooling_mode': [0, 1],
+    'num_blocks_per_stack': [1, 2],
+    'hidden_dim': [64, 128],
+    'dropout': (0.05, 0.3),
+    'learning_rate': (1e-5, 5e-4),
+    'batch_size': [16, 32],
+    'epochs': 1000,
+    'patience': 7
+}
+
+# 12. PatchTST (Patch Time Series Transformer)
+PATCHTST_PARAMS = {
+    'lookback': 20,
+    'patch_len': 8,
+    'stride': 4,
+    'd_model': 32,
+    'nhead': 2,
+    'num_layers': 1,
+    'dim_feedforward': 64,
+    'dropout': 0.1,
+    'learning_rate': 1e-4,
+    'weight_decay': 1e-4,
+    'batch_size': 32,
+    'epochs': 1000,
+    'patience': 7
+}
+PATCHTST_OPTUNA_SPACE = {
+    'lookback': [20, 40, 60],
+    'patch_len': [8, 16],
+    'stride': [4, 8],
+    'd_model': [32, 64],
+    'nhead': [2, 4],
+    'num_layers': [1, 2],
+    'dim_feedforward': [64, 128],
+    'dropout': (0.05, 0.3),
+    'learning_rate': (1e-5, 5e-4),
+    'batch_size': [16, 32],
+    'epochs': 1000,
+    'patience': 7
+}
+
+# 13. TSMixer (Time-Series Mixer)
+TSMIXER_PARAMS = {
+    'lookback': 20,
+    'num_blocks': 3,
+    'ff_dim': 64,
+    'dropout': 0.1,
+    'learning_rate': 1e-4,
+    'weight_decay': 1e-4,
+    'batch_size': 32,
+    'epochs': 1000,
+    'patience': 7
+}
+TSMIXER_OPTUNA_SPACE = {
+    'lookback': [20, 40, 60],
+    'num_blocks': [2, 3, 4],
+    'ff_dim': [32, 64, 128],
+    'dropout': (0.05, 0.3),
+    'learning_rate': (1e-5, 5e-4),
+    'batch_size': [16, 32],
+    'epochs': 1000,
+    'patience': 7
+}
+
+# 14. iTransformer (Inverted Transformer)
+ITRANSFORMER_PARAMS = {
+    'lookback': 20,
+    'd_model': 64,
+    'nhead': 4,
+    'num_layers': 2,
+    'dim_feedforward': 128,
+    'dropout': 0.1,
+    'learning_rate': 1e-4,
+    'weight_decay': 1e-4,
+    'batch_size': 32,
+    'epochs': 1000,
+    'patience': 7
+}
+ITRANSFORMER_OPTUNA_SPACE = {
+    'lookback': [20, 40, 60],
+    'd_model': [32, 64],
+    'nhead': [2, 4],
+    'num_layers': [1, 2],
+    'dim_feedforward': [64, 128],
+    'dropout': (0.05, 0.3),
+    'learning_rate': (1e-5, 5e-4),
+    'batch_size': [16, 32],
+    'epochs': 1000,
+    'patience': 7
+}
+
+# 15. 1D Temporal CNN Baseline
+CNN_PARAMS = {
+    'lookback': 20,
+    'num_filters': 64,
+    'kernel_size': 3,
+    'num_layers': 2,
+    'dropout': 0.1,
+    'learning_rate': 1e-4,
+    'weight_decay': 1e-4,
+    'batch_size': 32,
+    'epochs': 1000,
+    'patience': 7
+}
+CNN_OPTUNA_SPACE = {
+    'lookback': [20, 40, 60],
+    'num_filters': [32, 64],
+    'kernel_size': [3, 5],
+    'num_layers': [2, 3],
+    'dropout': (0.05, 0.3),
+    'learning_rate': (1e-5, 5e-4),
+    'batch_size': [16, 32],
+    'epochs': 1000,
     'patience': 7
 }
 

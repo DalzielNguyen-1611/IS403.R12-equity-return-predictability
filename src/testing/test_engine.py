@@ -327,8 +327,18 @@ def eval_sarima(data, horizon, params=None):
         seasonal_order = params.get('seasonal_order', seasonal_order)
         
     try:
-        mod = ARIMA(train_y, order=order, seasonal_order=seasonal_order)
-        res = mod.fit()
+        if seasonal_order != (0, 0, 0, 0):
+            mod_seasonal = ARIMA(train_y, order=order, seasonal_order=seasonal_order)
+            res_seasonal = mod_seasonal.fit()
+            mod_ar = ARIMA(train_y, order=order)
+            res_ar = mod_ar.fit()
+            if getattr(res_seasonal, 'aic', 1e9) < getattr(res_ar, 'aic', 1e9) - 2.0:
+                res = res_seasonal
+            else:
+                res = res_ar
+        else:
+            mod = ARIMA(train_y, order=order)
+            res = mod.fit()
     except Exception:
         try:
             mod = ARIMA(train_y, order=(1, 0, 0))
@@ -481,6 +491,7 @@ def train_and_eval_dl_model(model_cls, data, horizon, params=None, device=config
             optimizer.zero_grad()
             loss = criterion(model(bx), by)
             loss.backward()
+            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
             optimizer.step()
             
         model.eval()
@@ -622,3 +633,11 @@ def run_test_evaluation(models=None, horizons=None, logger=None, device=config.D
     if logger:
         logger.info(f"Saved {len(preds_df)} total test predictions ({len(new_preds_df)} newly evaluated) to {config.TEST_PREDICTIONS_PATH}")
     return preds_df
+
+
+if __name__ == '__main__':
+    try:
+        from .run_test import main
+    except (ImportError, ValueError):
+        from run_test import main
+    main()
