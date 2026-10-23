@@ -18,7 +18,7 @@ import config
 import utils
 from ensemble.ensemble_models import run_ensemble, EXPERIMENT_SPECS
 
-LAN05_EXPERIMENTS = ['A1', 'A2', 'A3', 'C1', 'C2', 'C3']
+LAN05_EXPERIMENTS = ['A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3']
 
 def ensure_benchmark_baseline(logger):
     """
@@ -95,7 +95,7 @@ def generate_lan05_summary_report():
         return
 
     s_df = pd.read_csv(summary_file)
-    ens_df = s_df[s_df['Model'].str.startswith('Ensemble_') | s_df['Model'].str.startswith('Baseline_C')]
+    ens_df = s_df[s_df['Model'].str.startswith('Ensemble_') | s_df['Model'].str.startswith('Baseline_')]
 
     # Check Lan04 summary for comparative delta
     lan04_summary_file = os.path.join(config.RESULTS_BASE_DIR, 'Lan04', 'summary', '3.0.3_model_horizon_summary.csv')
@@ -109,15 +109,21 @@ def generate_lan05_summary_report():
             pass
 
     lines = [
-        "# 🎯 BÁO CÁO THỰC NGHIỆM LẦN 05 (LAN05) — OPTUNA-TUNED ENSEMBLES & REGIME STRATEGIES",
+        "# 🎯 BÁO CÁO THỰC NGHIỆM LẦN 05 (LAN05) — OPTUNA-TUNED ENSEMBLES & ADAPTIVE STRATEGIES",
         f"**Thời gian tạo:** {time.strftime('%Y-%m-%d %H:%M:%S')}  ",
         "**Thiết kế thực nghiệm:** Tối ưu hóa siêu tham số & tỷ trọng bằng **Optuna (TPE Sampler)**:",
-        "- **Ensemble A1:** Tối ưu 13 trọng số simplex cho toàn bộ 13 mô hình hồi quy",
-        "- **Ensemble A2:** Tối ưu 4 trọng số cho Core 4 Models (Ridge, SVR, LightGBM, SARIMA)",
-        "- **Ensemble A3:** Tối ưu 3 trọng số cho Trio (Ridge, SARIMA, Historical Mean)",
-        "- **Baseline C1:** Tối ưu lựa chọn mô hình & hòa trộn theo từng Volatility Regime",
-        "- **Baseline C2:** Tối ưu tham số co rút James-Stein N_0 và độ nhạy gamma của Inverse-MSE",
-        "- **Baseline C3:** Tối ưu mức phòng thủ alpha trong chế độ High Volatility và phân bổ Core trong Low/Normal",
+        "- **Nhóm A (Fixed-Weight Tuning):**",
+        "  - `Ensemble_A1`: Tối ưu 13 trọng số simplex cho toàn bộ 13 mô hình hồi quy",
+        "  - `Ensemble_A2`: Tối ưu 4 trọng số cho Core 4 Models (Ridge, SVR, LightGBM, SARIMA)",
+        "  - `Ensemble_A3`: Tối ưu 3 trọng số cho Trio (Ridge, SARIMA, Historical Mean)",
+        "- **Nhóm B (Horizon-Adaptive Tuning):**",
+        "  - `Baseline_B1`: Tối ưu hóa hòa trộn lồi top candidate models theo từng chân trời",
+        "  - `Baseline_B2`: Tối ưu độ nhạy lũy thừa gamma của nghịch đảo MSE",
+        "  - `Baseline_B3`: Tối ưu quy hoạch toàn phương trên Simplex có điều chuẩn",
+        "- **Nhóm C (Regime-Adaptive Tuning):**",
+        "  - `Baseline_C1`: Tối ưu lựa chọn mô hình & hòa trộn theo từng Volatility Regime",
+        "  - `Baseline_C2`: Tối ưu tham số co rút James-Stein N_0 và độ nhạy gamma của Inverse-MSE",
+        "  - `Baseline_C3`: Tối ưu mức phòng thủ alpha trong chế độ High Volatility và phân bổ Core trong Low/Normal",
         "- **Zero-Data-Leakage:** Tối ưu hóa trên tập OOS tích lũy quá khứ (Expanding Window Walk-Forward)  \n",
         "---",
         "## 1. BẢNG HIỆU NĂNG TỔNG HỢP (SO SÁNH LAN05 OPTUNA VS LAN04 MẶC ĐỊNH)",
@@ -153,10 +159,11 @@ def generate_lan05_summary_report():
 def main():
     parser = argparse.ArgumentParser(description="Run Optuna-Tuned Ensemble & Regime Experiments (Lan05)")
     parser.add_argument('--model', type=str, default='all',
-                        choices=['all', 'A1', 'A2', 'A3', 'C1', 'C2', 'C3',
+                        choices=['all', 'A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3',
                                  'ensemble_a1', 'ensemble_a2', 'ensemble_a3',
+                                 'baseline_b1', 'baseline_b2', 'baseline_b3',
                                  'baseline_c1', 'baseline_c2', 'baseline_c3'],
-                        help="Select an experiment ('A1', 'A2', 'A3', 'C1', 'C2', 'C3', or 'all')")
+                        help="Select an experiment ('A1'..'A3', 'B1'..'B3', 'C1'..'C3', or 'all')")
     parser.add_argument('--horizon', type=str, default='all',
                         choices=['all'] + config.HORIZONS,
                         help="Specific forecast horizon (default: all)")

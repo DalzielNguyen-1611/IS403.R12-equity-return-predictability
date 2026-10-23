@@ -3,6 +3,7 @@ import sys
 import numpy as np
 import pandas as pd
 import optuna
+from scipy.optimize import minimize
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 BASELINES_DIR = os.path.dirname(CURRENT_DIR)
@@ -15,12 +16,18 @@ import utils
 # ==============================================================================
 # EXPERIMENT SPECIFICATIONS (From Research Plan & Group Proposal)
 # ==============================================================================
-# A1: All 13 Regression Models Equal-Weight / Weighted Ensemble
-# A2: Core 4 Models (Ridge, SVR, LightGBM, SARIMA)
-# A3: Trio (Ridge, SARIMA, Historical_Mean)
-# C1: Best Single Model per Horizon and Regime (argmin MSE(m, h, s))
-# C2: Regime-Shrunk Inverse-MSE Weighting (James-Stein Shrinkage N_0)
-# C3: Defensive Volatility Switch (A2 in Low/Normal, Historical Mean in High)
+# Group A (Fixed-Weight Ensembles):
+#   A1: All 13 Regression Models Equal-Weight (1/13)
+#   A2: Core 4 Models (Ridge, SVR, LightGBM, SARIMA) Equal-Weight (1/4)
+#   A3: Trio (Ridge, SARIMA, Historical_Mean) Equal-Weight (1/3)
+# Group B (Horizon-Adaptive Baselines & Ensembles):
+#   B1: Best Single Model per Horizon (argmin MSE(m, h))
+#   B2: Normalized Inverse-MSE Weighting (Core 4: Ridge, SVR, LightGBM, SARIMA)
+#   B3: NNLS / Simplex Quadratic Programming (Core 4)
+# Group C (Regime-Adaptive Baselines & Ensembles):
+#   C1: Best Single Model per Horizon and Regime (argmin MSE(m, h, s))
+#   C2: Regime-Shrunk Inverse-MSE Weighting (James-Stein Shrinkage N_0)
+#   C3: Defensive Volatility Switch (A2 in Low/Normal, Historical Mean in High)
 # ==============================================================================
 
 CONSTITUENTS_A1 = [
@@ -77,6 +84,30 @@ EXPERIMENT_SPECS = {
         'models': CONSTITUENTS_A3,
         'default_weights': {m: 1.0 / 3.0 for m in CONSTITUENTS_A3}
     },
+    'B1': {
+        'model_key': 'baseline_b1',
+        'display_name': 'Baseline_B1',
+        'title': 'Best Single Model per Horizon',
+        'description': 'Selects argmin MSE(m, h) on historical validation folds across all 13 regression baselines.',
+        'models': CONSTITUENTS_A1,
+        'default_params': {'selection_metric': 'MSE'}
+    },
+    'B2': {
+        'model_key': 'baseline_b2',
+        'display_name': 'Baseline_B2',
+        'title': 'Normalized Inverse-MSE Weighting',
+        'description': 'Computes weights proportional to 1/MSE(m, h) across Core 4 models normalized to sum to 1.',
+        'models': CONSTITUENTS_A2,
+        'default_params': {'power': 1.0}
+    },
+    'B3': {
+        'model_key': 'baseline_b3',
+        'display_name': 'Baseline_B3',
+        'title': 'NNLS / Simplex Quadratic Programming',
+        'description': 'Solves min ||y - P*w||_2^2 subject to w >= 0 and sum(w) = 1 across Core 4 models.',
+        'models': CONSTITUENTS_A2,
+        'default_params': {'solver': 'SLSQP'}
+    },
     'C1': {
         'model_key': 'baseline_c1',
         'display_name': 'Baseline_C1',
@@ -103,7 +134,7 @@ EXPERIMENT_SPECS = {
     }
 }
 
-ALL_EXPERIMENT_KEYS = ['A1', 'A2', 'A3', 'C1', 'C2', 'C3']
+ALL_EXPERIMENT_KEYS = ['A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3']
 
 def load_constituent_predictions(source_path=None):
     """
@@ -183,8 +214,190 @@ def optimize_simplex_weights(val_df, models, n_trials=50, seed=config.RANDOM_SEE
     return norm_weights, float(study.best_value)
 
 # ==============================================================================
-# PIPELINE ENGINES FOR C1, C2, C3
+# PIPELINE ENGINES FOR B1, B2, B3, C1, C2, C3
 # ==============================================================================
+
+def execute_b1_forecast(hist_slice, test_slice, horizon, models=CONSTITUENTS_A1, tune=False, n_trials=50, seed=config.RANDOM_SEED):
+    """
+    B1: Best Single Model per Horizon
+    - Evaluates MSE(m, h) across all regression models on prior validation folds.
+    - Selects m_h* = argmin_m MSE(m, h).
+    - If hist_slice is empty (Fold 1): falls back to pre-design reported selection:
+      1D: SARIMA, 5D: XGBoost, 20D: Elastic_Net, 60D: Historical_Mean, 120D: ARIMAX.
+    - If tune=True (Lan05): Optuna finds optimal convex combination among top-3 candidate models.
+    """
+    pre_selected = {
+        '1D': 'SARIMA',
+        '5D': 'XGBoost',
+        '20D': 'Elastic_Net',
+        '60D': 'Historical_Mean',
+        '120D': 'ARIMAX'
+    }
+
+    if hist_slice.empty:
+        chosen_m = pre_selected.get(horizon, 'Ridge')
+        pred = test_slice[chosen_m].values
+        best_params_record = {
+            'mode': 'b1_prior_pre_design',
+            'selected_model': chosen_m,
+            'reason': 'Fold 1 cold-start fallback to preliminary design report'
+        }
+        return pred, best_params_record, 0.0
+
+    mses = {m: float(np.mean((hist_slice['Actual'].values - hist_slice[m].values) ** 2)) for m in models}
+    sorted_models = sorted(mses.items(), key=lambda x: x[1])
+    best_m = sorted_models[0][0]
+
+    if tune and len(hist_slice) >= 50:
+        top_candidates = [m for m, _ in sorted_models[:3]]
+        optuna.logging.set_verbosity(optuna.logging.WARNING)
+        study = optuna.create_study(direction='minimize', sampler=optuna.samplers.TPESampler(seed=seed))
+        y_h = hist_slice['Actual'].values
+        X_mat = np.column_stack([hist_slice[m].values for m in top_candidates])
+
+        def obj(trial):
+            w = np.array([trial.suggest_float(f'w_{m}', 0.0, 1.0) for m in top_candidates])
+            s = w.sum()
+            w = w / s if s > 0 else np.full(len(top_candidates), 1.0 / len(top_candidates))
+            return float(np.sqrt(np.mean((y_h - X_mat @ w) ** 2)))
+
+        study.optimize(obj, n_trials=n_trials)
+        w_raw = [study.best_params[f'w_{m}'] for m in top_candidates]
+        s_best = sum(w_raw)
+        opt_w = {m: round(float(w / s_best), 6) for m, w in zip(top_candidates, w_raw)} if s_best > 0 else {m: 1.0/3.0 for m in top_candidates}
+        pred = sum(opt_w[m] * test_slice[m].values for m in top_candidates)
+        val_score = float(study.best_value)
+        best_params_record = {
+            'mode': 'b1_optuna_top3_blend',
+            'top_candidates': top_candidates,
+            'blended_weights': opt_w,
+            'best_single_model': best_m,
+            'top_mses': {m: round(float(v), 8) for m, v in sorted_models[:5]}
+        }
+    else:
+        pred = test_slice[best_m].values
+        val_score = float(np.sqrt(sorted_models[0][1]))
+        best_params_record = {
+            'mode': 'b1_deterministic_argmin_mse',
+            'selected_model': best_m,
+            'all_mses': {m: round(float(v), 8) for m, v in sorted_models[:5]}
+        }
+
+    return pred, best_params_record, val_score
+
+
+def execute_b2_forecast(hist_slice, test_slice, models=CONSTITUENTS_A2, tune=False, n_trials=50, seed=config.RANDOM_SEED):
+    """
+    B2: Normalized Inverse-MSE Weighting
+    - Evaluates MSE_m,h on prior validation folds across Core 4 models.
+    - Weights w_{m,h} = (1 / MSE_m)^gamma / sum((1 / MSE_j)^gamma).
+    - If tune=False (Lan04): Classical Inverse-MSE (gamma = 1.0).
+    - If tune=True (Lan05): Optuna tunes power gamma in [0.2, 5.0].
+    """
+    eps = 1e-8
+    if hist_slice.empty:
+        w_b2 = {m: 0.25 for m in models}
+        pred = sum(0.25 * test_slice[m].values for m in models)
+        best_params_record = {'mode': 'b2_cold_start_prior', 'weights': w_b2, 'power': 1.0}
+        return pred, best_params_record, 0.0
+
+    mses = {m: float(np.mean((hist_slice['Actual'].values - hist_slice[m].values) ** 2)) for m in models}
+
+    if tune and len(hist_slice) >= 50:
+        optuna.logging.set_verbosity(optuna.logging.WARNING)
+        study = optuna.create_study(direction='minimize', sampler=optuna.samplers.TPESampler(seed=seed))
+        y_h = hist_slice['Actual'].values
+
+        def obj(trial):
+            gamma = trial.suggest_float('power', 0.2, 5.0)
+            inv = {m: (1.0 / (mses[m] + eps)) ** gamma for m in models}
+            tot = sum(inv.values())
+            w = np.array([inv[m] / tot for m in models])
+            p_mat = np.column_stack([hist_slice[m].values for m in models])
+            return float(np.sqrt(np.mean((y_h - p_mat @ w) ** 2)))
+
+        study.optimize(obj, n_trials=n_trials)
+        best_power = float(study.best_params['power'])
+        val_score = float(study.best_value)
+    else:
+        best_power = 1.0
+        val_score = 0.0
+
+    inv = {m: (1.0 / (mses[m] + eps)) ** best_power for m in models}
+    tot = sum(inv.values())
+    w_b2 = {m: round(float(inv[m] / tot), 6) for m in models}
+
+    pred = sum(w_b2[m] * test_slice[m].values for m in models)
+    best_params_record = {
+        'mode': 'b2_optuna_power' if tune else 'b2_classical_inverse_mse',
+        'power': best_power,
+        'weights': w_b2,
+        'mses': {m: round(float(v), 8) for m, v in mses.items()}
+    }
+    return pred, best_params_record, val_score
+
+
+def execute_b3_forecast(hist_slice, test_slice, models=CONSTITUENTS_A2, tune=False, n_trials=50, seed=config.RANDOM_SEED):
+    """
+    B3: NNLS / Quadratic Programming with Simplex Constraints
+    - Solves: min_w ||y - P*w||_2^2 s.t. w_m >= 0 and sum(w_m) = 1.
+    - If tune=False (Lan04): Exact QP via scipy.optimize.minimize (SLSQP).
+    - If tune=True (Lan05): Optuna TPE Simplex optimization with regularization exploration.
+    """
+    K = len(models)
+    if hist_slice.empty:
+        w_b3 = {m: round(1.0 / K, 6) for m in models}
+        pred = sum((1.0 / K) * test_slice[m].values for m in models)
+        best_params_record = {'mode': 'b3_cold_start_prior', 'weights': w_b3}
+        return pred, best_params_record, 0.0
+
+    y_h = hist_slice['Actual'].values
+    P = np.column_stack([hist_slice[m].values for m in models])
+
+    if not tune:
+        def loss(w):
+            diff = y_h - P @ w
+            return float(np.sum(diff ** 2))
+
+        w0 = np.full(K, 1.0 / K)
+        bounds = [(0.0, 1.0) for _ in range(K)]
+        cons = ({'type': 'eq', 'fun': lambda w: np.sum(w) - 1.0})
+        res = minimize(loss, w0, method='SLSQP', bounds=bounds, constraints=cons)
+
+        w_opt = res.x / np.sum(res.x) if np.sum(res.x) > 0 else w0
+        val_score = float(np.sqrt(np.mean((y_h - P @ w_opt) ** 2)))
+        w_dict = {m: round(float(w), 6) for m, w in zip(models, w_opt)}
+        best_params_record = {
+            'mode': 'b3_classical_qp_simplex',
+            'weights': w_dict,
+            'solver_success': bool(res.success),
+            'message': str(res.message)
+        }
+    else:
+        optuna.logging.set_verbosity(optuna.logging.WARNING)
+        study = optuna.create_study(direction='minimize', sampler=optuna.samplers.TPESampler(seed=seed))
+
+        def obj(trial):
+            raw_w = np.array([trial.suggest_float(f'w_{m}', 0.0, 1.0) for m in models])
+            s = raw_w.sum()
+            w = raw_w / s if s > 0 else np.full(K, 1.0 / K)
+            return float(np.sqrt(np.mean((y_h - P @ w) ** 2)))
+
+        study.optimize(obj, n_trials=n_trials)
+        w_raw = [study.best_params[f'w_{m}'] for m in models]
+        s_best = sum(w_raw)
+        w_opt = np.array(w_raw) / s_best if s_best > 0 else np.full(K, 1.0 / K)
+        val_score = float(study.best_value)
+        w_dict = {m: round(float(w), 6) for m, w in zip(models, w_opt)}
+        best_params_record = {
+            'mode': 'b3_optuna_simplex_weights',
+            'weights': w_dict,
+            'optuna_trials': n_trials
+        }
+
+    pred = sum(w_dict[m] * test_slice[m].values for m in models)
+    return pred, best_params_record, val_score
+
 
 def execute_c1_forecast(hist_slice, test_slice, models, tune=False, n_trials=50, seed=config.RANDOM_SEED):
     """
@@ -521,6 +734,24 @@ def run_ensemble(exp_key='A1', tune=False, horizons=config.HORIZONS, n_trials=50
                 ensemble_pred = np.zeros(len(test_slice), dtype=float)
                 for m in constituents:
                     ensemble_pred += weights_dict[m] * test_slice[m].values
+
+            elif exp_key == 'B1':
+                score_metric = "Val_RMSE"
+                ensemble_pred, best_params_record, val_score = execute_b1_forecast(
+                    hist_slice, test_slice, horizon, models=constituents, tune=tune, n_trials=n_trials, seed=seed
+                )
+
+            elif exp_key == 'B2':
+                score_metric = "Val_RMSE"
+                ensemble_pred, best_params_record, val_score = execute_b2_forecast(
+                    hist_slice, test_slice, models=constituents, tune=tune, n_trials=n_trials, seed=seed
+                )
+
+            elif exp_key == 'B3':
+                score_metric = "Val_RMSE"
+                ensemble_pred, best_params_record, val_score = execute_b3_forecast(
+                    hist_slice, test_slice, models=constituents, tune=tune, n_trials=n_trials, seed=seed
+                )
 
             elif exp_key == 'C1':
                 score_metric = "Val_RMSE"

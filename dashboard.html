@@ -872,8 +872,11 @@
       { key: 'ensemble_a1', name: 'Ensemble_A1', category: 'All 13 Models Combined', foldsTotal: 25, icon: '🌐' },
       { key: 'ensemble_a2', name: 'Ensemble_A2', category: 'Core 4 Models (Ridge, SVR, LGBM, SARIMA)', foldsTotal: 25, icon: '⭐' },
       { key: 'ensemble_a3', name: 'Ensemble_A3', category: 'Trio (Ridge, SARIMA, Historical_Mean)', foldsTotal: 25, icon: '🏛️' },
+      { key: 'baseline_b1', name: 'Baseline_B1', category: 'Best Single Model per Horizon', foldsTotal: 25, icon: '📈' },
+      { key: 'baseline_b2', name: 'Baseline_B2', category: 'Normalized Inverse-MSE Weighting', foldsTotal: 25, icon: '⚖️' },
+      { key: 'baseline_b3', name: 'Baseline_B3', category: 'NNLS / Simplex Quadratic Programming', foldsTotal: 25, icon: '📐' },
       { key: 'baseline_c1', name: 'Baseline_C1', category: 'Best Model per Horizon & Regime', foldsTotal: 25, icon: '🎯' },
-      { key: 'baseline_c2', name: 'Baseline_C2', category: 'Regime-Shrunk Inverse-MSE Weighting', foldsTotal: 25, icon: '⚖️' },
+      { key: 'baseline_c2', name: 'Baseline_C2', category: 'Regime-Shrunk Inverse-MSE Weighting', foldsTotal: 25, icon: '🔄' },
       { key: 'baseline_c3', name: 'Baseline_C3', category: 'Defensive Volatility Switch (A2 / HM)', foldsTotal: 25, icon: '🛡️' }
     ];
 
@@ -1126,7 +1129,7 @@
       const modelMetricSummary = {};
 
       const totalDone = foldMetrics ? foldMetrics.length : 0;
-      const totalTarget = isEnsemble ? 150 : (isLan01 ? 350 : 175);
+      const totalTarget = isEnsemble ? 225 : (isLan01 ? 350 : 175);
       document.getElementById('kpiProgress').innerText = `${totalDone} / ${totalTarget}`;
       document.getElementById('kpiPct').innerText = `${((totalDone / totalTarget) * 100).toFixed(1)}% Hoàn thành`;
 
@@ -1282,11 +1285,11 @@
       } else if (runName === 'Lan04') {
         document.getElementById('liveStatusPill').className = 'status-pill running';
         document.getElementById('liveStatusText').innerText = 'Ensemble Mặc Định (Lan04)';
-        document.getElementById('modelsSubtitle').innerText = '6 Mô hình Ensemble & Adaptive tham số mặc định: A1, A2, A3, C1, C2, C3 (150 Folds)';
+        document.getElementById('modelsSubtitle').innerText = '9 Mô hình Ensemble & Adaptive tham số mặc định: A1-A3, B1-B3, C1-C3 (225 Folds)';
       } else if (runName === 'Lan05') {
         document.getElementById('liveStatusPill').className = 'status-pill running';
         document.getElementById('liveStatusText').innerText = 'Ensemble Optuna (Lan05)';
-        document.getElementById('modelsSubtitle').innerText = '6 Mô hình Ensemble & Adaptive tối ưu hóa bằng Optuna: A1, A2, A3, C1, C2, C3 (150 Folds)';
+        document.getElementById('modelsSubtitle').innerText = '9 Mô hình Ensemble & Adaptive tối ưu hóa bằng Optuna: A1-A3, B1-B3, C1-C3 (225 Folds)';
       } else {
         document.getElementById('liveStatusPill').className = 'status-pill running';
         document.getElementById('liveStatusText').innerText = 'Đang Huấn Luyện (Lan02)';

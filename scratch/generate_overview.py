@@ -43,18 +43,24 @@ ALL_MODELS_DEF = [
     {'run': 'Lan03', 'name': 'iTransformer', 'family': 'Advanced DL (Inverted Attn)', 'strategy': 'Optuna TPE (Val Loss RMSE)', 'tuning_engine': 'Optuna TPE', 'trials': '30 trials', 'is_tuned': False, 'status': 'Chưa Tuning (Đang chờ chạy)'},
     {'run': 'Lan03', 'name': 'CNN', 'family': 'Advanced DL (1D Conv Baseline)', 'strategy': 'Optuna TPE (Val Loss RMSE)', 'tuning_engine': 'Optuna TPE', 'trials': '30 trials', 'is_tuned': False, 'status': 'Chưa Tuning (Đang chờ chạy)'},
 
-    # --- Lan04 (6 Ensembles & Adaptive Baselines - Default) ---
+    # --- Lan04 (9 Ensembles & Adaptive Baselines - Default) ---
     {'run': 'Lan04', 'name': 'Ensemble_A1', 'family': 'Ensemble (All 13 Models)', 'strategy': 'Equal-Weight (w = 1/13)', 'tuning_engine': 'None', 'trials': '-', 'is_tuned': False, 'status': 'Không Tuning (Mặc định)'},
     {'run': 'Lan04', 'name': 'Ensemble_A2', 'family': 'Ensemble (Core 4 Models)', 'strategy': 'Equal-Weight (w = 1/4)', 'tuning_engine': 'None', 'trials': '-', 'is_tuned': False, 'status': 'Không Tuning (Mặc định)'},
     {'run': 'Lan04', 'name': 'Ensemble_A3', 'family': 'Ensemble (Ridge, SARIMA, HM)', 'strategy': 'Equal-Weight (w = 1/3)', 'tuning_engine': 'None', 'trials': '-', 'is_tuned': False, 'status': 'Không Tuning (Mặc định)'},
+    {'run': 'Lan04', 'name': 'Baseline_B1', 'family': 'Benchmark Selection (Best Single Model)', 'strategy': 'Argmin Historical Val MSE per Horizon', 'tuning_engine': 'Deterministic ArgMin', 'trials': '-', 'is_tuned': False, 'status': 'Không Tuning (Mặc định)'},
+    {'run': 'Lan04', 'name': 'Baseline_B2', 'family': 'Weighting Strategy (Inverse-MSE)', 'strategy': 'Normalized Inverse-MSE (gamma = 1.0)', 'tuning_engine': 'Deterministic Analytical', 'trials': '-', 'is_tuned': False, 'status': 'Không Tuning (Mặc định)'},
+    {'run': 'Lan04', 'name': 'Baseline_B3', 'family': 'Optimization (NNLS Simplex)', 'strategy': 'Quadratic Programming / SLSQP with Simplex Constraints', 'tuning_engine': 'SciPy SLSQP', 'trials': '-', 'is_tuned': False, 'status': 'Không Tuning (Mặc định)'},
     {'run': 'Lan04', 'name': 'Baseline_C1', 'family': 'Regime Strategy (Best Model)', 'strategy': 'Argmin MSE per Regime (Deterministic)', 'tuning_engine': 'None', 'trials': '-', 'is_tuned': False, 'status': 'Không Tuning (Mặc định)'},
     {'run': 'Lan04', 'name': 'Baseline_C2', 'family': 'Regime Strategy (Shrunk Inv-MSE)', 'strategy': 'Shrinkage N0 = 50.0 fixed', 'tuning_engine': 'None', 'trials': '-', 'is_tuned': False, 'status': 'Không Tuning (Mặc định)'},
     {'run': 'Lan04', 'name': 'Baseline_C3', 'family': 'Regime Strategy (Defensive Switch)', 'strategy': 'A2 (Low/Normal) & HM (High) fixed switch', 'tuning_engine': 'None', 'trials': '-', 'is_tuned': False, 'status': 'Không Tuning (Mặc định)'},
 
-    # --- Lan05 (6 Ensembles & Adaptive Baselines - Optuna 50 trials) ---
+    # --- Lan05 (9 Ensembles & Adaptive Baselines - Optuna 50 trials) ---
     {'run': 'Lan05', 'name': 'Ensemble_A1', 'family': 'Ensemble (All 13 Models)', 'strategy': 'Optuna Simplex Weights Optimization', 'tuning_engine': 'Optuna TPE', 'trials': '50 trials', 'is_tuned': False, 'status': 'Chưa Tuning (Đang chờ chạy)'},
     {'run': 'Lan05', 'name': 'Ensemble_A2', 'family': 'Ensemble (Core 4 Models)', 'strategy': 'Optuna Simplex Weights Optimization', 'tuning_engine': 'Optuna TPE', 'trials': '50 trials', 'is_tuned': False, 'status': 'Chưa Tuning (Đang chờ chạy)'},
     {'run': 'Lan05', 'name': 'Ensemble_A3', 'family': 'Ensemble (Ridge, SARIMA, HM)', 'strategy': 'Optuna Simplex Weights Optimization', 'tuning_engine': 'Optuna TPE', 'trials': '50 trials', 'is_tuned': False, 'status': 'Chưa Tuning (Đang chờ chạy)'},
+    {'run': 'Lan05', 'name': 'Baseline_B1', 'family': 'Benchmark Selection (Best Single Model)', 'strategy': 'Optuna Convex Blending Top-3 Candidates', 'tuning_engine': 'Optuna TPE', 'trials': '50 trials', 'is_tuned': False, 'status': 'Chưa Tuning (Đang chờ chạy)'},
+    {'run': 'Lan05', 'name': 'Baseline_B2', 'family': 'Weighting Strategy (Inverse-MSE)', 'strategy': 'Optuna Power gamma in [0.2, 5.0]', 'tuning_engine': 'Optuna TPE', 'trials': '50 trials', 'is_tuned': False, 'status': 'Chưa Tuning (Đang chờ chạy)'},
+    {'run': 'Lan05', 'name': 'Baseline_B3', 'family': 'Optimization (NNLS Simplex)', 'strategy': 'Optuna Simplex Regularization / L2 Shrinkage', 'tuning_engine': 'Optuna TPE', 'trials': '50 trials', 'is_tuned': False, 'status': 'Chưa Tuning (Đang chờ chạy)'},
     {'run': 'Lan05', 'name': 'Baseline_C1', 'family': 'Regime Strategy (Best Model)', 'strategy': 'Optuna Convex Blending per Regime', 'tuning_engine': 'Optuna TPE', 'trials': '50 trials', 'is_tuned': False, 'status': 'Chưa Tuning (Đang chờ chạy)'},
     {'run': 'Lan05', 'name': 'Baseline_C2', 'family': 'Regime Strategy (Shrunk Inv-MSE)', 'strategy': 'Optuna N0 [5,200] & Power gamma [0.5,3.0]', 'tuning_engine': 'Optuna TPE', 'trials': '50 trials', 'is_tuned': False, 'status': 'Chưa Tuning (Đang chờ chạy)'},
     {'run': 'Lan05', 'name': 'Baseline_C3', 'family': 'Regime Strategy (Defensive Switch)', 'strategy': 'Optuna Alpha [0,1] & Core Weights', 'tuning_engine': 'Optuna TPE', 'trials': '50 trials', 'is_tuned': False, 'status': 'Chưa Tuning (Đang chờ chạy)'},
@@ -115,7 +121,7 @@ md_lines = [
     "# 📋 BẢNG TỔNG HỢP TOÀN BỘ MÔ HÌNH VÀ BỘ THAM SỐ TỐI ƯU SAU KHI TUNING",
     "",
     "> **Đề tài nghiên cứu:** *When Does Equity Return Predictability Decay? Multi-Horizon & Regime Analysis*  ",
-    "> **Quy tắc thể hiện:** Toàn bộ 40 đối tượng thực nghiệm qua 5 đợt (Lan01 → Lan05). Mô hình nào **đã qua Tuning** (Optuna, Grid Search, Fixed Search) sẽ hiển thị đầy đủ bộ tham số tốt nhất; mô hình nào **chưa Tuning** hoặc **không dùng Tuning** sẽ được **để trống hoàn toàn** theo đúng yêu cầu.",
+    "> **Quy tắc thể hiện:** Toàn bộ 46 đối tượng thực nghiệm qua 5 đợt (Lan01 → Lan05). Mô hình nào **đã qua Tuning** (Optuna, Grid Search, Fixed Search) sẽ hiển thị đầy đủ bộ tham số tốt nhất; mô hình nào **chưa Tuning** hoặc **không dùng Tuning** sẽ được **để trống hoàn toàn** theo đúng yêu cầu.",
     "",
     "---",
     "",
@@ -178,11 +184,14 @@ md_lines.extend([
     "  - `batch_size`: $[16, 32, 64]$.",
     "  - `patience`: $7$ epochs (Early Stopping).",
     "",
-    "### 3.2 Nhóm Tổ Hợp Ensemble & Chiến Lược Thích Ứng Chế Độ (Lần 05 — Lan05: 6 Mô Hình)",
-    "- **Mô hình:** `Ensemble_A1`, `Ensemble_A2`, `Ensemble_A3`, `Baseline_C1`, `Baseline_C2`, `Baseline_C3`.",
+    "### 3.2 Nhóm Tổ Hợp Ensemble & Chiến Lược Thích Ứng (Lần 05 — Lan05: 9 Mô Hình)",
+    "- **Mô hình:** `Ensemble_A1`, `Ensemble_A2`, `Ensemble_A3`, `Baseline_B1`, `Baseline_B2`, `Baseline_B3`, `Baseline_C1`, `Baseline_C2`, `Baseline_C3`.",
     "- **Phương pháp tuning:** Optuna TPE Sampler (50 trials/fold/horizon).",
     "- **Không gian tối ưu tỷ trọng đã cấu hình:**",
     "  - `A1, A2, A3`: Véc-tơ trọng số lồi trên không gian Simplex ($w_m \\ge 0, \\sum w_m = 1$).",
+    "  - `B1`: Tỷ trọng hòa trộn lồi ($w_1, w_2, w_3$) giữa top-3 mô hình có MSE tốt nhất trong lịch sử từng horizon.",
+    "  - `B2`: Độ nhạy lũy thừa $\\gamma \\in [0.2, 5.0]$ cho trọng số nghịch đảo MSE ($w_{m,h} \\propto (1/\\text{MSE}_{m,h})^\\gamma$).",
+    "  - `B3`: Hệ số co rút / chính quy hóa $L_2$ trên không gian nghiệm Simplex Quadratic Programming.",
     "  - `C1`: Tỷ trọng hòa trộn lồi giữa các mô hình dẫn đầu theo từng chế độ biến động (Low, Normal, High).",
     "  - `C2`: Hệ số co rút James-Stein $N_0 \\in [5.0, 200.0]$ và độ nhạy lũy thừa nghịch đảo MSE $\\gamma \\in [0.5, 3.0]$.",
     "  - `C3`: Tỷ trọng phòng thủ $\\alpha_{\\text{High}} \\in [0, 1]$ khi thị trường High Volatility và phân bổ Core $A2$ trong Low/Normal.",
@@ -210,7 +219,8 @@ md_lines.extend([
 ])
 
 md_content = '\n'.join(md_lines)
-with open('MODELS_OVERVIEW_HYPERPARAMS.md', 'w', encoding='utf-8') as f:
+os.makedirs('docs', exist_ok=True)
+with open('docs/MODELS_OVERVIEW_HYPERPARAMS.md', 'w', encoding='utf-8') as f:
     f.write(md_content)
 
-print(f"Updated MODELS_OVERVIEW_HYPERPARAMS.md ({len(md_lines)} lines)")
+print(f"Updated docs/MODELS_OVERVIEW_HYPERPARAMS.md ({len(md_lines)} lines)")

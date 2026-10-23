@@ -18,7 +18,7 @@ import config
 import utils
 from ensemble.ensemble_models import run_ensemble, EXPERIMENT_SPECS
 
-LAN04_EXPERIMENTS = ['A1', 'A2', 'A3', 'C1', 'C2', 'C3']
+LAN04_EXPERIMENTS = ['A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3']
 
 def ensure_benchmark_baseline(logger):
     """
@@ -95,18 +95,24 @@ def generate_lan04_summary_report():
         return
 
     s_df = pd.read_csv(summary_file)
-    ens_df = s_df[s_df['Model'].str.startswith('Ensemble_') | s_df['Model'].str.startswith('Baseline_C')]
+    ens_df = s_df[s_df['Model'].str.startswith('Ensemble_') | s_df['Model'].str.startswith('Baseline_')]
 
     lines = [
-        "# 📊 BÁO CÁO THỰC NGHIỆM LẦN 04 (LAN04) — EQUAL-WEIGHT ENSEMBLES & REGIME BASELINES",
+        "# 📊 BÁO CÁO THỰC NGHIỆM LẦN 04 (LAN04) — EQUAL-WEIGHT, HORIZON & REGIME ENSEMBLES",
         f"**Thời gian tạo:** {time.strftime('%Y-%m-%d %H:%M:%S')}  ",
-        "**Thiết kế thực nghiệm:** Đánh giá 6 tổ hợp mô hình với **tham số mặc định**:",
-        "- **Ensemble A1:** Toàn bộ 13 mô hình hồi quy (w = 1/13 ≈ 7.69%)",
-        "- **Ensemble A2:** 4 mô hình hạt nhân cốt lõi (Ridge, SVR, LightGBM, SARIMA với w = 1/4 = 25%)",
-        "- **Ensemble A3:** Tổ hợp gọn (Ridge, SARIMA, Historical Mean với w = 1/3 ≈ 33.33%)",
-        "- **Baseline C1:** Best Single Model per Horizon and Regime (argmin MSE trên validation)",
-        "- **Baseline C2:** Regime-Shrunk Inverse-MSE Weighting (co rút N_0 = 50)",
-        "- **Baseline C3:** Defensive Volatility Switch (Low/Normal dùng A2, High dùng Historical Mean)  \n",
+        "**Thiết kế thực nghiệm:** Đánh giá 9 tổ hợp mô hình với **tham số mặc định**:",
+        "- **Nhóm A (Fixed-Weight):**",
+        "  - `Ensemble_A1`: Toàn bộ 13 mô hình hồi quy (w = 1/13 ≈ 7.69%)",
+        "  - `Ensemble_A2`: 4 mô hình cốt lõi Ridge, SVR, LightGBM, SARIMA (w = 1/4 = 25%)",
+        "  - `Ensemble_A3`: Trio Ridge, SARIMA, Historical Mean (w = 1/3 ≈ 33.33%)",
+        "- **Nhóm B (Horizon-Adaptive):**",
+        "  - `Baseline_B1`: Best Single Model per Horizon (argmin MSE trên validation quá khứ)",
+        "  - `Baseline_B2`: Normalized Inverse-MSE Weighting (Core 4)",
+        "  - `Baseline_B3`: NNLS / Simplex Quadratic Programming (Core 4)",
+        "- **Nhóm C (Regime-Adaptive):**",
+        "  - `Baseline_C1`: Best Single Model per Horizon and Regime (argmin MSE(m, h, s))",
+        "  - `Baseline_C2`: Regime-Shrunk Inverse-MSE Weighting (co rút N_0 = 50)",
+        "  - `Baseline_C3`: Defensive Volatility Switch (Low/Normal dùng A2, High dùng Historical Mean)  \n",
         "---",
         "## 1. BẢNG HIỆU NĂNG TỔNG HỢP CÁC MÔ HÌNH (OOS R² & DA)",
         "| Mô hình | Chân trời | OOS R² Trung bình | Độ lệch chuẩn R² | DA (%) | RMSE |",
@@ -125,8 +131,9 @@ def generate_lan04_summary_report():
         "\n---",
         "## 2. NHẬN XÉT PHƯƠNG PHÁP LUẬN",
         "1. **Bình đẳng trọng số (1/N DeMiguel et al. 2009):** Kháng quá khớp tham số mạnh mẽ vì không ước lượng trọng số trên mẫu.",
-        "2. **Thích ứng Regime (C1, C2, C3):** Tận dụng thông tin chế độ thị trường (Low, Normal, High) để luân chuyển mô hình hoặc co rút trọng số về mốc chuẩn an toàn.",
-        "3. **Mốc so sánh cho Lần 05:** Toàn bộ kết quả ở Lần 04 là baseline tham số mặc định chuẩn xác để đối chứng với Lần 05 (Optuna Adaptive Weights)."
+        "2. **Thích ứng theo Chân trời (B1, B2, B3):** Căn chỉnh tỷ trọng dựa trên hiệu năng từng chân trời và giải quy hoạch toàn phương trên simplex.",
+        "3. **Thích ứng theo Regime (C1, C2, C3):** Tận dụng thông tin chế độ thị trường (Low, Normal, High) để luân chuyển mô hình hoặc co rút trọng số về mốc chuẩn an toàn.",
+        "4. **Mốc so sánh cho Lần 05:** Toàn bộ kết quả ở Lần 04 là baseline tham số mặc định chuẩn xác để đối chứng với Lần 05 (Optuna Adaptive Weights)."
     ])
 
     with open(report_path, 'w', encoding='utf-8') as f:
@@ -135,10 +142,11 @@ def generate_lan04_summary_report():
 def main():
     parser = argparse.ArgumentParser(description="Run Ensemble & Regime Experiments (Lan04 - Default Parameters)")
     parser.add_argument('--model', type=str, default='all',
-                        choices=['all', 'A1', 'A2', 'A3', 'C1', 'C2', 'C3',
+                        choices=['all', 'A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3',
                                  'ensemble_a1', 'ensemble_a2', 'ensemble_a3',
+                                 'baseline_b1', 'baseline_b2', 'baseline_b3',
                                  'baseline_c1', 'baseline_c2', 'baseline_c3'],
-                        help="Select an experiment ('A1', 'A2', 'A3', 'C1', 'C2', 'C3', or 'all')")
+                        help="Select an experiment ('A1'..'A3', 'B1'..'B3', 'C1'..'C3', or 'all')")
     parser.add_argument('--horizon', type=str, default='all',
                         choices=['all'] + config.HORIZONS,
                         help="Specific forecast horizon (default: all)")

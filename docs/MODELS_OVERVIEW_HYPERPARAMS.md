@@ -1,7 +1,7 @@
 # 📋 BẢNG TỔNG HỢP TOÀN BỘ MÔ HÌNH VÀ BỘ THAM SỐ TỐI ƯU SAU KHI TUNING
 
 > **Đề tài nghiên cứu:** *When Does Equity Return Predictability Decay? Multi-Horizon & Regime Analysis*  
-> **Quy tắc thể hiện:** Toàn bộ 40 đối tượng thực nghiệm qua 5 đợt (Lan01 → Lan05). Mô hình nào **đã qua Tuning** (Optuna, Grid Search, Fixed Search) sẽ hiển thị đầy đủ bộ tham số tốt nhất; mô hình nào **chưa Tuning** hoặc **không dùng Tuning** sẽ được **để trống hoàn toàn** theo đúng yêu cầu.
+> **Quy tắc thể hiện:** Toàn bộ 46 đối tượng thực nghiệm qua 5 đợt (Lan01 → Lan05). Mô hình nào **đã qua Tuning** (Optuna, Grid Search, Fixed Search) sẽ hiển thị đầy đủ bộ tham số tốt nhất; mô hình nào **chưa Tuning** hoặc **không dùng Tuning** sẽ được **để trống hoàn toàn** theo đúng yêu cầu.
 
 ---
 
@@ -40,15 +40,21 @@
 | 29 | **Lan04** | `Ensemble_A1` | Ensemble (All 13 Models) | None | - | Không Tuning (Mặc định) |  |  |
 | 30 | **Lan04** | `Ensemble_A2` | Ensemble (Core 4 Models) | None | - | Không Tuning (Mặc định) |  |  |
 | 31 | **Lan04** | `Ensemble_A3` | Ensemble (Ridge, SARIMA, HM) | None | - | Không Tuning (Mặc định) |  |  |
-| 32 | **Lan04** | `Baseline_C1` | Regime Strategy (Best Model) | None | - | Không Tuning (Mặc định) |  |  |
-| 33 | **Lan04** | `Baseline_C2` | Regime Strategy (Shrunk Inv-MSE) | None | - | Không Tuning (Mặc định) |  |  |
-| 34 | **Lan04** | `Baseline_C3` | Regime Strategy (Defensive Switch) | None | - | Không Tuning (Mặc định) |  |  |
-| 35 | **Lan05** | `Ensemble_A1` | Ensemble (All 13 Models) | Optuna TPE | 50 trials | Chưa Tuning (Đang chờ chạy) |  |  |
-| 36 | **Lan05** | `Ensemble_A2` | Ensemble (Core 4 Models) | Optuna TPE | 50 trials | Chưa Tuning (Đang chờ chạy) |  |  |
-| 37 | **Lan05** | `Ensemble_A3` | Ensemble (Ridge, SARIMA, HM) | Optuna TPE | 50 trials | Chưa Tuning (Đang chờ chạy) |  |  |
-| 38 | **Lan05** | `Baseline_C1` | Regime Strategy (Best Model) | Optuna TPE | 50 trials | Chưa Tuning (Đang chờ chạy) |  |  |
-| 39 | **Lan05** | `Baseline_C2` | Regime Strategy (Shrunk Inv-MSE) | Optuna TPE | 50 trials | Chưa Tuning (Đang chờ chạy) |  |  |
-| 40 | **Lan05** | `Baseline_C3` | Regime Strategy (Defensive Switch) | Optuna TPE | 50 trials | Chưa Tuning (Đang chờ chạy) |  |  |
+| 32 | **Lan04** | `Baseline_B1` | Benchmark Selection (Best Single Model) | Deterministic ArgMin | - | Không Tuning (Mặc định) |  |  |
+| 33 | **Lan04** | `Baseline_B2` | Weighting Strategy (Inverse-MSE) | Deterministic Analytical | - | Không Tuning (Mặc định) |  |  |
+| 34 | **Lan04** | `Baseline_B3` | Optimization (NNLS Simplex) | SciPy SLSQP | - | Không Tuning (Mặc định) |  |  |
+| 35 | **Lan04** | `Baseline_C1` | Regime Strategy (Best Model) | None | - | Không Tuning (Mặc định) |  |  |
+| 36 | **Lan04** | `Baseline_C2` | Regime Strategy (Shrunk Inv-MSE) | None | - | Không Tuning (Mặc định) |  |  |
+| 37 | **Lan04** | `Baseline_C3` | Regime Strategy (Defensive Switch) | None | - | Không Tuning (Mặc định) |  |  |
+| 38 | **Lan05** | `Ensemble_A1` | Ensemble (All 13 Models) | Optuna TPE | 50 trials | Chưa Tuning (Đang chờ chạy) |  |  |
+| 39 | **Lan05** | `Ensemble_A2` | Ensemble (Core 4 Models) | Optuna TPE | 50 trials | Chưa Tuning (Đang chờ chạy) |  |  |
+| 40 | **Lan05** | `Ensemble_A3` | Ensemble (Ridge, SARIMA, HM) | Optuna TPE | 50 trials | Chưa Tuning (Đang chờ chạy) |  |  |
+| 41 | **Lan05** | `Baseline_B1` | Benchmark Selection (Best Single Model) | Optuna TPE | 50 trials | Chưa Tuning (Đang chờ chạy) |  |  |
+| 42 | **Lan05** | `Baseline_B2` | Weighting Strategy (Inverse-MSE) | Optuna TPE | 50 trials | Chưa Tuning (Đang chờ chạy) |  |  |
+| 43 | **Lan05** | `Baseline_B3` | Optimization (NNLS Simplex) | Optuna TPE | 50 trials | Chưa Tuning (Đang chờ chạy) |  |  |
+| 44 | **Lan05** | `Baseline_C1` | Regime Strategy (Best Model) | Optuna TPE | 50 trials | Chưa Tuning (Đang chờ chạy) |  |  |
+| 45 | **Lan05** | `Baseline_C2` | Regime Strategy (Shrunk Inv-MSE) | Optuna TPE | 50 trials | Chưa Tuning (Đang chờ chạy) |  |  |
+| 46 | **Lan05** | `Baseline_C3` | Regime Strategy (Defensive Switch) | Optuna TPE | 50 trials | Chưa Tuning (Đang chờ chạy) |  |  |
 
 ---
 
@@ -451,11 +457,14 @@ Các mô hình dưới đây hiện tại **để trống** trường tham số 
   - `batch_size`: $[16, 32, 64]$.
   - `patience`: $7$ epochs (Early Stopping).
 
-### 3.2 Nhóm Tổ Hợp Ensemble & Chiến Lược Thích Ứng Chế Độ (Lần 05 — Lan05: 6 Mô Hình)
-- **Mô hình:** `Ensemble_A1`, `Ensemble_A2`, `Ensemble_A3`, `Baseline_C1`, `Baseline_C2`, `Baseline_C3`.
+### 3.2 Nhóm Tổ Hợp Ensemble & Chiến Lược Thích Ứng (Lần 05 — Lan05: 9 Mô Hình)
+- **Mô hình:** `Ensemble_A1`, `Ensemble_A2`, `Ensemble_A3`, `Baseline_B1`, `Baseline_B2`, `Baseline_B3`, `Baseline_C1`, `Baseline_C2`, `Baseline_C3`.
 - **Phương pháp tuning:** Optuna TPE Sampler (50 trials/fold/horizon).
 - **Không gian tối ưu tỷ trọng đã cấu hình:**
   - `A1, A2, A3`: Véc-tơ trọng số lồi trên không gian Simplex ($w_m \ge 0, \sum w_m = 1$).
+  - `B1`: Tỷ trọng hòa trộn lồi ($w_1, w_2, w_3$) giữa top-3 mô hình có MSE tốt nhất trong lịch sử từng horizon.
+  - `B2`: Độ nhạy lũy thừa $\gamma \in [0.2, 5.0]$ cho trọng số nghịch đảo MSE ($w_{m,h} \propto (1/\text{MSE}_{m,h})^\gamma$).
+  - `B3`: Hệ số co rút / chính quy hóa $L_2$ trên không gian nghiệm Simplex Quadratic Programming.
   - `C1`: Tỷ trọng hòa trộn lồi giữa các mô hình dẫn đầu theo từng chế độ biến động (Low, Normal, High).
   - `C2`: Hệ số co rút James-Stein $N_0 \in [5.0, 200.0]$ và độ nhạy lũy thừa nghịch đảo MSE $\gamma \in [0.5, 3.0]$.
   - `C3`: Tỷ trọng phòng thủ $\alpha_{\text{High}} \in [0, 1]$ khi thị trường High Volatility và phân bổ Core $A2$ trong Low/Normal.
