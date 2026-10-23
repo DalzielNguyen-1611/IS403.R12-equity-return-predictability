@@ -162,8 +162,9 @@ def main():
                         choices=['all', 'A', 'B', 'C', 'a', 'b', 'c'],
                         help="Select an experiment group: 'A' (A1..A3), 'B' (B1..B3), 'C' (C1..C3), or 'all'")
     parser.add_argument('--model', type=str, default='all',
-                        choices=['all', 'A', 'B', 'C', 'group_a', 'group_b', 'group_c',
+                        choices=['all', 'A', 'B', 'C', 'a', 'b', 'c', 'group_a', 'group_b', 'group_c',
                                  'A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3',
+                                 'a1', 'a2', 'a3', 'b1', 'b2', 'b3', 'c1', 'c2', 'c3',
                                  'ensemble_a1', 'ensemble_a2', 'ensemble_a3',
                                  'baseline_b1', 'baseline_b2', 'baseline_b3',
                                  'baseline_c1', 'baseline_c2', 'baseline_c3'],
