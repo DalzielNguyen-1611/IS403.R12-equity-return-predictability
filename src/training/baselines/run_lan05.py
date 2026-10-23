@@ -158,12 +158,16 @@ def generate_lan05_summary_report():
 
 def main():
     parser = argparse.ArgumentParser(description="Run Optuna-Tuned Ensemble & Regime Experiments (Lan05)")
+    parser.add_argument('--group', type=str, default='all',
+                        choices=['all', 'A', 'B', 'C', 'a', 'b', 'c'],
+                        help="Select an experiment group: 'A' (A1..A3), 'B' (B1..B3), 'C' (C1..C3), or 'all'")
     parser.add_argument('--model', type=str, default='all',
-                        choices=['all', 'A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3',
+                        choices=['all', 'A', 'B', 'C', 'group_a', 'group_b', 'group_c',
+                                 'A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3',
                                  'ensemble_a1', 'ensemble_a2', 'ensemble_a3',
                                  'baseline_b1', 'baseline_b2', 'baseline_b3',
                                  'baseline_c1', 'baseline_c2', 'baseline_c3'],
-                        help="Select an experiment ('A1'..'A3', 'B1'..'B3', 'C1'..'C3', or 'all')")
+                        help="Select an experiment ('A1'..'C3', group 'A'/'B'/'C', or 'all')")
     parser.add_argument('--horizon', type=str, default='all',
                         choices=['all'] + config.HORIZONS,
                         help="Specific forecast horizon (default: all)")
@@ -177,9 +181,9 @@ def main():
     utils.set_all_seeds(args.seed)
 
     logger.info("=" * 75)
-    logger.info("   STARTING RUN 5 (LAN05) — OPTUNA ENSEMBLES & REGIME STRATEGIES (A1..A3, C1..C3)")
+    logger.info("   STARTING RUN 5 (LAN05) — OPTUNA ENSEMBLES & REGIME STRATEGIES (A1..A3, B1..B3, C1..C3)")
     logger.info(f"   Run Name: {config.RUN_NAME} | Output: {config.RESULTS_DIR}")
-    logger.info(f"   Target: {args.model.upper()} | Horizons: {args.horizon} | Trials: {args.n_trials}")
+    logger.info(f"   Group: {args.group.upper()} | Target: {args.model.upper()} | Horizons: {args.horizon} | Trials: {args.n_trials}")
     logger.info("=" * 75)
 
     # Step 0: Ensure Historical Mean benchmark baseline
@@ -187,9 +191,23 @@ def main():
 
     horizons = config.HORIZONS if args.horizon == 'all' else [args.horizon]
 
-    # Map model argument
+    # Map group / model arguments
+    grp_arg = args.group.upper()
     m_arg = args.model.upper().replace('ENSEMBLE_', '').replace('BASELINE_', '')
-    if m_arg == 'ALL':
+
+    if grp_arg in ['A']:
+        exps_to_run = ['A1', 'A2', 'A3']
+    elif grp_arg in ['B']:
+        exps_to_run = ['B1', 'B2', 'B3']
+    elif grp_arg in ['C']:
+        exps_to_run = ['C1', 'C2', 'C3']
+    elif m_arg in ['A', 'GROUP_A', 'NHOM_A']:
+        exps_to_run = ['A1', 'A2', 'A3']
+    elif m_arg in ['B', 'GROUP_B', 'NHOM_B']:
+        exps_to_run = ['B1', 'B2', 'B3']
+    elif m_arg in ['C', 'GROUP_C', 'NHOM_C']:
+        exps_to_run = ['C1', 'C2', 'C3']
+    elif m_arg == 'ALL':
         exps_to_run = LAN05_EXPERIMENTS
     elif m_arg in LAN05_EXPERIMENTS:
         exps_to_run = [m_arg]
