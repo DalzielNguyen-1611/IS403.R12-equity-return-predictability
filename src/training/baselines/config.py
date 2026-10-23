@@ -165,6 +165,11 @@ MODEL_REGISTRY = {
     
     # 7. Classification Side-task
     'logistic_regression': ('logistic_regression', 'logistic_regression.py'),
+    
+    # 8. Ensemble Models (Run 4 & 5: Lan04 & Lan05)
+    'ensemble_a1': ('ensemble', 'ensemble_a1.py'),
+    'ensemble_a2': ('ensemble', 'ensemble_a2.py'),
+    'ensemble_a3': ('ensemble', 'ensemble_a3.py'),
 }
 
 MODELS = list(MODEL_REGISTRY.keys())
@@ -194,7 +199,10 @@ HYPERPARAM_STRATEGY = {
     'patchtst': 'Optuna',
     'tsmixer': 'Optuna',
     'itransformer': 'Optuna',
-    'cnn': 'Optuna'
+    'cnn': 'Optuna',
+    'ensemble_a1': 'Optuna',
+    'ensemble_a2': 'Optuna',
+    'ensemble_a3': 'Optuna'
 }
 
 OPTUNA_TRIALS = {
@@ -210,7 +218,10 @@ OPTUNA_TRIALS = {
     'patchtst': 30,
     'tsmixer': 30,
     'itransformer': 30,
-    'cnn': 30
+    'cnn': 30,
+    'ensemble_a1': 50,
+    'ensemble_a2': 50,
+    'ensemble_a3': 50
 }
 
 # 1. Logistic Regression (Grid Search, 12 combinations)

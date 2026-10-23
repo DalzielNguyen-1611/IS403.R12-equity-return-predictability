@@ -634,9 +634,11 @@
     <!-- Run Switcher Tabs -->
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
       <div class="tab-bar">
-        <button class="tab-btn active" id="tabLan02" onclick="switchRun('Lan02')">🔥 Lần 02 (7 DL - Tham số Mặc định)</button>
-        <button class="tab-btn" id="tabLan03" onclick="switchRun('Lan03')">✨ Lần 03 (7 DL - Tối ưu Optuna)</button>
-        <button class="tab-btn" id="tabLan01" onclick="switchRun('Lan01')">✅ Lần 01 (14 Baseline Models - Hoàn Tất)</button>
+        <button class="tab-btn active" id="tabLan02" onclick="switchRun('Lan02')">🔥 Lần 02 (7 DL - Mặc định)</button>
+        <button class="tab-btn" id="tabLan03" onclick="switchRun('Lan03')">✨ Lần 03 (7 DL - Optuna)</button>
+        <button class="tab-btn" id="tabLan04" onclick="switchRun('Lan04')">⚡ Lần 04 (Ensemble Mặc định - A1, A2, A3)</button>
+        <button class="tab-btn" id="tabLan05" onclick="switchRun('Lan05')">🎯 Lần 05 (Ensemble Optuna - A1, A2, A3)</button>
+        <button class="tab-btn" id="tabLan01" onclick="switchRun('Lan01')">✅ Lần 01 (14 Baselines)</button>
       </div>
 
       <div style="font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 8px;">
@@ -866,6 +868,12 @@
       { key: 'transformer', name: 'Transformer', category: 'Deep Learning', foldsTotal: 25, icon: '✨' }
     ];
 
+    const LAN04_05_MODELS_META = [
+      { key: 'ensemble_a1', name: 'Ensemble_A1', category: 'All 13 Models Combined', foldsTotal: 25, icon: '🌐' },
+      { key: 'ensemble_a2', name: 'Ensemble_A2', category: 'Core 4 Models (Ridge, SVR, LGBM, SARIMA)', foldsTotal: 25, icon: '⭐' },
+      { key: 'ensemble_a3', name: 'Ensemble_A3', category: 'Trio (Ridge, SARIMA, Historical_Mean)', foldsTotal: 25, icon: '🏛️' }
+    ];
+
     function renderModelCards(models, completedCounts = {}, modelMetrics = {}) {
       const container = document.getElementById('modelsGridContainer');
       container.innerHTML = '';
@@ -998,7 +1006,9 @@
 
       const prefix = '3.0.3_';
       const basePath = `results/${currentRun}`;
-      const logName = currentRun === 'Lan03' ? 'lan03_execution.log' : 'lan02_execution.log';
+      const logName = currentRun === 'Lan05' ? 'lan05_execution.log' :
+                      currentRun === 'Lan04' ? 'lan04_execution.log' :
+                      currentRun === 'Lan03' ? 'lan03_execution.log' : 'lan02_execution.log';
 
       // 1. Fetch live fold metrics & logs
       const foldMetrics = await fetchCSV(`${basePath}/fold_metrics/${prefix}all_fold_metrics.csv`);
@@ -1106,12 +1116,14 @@
         document.getElementById('epochFoldETAText').innerText = `--`;
       }
 
-      const activeMeta = currentRun === 'Lan02' ? LAN02_MODELS_META : LAN01_MODELS_META;
+      const isEnsemble = currentRun === 'Lan04' || currentRun === 'Lan05';
+      const isLan01 = currentRun === 'Lan01';
+      const activeMeta = isEnsemble ? LAN04_05_MODELS_META : (isLan01 ? LAN01_MODELS_META : LAN02_MODELS_META);
       const completedCounts = {};
       const modelMetricSummary = {};
 
       const totalDone = foldMetrics ? foldMetrics.length : 0;
-      const totalTarget = currentRun === 'Lan02' ? 175 : 350;
+      const totalTarget = isEnsemble ? 75 : (isLan01 ? 350 : 175);
       document.getElementById('kpiProgress').innerText = `${totalDone} / ${totalTarget}`;
       document.getElementById('kpiPct').innerText = `${((totalDone / totalTarget) * 100).toFixed(1)}% Hoàn thành`;
 
@@ -1252,6 +1264,8 @@
       currentRun = runName;
       document.getElementById('tabLan02').className = 'tab-btn' + (runName === 'Lan02' ? ' active' : '');
       document.getElementById('tabLan03').className = 'tab-btn' + (runName === 'Lan03' ? ' active' : '');
+      document.getElementById('tabLan04').className = 'tab-btn' + (runName === 'Lan04' ? ' active' : '');
+      document.getElementById('tabLan05').className = 'tab-btn' + (runName === 'Lan05' ? ' active' : '');
       document.getElementById('tabLan01').className = 'tab-btn' + (runName === 'Lan01' ? ' active' : '');
 
       if (runName === 'Lan01') {
@@ -1262,6 +1276,14 @@
         document.getElementById('liveStatusPill').className = 'status-pill running';
         document.getElementById('liveStatusText').innerText = 'Tối Ưu Optuna (Lan03)';
         document.getElementById('modelsSubtitle').innerText = '7 Kiến trúc chuỗi thời gian tối ưu 30 trials (175 Folds)';
+      } else if (runName === 'Lan04') {
+        document.getElementById('liveStatusPill').className = 'status-pill running';
+        document.getElementById('liveStatusText').innerText = 'Ensemble Mặc Định (Lan04)';
+        document.getElementById('modelsSubtitle').innerText = '3 Tổ hợp Ensemble tham số mặc định Equal-Weighting: A1, A2, A3 (75 Folds)';
+      } else if (runName === 'Lan05') {
+        document.getElementById('liveStatusPill').className = 'status-pill running';
+        document.getElementById('liveStatusText').innerText = 'Ensemble Optuna (Lan05)';
+        document.getElementById('modelsSubtitle').innerText = '3 Tổ hợp Ensemble tối ưu hóa trọng số Simplex bằng Optuna: A1, A2, A3 (75 Folds)';
       } else {
         document.getElementById('liveStatusPill').className = 'status-pill running';
         document.getElementById('liveStatusText').innerText = 'Đang Huấn Luyện (Lan02)';
