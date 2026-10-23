@@ -1,121 +1,121 @@
-# 📋 BẢNG TỔNG HỢP TOÀN BỘ MÔ HÌNH VÀ SIÊU THAM SỐ / TRỌNG SỐ TỐI ƯU HÓA
+# 📋 BẢNG TỔNG HỢP TOÀN BỘ MÔ HÌNH VÀ BỘ THAM SỐ TỐI ƯU SAU KHI TUNING
 
-> **Dự án nghiên cứu:** *When Does Equity Return Predictability Decay? A Multi-Horizon and Regime-Dependent Out-of-Sample Analysis*  
-> **Mục tiêu tệp:** Danh mục tổng hợp toàn bộ 40 đối tượng thực nghiệm qua 5 đợt huấn luyện (Lan01 → Lan05), hiển thị chi tiết siêu tham số/trọng số tốt nhất đã tìm qua Optuna. Các mô hình **chưa Optuna** được để trống theo đúng yêu cầu.
+> **Đề tài nghiên cứu:** *When Does Equity Return Predictability Decay? Multi-Horizon & Regime Analysis*  
+> **Quy tắc thể hiện:** Toàn bộ 40 đối tượng thực nghiệm qua 5 đợt (Lan01 → Lan05). Mô hình nào **đã qua Tuning** (Optuna, Grid Search, Fixed Search) sẽ hiển thị đầy đủ bộ tham số tốt nhất; mô hình nào **chưa Tuning** hoặc **không dùng Tuning** sẽ được **để trống hoàn toàn** theo đúng yêu cầu.
 
 ---
 
-## 1. BẢNG OVERVIEW TỔNG THỂ (MASTER MODEL & HYPERPARAMETER MATRIX)
+## 1. BẢNG OVERVIEW TỔNG THỂ (MASTER MODEL & TUNING MATRIX)
 
-| STT | Đợt Chạy | Tên Mô Hình | Họ Kiến Trúc | Phương Pháp Tuning | Số Trials | Trạng Thái Optuna | Siêu Tham Số / Trọng Số Tốt Nhất (Optuna) | Điểm Thẩm Định Tốt Nhất (Val Loss) |
+| STT | Đợt Chạy | Tên Mô Hình | Họ Kiến Trúc | Phương Pháp Tuning | Không Gian / Trials | Trạng Thái Tuning | Bộ Tham Số Tốt Nhất Sau Tuning | Điểm Đánh Giá Tốt Nhất (Val Score) |
 | :-: | :---: | :--- | :--- | :--- | :-: | :--- | :--- | :-: |
-| 1 | **Lan01** | `Historical_Mean` | Benchmark | None (Parameter-free) | - | Không dùng Optuna |  |  |
-| 2 | **Lan01** | `Ridge` | Linear Model | Grid Search (alpha) | - | Không dùng Optuna (Grid) |  |  |
-| 3 | **Lan01** | `Logistic_Regression` | Classification | Grid Search (C, class_weight) | - | Không dùng Optuna (Grid) |  |  |
-| 4 | **Lan01** | `Elastic_Net` | Linear Model | Grid Search (alpha, l1_ratio) | - | Không dùng Optuna (Grid) |  |  |
-| 5 | **Lan01** | `ARIMA` | Statistical TS | Grid Search (p, d, q AIC) | - | Không dùng Optuna (Grid) |  |  |
-| 6 | **Lan01** | `ARIMAX` | Statistical TS | Fixed Spec (1,0,1 + Exog) | - | Không dùng Optuna (Fixed) |  |  |
-| 7 | **Lan01** | `SARIMA` | Statistical TS | Fixed Spec (1,0,0)x(1,0,0,5) | - | Không dùng Optuna (Fixed) |  |  |
-| 8 | **Lan01** | `SVR` | Kernel Method | Grid Search (C, gamma, eps) | - | Không dùng Optuna (Grid) |  |  |
-| 9 | **Lan01** | `Random_Forest` | Tree Ensemble | Optuna TPE (CV_RMSE) | 30 | Đã hoàn tất Optuna | `{'n_estimators': 200, 'max_depth': 5, 'min_samples_split': 5, 'min_samples_leaf': 1, 'max_features': 'sqrt'}` | `0.008629` |
-| 10 | **Lan01** | `XGBoost` | Tree Ensemble | Optuna TPE (CV_RMSE) | 50 | Đã hoàn tất Optuna | `{'n_estimators': 200, 'learning_rate': 0.09346777377493276, 'max_depth': 9, 'min_child_weight': 1, 'subsample': 0.7219192643841313, 'colsample_bytree': 0.6558289950203557, 'gamma': 0.0015032555243577606, 'reg_alpha': 0.14113536657860465, 'reg_lambda': 2.879747417492425}` | `0.008624` |
-| 11 | **Lan01** | `LightGBM` | Tree Ensemble | Optuna TPE (CV_RMSE) | 50 | Đã hoàn tất Optuna | `{'n_estimators': 500, 'learning_rate': 0.017709597800863956, 'num_leaves': 56, 'max_depth': 2, 'min_child_samples': 22, 'subsample': 0.8439440638588244, 'colsample_bytree': 0.962726780479557, 'reg_alpha': 0.03669978237679096, 'reg_lambda': 3.5016679319694397}` | `0.008612` |
-| 12 | **Lan01** | `RNN` | Deep Learning | Optuna TPE (Val_Loss) | 30 | Đã hoàn tất Optuna | `{'lookback': 40, 'hidden_size': 64, 'num_layers': 1, 'dropout': 0.3017249991009523, 'learning_rate': 0.000305485208547517, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}` | `0.008670` |
-| 13 | **Lan01** | `LSTM` | Deep Learning | Optuna TPE (Val_Loss) | 30 | Đã hoàn tất Optuna | `{'lookback': 20, 'hidden_size': 64, 'num_layers': 3, 'dropout': 0.3538584597651602, 'learning_rate': 0.0007662150068129557, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}` | `0.008680` |
-| 14 | **Lan01** | `Transformer` | Deep Learning | Optuna TPE (Val_Loss) | 30 | Đã hoàn tất Optuna | `{'lookback': 60, 'd_model': 32, 'nhead': 4, 'num_encoder_layers': 1, 'dim_feedforward': 128, 'dropout': 0.2833143475684623, 'learning_rate': 0.00020235315003022192, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}` | `0.009152` |
-| 15 | **Lan02** | `TCN` | Advanced DL (Temporal CNN) | Default / Pre-set | - | Không dùng Optuna (Mặc định) |  |  |
-| 16 | **Lan02** | `N-BEATS` | Advanced DL (Basis Expansion) | Default / Pre-set | - | Không dùng Optuna (Mặc định) |  |  |
-| 17 | **Lan02** | `N-HiTS` | Advanced DL (Hierarchical MLP) | Default / Pre-set | - | Không dùng Optuna (Mặc định) |  |  |
-| 18 | **Lan02** | `PatchTST` | Advanced DL (Patch Transformer) | Default / Pre-set | - | Không dùng Optuna (Mặc định) |  |  |
-| 19 | **Lan02** | `TSMixer` | Advanced DL (All-MLP) | Default / Pre-set | - | Không dùng Optuna (Mặc định) |  |  |
-| 20 | **Lan02** | `iTransformer` | Advanced DL (Inverted Attn) | Default / Pre-set | - | Không dùng Optuna (Mặc định) |  |  |
-| 21 | **Lan02** | `CNN` | Advanced DL (1D Conv Baseline) | Default / Pre-set | - | Không dùng Optuna (Mặc định) |  |  |
-| 22 | **Lan03** | `TCN` | Advanced DL (Temporal CNN) | Optuna TPE (Val_Loss) | 30 | Chưa Optuna |  |  |
-| 23 | **Lan03** | `N-BEATS` | Advanced DL (Basis Expansion) | Optuna TPE (Val_Loss) | 30 | Chưa Optuna |  |  |
-| 24 | **Lan03** | `N-HiTS` | Advanced DL (Hierarchical MLP) | Optuna TPE (Val_Loss) | 30 | Chưa Optuna |  |  |
-| 25 | **Lan03** | `PatchTST` | Advanced DL (Patch Transformer) | Optuna TPE (Val_Loss) | 30 | Chưa Optuna |  |  |
-| 26 | **Lan03** | `TSMixer` | Advanced DL (All-MLP) | Optuna TPE (Val_Loss) | 30 | Chưa Optuna |  |  |
-| 27 | **Lan03** | `iTransformer` | Advanced DL (Inverted Attn) | Optuna TPE (Val_Loss) | 30 | Chưa Optuna |  |  |
-| 28 | **Lan03** | `CNN` | Advanced DL (1D Conv Baseline) | Optuna TPE (Val_Loss) | 30 | Chưa Optuna |  |  |
-| 29 | **Lan04** | `Ensemble_A1` | Ensemble (All 13 Models) | Equal-Weight (1/13) | - | Không dùng Optuna (Mặc định) |  |  |
-| 30 | **Lan04** | `Ensemble_A2` | Ensemble (Core 4 Models) | Equal-Weight (1/4) | - | Không dùng Optuna (Mặc định) |  |  |
-| 31 | **Lan04** | `Ensemble_A3` | Ensemble (Ridge, SARIMA, HM) | Equal-Weight (1/3) | - | Không dùng Optuna (Mặc định) |  |  |
-| 32 | **Lan04** | `Baseline_C1` | Regime Strategy (Best Model) | Argmin MSE per Regime | - | Không dùng Optuna (Mặc định) |  |  |
-| 33 | **Lan04** | `Baseline_C2` | Regime Strategy (Shrunk Inv-MSE) | Shrinkage N0=50.0 fixed | - | Không dùng Optuna (Mặc định) |  |  |
-| 34 | **Lan04** | `Baseline_C3` | Regime Strategy (Defensive Switch) | A2 / HM hard switch | - | Không dùng Optuna (Mặc định) |  |  |
-| 35 | **Lan05** | `Ensemble_A1` | Ensemble (All 13 Models) | Optuna Simplex Weights | 50 | Chưa Optuna |  |  |
-| 36 | **Lan05** | `Ensemble_A2` | Ensemble (Core 4 Models) | Optuna Simplex Weights | 50 | Chưa Optuna |  |  |
-| 37 | **Lan05** | `Ensemble_A3` | Ensemble (Ridge, SARIMA, HM) | Optuna Simplex Weights | 50 | Chưa Optuna |  |  |
-| 38 | **Lan05** | `Baseline_C1` | Regime Strategy (Best Model) | Optuna Regime Selection/Blend | 50 | Chưa Optuna |  |  |
-| 39 | **Lan05** | `Baseline_C2` | Regime Strategy (Shrunk Inv-MSE) | Optuna N0 & Power gamma | 50 | Chưa Optuna |  |  |
-| 40 | **Lan05** | `Baseline_C3` | Regime Strategy (Defensive Switch) | Optuna Alpha & Core Weights | 50 | Chưa Optuna |  |  |
+| 1 | **Lan01** | `Historical_Mean` | Benchmark | None | - | Không Tuning (Benchmark) |  |  |
+| 2 | **Lan01** | `Ridge` | Linear Model | Grid Search | 6 alphas | Đã hoàn tất Tuning (Grid) | `{'alpha': 100}` | `0.012054` |
+| 3 | **Lan01** | `Logistic_Regression` | Classification | Grid Search | 12 combos | Đã hoàn tất Tuning (Grid) | `{'C': 0.001, 'class_weight': 'balanced'}` | `0.513765` |
+| 4 | **Lan01** | `Elastic_Net` | Linear Model | Grid Search | 30 combos | Đã hoàn tất Tuning (Grid) | `{'alpha': 0.001, 'l1_ratio': 0.5}` | `0.012006` |
+| 5 | **Lan01** | `ARIMA` | Statistical TS | Grid Search | 3 orders | Đã hoàn tất Tuning (AIC) | `{'order': (1, 0, 1)}` | `-45970.15` |
+| 6 | **Lan01** | `ARIMAX` | Statistical TS | Fixed Order | Fixed | Đã hoàn tất Tuning (Fixed) | `{'order': (1, 0, 1)}` | `-45979.01` |
+| 7 | **Lan01** | `SARIMA` | Statistical TS | Fixed Order | Fixed | Đã hoàn tất Tuning (Fixed) | `{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}` | `-45969.88` |
+| 8 | **Lan01** | `SVR` | Kernel Method | Grid Search | 48 combos | Đã hoàn tất Tuning (Grid) | `{'C': 0.1, 'epsilon': 0.01, 'gamma': 0.001, 'kernel': 'rbf'}` | `0.012081` |
+| 9 | **Lan01** | `Random_Forest` | Tree Ensemble | Optuna TPE | 30 trials | Đã hoàn tất Tuning (Optuna) | `{'n_estimators': 200, 'max_depth': 5, 'min_samples_split': 5, 'min_samples_leaf': 1, 'max_features': 'sqrt'}` | `0.008629` |
+| 10 | **Lan01** | `XGBoost` | Tree Ensemble | Optuna TPE | 50 trials | Đã hoàn tất Tuning (Optuna) | `{'n_estimators': 200, 'learning_rate': 0.09346777377493276, 'max_depth': 9, 'min_child_weight': 1, 'subsample': 0.7219192643841313, 'colsample_bytree': 0.6558289950203557, 'gamma': 0.0015032555243577606, 'reg_alpha': 0.14113536657860465, 'reg_lambda': 2.879747417492425}` | `0.008624` |
+| 11 | **Lan01** | `LightGBM` | Tree Ensemble | Optuna TPE | 50 trials | Đã hoàn tất Tuning (Optuna) | `{'n_estimators': 500, 'learning_rate': 0.017709597800863956, 'num_leaves': 56, 'max_depth': 2, 'min_child_samples': 22, 'subsample': 0.8439440638588244, 'colsample_bytree': 0.962726780479557, 'reg_alpha': 0.03669978237679096, 'reg_lambda': 3.5016679319694397}` | `0.008612` |
+| 12 | **Lan01** | `RNN` | Deep Learning | Optuna TPE | 30 trials | Đã hoàn tất Tuning (Optuna) | `{'lookback': 40, 'hidden_size': 64, 'num_layers': 1, 'dropout': 0.3017249991009523, 'learning_rate': 0.000305485208547517, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}` | `0.008670` |
+| 13 | **Lan01** | `LSTM` | Deep Learning | Optuna TPE | 30 trials | Đã hoàn tất Tuning (Optuna) | `{'lookback': 20, 'hidden_size': 64, 'num_layers': 3, 'dropout': 0.3538584597651602, 'learning_rate': 0.0007662150068129557, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}` | `0.008680` |
+| 14 | **Lan01** | `Transformer` | Deep Learning | Optuna TPE | 30 trials | Đã hoàn tất Tuning (Optuna) | `{'lookback': 60, 'd_model': 32, 'nhead': 4, 'num_encoder_layers': 1, 'dim_feedforward': 128, 'dropout': 0.2833143475684623, 'learning_rate': 0.00020235315003022192, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}` | `0.009152` |
+| 15 | **Lan02** | `TCN` | Advanced DL (Temporal CNN) | None | - | Không Tuning (Mặc định) |  |  |
+| 16 | **Lan02** | `N-BEATS` | Advanced DL (Basis Expansion) | None | - | Không Tuning (Mặc định) |  |  |
+| 17 | **Lan02** | `N-HiTS` | Advanced DL (Hierarchical MLP) | None | - | Không Tuning (Mặc định) |  |  |
+| 18 | **Lan02** | `PatchTST` | Advanced DL (Patch Transformer) | None | - | Không Tuning (Mặc định) |  |  |
+| 19 | **Lan02** | `TSMixer` | Advanced DL (All-MLP) | None | - | Không Tuning (Mặc định) |  |  |
+| 20 | **Lan02** | `iTransformer` | Advanced DL (Inverted Attn) | None | - | Không Tuning (Mặc định) |  |  |
+| 21 | **Lan02** | `CNN` | Advanced DL (1D Conv Baseline) | None | - | Không Tuning (Mặc định) |  |  |
+| 22 | **Lan03** | `TCN` | Advanced DL (Temporal CNN) | Optuna TPE | 30 trials | Chưa Tuning (Đang chờ chạy) |  |  |
+| 23 | **Lan03** | `N-BEATS` | Advanced DL (Basis Expansion) | Optuna TPE | 30 trials | Chưa Tuning (Đang chờ chạy) |  |  |
+| 24 | **Lan03** | `N-HiTS` | Advanced DL (Hierarchical MLP) | Optuna TPE | 30 trials | Chưa Tuning (Đang chờ chạy) |  |  |
+| 25 | **Lan03** | `PatchTST` | Advanced DL (Patch Transformer) | Optuna TPE | 30 trials | Chưa Tuning (Đang chờ chạy) |  |  |
+| 26 | **Lan03** | `TSMixer` | Advanced DL (All-MLP) | Optuna TPE | 30 trials | Chưa Tuning (Đang chờ chạy) |  |  |
+| 27 | **Lan03** | `iTransformer` | Advanced DL (Inverted Attn) | Optuna TPE | 30 trials | Chưa Tuning (Đang chờ chạy) |  |  |
+| 28 | **Lan03** | `CNN` | Advanced DL (1D Conv Baseline) | Optuna TPE | 30 trials | Chưa Tuning (Đang chờ chạy) |  |  |
+| 29 | **Lan04** | `Ensemble_A1` | Ensemble (All 13 Models) | None | - | Không Tuning (Mặc định) |  |  |
+| 30 | **Lan04** | `Ensemble_A2` | Ensemble (Core 4 Models) | None | - | Không Tuning (Mặc định) |  |  |
+| 31 | **Lan04** | `Ensemble_A3` | Ensemble (Ridge, SARIMA, HM) | None | - | Không Tuning (Mặc định) |  |  |
+| 32 | **Lan04** | `Baseline_C1` | Regime Strategy (Best Model) | None | - | Không Tuning (Mặc định) |  |  |
+| 33 | **Lan04** | `Baseline_C2` | Regime Strategy (Shrunk Inv-MSE) | None | - | Không Tuning (Mặc định) |  |  |
+| 34 | **Lan04** | `Baseline_C3` | Regime Strategy (Defensive Switch) | None | - | Không Tuning (Mặc định) |  |  |
+| 35 | **Lan05** | `Ensemble_A1` | Ensemble (All 13 Models) | Optuna TPE | 50 trials | Chưa Tuning (Đang chờ chạy) |  |  |
+| 36 | **Lan05** | `Ensemble_A2` | Ensemble (Core 4 Models) | Optuna TPE | 50 trials | Chưa Tuning (Đang chờ chạy) |  |  |
+| 37 | **Lan05** | `Ensemble_A3` | Ensemble (Ridge, SARIMA, HM) | Optuna TPE | 50 trials | Chưa Tuning (Đang chờ chạy) |  |  |
+| 38 | **Lan05** | `Baseline_C1` | Regime Strategy (Best Model) | Optuna TPE | 50 trials | Chưa Tuning (Đang chờ chạy) |  |  |
+| 39 | **Lan05** | `Baseline_C2` | Regime Strategy (Shrunk Inv-MSE) | Optuna TPE | 50 trials | Chưa Tuning (Đang chờ chạy) |  |  |
+| 40 | **Lan05** | `Baseline_C3` | Regime Strategy (Defensive Switch) | Optuna TPE | 50 trials | Chưa Tuning (Đang chờ chạy) |  |  |
 
 ---
 
-## 2. CHI TIẾT SIÊU THAM SỐ CÁC MÔ HÌNH ĐÃ OPTUNA (LẦN 01 — LAN01)
+## 2. CHI TIẾT TỪNG CHÂN TRỜI & FOLD CHO 13 MÔ HÌNH ĐÃ TUNING (LẦN 01 — LAN01)
 
-Tại Lần 01, 6 mô hình phi tuyến và học sâu đã hoàn tất 100% quá trình tinh chỉnh Bayes thông qua Optuna TPE Sampler trên 5 chân trời và 5 Folds kiểm định ngoại mẫu:
+Ở Lần 01, toàn bộ 13 mô hình (ngoại trừ Historical_Mean) đã hoàn thành 100% quá trình tinh chỉnh tham số ngoại mẫu (Zero-Leakage Walk-Forward CV). Dưới đây là bảng tra cứu chi tiết:
 
-### 🔹 Mô Hình: `Random_Forest` (Optuna 30 Trials/Fold)
-| Chân trời | Fold | Điểm Val Loss (RMSE) | Bộ Siêu Tham Số Tối Ưu Nhất Được Chọn |
+### 🔹 Mô Hình: `Ridge` (Grid Search / TimeSeriesSplit — Thước đo: `CV_RMSE`)
+| Chân Trời | Fold | Điểm Val Tốt Nhất | Bộ Tham Số Tối Ưu Được Chọn Sau Tuning |
 | :---: | :---: | :---: | :--- |
-| `1D` | Fold 1 | `0.008776` | `{'n_estimators': 200, 'max_depth': 10, 'min_samples_split': 2, 'min_samples_leaf': 5, 'max_features': 0.5}` |
-| `1D` | Fold 2 | `0.008310` | `{'n_estimators': 200, 'max_depth': 5, 'min_samples_split': 5, 'min_samples_leaf': 1, 'max_features': 'sqrt'}` |
-| `1D` | Fold 3 | `0.007708` | `{'n_estimators': 200, 'max_depth': 5, 'min_samples_split': 10, 'min_samples_leaf': 1, 'max_features': 0.5}` |
-| `1D` | Fold 4 | `0.007916` | `{'n_estimators': 200, 'max_depth': 5, 'min_samples_split': 5, 'min_samples_leaf': 1, 'max_features': 'sqrt'}` |
-| `1D` | Fold 5 | `0.008629` | `{'n_estimators': 200, 'max_depth': 5, 'min_samples_split': 5, 'min_samples_leaf': 1, 'max_features': 'sqrt'}` |
-| `5D` | Fold 1 | `0.018290` | `{'n_estimators': 200, 'max_depth': 10, 'min_samples_split': 10, 'min_samples_leaf': 5, 'max_features': 'sqrt'}` |
-| `5D` | Fold 2 | `0.017686` | `{'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 2, 'min_samples_leaf': 5, 'max_features': 0.5}` |
-| `5D` | Fold 3 | `0.016561` | `{'n_estimators': 200, 'max_depth': 5, 'min_samples_split': 10, 'min_samples_leaf': 5, 'max_features': 0.5}` |
-| `5D` | Fold 4 | `0.016868` | `{'n_estimators': 200, 'max_depth': 5, 'min_samples_split': 10, 'min_samples_leaf': 5, 'max_features': 0.5}` |
-| `5D` | Fold 5 | `0.018323` | `{'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 10, 'min_samples_leaf': 2, 'max_features': 0.5}` |
-| `20D` | Fold 1 | `0.029999` | `{'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 2, 'min_samples_leaf': 5, 'max_features': 0.5}` |
-| `20D` | Fold 2 | `0.031575` | `{'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 5, 'min_samples_leaf': 1, 'max_features': 'sqrt'}` |
-| `20D` | Fold 3 | `0.029593` | `{'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 2, 'min_samples_leaf': 2, 'max_features': 'sqrt'}` |
-| `20D` | Fold 4 | `0.029576` | `{'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 10, 'min_samples_leaf': 1, 'max_features': 'sqrt'}` |
-| `20D` | Fold 5 | `0.033369` | `{'n_estimators': 200, 'max_depth': 5, 'min_samples_split': 10, 'min_samples_leaf': 2, 'max_features': 'sqrt'}` |
-| `60D` | Fold 1 | `0.049179` | `{'n_estimators': 200, 'max_depth': 5, 'min_samples_split': 10, 'min_samples_leaf': 5, 'max_features': 'sqrt'}` |
-| `60D` | Fold 2 | `0.051905` | `{'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 5, 'min_samples_leaf': 2, 'max_features': 'sqrt'}` |
-| `60D` | Fold 3 | `0.046291` | `{'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 2, 'min_samples_leaf': 2, 'max_features': 'sqrt'}` |
-| `60D` | Fold 4 | `0.047338` | `{'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 2, 'min_samples_leaf': 2, 'max_features': 'sqrt'}` |
-| `60D` | Fold 5 | `0.058608` | `{'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 2, 'min_samples_leaf': 2, 'max_features': 'sqrt'}` |
-| `120D` | Fold 1 | `0.061748` | `{'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 5, 'min_samples_leaf': 5, 'max_features': 'sqrt'}` |
-| `120D` | Fold 2 | `0.060722` | `{'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 2, 'min_samples_leaf': 5, 'max_features': 'sqrt'}` |
-| `120D` | Fold 3 | `0.066237` | `{'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 2, 'min_samples_leaf': 5, 'max_features': 'sqrt'}` |
-| `120D` | Fold 4 | `0.065075` | `{'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 5, 'min_samples_leaf': 1, 'max_features': 'sqrt'}` |
-| `120D` | Fold 5 | `0.084580` | `{'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 2, 'min_samples_leaf': 5, 'max_features': 'sqrt'}` |
+| `1D` | Fold 1 | `0.012512` | `{'alpha': 100}` |
+| `1D` | Fold 2 | `0.012466` | `{'alpha': 100}` |
+| `1D` | Fold 3 | `0.012257` | `{'alpha': 100}` |
+| `1D` | Fold 4 | `0.012093` | `{'alpha': 100}` |
+| `1D` | Fold 5 | `0.012054` | `{'alpha': 100}` |
+| `5D` | Fold 1 | `0.025658` | `{'alpha': 100}` |
+| `5D` | Fold 2 | `0.025528` | `{'alpha': 100}` |
+| `5D` | Fold 3 | `0.025088` | `{'alpha': 100}` |
+| `5D` | Fold 4 | `0.024705` | `{'alpha': 100}` |
+| `5D` | Fold 5 | `0.024742` | `{'alpha': 100}` |
+| `20D` | Fold 1 | `0.048044` | `{'alpha': 100}` |
+| `20D` | Fold 2 | `0.047581` | `{'alpha': 100}` |
+| `20D` | Fold 3 | `0.046810` | `{'alpha': 100}` |
+| `20D` | Fold 4 | `0.045928` | `{'alpha': 100}` |
+| `20D` | Fold 5 | `0.046098` | `{'alpha': 100}` |
+| `60D` | Fold 1 | `0.082740` | `{'alpha': 100}` |
+| `60D` | Fold 2 | `0.080978` | `{'alpha': 100}` |
+| `60D` | Fold 3 | `0.079019` | `{'alpha': 100}` |
+| `60D` | Fold 4 | `0.078521` | `{'alpha': 100}` |
+| `60D` | Fold 5 | `0.080125` | `{'alpha': 100}` |
+| `120D` | Fold 1 | `0.136700` | `{'alpha': 100}` |
+| `120D` | Fold 2 | `0.128370` | `{'alpha': 100}` |
+| `120D` | Fold 3 | `0.125450` | `{'alpha': 100}` |
+| `120D` | Fold 4 | `0.123198` | `{'alpha': 100}` |
+| `120D` | Fold 5 | `0.125941` | `{'alpha': 100}` |
 
-### 🔹 Mô Hình: `XGBoost` (Optuna 50 Trials/Fold)
-| Chân trời | Fold | Điểm Val Loss (RMSE) | Bộ Siêu Tham Số Tối Ưu Nhất Được Chọn |
+### 🔹 Mô Hình: `Logistic_Regression` (Grid Search / TimeSeriesSplit — Thước đo: `CV_ROC_AUC`)
+| Chân Trời | Fold | Điểm Val Tốt Nhất | Bộ Tham Số Tối Ưu Được Chọn Sau Tuning |
 | :---: | :---: | :---: | :--- |
-| `1D` | Fold 1 | `0.008802` | `{'n_estimators': 200, 'learning_rate': 0.16482980845075787, 'max_depth': 9, 'min_child_weight': 2, 'subsample': 0.7299728847064147, 'colsample_bytree': 0.67498834754586, 'gamma': 0.6907781506070934, 'reg_alpha': 0.012006821319579775, 'reg_lambda': 12.464577340414984}` |
-| `1D` | Fold 2 | `0.008312` | `{'n_estimators': 200, 'learning_rate': 0.17523144542136695, 'max_depth': 10, 'min_child_weight': 4, 'subsample': 0.7592183523018007, 'colsample_bytree': 0.7085139748885433, 'gamma': 1.656517344950464, 'reg_alpha': 0.07154889881109874, 'reg_lambda': 51.43471326516465}` |
-| `1D` | Fold 3 | `0.007712` | `{'n_estimators': 600, 'learning_rate': 0.01894718686730443, 'max_depth': 4, 'min_child_weight': 4, 'subsample': 0.7460007086545342, 'colsample_bytree': 0.8194907321784571, 'gamma': 3.4919271037301725, 'reg_alpha': 0.05800421679197067, 'reg_lambda': 0.2601420495541158}` |
-| `1D` | Fold 4 | `0.007930` | `{'n_estimators': 200, 'learning_rate': 0.16782678532623518, 'max_depth': 10, 'min_child_weight': 2, 'subsample': 0.6456429521023989, 'colsample_bytree': 0.6052767590737163, 'gamma': 1.6547883477496947, 'reg_alpha': 0.00923809201010153, 'reg_lambda': 9.274458155705567}` |
-| `1D` | Fold 5 | `0.008624` | `{'n_estimators': 200, 'learning_rate': 0.09346777377493276, 'max_depth': 9, 'min_child_weight': 1, 'subsample': 0.7219192643841313, 'colsample_bytree': 0.6558289950203557, 'gamma': 0.0015032555243577606, 'reg_alpha': 0.14113536657860465, 'reg_lambda': 2.879747417492425}` |
-| `5D` | Fold 1 | `0.018698` | `{'n_estimators': 500, 'learning_rate': 0.028344287522300348, 'max_depth': 7, 'min_child_weight': 2, 'subsample': 0.7104564182996586, 'colsample_bytree': 0.6709711642982997, 'gamma': 2.1902205055674906, 'reg_alpha': 0.06127605976015246, 'reg_lambda': 0.008997160419110447}` |
-| `5D` | Fold 2 | `0.017770` | `{'n_estimators': 500, 'learning_rate': 0.18631744759265406, 'max_depth': 7, 'min_child_weight': 4, 'subsample': 0.7370473031808337, 'colsample_bytree': 0.763209333043121, 'gamma': 3.0558835894405076, 'reg_alpha': 0.0055460853975703855, 'reg_lambda': 0.23369533360494577}` |
-| `5D` | Fold 3 | `0.016644` | `{'n_estimators': 500, 'learning_rate': 0.044714059136592404, 'max_depth': 8, 'min_child_weight': 5, 'subsample': 0.6362631858694583, 'colsample_bytree': 0.6200168792436461, 'gamma': 2.2026531547166743, 'reg_alpha': 0.06431622766171038, 'reg_lambda': 0.030432893559130553}` |
-| `5D` | Fold 4 | `0.016946` | `{'n_estimators': 100, 'learning_rate': 0.08180523768303569, 'max_depth': 9, 'min_child_weight': 7, 'subsample': 0.6012847095667525, 'colsample_bytree': 0.7081499923198863, 'gamma': 4.941757519175194, 'reg_alpha': 0.0013465026146775535, 'reg_lambda': 0.007604515339664316}` |
-| `5D` | Fold 5 | `0.018391` | `{'n_estimators': 500, 'learning_rate': 0.044940141673554874, 'max_depth': 5, 'min_child_weight': 4, 'subsample': 0.6940483727591255, 'colsample_bytree': 0.7802963569765408, 'gamma': 0.038205855949074774, 'reg_alpha': 0.008288295439113044, 'reg_lambda': 0.15621495477525174}` |
-| `20D` | Fold 1 | `0.029793` | `{'n_estimators': 400, 'learning_rate': 0.15715176059861033, 'max_depth': 6, 'min_child_weight': 4, 'subsample': 0.6944645257579334, 'colsample_bytree': 0.8316834274806193, 'gamma': 0.0696901095246975, 'reg_alpha': 5.102519242452782e-05, 'reg_lambda': 6.87459055877633}` |
-| `20D` | Fold 2 | `0.030976` | `{'n_estimators': 400, 'learning_rate': 0.17254716573280354, 'max_depth': 8, 'min_child_weight': 6, 'subsample': 0.6624074561769746, 'colsample_bytree': 0.662397808134481, 'gamma': 0.2904180608409973, 'reg_alpha': 0.6245760287469893, 'reg_lambda': 1.0129197956845732}` |
-| `20D` | Fold 3 | `0.029017` | `{'n_estimators': 400, 'learning_rate': 0.15259144921853043, 'max_depth': 8, 'min_child_weight': 4, 'subsample': 0.6694216580478584, 'colsample_bytree': 0.7238927997467867, 'gamma': 0.13540197046038513, 'reg_alpha': 0.09176443641650511, 'reg_lambda': 2.0471994650509857}` |
-| `20D` | Fold 4 | `0.029001` | `{'n_estimators': 400, 'learning_rate': 0.1468508767495767, 'max_depth': 9, 'min_child_weight': 7, 'subsample': 0.618437445799012, 'colsample_bytree': 0.7682131007965295, 'gamma': 3.022916152642125, 'reg_alpha': 8.391317246554213e-06, 'reg_lambda': 22.57092094687673}` |
-| `20D` | Fold 5 | `0.032908` | `{'n_estimators': 300, 'learning_rate': 0.19145311972695062, 'max_depth': 9, 'min_child_weight': 4, 'subsample': 0.642220926251284, 'colsample_bytree': 0.6249733157038994, 'gamma': 0.09899401413215997, 'reg_alpha': 0.0001588239743053469, 'reg_lambda': 16.5549592009347}` |
-| `60D` | Fold 1 | `0.048786` | `{'n_estimators': 800, 'learning_rate': 0.022540810038385727, 'max_depth': 8, 'min_child_weight': 5, 'subsample': 0.6094829317041391, 'colsample_bytree': 0.8543455381942271, 'gamma': 0.1423205970673974, 'reg_alpha': 0.001292333659266177, 'reg_lambda': 0.0027733304000431974}` |
-| `60D` | Fold 2 | `0.045863` | `{'n_estimators': 1000, 'learning_rate': 0.14292633363708662, 'max_depth': 3, 'min_child_weight': 2, 'subsample': 0.6603318011208913, 'colsample_bytree': 0.6587378205373504, 'gamma': 1.8789623380436749, 'reg_alpha': 1.6580076322804724e-07, 'reg_lambda': 0.0017271138670197513}` |
-| `60D` | Fold 3 | `0.041288` | `{'n_estimators': 900, 'learning_rate': 0.027277488229260405, 'max_depth': 4, 'min_child_weight': 4, 'subsample': 0.7509113070790233, 'colsample_bytree': 0.9366221073016855, 'gamma': 1.1362948899887748, 'reg_alpha': 1.2495317043749369e-05, 'reg_lambda': 0.3989291906083396}` |
-| `60D` | Fold 4 | `0.041579` | `{'n_estimators': 900, 'learning_rate': 0.18503961523646953, 'max_depth': 3, 'min_child_weight': 4, 'subsample': 0.6931045457943362, 'colsample_bytree': 0.7564582363703096, 'gamma': 1.323160289395684, 'reg_alpha': 3.1750194505136243e-07, 'reg_lambda': 32.79808643165651}` |
-| `60D` | Fold 5 | `0.050570` | `{'n_estimators': 900, 'learning_rate': 0.09017195441448847, 'max_depth': 3, 'min_child_weight': 6, 'subsample': 0.6630780084659571, 'colsample_bytree': 0.8072261917689363, 'gamma': 4.258905611621719, 'reg_alpha': 0.0469076970012189, 'reg_lambda': 0.27651975491831876}` |
-| `120D` | Fold 1 | `0.061261` | `{'n_estimators': 500, 'learning_rate': 0.016007036385129125, 'max_depth': 9, 'min_child_weight': 7, 'subsample': 0.7527609886492506, 'colsample_bytree': 0.9789493472034575, 'gamma': 0.5879430556568598, 'reg_alpha': 0.41234594019696547, 'reg_lambda': 19.53765853018537}` |
-| `120D` | Fold 2 | `0.056076` | `{'n_estimators': 200, 'learning_rate': 0.013777908322294695, 'max_depth': 7, 'min_child_weight': 8, 'subsample': 0.9312912015547016, 'colsample_bytree': 0.6134070516929855, 'gamma': 2.7244100752053093, 'reg_alpha': 5.018787839540521e-07, 'reg_lambda': 0.0018687920767718185}` |
-| `120D` | Fold 3 | `0.053375` | `{'n_estimators': 1000, 'learning_rate': 0.1676063284982292, 'max_depth': 3, 'min_child_weight': 9, 'subsample': 0.6301886180051994, 'colsample_bytree': 0.7784937067777397, 'gamma': 3.7380722715536923, 'reg_alpha': 0.017760974213777727, 'reg_lambda': 0.005238005902748139}` |
-| `120D` | Fold 4 | `0.050294` | `{'n_estimators': 600, 'learning_rate': 0.1643886641403159, 'max_depth': 8, 'min_child_weight': 4, 'subsample': 0.9026679863634834, 'colsample_bytree': 0.7167342905159535, 'gamma': 4.515708653381637, 'reg_alpha': 0.08495816127682672, 'reg_lambda': 0.17019369048371924}` |
-| `120D` | Fold 5 | `0.058386` | `{'n_estimators': 500, 'learning_rate': 0.04027448760837812, 'max_depth': 3, 'min_child_weight': 1, 'subsample': 0.7722240644985903, 'colsample_bytree': 0.9320474141643308, 'gamma': 3.62270958106528, 'reg_alpha': 0.12601284472593474, 'reg_lambda': 0.017065132603293003}` |
+| `1D` | Fold 1 | `0.512674` | `{'C': 0.001, 'class_weight': None}` |
+| `1D` | Fold 2 | `0.511822` | `{'C': 100, 'class_weight': None}` |
+| `1D` | Fold 3 | `0.508415` | `{'C': 0.001, 'class_weight': 'balanced'}` |
+| `1D` | Fold 4 | `0.513490` | `{'C': 0.001, 'class_weight': 'balanced'}` |
+| `1D` | Fold 5 | `0.513765` | `{'C': 0.001, 'class_weight': 'balanced'}` |
+| `5D` | Fold 1 | `0.517275` | `{'C': 1, 'class_weight': None}` |
+| `5D` | Fold 2 | `0.511467` | `{'C': 0.1, 'class_weight': None}` |
+| `5D` | Fold 3 | `0.506517` | `{'C': 0.1, 'class_weight': None}` |
+| `5D` | Fold 4 | `0.507858` | `{'C': 0.001, 'class_weight': None}` |
+| `5D` | Fold 5 | `0.508239` | `{'C': 0.001, 'class_weight': 'balanced'}` |
+| `20D` | Fold 1 | `0.514533` | `{'C': 100, 'class_weight': None}` |
+| `20D` | Fold 2 | `0.512207` | `{'C': 100, 'class_weight': None}` |
+| `20D` | Fold 3 | `0.519422` | `{'C': 100, 'class_weight': None}` |
+| `20D` | Fold 4 | `0.518032` | `{'C': 100, 'class_weight': None}` |
+| `20D` | Fold 5 | `0.511635` | `{'C': 100, 'class_weight': None}` |
+| `60D` | Fold 1 | `0.476098` | `{'C': 0.001, 'class_weight': None}` |
+| `60D` | Fold 2 | `0.468297` | `{'C': 100, 'class_weight': None}` |
+| `60D` | Fold 3 | `0.494456` | `{'C': 100, 'class_weight': None}` |
+| `60D` | Fold 4 | `0.496201` | `{'C': 100, 'class_weight': None}` |
+| `60D` | Fold 5 | `0.480035` | `{'C': 100, 'class_weight': None}` |
+| `120D` | Fold 1 | `0.509926` | `{'C': 0.001, 'class_weight': None}` |
+| `120D` | Fold 2 | `0.496398` | `{'C': 0.001, 'class_weight': None}` |
+| `120D` | Fold 3 | `0.522890` | `{'C': 0.001, 'class_weight': None}` |
+| `120D` | Fold 4 | `0.549946` | `{'C': 0.001, 'class_weight': None}` |
+| `120D` | Fold 5 | `0.500244` | `{'C': 0.001, 'class_weight': None}` |
 
-### 🔹 Mô Hình: `LightGBM` (Optuna 50 Trials/Fold)
-| Chân trời | Fold | Điểm Val Loss (RMSE) | Bộ Siêu Tham Số Tối Ưu Nhất Được Chọn |
+### 🔹 Mô Hình: `LightGBM` (Optuna TPE — Thước đo: `Internal_Val_RMSE`)
+| Chân Trời | Fold | Điểm Val Tốt Nhất | Bộ Tham Số Tối Ưu Được Chọn Sau Tuning |
 | :---: | :---: | :---: | :--- |
 | `1D` | Fold 1 | `0.008778` | `{'n_estimators': 400, 'learning_rate': 0.11049890000613266, 'num_leaves': 49, 'max_depth': 10, 'min_child_samples': 34, 'subsample': 0.7840602059905246, 'colsample_bytree': 0.7428464775168512, 'reg_alpha': 0.44766655633145197, 'reg_lambda': 1.1488808987955952}` |
 | `1D` | Fold 2 | `0.008290` | `{'n_estimators': 400, 'learning_rate': 0.165733299290735, 'num_leaves': 30, 'max_depth': 9, 'min_child_samples': 5, 'subsample': 0.6845692314699523, 'colsample_bytree': 0.688110778739281, 'reg_alpha': 0.4965633317958376, 'reg_lambda': 0.20238896974979587}` |
@@ -143,8 +143,95 @@ Tại Lần 01, 6 mô hình phi tuyến và học sâu đã hoàn tất 100% qu�
 | `120D` | Fold 4 | `0.069924` | `{'n_estimators': 600, 'learning_rate': 0.15826541904647565, 'num_leaves': 17, 'max_depth': 1, 'min_child_samples': 9, 'subsample': 0.7301321323053057, 'colsample_bytree': 0.7554709158757928, 'reg_alpha': 2.7678419414850017e-06, 'reg_lambda': 13.921548533046511}` |
 | `120D` | Fold 5 | `0.093769` | `{'n_estimators': 600, 'learning_rate': 0.15826541904647565, 'num_leaves': 17, 'max_depth': 1, 'min_child_samples': 9, 'subsample': 0.7301321323053057, 'colsample_bytree': 0.7554709158757928, 'reg_alpha': 2.7678419414850017e-06, 'reg_lambda': 13.921548533046511}` |
 
-### 🔹 Mô Hình: `RNN` (Optuna 30 Trials/Fold)
-| Chân trời | Fold | Điểm Val Loss (RMSE) | Bộ Siêu Tham Số Tối Ưu Nhất Được Chọn |
+### 🔹 Mô Hình: `SVR` (Grid Search / TimeSeriesSplit — Thước đo: `CV_RMSE`)
+| Chân Trời | Fold | Điểm Val Tốt Nhất | Bộ Tham Số Tối Ưu Được Chọn Sau Tuning |
+| :---: | :---: | :---: | :--- |
+| `1D` | Fold 1 | `0.012524` | `{'C': 0.1, 'epsilon': 0.01, 'gamma': 0.001, 'kernel': 'rbf'}` |
+| `1D` | Fold 2 | `0.012480` | `{'C': 0.1, 'epsilon': 0.01, 'gamma': 0.001, 'kernel': 'rbf'}` |
+| `1D` | Fold 3 | `0.012273` | `{'C': 0.1, 'epsilon': 0.01, 'gamma': 0.001, 'kernel': 'rbf'}` |
+| `1D` | Fold 4 | `0.012099` | `{'C': 0.1, 'epsilon': 0.01, 'gamma': 0.001, 'kernel': 'rbf'}` |
+| `1D` | Fold 5 | `0.012081` | `{'C': 0.1, 'epsilon': 0.01, 'gamma': 0.001, 'kernel': 'rbf'}` |
+| `5D` | Fold 1 | `0.026566` | `{'C': 0.1, 'epsilon': 0.01, 'gamma': 0.001, 'kernel': 'rbf'}` |
+| `5D` | Fold 2 | `0.026414` | `{'C': 0.1, 'epsilon': 0.05, 'gamma': 0.1, 'kernel': 'rbf'}` |
+| `5D` | Fold 3 | `0.025924` | `{'C': 0.1, 'epsilon': 0.01, 'gamma': 0.001, 'kernel': 'rbf'}` |
+| `5D` | Fold 4 | `0.025540` | `{'C': 0.1, 'epsilon': 0.05, 'gamma': 0.1, 'kernel': 'rbf'}` |
+| `5D` | Fold 5 | `0.025525` | `{'C': 0.1, 'epsilon': 0.01, 'gamma': 0.001, 'kernel': 'rbf'}` |
+| `20D` | Fold 1 | `0.049667` | `{'C': 0.1, 'epsilon': 0.05, 'gamma': 0.001, 'kernel': 'rbf'}` |
+| `20D` | Fold 2 | `0.049155` | `{'C': 0.1, 'epsilon': 0.05, 'gamma': 0.001, 'kernel': 'rbf'}` |
+| `20D` | Fold 3 | `0.048325` | `{'C': 0.1, 'epsilon': 0.05, 'gamma': 0.001, 'kernel': 'rbf'}` |
+| `20D` | Fold 4 | `0.047516` | `{'C': 0.1, 'epsilon': 0.05, 'gamma': 0.001, 'kernel': 'rbf'}` |
+| `20D` | Fold 5 | `0.047779` | `{'C': 0.1, 'epsilon': 0.01, 'gamma': 0.001, 'kernel': 'rbf'}` |
+| `60D` | Fold 1 | `0.084939` | `{'C': 0.1, 'epsilon': 0.05, 'gamma': 0.1, 'kernel': 'rbf'}` |
+| `60D` | Fold 2 | `0.083400` | `{'C': 0.1, 'epsilon': 0.001, 'gamma': 0.001, 'kernel': 'rbf'}` |
+| `60D` | Fold 3 | `0.081080` | `{'C': 0.1, 'epsilon': 0.001, 'gamma': 0.001, 'kernel': 'rbf'}` |
+| `60D` | Fold 4 | `0.080024` | `{'C': 0.1, 'epsilon': 0.001, 'gamma': 0.001, 'kernel': 'rbf'}` |
+| `60D` | Fold 5 | `0.080300` | `{'C': 0.1, 'epsilon': 0.001, 'gamma': 0.001, 'kernel': 'rbf'}` |
+| `120D` | Fold 1 | `0.123376` | `{'C': 0.1, 'epsilon': 0.1, 'gamma': 0.1, 'kernel': 'rbf'}` |
+| `120D` | Fold 2 | `0.121015` | `{'C': 0.1, 'epsilon': 0.1, 'gamma': 0.1, 'kernel': 'rbf'}` |
+| `120D` | Fold 3 | `0.120761` | `{'C': 0.1, 'epsilon': 0.1, 'gamma': 0.1, 'kernel': 'rbf'}` |
+| `120D` | Fold 4 | `0.116060` | `{'C': 0.1, 'epsilon': 0.1, 'gamma': 0.1, 'kernel': 'rbf'}` |
+| `120D` | Fold 5 | `0.120148` | `{'C': 0.1, 'epsilon': 0.1, 'gamma': 0.1, 'kernel': 'rbf'}` |
+
+### 🔹 Mô Hình: `Random_Forest` (Optuna TPE — Thước đo: `Internal_Val_RMSE`)
+| Chân Trời | Fold | Điểm Val Tốt Nhất | Bộ Tham Số Tối Ưu Được Chọn Sau Tuning |
+| :---: | :---: | :---: | :--- |
+| `1D` | Fold 1 | `0.008776` | `{'n_estimators': 200, 'max_depth': 10, 'min_samples_split': 2, 'min_samples_leaf': 5, 'max_features': 0.5}` |
+| `1D` | Fold 2 | `0.008310` | `{'n_estimators': 200, 'max_depth': 5, 'min_samples_split': 5, 'min_samples_leaf': 1, 'max_features': 'sqrt'}` |
+| `1D` | Fold 3 | `0.007708` | `{'n_estimators': 200, 'max_depth': 5, 'min_samples_split': 10, 'min_samples_leaf': 1, 'max_features': 0.5}` |
+| `1D` | Fold 4 | `0.007916` | `{'n_estimators': 200, 'max_depth': 5, 'min_samples_split': 5, 'min_samples_leaf': 1, 'max_features': 'sqrt'}` |
+| `1D` | Fold 5 | `0.008629` | `{'n_estimators': 200, 'max_depth': 5, 'min_samples_split': 5, 'min_samples_leaf': 1, 'max_features': 'sqrt'}` |
+| `5D` | Fold 1 | `0.018290` | `{'n_estimators': 200, 'max_depth': 10, 'min_samples_split': 10, 'min_samples_leaf': 5, 'max_features': 'sqrt'}` |
+| `5D` | Fold 2 | `0.017686` | `{'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 2, 'min_samples_leaf': 5, 'max_features': 0.5}` |
+| `5D` | Fold 3 | `0.016561` | `{'n_estimators': 200, 'max_depth': 5, 'min_samples_split': 10, 'min_samples_leaf': 5, 'max_features': 0.5}` |
+| `5D` | Fold 4 | `0.016868` | `{'n_estimators': 200, 'max_depth': 5, 'min_samples_split': 10, 'min_samples_leaf': 5, 'max_features': 0.5}` |
+| `5D` | Fold 5 | `0.018323` | `{'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 10, 'min_samples_leaf': 2, 'max_features': 0.5}` |
+| `20D` | Fold 1 | `0.029999` | `{'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 2, 'min_samples_leaf': 5, 'max_features': 0.5}` |
+| `20D` | Fold 2 | `0.031575` | `{'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 5, 'min_samples_leaf': 1, 'max_features': 'sqrt'}` |
+| `20D` | Fold 3 | `0.029593` | `{'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 2, 'min_samples_leaf': 2, 'max_features': 'sqrt'}` |
+| `20D` | Fold 4 | `0.029576` | `{'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 10, 'min_samples_leaf': 1, 'max_features': 'sqrt'}` |
+| `20D` | Fold 5 | `0.033369` | `{'n_estimators': 200, 'max_depth': 5, 'min_samples_split': 10, 'min_samples_leaf': 2, 'max_features': 'sqrt'}` |
+| `60D` | Fold 1 | `0.049179` | `{'n_estimators': 200, 'max_depth': 5, 'min_samples_split': 10, 'min_samples_leaf': 5, 'max_features': 'sqrt'}` |
+| `60D` | Fold 2 | `0.051905` | `{'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 5, 'min_samples_leaf': 2, 'max_features': 'sqrt'}` |
+| `60D` | Fold 3 | `0.046291` | `{'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 2, 'min_samples_leaf': 2, 'max_features': 'sqrt'}` |
+| `60D` | Fold 4 | `0.047338` | `{'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 2, 'min_samples_leaf': 2, 'max_features': 'sqrt'}` |
+| `60D` | Fold 5 | `0.058608` | `{'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 2, 'min_samples_leaf': 2, 'max_features': 'sqrt'}` |
+| `120D` | Fold 1 | `0.061748` | `{'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 5, 'min_samples_leaf': 5, 'max_features': 'sqrt'}` |
+| `120D` | Fold 2 | `0.060722` | `{'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 2, 'min_samples_leaf': 5, 'max_features': 'sqrt'}` |
+| `120D` | Fold 3 | `0.066237` | `{'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 2, 'min_samples_leaf': 5, 'max_features': 'sqrt'}` |
+| `120D` | Fold 4 | `0.065075` | `{'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 5, 'min_samples_leaf': 1, 'max_features': 'sqrt'}` |
+| `120D` | Fold 5 | `0.084580` | `{'n_estimators': 500, 'max_depth': 5, 'min_samples_split': 2, 'min_samples_leaf': 5, 'max_features': 'sqrt'}` |
+
+### 🔹 Mô Hình: `XGBoost` (Optuna TPE — Thước đo: `Internal_Val_RMSE`)
+| Chân Trời | Fold | Điểm Val Tốt Nhất | Bộ Tham Số Tối Ưu Được Chọn Sau Tuning |
+| :---: | :---: | :---: | :--- |
+| `1D` | Fold 1 | `0.008802` | `{'n_estimators': 200, 'learning_rate': 0.16482980845075787, 'max_depth': 9, 'min_child_weight': 2, 'subsample': 0.7299728847064147, 'colsample_bytree': 0.67498834754586, 'gamma': 0.6907781506070934, 'reg_alpha': 0.012006821319579775, 'reg_lambda': 12.464577340414984}` |
+| `1D` | Fold 2 | `0.008312` | `{'n_estimators': 200, 'learning_rate': 0.17523144542136695, 'max_depth': 10, 'min_child_weight': 4, 'subsample': 0.7592183523018007, 'colsample_bytree': 0.7085139748885433, 'gamma': 1.656517344950464, 'reg_alpha': 0.07154889881109874, 'reg_lambda': 51.43471326516465}` |
+| `1D` | Fold 3 | `0.007712` | `{'n_estimators': 600, 'learning_rate': 0.01894718686730443, 'max_depth': 4, 'min_child_weight': 4, 'subsample': 0.7460007086545342, 'colsample_bytree': 0.8194907321784571, 'gamma': 3.4919271037301725, 'reg_alpha': 0.05800421679197067, 'reg_lambda': 0.2601420495541158}` |
+| `1D` | Fold 4 | `0.007930` | `{'n_estimators': 200, 'learning_rate': 0.16782678532623518, 'max_depth': 10, 'min_child_weight': 2, 'subsample': 0.6456429521023989, 'colsample_bytree': 0.6052767590737163, 'gamma': 1.6547883477496947, 'reg_alpha': 0.00923809201010153, 'reg_lambda': 9.274458155705567}` |
+| `1D` | Fold 5 | `0.008624` | `{'n_estimators': 200, 'learning_rate': 0.09346777377493276, 'max_depth': 9, 'min_child_weight': 1, 'subsample': 0.7219192643841313, 'colsample_bytree': 0.6558289950203557, 'gamma': 0.0015032555243577606, 'reg_alpha': 0.14113536657860465, 'reg_lambda': 2.879747417492425}` |
+| `5D` | Fold 1 | `0.018698` | `{'n_estimators': 500, 'learning_rate': 0.028344287522300348, 'max_depth': 7, 'min_child_weight': 2, 'subsample': 0.7104564182996586, 'colsample_bytree': 0.6709711642982997, 'gamma': 2.1902205055674906, 'reg_alpha': 0.06127605976015246, 'reg_lambda': 0.008997160419110447}` |
+| `5D` | Fold 2 | `0.017770` | `{'n_estimators': 500, 'learning_rate': 0.18631744759265406, 'max_depth': 7, 'min_child_weight': 4, 'subsample': 0.7370473031808337, 'colsample_bytree': 0.763209333043121, 'gamma': 3.0558835894405076, 'reg_alpha': 0.0055460853975703855, 'reg_lambda': 0.23369533360494577}` |
+| `5D` | Fold 3 | `0.016644` | `{'n_estimators': 500, 'learning_rate': 0.044714059136592404, 'max_depth': 8, 'min_child_weight': 5, 'subsample': 0.6362631858694583, 'colsample_bytree': 0.6200168792436461, 'gamma': 2.2026531547166743, 'reg_alpha': 0.06431622766171038, 'reg_lambda': 0.030432893559130553}` |
+| `5D` | Fold 4 | `0.016946` | `{'n_estimators': 100, 'learning_rate': 0.08180523768303569, 'max_depth': 9, 'min_child_weight': 7, 'subsample': 0.6012847095667525, 'colsample_bytree': 0.7081499923198863, 'gamma': 4.941757519175194, 'reg_alpha': 0.0013465026146775535, 'reg_lambda': 0.007604515339664316}` |
+| `5D` | Fold 5 | `0.018391` | `{'n_estimators': 500, 'learning_rate': 0.044940141673554874, 'max_depth': 5, 'min_child_weight': 4, 'subsample': 0.6940483727591255, 'colsample_bytree': 0.7802963569765408, 'gamma': 0.038205855949074774, 'reg_alpha': 0.008288295439113044, 'reg_lambda': 0.15621495477525174}` |
+| `20D` | Fold 1 | `0.029793` | `{'n_estimators': 400, 'learning_rate': 0.15715176059861033, 'max_depth': 6, 'min_child_weight': 4, 'subsample': 0.6944645257579334, 'colsample_bytree': 0.8316834274806193, 'gamma': 0.0696901095246975, 'reg_alpha': 5.102519242452782e-05, 'reg_lambda': 6.87459055877633}` |
+| `20D` | Fold 2 | `0.030976` | `{'n_estimators': 400, 'learning_rate': 0.17254716573280354, 'max_depth': 8, 'min_child_weight': 6, 'subsample': 0.6624074561769746, 'colsample_bytree': 0.662397808134481, 'gamma': 0.2904180608409973, 'reg_alpha': 0.6245760287469893, 'reg_lambda': 1.0129197956845732}` |
+| `20D` | Fold 3 | `0.029017` | `{'n_estimators': 400, 'learning_rate': 0.15259144921853043, 'max_depth': 8, 'min_child_weight': 4, 'subsample': 0.6694216580478584, 'colsample_bytree': 0.7238927997467867, 'gamma': 0.13540197046038513, 'reg_alpha': 0.09176443641650511, 'reg_lambda': 2.0471994650509857}` |
+| `20D` | Fold 4 | `0.029001` | `{'n_estimators': 400, 'learning_rate': 0.1468508767495767, 'max_depth': 9, 'min_child_weight': 7, 'subsample': 0.618437445799012, 'colsample_bytree': 0.7682131007965295, 'gamma': 3.022916152642125, 'reg_alpha': 8.391317246554213e-06, 'reg_lambda': 22.57092094687673}` |
+| `20D` | Fold 5 | `0.032908` | `{'n_estimators': 300, 'learning_rate': 0.19145311972695062, 'max_depth': 9, 'min_child_weight': 4, 'subsample': 0.642220926251284, 'colsample_bytree': 0.6249733157038994, 'gamma': 0.09899401413215997, 'reg_alpha': 0.0001588239743053469, 'reg_lambda': 16.5549592009347}` |
+| `60D` | Fold 1 | `0.048786` | `{'n_estimators': 800, 'learning_rate': 0.022540810038385727, 'max_depth': 8, 'min_child_weight': 5, 'subsample': 0.6094829317041391, 'colsample_bytree': 0.8543455381942271, 'gamma': 0.1423205970673974, 'reg_alpha': 0.001292333659266177, 'reg_lambda': 0.0027733304000431974}` |
+| `60D` | Fold 2 | `0.045863` | `{'n_estimators': 1000, 'learning_rate': 0.14292633363708662, 'max_depth': 3, 'min_child_weight': 2, 'subsample': 0.6603318011208913, 'colsample_bytree': 0.6587378205373504, 'gamma': 1.8789623380436749, 'reg_alpha': 1.6580076322804724e-07, 'reg_lambda': 0.0017271138670197513}` |
+| `60D` | Fold 3 | `0.041288` | `{'n_estimators': 900, 'learning_rate': 0.027277488229260405, 'max_depth': 4, 'min_child_weight': 4, 'subsample': 0.7509113070790233, 'colsample_bytree': 0.9366221073016855, 'gamma': 1.1362948899887748, 'reg_alpha': 1.2495317043749369e-05, 'reg_lambda': 0.3989291906083396}` |
+| `60D` | Fold 4 | `0.041579` | `{'n_estimators': 900, 'learning_rate': 0.18503961523646953, 'max_depth': 3, 'min_child_weight': 4, 'subsample': 0.6931045457943362, 'colsample_bytree': 0.7564582363703096, 'gamma': 1.323160289395684, 'reg_alpha': 3.1750194505136243e-07, 'reg_lambda': 32.79808643165651}` |
+| `60D` | Fold 5 | `0.050570` | `{'n_estimators': 900, 'learning_rate': 0.09017195441448847, 'max_depth': 3, 'min_child_weight': 6, 'subsample': 0.6630780084659571, 'colsample_bytree': 0.8072261917689363, 'gamma': 4.258905611621719, 'reg_alpha': 0.0469076970012189, 'reg_lambda': 0.27651975491831876}` |
+| `120D` | Fold 1 | `0.061261` | `{'n_estimators': 500, 'learning_rate': 0.016007036385129125, 'max_depth': 9, 'min_child_weight': 7, 'subsample': 0.7527609886492506, 'colsample_bytree': 0.9789493472034575, 'gamma': 0.5879430556568598, 'reg_alpha': 0.41234594019696547, 'reg_lambda': 19.53765853018537}` |
+| `120D` | Fold 2 | `0.056076` | `{'n_estimators': 200, 'learning_rate': 0.013777908322294695, 'max_depth': 7, 'min_child_weight': 8, 'subsample': 0.9312912015547016, 'colsample_bytree': 0.6134070516929855, 'gamma': 2.7244100752053093, 'reg_alpha': 5.018787839540521e-07, 'reg_lambda': 0.0018687920767718185}` |
+| `120D` | Fold 3 | `0.053375` | `{'n_estimators': 1000, 'learning_rate': 0.1676063284982292, 'max_depth': 3, 'min_child_weight': 9, 'subsample': 0.6301886180051994, 'colsample_bytree': 0.7784937067777397, 'gamma': 3.7380722715536923, 'reg_alpha': 0.017760974213777727, 'reg_lambda': 0.005238005902748139}` |
+| `120D` | Fold 4 | `0.050294` | `{'n_estimators': 600, 'learning_rate': 0.1643886641403159, 'max_depth': 8, 'min_child_weight': 4, 'subsample': 0.9026679863634834, 'colsample_bytree': 0.7167342905159535, 'gamma': 4.515708653381637, 'reg_alpha': 0.08495816127682672, 'reg_lambda': 0.17019369048371924}` |
+| `120D` | Fold 5 | `0.058386` | `{'n_estimators': 500, 'learning_rate': 0.04027448760837812, 'max_depth': 3, 'min_child_weight': 1, 'subsample': 0.7722240644985903, 'colsample_bytree': 0.9320474141643308, 'gamma': 3.62270958106528, 'reg_alpha': 0.12601284472593474, 'reg_lambda': 0.017065132603293003}` |
+
+### 🔹 Mô Hình: `RNN` (Optuna TPE — Thước đo: `Internal_Val_RMSE`)
+| Chân Trời | Fold | Điểm Val Tốt Nhất | Bộ Tham Số Tối Ưu Được Chọn Sau Tuning |
 | :---: | :---: | :---: | :--- |
 | `1D` | Fold 1 | `0.009098` | `{'lookback': 40, 'hidden_size': 64, 'num_layers': 1, 'dropout': 0.43573029509385885, 'learning_rate': 0.00040489662225846743, 'weight_decay': 0.0001, 'batch_size': 32, 'epochs': 40, 'patience': 7}` |
 | `1D` | Fold 2 | `0.008416` | `{'lookback': 40, 'hidden_size': 64, 'num_layers': 1, 'dropout': 0.4202626021016229, 'learning_rate': 0.0006840117725936527, 'weight_decay': 0.0001, 'batch_size': 32, 'epochs': 40, 'patience': 7}` |
@@ -172,8 +259,8 @@ Tại Lần 01, 6 mô hình phi tuyến và học sâu đã hoàn tất 100% qu�
 | `120D` | Fold 4 | `0.051831` | `{'lookback': 20, 'hidden_size': 32, 'num_layers': 3, 'dropout': 0.4151470041640507, 'learning_rate': 0.00024483133322562205, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}` |
 | `120D` | Fold 5 | `0.059427` | `{'lookback': 10, 'hidden_size': 128, 'num_layers': 3, 'dropout': 0.25029088451059456, 'learning_rate': 0.0001604025443901114, 'weight_decay': 0.0001, 'batch_size': 64, 'epochs': 40, 'patience': 7}` |
 
-### 🔹 Mô Hình: `LSTM` (Optuna 30 Trials/Fold)
-| Chân trời | Fold | Điểm Val Loss (RMSE) | Bộ Siêu Tham Số Tối Ưu Nhất Được Chọn |
+### 🔹 Mô Hình: `LSTM` (Optuna TPE — Thước đo: `Internal_Val_RMSE`)
+| Chân Trời | Fold | Điểm Val Tốt Nhất | Bộ Tham Số Tối Ưu Được Chọn Sau Tuning |
 | :---: | :---: | :---: | :--- |
 | `1D` | Fold 1 | `0.008767` | `{'lookback': 40, 'hidden_size': 128, 'num_layers': 3, 'dropout': 0.4871079271090035, 'learning_rate': 9.140136883051477e-05, 'weight_decay': 0.0001, 'batch_size': 64, 'epochs': 40, 'patience': 7}` |
 | `1D` | Fold 2 | `0.008403` | `{'lookback': 40, 'hidden_size': 128, 'num_layers': 2, 'dropout': 0.4758452397629151, 'learning_rate': 1.0519095028133849e-05, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}` |
@@ -201,8 +288,124 @@ Tại Lần 01, 6 mô hình phi tuyến và học sâu đã hoàn tất 100% qu�
 | `120D` | Fold 4 | `0.053046` | `{'lookback': 40, 'hidden_size': 64, 'num_layers': 3, 'dropout': 0.3037616521132426, 'learning_rate': 6.742465968587722e-05, 'weight_decay': 0.0001, 'batch_size': 64, 'epochs': 40, 'patience': 7}` |
 | `120D` | Fold 5 | `0.059614` | `{'lookback': 40, 'hidden_size': 64, 'num_layers': 3, 'dropout': 0.21355615281666593, 'learning_rate': 0.0002883724954669892, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}` |
 
-### 🔹 Mô Hình: `Transformer` (Optuna 30 Trials/Fold)
-| Chân trời | Fold | Điểm Val Loss (RMSE) | Bộ Siêu Tham Số Tối Ưu Nhất Được Chọn |
+### 🔹 Mô Hình: `ARIMA` (Grid Search / TimeSeriesSplit — Thước đo: `AIC`)
+| Chân Trời | Fold | Điểm Val Tốt Nhất | Bộ Tham Số Tối Ưu Được Chọn Sau Tuning |
+| :---: | :---: | :---: | :--- |
+| `1D` | Fold 1 | `-38850.09` | `{'order': (1, 0, 1)}` |
+| `1D` | Fold 2 | `-40547.93` | `{'order': (1, 0, 1)}` |
+| `1D` | Fold 3 | `-42437.92` | `{'order': (1, 0, 1)}` |
+| `1D` | Fold 4 | `-44254.53` | `{'order': (1, 0, 1)}` |
+| `1D` | Fold 5 | `-45970.15` | `{'order': (1, 0, 1)}` |
+| `5D` | Fold 1 | `-34974.17` | `{'order': (1, 0, 1)}` |
+| `5D` | Fold 2 | `-36517.95` | `{'order': (1, 0, 1)}` |
+| `5D` | Fold 3 | `-38241.62` | `{'order': (1, 0, 1)}` |
+| `5D` | Fold 4 | `-39890.26` | `{'order': (1, 0, 1)}` |
+| `5D` | Fold 5 | `-41444.79` | `{'order': (1, 0, 1)}` |
+| `20D` | Fold 1 | `-34610.19` | `{'order': (1, 0, 0)}` |
+| `20D` | Fold 2 | `-36158.38` | `{'order': (1, 0, 0)}` |
+| `20D` | Fold 3 | `-37865.54` | `{'order': (1, 0, 0)}` |
+| `20D` | Fold 4 | `-39497.08` | `{'order': (1, 0, 0)}` |
+| `20D` | Fold 5 | `-41018.33` | `{'order': (1, 0, 0)}` |
+| `60D` | Fold 1 | `-34168.91` | `{'order': (1, 0, 1)}` |
+| `60D` | Fold 2 | `-35701.34` | `{'order': (1, 0, 1)}` |
+| `60D` | Fold 3 | `-37386.24` | `{'order': (1, 0, 1)}` |
+| `60D` | Fold 4 | `-39024.09` | `{'order': (1, 0, 1)}` |
+| `60D` | Fold 5 | `-40569.65` | `{'order': (1, 0, 1)}` |
+| `120D` | Fold 1 | `-33706.06` | `{'order': (1, 0, 1)}` |
+| `120D` | Fold 2 | `-35216.03` | `{'order': (1, 0, 1)}` |
+| `120D` | Fold 3 | `-36884.03` | `{'order': (1, 0, 1)}` |
+| `120D` | Fold 4 | `-38538.77` | `{'order': (1, 0, 1)}` |
+| `120D` | Fold 5 | `-40076.66` | `{'order': (1, 0, 1)}` |
+
+### 🔹 Mô Hình: `ARIMAX` (Grid Search / TimeSeriesSplit — Thước đo: `AIC`)
+| Chân Trời | Fold | Điểm Val Tốt Nhất | Bộ Tham Số Tối Ưu Được Chọn Sau Tuning |
+| :---: | :---: | :---: | :--- |
+| `1D` | Fold 1 | `-38857.24` | `{'order': (1, 0, 1)}` |
+| `1D` | Fold 2 | `-40556.89` | `{'order': (1, 0, 1)}` |
+| `1D` | Fold 3 | `-42445.58` | `{'order': (1, 0, 1)}` |
+| `1D` | Fold 4 | `-44263.35` | `{'order': (1, 0, 1)}` |
+| `1D` | Fold 5 | `-45979.01` | `{'order': (1, 0, 1)}` |
+| `5D` | Fold 1 | `-37857.80` | `{'order': (1, 0, 1)}` |
+| `5D` | Fold 2 | `-39524.67` | `{'order': (1, 0, 1)}` |
+| `5D` | Fold 3 | `-41364.99` | `{'order': (1, 0, 1)}` |
+| `5D` | Fold 4 | `-43138.73` | `{'order': (1, 0, 1)}` |
+| `5D` | Fold 5 | `-44808.96` | `{'order': (1, 0, 1)}` |
+| `20D` | Fold 1 | `-37826.90` | `{'order': (1, 0, 1)}` |
+| `20D` | Fold 2 | `-39515.44` | `{'order': (1, 0, 1)}` |
+| `20D` | Fold 3 | `-41358.14` | `{'order': (1, 0, 1)}` |
+| `20D` | Fold 4 | `-43134.25` | `{'order': (1, 0, 1)}` |
+| `20D` | Fold 5 | `-44803.89` | `{'order': (1, 0, 1)}` |
+| `60D` | Fold 1 | `-37679.02` | `{'order': (1, 0, 1)}` |
+| `60D` | Fold 2 | `-39357.86` | `{'order': (1, 0, 1)}` |
+| `60D` | Fold 3 | `-41204.40` | `{'order': (1, 0, 1)}` |
+| `60D` | Fold 4 | `-42961.62` | `{'order': (1, 0, 1)}` |
+| `60D` | Fold 5 | `-44653.86` | `{'order': (1, 0, 1)}` |
+| `120D` | Fold 1 | `-37235.55` | `{'order': (1, 0, 1)}` |
+| `120D` | Fold 2 | `-38914.48` | `{'order': (1, 0, 1)}` |
+| `120D` | Fold 3 | `-40750.88` | `{'order': (1, 0, 1)}` |
+| `120D` | Fold 4 | `-42512.97` | `{'order': (1, 0, 1)}` |
+| `120D` | Fold 5 | `-44214.99` | `{'order': (1, 0, 1)}` |
+
+### 🔹 Mô Hình: `Elastic_Net` (Grid Search / TimeSeriesSplit — Thước đo: `CV_RMSE`)
+| Chân Trời | Fold | Điểm Val Tốt Nhất | Bộ Tham Số Tối Ưu Được Chọn Sau Tuning |
+| :---: | :---: | :---: | :--- |
+| `1D` | Fold 1 | `0.012482` | `{'alpha': 0.001, 'l1_ratio': 0.7}` |
+| `1D` | Fold 2 | `0.012440` | `{'alpha': 0.001, 'l1_ratio': 0.5}` |
+| `1D` | Fold 3 | `0.012219` | `{'alpha': 0.001, 'l1_ratio': 0.5}` |
+| `1D` | Fold 4 | `0.012057` | `{'alpha': 0.001, 'l1_ratio': 0.5}` |
+| `1D` | Fold 5 | `0.012006` | `{'alpha': 0.001, 'l1_ratio': 0.5}` |
+| `5D` | Fold 1 | `0.025528` | `{'alpha': 0.005, 'l1_ratio': 0.3}` |
+| `5D` | Fold 2 | `0.025425` | `{'alpha': 0.001, 'l1_ratio': 0.7}` |
+| `5D` | Fold 3 | `0.024948` | `{'alpha': 0.001, 'l1_ratio': 0.7}` |
+| `5D` | Fold 4 | `0.024590` | `{'alpha': 0.001, 'l1_ratio': 0.7}` |
+| `5D` | Fold 5 | `0.024578` | `{'alpha': 0.001, 'l1_ratio': 0.9}` |
+| `20D` | Fold 1 | `0.047960` | `{'alpha': 0.01, 'l1_ratio': 0.7}` |
+| `20D` | Fold 2 | `0.047492` | `{'alpha': 0.0005, 'l1_ratio': 0.9}` |
+| `20D` | Fold 3 | `0.046668` | `{'alpha': 0.001, 'l1_ratio': 0.7}` |
+| `20D` | Fold 4 | `0.045805` | `{'alpha': 0.001, 'l1_ratio': 0.5}` |
+| `20D` | Fold 5 | `0.045874` | `{'alpha': 0.005, 'l1_ratio': 0.9}` |
+| `60D` | Fold 1 | `0.082260` | `{'alpha': 0.05, 'l1_ratio': 0.3}` |
+| `60D` | Fold 2 | `0.080820` | `{'alpha': 0.005, 'l1_ratio': 0.3}` |
+| `60D` | Fold 3 | `0.078900` | `{'alpha': 0.005, 'l1_ratio': 0.3}` |
+| `60D` | Fold 4 | `0.078101` | `{'alpha': 0.005, 'l1_ratio': 0.3}` |
+| `60D` | Fold 5 | `0.077896` | `{'alpha': 0.05, 'l1_ratio': 0.3}` |
+| `120D` | Fold 1 | `0.125341` | `{'alpha': 0.05, 'l1_ratio': 0.5}` |
+| `120D` | Fold 2 | `0.122534` | `{'alpha': 0.05, 'l1_ratio': 0.5}` |
+| `120D` | Fold 3 | `0.120742` | `{'alpha': 0.05, 'l1_ratio': 0.5}` |
+| `120D` | Fold 4 | `0.118428` | `{'alpha': 0.05, 'l1_ratio': 0.5}` |
+| `120D` | Fold 5 | `0.117128` | `{'alpha': 0.05, 'l1_ratio': 0.5}` |
+
+### 🔹 Mô Hình: `SARIMA` (Grid Search / TimeSeriesSplit — Thước đo: `AIC`)
+| Chân Trời | Fold | Điểm Val Tốt Nhất | Bộ Tham Số Tối Ưu Được Chọn Sau Tuning |
+| :---: | :---: | :---: | :--- |
+| `1D` | Fold 1 | `-38849.61` | `{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}` |
+| `1D` | Fold 2 | `-40545.76` | `{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}` |
+| `1D` | Fold 3 | `-42436.01` | `{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}` |
+| `1D` | Fold 4 | `-44253.40` | `{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}` |
+| `1D` | Fold 5 | `-45969.88` | `{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}` |
+| `5D` | Fold 1 | `-36758.85` | `{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}` |
+| `5D` | Fold 2 | `-38366.29` | `{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}` |
+| `5D` | Fold 3 | `-40160.08` | `{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}` |
+| `5D` | Fold 4 | `-41880.49` | `{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}` |
+| `5D` | Fold 5 | `-43504.61` | `{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}` |
+| `20D` | Fold 1 | `-34610.19` | `{'order': (1, 0, 0), 'seasonal_order': (0, 0, 0, 0)}` |
+| `20D` | Fold 2 | `-36158.38` | `{'order': (1, 0, 0), 'seasonal_order': (0, 0, 0, 0)}` |
+| `20D` | Fold 3 | `-37865.54` | `{'order': (1, 0, 0), 'seasonal_order': (0, 0, 0, 0)}` |
+| `20D` | Fold 4 | `-39497.08` | `{'order': (1, 0, 0), 'seasonal_order': (0, 0, 0, 0)}` |
+| `20D` | Fold 5 | `-41018.33` | `{'order': (1, 0, 0), 'seasonal_order': (0, 0, 0, 0)}` |
+| `60D` | Fold 1 | `-34169.65` | `{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}` |
+| `60D` | Fold 2 | `-35702.42` | `{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}` |
+| `60D` | Fold 3 | `-37387.35` | `{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}` |
+| `60D` | Fold 4 | `-39024.53` | `{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}` |
+| `60D` | Fold 5 | `-40570.39` | `{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}` |
+| `120D` | Fold 1 | `-33691.93` | `{'order': (1, 0, 0), 'seasonal_order': (0, 0, 0, 0)}` |
+| `120D` | Fold 2 | `-35204.95` | `{'order': (1, 0, 0), 'seasonal_order': (0, 0, 0, 0)}` |
+| `120D` | Fold 3 | `-36871.88` | `{'order': (1, 0, 0), 'seasonal_order': (0, 0, 0, 0)}` |
+| `120D` | Fold 4 | `-38526.01` | `{'order': (1, 0, 0), 'seasonal_order': (0, 0, 0, 0)}` |
+| `120D` | Fold 5 | `-40062.44` | `{'order': (1, 0, 0), 'seasonal_order': (0, 0, 0, 0)}` |
+
+### 🔹 Mô Hình: `Transformer` (Optuna TPE — Thước đo: `Internal_Val_RMSE`)
+| Chân Trời | Fold | Điểm Val Tốt Nhất | Bộ Tham Số Tối Ưu Được Chọn Sau Tuning |
 | :---: | :---: | :---: | :--- |
 | `1D` | Fold 1 | `0.009070` | `{'lookback': 40, 'd_model': 32, 'nhead': 4, 'num_encoder_layers': 2, 'dim_feedforward': 128, 'dropout': 0.26355899145378414, 'learning_rate': 0.0004967684390320199, 'weight_decay': 0.0001, 'batch_size': 32, 'epochs': 40, 'patience': 7}` |
 | `1D` | Fold 2 | `0.010403` | `{'lookback': 40, 'd_model': 64, 'nhead': 2, 'num_encoder_layers': 2, 'dim_feedforward': 128, 'dropout': 0.2958225797050406, 'learning_rate': 0.0003530122358365842, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}` |
@@ -232,28 +435,29 @@ Tại Lần 01, 6 mô hình phi tuyến và học sâu đã hoàn tất 100% qu�
 
 ---
 
-## 3. KHÔNG GIAN TÌM KIẾM CỦA CÁC MÔ HÌNH CHƯA OPTUNA (SẼ CHẠY Ở LẦN 03 VÀ LẦN 05)
+## 3. DANH SÁCH MÔ HÌNH CHƯA TUNING (ĐỂ TRỐNG ĐỢI HUẤN LUYỆN LẦN 03 & LẦN 05)
 
-Các mô hình dưới đây hiện tại **để trống** giá trị tham số tối ưu vì chưa bước vào phiên huấn luyện Optuna:
+Các mô hình dưới đây hiện tại **để trống** trường tham số vì đang chờ thực thi tuning:
 
-### 3.1 Nhóm Deep Learning Chuỗi Thời Gian Tiên Tiến (Lần 03 — Lan03)
+### 3.1 Nhóm Deep Learning Chuỗi Thời Gian Tiên Tiến (Lần 03 — Lan03: 7 Mô Hình)
 - **Mô hình:** `TCN`, `N-BEATS`, `N-HiTS`, `PatchTST`, `TSMixer`, `iTransformer`, `CNN`.
-- **Số lượng trials:** 30 trials / fold / horizon.
-- **Không gian siêu tham số dự kiến:**
-  - `lookback`: $[20, 40, 60]$
-  - `hidden_dim` / `d_model`: $[32, 64, 128]$
-  - `num_layers`: $[1, 2, 3]$
-  - `dropout`: $[0.1, 0.5]$
-  - `learning_rate`: $[10^{-4}, 10^{-2}]$ (log scale)
-  - `batch_size`: $[16, 32, 64]$
+- **Phương pháp tuning:** Optuna TPE Sampler (30 trials/fold/horizon).
+- **Không gian tìm kiếm đã cấu hình:**
+  - `lookback`: $[20, 40, 60]$ ngày giao dịch quá khứ.
+  - `hidden_dim` / `d_model`: $[32, 64, 128]$.
+  - `num_layers`: $[1, 2, 3]$.
+  - `dropout`: $[0.1, 0.5]$.
+  - `learning_rate`: $[10^{-4}, 10^{-2}]$.
+  - `batch_size`: $[16, 32, 64]$.
+  - `patience`: $7$ epochs (Early Stopping).
 
-### 3.2 Nhóm Tổ Hợp Ensemble & Chiến Lược Thích Ứng Regime (Lần 05 — Lan05)
+### 3.2 Nhóm Tổ Hợp Ensemble & Chiến Lược Thích Ứng Chế Độ (Lần 05 — Lan05: 6 Mô Hình)
 - **Mô hình:** `Ensemble_A1`, `Ensemble_A2`, `Ensemble_A3`, `Baseline_C1`, `Baseline_C2`, `Baseline_C3`.
-- **Số lượng trials:** 50 trials / fold / horizon.
-- **Không gian tối ưu hóa tỷ trọng dự kiến:**
+- **Phương pháp tuning:** Optuna TPE Sampler (50 trials/fold/horizon).
+- **Không gian tối ưu tỷ trọng đã cấu hình:**
   - `A1, A2, A3`: Véc-tơ trọng số lồi trên không gian Simplex ($w_m \ge 0, \sum w_m = 1$).
-  - `C1`: Tỷ trọng hòa trộn giữa các mô hình dẫn đầu theo từng chế độ biến động.
-  - `C2`: Hệ số co rút James-Stein $N_0 \in [5.0, 200.0]$ và độ nhạy nghịch đảo phương sai $\gamma \in [0.5, 3.0]$.
+  - `C1`: Tỷ trọng hòa trộn lồi giữa các mô hình dẫn đầu theo từng chế độ biến động (Low, Normal, High).
+  - `C2`: Hệ số co rút James-Stein $N_0 \in [5.0, 200.0]$ và độ nhạy lũy thừa nghịch đảo MSE $\gamma \in [0.5, 3.0]$.
   - `C3`: Tỷ trọng phòng thủ $\alpha_{\text{High}} \in [0, 1]$ khi thị trường High Volatility và phân bổ Core $A2$ trong Low/Normal.
 
 ---
@@ -264,15 +468,15 @@ Các mô hình dưới đây hiện tại **để trống** giá trị tham số
 > **CÓ, toàn bộ tệp kết quả nghiên cứu khoa học (CSVs, metrics, predictions, summary, logs, markdown reports, dashboard) ĐỀU ĐƯỢC PUSH lên GitHub đầy đủ!**  
 > **CHỈ CÓ các file trọng số nhị phân siêu nặng (`.pt`, `.pth`, `.pkl`, `.h5`, `.joblib`) là KHÔNG PUSH lên GitHub.**
 
-### Chi tiết chính sách kiểm soát tệp theo `.gitignore` của Repository:
+### Bảng kiểm kê chính sách Git theo `.gitignore` của Repository:
 
-| Loại Tệp / Thư Mục | Trạng Thái Trên GitHub | Lý Do & Vai Trò Học Thuật |
+| Loại Tệp / Thư Mục | Trạng Thái Trên GitHub | Minh Chứng Cụ Thể |
 | :--- | :---: | :--- |
-| **Kết quả số liệu OOS Predictions** (`results/*/predictions/*.csv`) |  **ĐƯỢC PUSH** | Minh chứng dữ liệu dự báo ngoại mẫu từng ngày (Lan01 có 95,200 dòng đã push). |
-| **Chỉ số đánh giá từng Fold** (`results/*/fold_metrics/*.csv`) |  **ĐƯỢC PUSH** | Bằng chứng kiểm định $R^2$, DA, RMSE, MAE, Diebold-Mariano test cho 350 folds. |
-| **Tóm tắt hiệu năng mô hình** (`results/*/summary/*.csv`) |  **ĐƯỢC PUSH** | Tổng hợp trung bình và độ lệch chuẩn theo từng chân trời. |
-| **Nhật ký siêu tham số** (`results/*/tuning/*.csv`) |  **ĐƯỢC PUSH** | Lưu lại 100% lịch sử Optuna và Grid Search để tái lập kết quả (Replication). |
-| **Báo cáo nghiên cứu & Phân tích RQ** (`results/*/agent_reports/*.md`) |  **ĐƯỢC PUSH** | Tài liệu học thuật tổng hợp giải đáp RQ1, RQ2, RQ3. |
-| **Bảng điều khiển trực quan** (`dashboard.html`, `DASHBOARD.md`) |  **ĐƯỢC PUSH** | Giao diện đồ họa giám sát thời gian thực. |
-| **File trọng số nhị phân mô hình** (`*.pt`, `*.pth`, `*.pkl`, `*.h5`) | ❌ **BỊ CHẶN (.gitignore)** | Các file mạng nơ-ron nhị phân dung lượng từ vài trăm MB đến hàng GB. GitHub có giới hạn 100MB/file; việc chặn binary weights là quy chuẩn quốc tế để tránh hỏng repository. |
-| **Tệp rác / cache trung gian** (`__pycache__`, `latest_metrics.csv`, `.env`) | ❌ **BỊ CHẶN (.gitignore)** | Tránh xung đột môi trường và giữ kho lưu trữ gọn gàng, bảo mật. |
+| **Dữ liệu dự báo ngoại mẫu** (`results/*/predictions/*.csv`) |  **ĐƯỢC PUSH** | Lan01 đã push 95,200 dòng dự báo OOS đầy đủ. |
+| **Chỉ số đánh giá từng Fold** (`results/*/fold_metrics/*.csv`) |  **ĐƯỢC PUSH** | Lan01 đã push 350 folds kiểm định ngoại mẫu ($R^2$, DA, RMSE, DM test). |
+| **Tóm tắt hiệu năng mô hình** (`results/*/summary/*.csv`) |  **ĐƯỢC PUSH** | Bảng tổng hợp Mean & Std theo từng chân trời. |
+| **Nhật ký siêu tham số** (`results/*/tuning/*.csv`) |  **ĐƯỢC PUSH** | Đã push 325 dòng lịch sử tham số tốt nhất của 13 mô hình. |
+| **Báo cáo nghiên cứu khoa học** (`results/*/agent_reports/*.md`) |  **ĐƯỢC PUSH** | Toàn bộ 13 báo cáo tổng hợp giải đáp RQ1, RQ2, RQ3. |
+| **Bảng điều khiển trực quan** (`dashboard.html`, `DASHBOARD.md`) |  **ĐƯỢC PUSH** | Dashboard giám sát tiến trình thời gian thực. |
+| **File trọng số nhị phân mô hình** (`*.pt`, `*.pth`, `*.pkl`, `*.h5`) | ❌ **BỊ CHẶN (.gitignore)** | Mạng nơ-ron nhị phân dung lượng từ vài trăm MB đến hàng GB, vượt ngưỡng 100MB của GitHub. Chặn binary weights là best practice chuẩn quốc tế. |
+| **Tệp rác / cache trung gian** (`__pycache__`, `latest_metrics.csv`, `.env`) | ❌ **BỊ CHẶN (.gitignore)** | Tránh xung đột môi trường và giữ kho mã nguồn gọn gàng. |

@@ -1,41 +1,41 @@
-﻿STT,Run,Model_Name,Architecture_Family,Tuning_Method,Optuna_Trials,Optuna_Status,Best_Hyperparameters_Optuna,Best_Val_Score,Metric
-1,Lan01,Historical_Mean,Benchmark,None (Parameter-free),-,Không dùng Optuna,,,
-2,Lan01,Ridge,Linear Model,Grid Search (alpha),-,Không dùng Optuna (Grid),,,Grid Search (alpha)
-3,Lan01,Logistic_Regression,Classification,"Grid Search (C, class_weight)",-,Không dùng Optuna (Grid),,,"Grid Search (C, class_weight)"
-4,Lan01,Elastic_Net,Linear Model,"Grid Search (alpha, l1_ratio)",-,Không dùng Optuna (Grid),,,"Grid Search (alpha, l1_ratio)"
-5,Lan01,ARIMA,Statistical TS,"Grid Search (p, d, q AIC)",-,Không dùng Optuna (Grid),,,"Grid Search (p, d, q AIC)"
-6,Lan01,ARIMAX,Statistical TS,"Fixed Spec (1,0,1 + Exog)",-,Không dùng Optuna (Fixed),,,"Fixed Spec (1,0,1 + Exog)"
-7,Lan01,SARIMA,Statistical TS,"Fixed Spec (1,0,0)x(1,0,0,5)",-,Không dùng Optuna (Fixed),,,"Fixed Spec (1,0,0)x(1,0,0,5)"
-8,Lan01,SVR,Kernel Method,"Grid Search (C, gamma, eps)",-,Không dùng Optuna (Grid),,,"Grid Search (C, gamma, eps)"
-9,Lan01,Random_Forest,Tree Ensemble,Optuna TPE (CV_RMSE),30,Đã hoàn tất Optuna,"{'n_estimators': 200, 'max_depth': 5, 'min_samples_split': 5, 'min_samples_leaf': 1, 'max_features': 'sqrt'}",0.008629,Internal_Val_RMSE
-10,Lan01,XGBoost,Tree Ensemble,Optuna TPE (CV_RMSE),50,Đã hoàn tất Optuna,"{'n_estimators': 200, 'learning_rate': 0.09346777377493276, 'max_depth': 9, 'min_child_weight': 1, 'subsample': 0.7219192643841313, 'colsample_bytree': 0.6558289950203557, 'gamma': 0.0015032555243577606, 'reg_alpha': 0.14113536657860465, 'reg_lambda': 2.879747417492425}",0.008624,Internal_Val_RMSE
-11,Lan01,LightGBM,Tree Ensemble,Optuna TPE (CV_RMSE),50,Đã hoàn tất Optuna,"{'n_estimators': 500, 'learning_rate': 0.017709597800863956, 'num_leaves': 56, 'max_depth': 2, 'min_child_samples': 22, 'subsample': 0.8439440638588244, 'colsample_bytree': 0.962726780479557, 'reg_alpha': 0.03669978237679096, 'reg_lambda': 3.5016679319694397}",0.008612,Internal_Val_RMSE
-12,Lan01,RNN,Deep Learning,Optuna TPE (Val_Loss),30,Đã hoàn tất Optuna,"{'lookback': 40, 'hidden_size': 64, 'num_layers': 1, 'dropout': 0.3017249991009523, 'learning_rate': 0.000305485208547517, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}",0.008670,Internal_Val_RMSE
-13,Lan01,LSTM,Deep Learning,Optuna TPE (Val_Loss),30,Đã hoàn tất Optuna,"{'lookback': 20, 'hidden_size': 64, 'num_layers': 3, 'dropout': 0.3538584597651602, 'learning_rate': 0.0007662150068129557, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}",0.008680,Internal_Val_RMSE
-14,Lan01,Transformer,Deep Learning,Optuna TPE (Val_Loss),30,Đã hoàn tất Optuna,"{'lookback': 60, 'd_model': 32, 'nhead': 4, 'num_encoder_layers': 1, 'dim_feedforward': 128, 'dropout': 0.2833143475684623, 'learning_rate': 0.00020235315003022192, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}",0.009152,Internal_Val_RMSE
-15,Lan02,TCN,Advanced DL (Temporal CNN),Default / Pre-set,-,Không dùng Optuna (Mặc định),,,
-16,Lan02,N-BEATS,Advanced DL (Basis Expansion),Default / Pre-set,-,Không dùng Optuna (Mặc định),,,
-17,Lan02,N-HiTS,Advanced DL (Hierarchical MLP),Default / Pre-set,-,Không dùng Optuna (Mặc định),,,
-18,Lan02,PatchTST,Advanced DL (Patch Transformer),Default / Pre-set,-,Không dùng Optuna (Mặc định),,,
-19,Lan02,TSMixer,Advanced DL (All-MLP),Default / Pre-set,-,Không dùng Optuna (Mặc định),,,
-20,Lan02,iTransformer,Advanced DL (Inverted Attn),Default / Pre-set,-,Không dùng Optuna (Mặc định),,,
-21,Lan02,CNN,Advanced DL (1D Conv Baseline),Default / Pre-set,-,Không dùng Optuna (Mặc định),,,
-22,Lan03,TCN,Advanced DL (Temporal CNN),Optuna TPE (Val_Loss),30,Chưa Optuna,,,
-23,Lan03,N-BEATS,Advanced DL (Basis Expansion),Optuna TPE (Val_Loss),30,Chưa Optuna,,,
-24,Lan03,N-HiTS,Advanced DL (Hierarchical MLP),Optuna TPE (Val_Loss),30,Chưa Optuna,,,
-25,Lan03,PatchTST,Advanced DL (Patch Transformer),Optuna TPE (Val_Loss),30,Chưa Optuna,,,
-26,Lan03,TSMixer,Advanced DL (All-MLP),Optuna TPE (Val_Loss),30,Chưa Optuna,,,
-27,Lan03,iTransformer,Advanced DL (Inverted Attn),Optuna TPE (Val_Loss),30,Chưa Optuna,,,
-28,Lan03,CNN,Advanced DL (1D Conv Baseline),Optuna TPE (Val_Loss),30,Chưa Optuna,,,
-29,Lan04,Ensemble_A1,Ensemble (All 13 Models),Equal-Weight (1/13),-,Không dùng Optuna (Mặc định),,,
-30,Lan04,Ensemble_A2,Ensemble (Core 4 Models),Equal-Weight (1/4),-,Không dùng Optuna (Mặc định),,,
-31,Lan04,Ensemble_A3,"Ensemble (Ridge, SARIMA, HM)",Equal-Weight (1/3),-,Không dùng Optuna (Mặc định),,,
-32,Lan04,Baseline_C1,Regime Strategy (Best Model),Argmin MSE per Regime,-,Không dùng Optuna (Mặc định),,,
-33,Lan04,Baseline_C2,Regime Strategy (Shrunk Inv-MSE),Shrinkage N0=50.0 fixed,-,Không dùng Optuna (Mặc định),,,
-34,Lan04,Baseline_C3,Regime Strategy (Defensive Switch),A2 / HM hard switch,-,Không dùng Optuna (Mặc định),,,
-35,Lan05,Ensemble_A1,Ensemble (All 13 Models),Optuna Simplex Weights,50,Chưa Optuna,,,
-36,Lan05,Ensemble_A2,Ensemble (Core 4 Models),Optuna Simplex Weights,50,Chưa Optuna,,,
-37,Lan05,Ensemble_A3,"Ensemble (Ridge, SARIMA, HM)",Optuna Simplex Weights,50,Chưa Optuna,,,
-38,Lan05,Baseline_C1,Regime Strategy (Best Model),Optuna Regime Selection/Blend,50,Chưa Optuna,,,
-39,Lan05,Baseline_C2,Regime Strategy (Shrunk Inv-MSE),Optuna N0 & Power gamma,50,Chưa Optuna,,,
-40,Lan05,Baseline_C3,Regime Strategy (Defensive Switch),Optuna Alpha & Core Weights,50,Chưa Optuna,,,
+﻿STT,Run,Model_Name,Architecture_Family,Tuning_Engine,Tuning_Strategy,Search_Space_Trials,Tuning_Status,Best_Hyperparameters,Best_Val_Score,Metric
+1,Lan01,Historical_Mean,Benchmark,None,None (Parameter-free),-,Không Tuning (Benchmark),,,
+2,Lan01,Ridge,Linear Model,Grid Search,RidgeCV TimeSeriesSplit,6 alphas,Đã hoàn tất Tuning (Grid),{'alpha': 100},0.012054,CV_RMSE
+3,Lan01,Logistic_Regression,Classification,Grid Search,GridSearchCV TimeSeriesSplit,12 combos,Đã hoàn tất Tuning (Grid),"{'C': 0.001, 'class_weight': 'balanced'}",0.513765,CV_ROC_AUC
+4,Lan01,Elastic_Net,Linear Model,Grid Search,ElasticNetCV TimeSeriesSplit,30 combos,Đã hoàn tất Tuning (Grid),"{'alpha': 0.001, 'l1_ratio': 0.5}",0.012006,CV_RMSE
+5,Lan01,ARIMA,Statistical TS,Grid Search,AIC Minimization on Train,3 orders,Đã hoàn tất Tuning (AIC),"{'order': (1, 0, 1)}",-45970.15,AIC
+6,Lan01,ARIMAX,Statistical TS,Fixed Order,"Fixed Spec (1,0,1 + 10 Exog)",Fixed,Đã hoàn tất Tuning (Fixed),"{'order': (1, 0, 1)}",-45979.01,AIC
+7,Lan01,SARIMA,Statistical TS,Fixed Order,"Fixed Spec (1,0,0)x(1,0,0,5)",Fixed,Đã hoàn tất Tuning (Fixed),"{'order': (1, 0, 0), 'seasonal_order': (1, 0, 0, 5)}",-45969.88,AIC
+8,Lan01,SVR,Kernel Method,Grid Search,GridSearchCV TimeSeriesSplit,48 combos,Đã hoàn tất Tuning (Grid),"{'C': 0.1, 'epsilon': 0.01, 'gamma': 0.001, 'kernel': 'rbf'}",0.012081,CV_RMSE
+9,Lan01,Random_Forest,Tree Ensemble,Optuna TPE,Bayesian Optimization (Internal Val RMSE),30 trials,Đã hoàn tất Tuning (Optuna),"{'n_estimators': 200, 'max_depth': 5, 'min_samples_split': 5, 'min_samples_leaf': 1, 'max_features': 'sqrt'}",0.008629,Internal_Val_RMSE
+10,Lan01,XGBoost,Tree Ensemble,Optuna TPE,Bayesian Optimization (Internal Val RMSE),50 trials,Đã hoàn tất Tuning (Optuna),"{'n_estimators': 200, 'learning_rate': 0.09346777377493276, 'max_depth': 9, 'min_child_weight': 1, 'subsample': 0.7219192643841313, 'colsample_bytree': 0.6558289950203557, 'gamma': 0.0015032555243577606, 'reg_alpha': 0.14113536657860465, 'reg_lambda': 2.879747417492425}",0.008624,Internal_Val_RMSE
+11,Lan01,LightGBM,Tree Ensemble,Optuna TPE,Bayesian Optimization (Internal Val RMSE),50 trials,Đã hoàn tất Tuning (Optuna),"{'n_estimators': 500, 'learning_rate': 0.017709597800863956, 'num_leaves': 56, 'max_depth': 2, 'min_child_samples': 22, 'subsample': 0.8439440638588244, 'colsample_bytree': 0.962726780479557, 'reg_alpha': 0.03669978237679096, 'reg_lambda': 3.5016679319694397}",0.008612,Internal_Val_RMSE
+12,Lan01,RNN,Deep Learning,Optuna TPE,Bayesian Optimization (Val Loss Early Stopping),30 trials,Đã hoàn tất Tuning (Optuna),"{'lookback': 40, 'hidden_size': 64, 'num_layers': 1, 'dropout': 0.3017249991009523, 'learning_rate': 0.000305485208547517, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}",0.008670,Internal_Val_RMSE
+13,Lan01,LSTM,Deep Learning,Optuna TPE,Bayesian Optimization (Val Loss Early Stopping),30 trials,Đã hoàn tất Tuning (Optuna),"{'lookback': 20, 'hidden_size': 64, 'num_layers': 3, 'dropout': 0.3538584597651602, 'learning_rate': 0.0007662150068129557, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}",0.008680,Internal_Val_RMSE
+14,Lan01,Transformer,Deep Learning,Optuna TPE,Bayesian Optimization (Val Loss Early Stopping),30 trials,Đã hoàn tất Tuning (Optuna),"{'lookback': 60, 'd_model': 32, 'nhead': 4, 'num_encoder_layers': 1, 'dim_feedforward': 128, 'dropout': 0.2833143475684623, 'learning_rate': 0.00020235315003022192, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 40, 'patience': 7}",0.009152,Internal_Val_RMSE
+15,Lan02,TCN,Advanced DL (Temporal CNN),None,Pre-set Default Hyperparameters,-,Không Tuning (Mặc định),,,
+16,Lan02,N-BEATS,Advanced DL (Basis Expansion),None,Pre-set Default Hyperparameters,-,Không Tuning (Mặc định),,,
+17,Lan02,N-HiTS,Advanced DL (Hierarchical MLP),None,Pre-set Default Hyperparameters,-,Không Tuning (Mặc định),,,
+18,Lan02,PatchTST,Advanced DL (Patch Transformer),None,Pre-set Default Hyperparameters,-,Không Tuning (Mặc định),,,
+19,Lan02,TSMixer,Advanced DL (All-MLP),None,Pre-set Default Hyperparameters,-,Không Tuning (Mặc định),,,
+20,Lan02,iTransformer,Advanced DL (Inverted Attn),None,Pre-set Default Hyperparameters,-,Không Tuning (Mặc định),,,
+21,Lan02,CNN,Advanced DL (1D Conv Baseline),None,Pre-set Default Hyperparameters,-,Không Tuning (Mặc định),,,
+22,Lan03,TCN,Advanced DL (Temporal CNN),Optuna TPE,Optuna TPE (Val Loss RMSE),30 trials,Chưa Tuning (Đang chờ chạy),,,
+23,Lan03,N-BEATS,Advanced DL (Basis Expansion),Optuna TPE,Optuna TPE (Val Loss RMSE),30 trials,Chưa Tuning (Đang chờ chạy),,,
+24,Lan03,N-HiTS,Advanced DL (Hierarchical MLP),Optuna TPE,Optuna TPE (Val Loss RMSE),30 trials,Chưa Tuning (Đang chờ chạy),,,
+25,Lan03,PatchTST,Advanced DL (Patch Transformer),Optuna TPE,Optuna TPE (Val Loss RMSE),30 trials,Chưa Tuning (Đang chờ chạy),,,
+26,Lan03,TSMixer,Advanced DL (All-MLP),Optuna TPE,Optuna TPE (Val Loss RMSE),30 trials,Chưa Tuning (Đang chờ chạy),,,
+27,Lan03,iTransformer,Advanced DL (Inverted Attn),Optuna TPE,Optuna TPE (Val Loss RMSE),30 trials,Chưa Tuning (Đang chờ chạy),,,
+28,Lan03,CNN,Advanced DL (1D Conv Baseline),Optuna TPE,Optuna TPE (Val Loss RMSE),30 trials,Chưa Tuning (Đang chờ chạy),,,
+29,Lan04,Ensemble_A1,Ensemble (All 13 Models),None,Equal-Weight (w = 1/13),-,Không Tuning (Mặc định),,,
+30,Lan04,Ensemble_A2,Ensemble (Core 4 Models),None,Equal-Weight (w = 1/4),-,Không Tuning (Mặc định),,,
+31,Lan04,Ensemble_A3,"Ensemble (Ridge, SARIMA, HM)",None,Equal-Weight (w = 1/3),-,Không Tuning (Mặc định),,,
+32,Lan04,Baseline_C1,Regime Strategy (Best Model),None,Argmin MSE per Regime (Deterministic),-,Không Tuning (Mặc định),,,
+33,Lan04,Baseline_C2,Regime Strategy (Shrunk Inv-MSE),None,Shrinkage N0 = 50.0 fixed,-,Không Tuning (Mặc định),,,
+34,Lan04,Baseline_C3,Regime Strategy (Defensive Switch),None,A2 (Low/Normal) & HM (High) fixed switch,-,Không Tuning (Mặc định),,,
+35,Lan05,Ensemble_A1,Ensemble (All 13 Models),Optuna TPE,Optuna Simplex Weights Optimization,50 trials,Chưa Tuning (Đang chờ chạy),,,
+36,Lan05,Ensemble_A2,Ensemble (Core 4 Models),Optuna TPE,Optuna Simplex Weights Optimization,50 trials,Chưa Tuning (Đang chờ chạy),,,
+37,Lan05,Ensemble_A3,"Ensemble (Ridge, SARIMA, HM)",Optuna TPE,Optuna Simplex Weights Optimization,50 trials,Chưa Tuning (Đang chờ chạy),,,
+38,Lan05,Baseline_C1,Regime Strategy (Best Model),Optuna TPE,Optuna Convex Blending per Regime,50 trials,Chưa Tuning (Đang chờ chạy),,,
+39,Lan05,Baseline_C2,Regime Strategy (Shrunk Inv-MSE),Optuna TPE,"Optuna N0 [5,200] & Power gamma [0.5,3.0]",50 trials,Chưa Tuning (Đang chờ chạy),,,
+40,Lan05,Baseline_C3,Regime Strategy (Defensive Switch),Optuna TPE,"Optuna Alpha [0,1] & Core Weights",50 trials,Chưa Tuning (Đang chờ chạy),,,
