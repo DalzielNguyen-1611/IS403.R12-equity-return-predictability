@@ -636,8 +636,8 @@
       <div class="tab-bar">
         <button class="tab-btn active" id="tabLan02" onclick="switchRun('Lan02')">🔥 Lần 02 (7 DL - Mặc định)</button>
         <button class="tab-btn" id="tabLan03" onclick="switchRun('Lan03')">✨ Lần 03 (7 DL - Optuna)</button>
-        <button class="tab-btn" id="tabLan04" onclick="switchRun('Lan04')">⚡ Lần 04 (Ensemble Mặc định - A1, A2, A3)</button>
-        <button class="tab-btn" id="tabLan05" onclick="switchRun('Lan05')">🎯 Lần 05 (Ensemble Optuna - A1, A2, A3)</button>
+        <button class="tab-btn" id="tabLan04" onclick="switchRun('Lan04')">⚡ Lần 04 (Ensemble & Adaptive Mặc định)</button>
+        <button class="tab-btn" id="tabLan05" onclick="switchRun('Lan05')">🎯 Lần 05 (Ensemble & Adaptive Optuna)</button>
         <button class="tab-btn" id="tabLan01" onclick="switchRun('Lan01')">✅ Lần 01 (14 Baselines)</button>
       </div>
 
@@ -871,7 +871,10 @@
     const LAN04_05_MODELS_META = [
       { key: 'ensemble_a1', name: 'Ensemble_A1', category: 'All 13 Models Combined', foldsTotal: 25, icon: '🌐' },
       { key: 'ensemble_a2', name: 'Ensemble_A2', category: 'Core 4 Models (Ridge, SVR, LGBM, SARIMA)', foldsTotal: 25, icon: '⭐' },
-      { key: 'ensemble_a3', name: 'Ensemble_A3', category: 'Trio (Ridge, SARIMA, Historical_Mean)', foldsTotal: 25, icon: '🏛️' }
+      { key: 'ensemble_a3', name: 'Ensemble_A3', category: 'Trio (Ridge, SARIMA, Historical_Mean)', foldsTotal: 25, icon: '🏛️' },
+      { key: 'baseline_c1', name: 'Baseline_C1', category: 'Best Model per Horizon & Regime', foldsTotal: 25, icon: '🎯' },
+      { key: 'baseline_c2', name: 'Baseline_C2', category: 'Regime-Shrunk Inverse-MSE Weighting', foldsTotal: 25, icon: '⚖️' },
+      { key: 'baseline_c3', name: 'Baseline_C3', category: 'Defensive Volatility Switch (A2 / HM)', foldsTotal: 25, icon: '🛡️' }
     ];
 
     function renderModelCards(models, completedCounts = {}, modelMetrics = {}) {
@@ -1123,7 +1126,7 @@
       const modelMetricSummary = {};
 
       const totalDone = foldMetrics ? foldMetrics.length : 0;
-      const totalTarget = isEnsemble ? 75 : (isLan01 ? 350 : 175);
+      const totalTarget = isEnsemble ? 150 : (isLan01 ? 350 : 175);
       document.getElementById('kpiProgress').innerText = `${totalDone} / ${totalTarget}`;
       document.getElementById('kpiPct').innerText = `${((totalDone / totalTarget) * 100).toFixed(1)}% Hoàn thành`;
 
@@ -1153,7 +1156,7 @@
 
         if (remainingFolds === 0) {
           document.getElementById('kpiETA').innerText = "Hoàn tất";
-          document.getElementById('kpiETASub').innerText = "Đã hoàn thành 100% (175/175 folds)";
+          document.getElementById('kpiETASub').innerText = `Đã hoàn thành 100% (${totalTarget}/${totalTarget} folds)`;
           document.getElementById('epochTotalETAText').innerText = "Đã hoàn tất";
         } else if (avgFoldSec) {
           const totalETASec = remainingFolds * avgFoldSec;
@@ -1279,11 +1282,11 @@
       } else if (runName === 'Lan04') {
         document.getElementById('liveStatusPill').className = 'status-pill running';
         document.getElementById('liveStatusText').innerText = 'Ensemble Mặc Định (Lan04)';
-        document.getElementById('modelsSubtitle').innerText = '3 Tổ hợp Ensemble tham số mặc định Equal-Weighting: A1, A2, A3 (75 Folds)';
+        document.getElementById('modelsSubtitle').innerText = '6 Mô hình Ensemble & Adaptive tham số mặc định: A1, A2, A3, C1, C2, C3 (150 Folds)';
       } else if (runName === 'Lan05') {
         document.getElementById('liveStatusPill').className = 'status-pill running';
         document.getElementById('liveStatusText').innerText = 'Ensemble Optuna (Lan05)';
-        document.getElementById('modelsSubtitle').innerText = '3 Tổ hợp Ensemble tối ưu hóa trọng số Simplex bằng Optuna: A1, A2, A3 (75 Folds)';
+        document.getElementById('modelsSubtitle').innerText = '6 Mô hình Ensemble & Adaptive tối ưu hóa bằng Optuna: A1, A2, A3, C1, C2, C3 (150 Folds)';
       } else {
         document.getElementById('liveStatusPill').className = 'status-pill running';
         document.getElementById('liveStatusText').innerText = 'Đang Huấn Luyện (Lan02)';

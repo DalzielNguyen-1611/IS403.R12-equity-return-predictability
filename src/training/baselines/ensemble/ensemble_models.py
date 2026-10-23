@@ -13,11 +13,14 @@ import config
 import utils
 
 # ==============================================================================
-# ENSEMBLE SPECIFICATIONS (From Research Plan & Group Proposal)
+# EXPERIMENT SPECIFICATIONS (From Research Plan & Group Proposal)
 # ==============================================================================
 # A1: All 13 Regression Models Equal-Weight / Weighted Ensemble
 # A2: Core 4 Models (Ridge, SVR, LightGBM, SARIMA)
 # A3: Trio (Ridge, SARIMA, Historical_Mean)
+# C1: Best Single Model per Horizon and Regime (argmin MSE(m, h, s))
+# C2: Regime-Shrunk Inverse-MSE Weighting (James-Stein Shrinkage N_0)
+# C3: Defensive Volatility Switch (A2 in Low/Normal, Historical Mean in High)
 # ==============================================================================
 
 CONSTITUENTS_A1 = [
@@ -73,8 +76,34 @@ EXPERIMENT_SPECS = {
         'description': 'Parsimonious 3-model ensemble: Ridge + SARIMA + Historical Mean baseline.',
         'models': CONSTITUENTS_A3,
         'default_weights': {m: 1.0 / 3.0 for m in CONSTITUENTS_A3}
+    },
+    'C1': {
+        'model_key': 'baseline_c1',
+        'display_name': 'Baseline_C1',
+        'title': 'Best Single Model per Horizon and Regime',
+        'description': 'Selects argmin MSE(m, h, s) on historical validation for each volatility regime (Low, Normal, High).',
+        'models': CONSTITUENTS_A1,
+        'default_params': {'selection_metric': 'MSE', 'fallback_model': 'Ridge'}
+    },
+    'C2': {
+        'model_key': 'baseline_c2',
+        'display_name': 'Baseline_C2',
+        'title': 'Regime-Shrunk Inverse-MSE Weighting',
+        'description': 'Shrinks regime-specific inverse-MSE weights towards horizon B2 baseline using shrinkage parameter N_0.',
+        'models': CONSTITUENTS_A2,
+        'default_params': {'N0': 50.0, 'power': 1.0, 'min_samples': 5}
+    },
+    'C3': {
+        'model_key': 'baseline_c3',
+        'display_name': 'Baseline_C3',
+        'title': 'Defensive Volatility Switch',
+        'description': 'Switches between Core 4 Ensemble (A2) in Low/Normal regimes and Historical Mean benchmark in High volatility.',
+        'models': CONSTITUENTS_A2 + ['Historical_Mean'],
+        'default_params': {'high_defensive_weight': 1.0}
     }
 }
+
+ALL_EXPERIMENT_KEYS = ['A1', 'A2', 'A3', 'C1', 'C2', 'C3']
 
 def load_constituent_predictions(source_path=None):
     """
@@ -85,7 +114,6 @@ def load_constituent_predictions(source_path=None):
                 with one column per regression model.
     """
     if source_path is None or not os.path.exists(source_path):
-        # Look in Lan01 predictions first
         lan01_preds = os.path.join(config.RESULTS_BASE_DIR, 'Lan01', 'predictions', '3.0.3_all_oos_predictions.csv')
         central_preds = os.path.join(config.RESULTS_BASE_DIR, 'predictions', '3.0.3_all_oos_predictions.csv')
         current_preds = config.ALL_PREDICTIONS_PATH
@@ -103,16 +131,13 @@ def load_constituent_predictions(source_path=None):
             )
 
     df = pd.read_csv(source_path)
-    # Strictly exclude classification models
     reg_df = df[df['Model'] != 'Logistic_Regression'].copy()
 
-    # Verify presence of all 13 models
     unique_models = set(reg_df['Model'].unique())
     missing = set(CONSTITUENTS_A1) - unique_models
     if missing:
         raise ValueError(f"Missing constituent models in predictions: {missing}")
 
-    # Pivot table to align predictions by timestamp
     pvt_df = reg_df.pivot_table(
         index=['Date', 'Horizon', 'Fold', 'Actual', 'Regime'],
         columns='Model',
@@ -148,7 +173,6 @@ def optimize_simplex_weights(val_df, models, n_trials=50, seed=config.RANDOM_SEE
 
     study.optimize(objective, n_trials=n_trials)
 
-    # Normalize best weights
     best_raw = [study.best_params[f'w_{m}'] for m in models]
     s_best = sum(best_raw)
     if s_best <= 1e-12:
@@ -158,26 +182,283 @@ def optimize_simplex_weights(val_df, models, n_trials=50, seed=config.RANDOM_SEE
 
     return norm_weights, float(study.best_value)
 
+# ==============================================================================
+# PIPELINE ENGINES FOR C1, C2, C3
+# ==============================================================================
+
+def execute_c1_forecast(hist_slice, test_slice, models, tune=False, n_trials=50, seed=config.RANDOM_SEED):
+    """
+    C1: Best Single Model per Horizon and Regime
+    - Evaluates MSE(m, h, s) on prior validation history.
+    - Selects argmin_m MSE(m, h, s) for each regime s in {'Low', 'Normal', 'High'}.
+    - Fallback: best model across entire horizon if regime has fewer than 5 observations.
+    - If tune=True: Optuna finds optimal blending/temperature between top candidate models per regime.
+    """
+    regimes = ['Low', 'Normal', 'High']
+    best_model_by_regime = {}
+    val_scores = {}
+
+    # Overall horizon fallback
+    if not hist_slice.empty:
+        overall_mses = {m: float(np.mean((hist_slice['Actual'].values - hist_slice[m].values) ** 2)) for m in models}
+        fallback_m = min(overall_mses, key=overall_mses.get)
+    else:
+        fallback_m = 'Ridge'
+
+    for reg in regimes:
+        sub_reg = hist_slice[hist_slice['Regime'] == reg] if not hist_slice.empty else pd.DataFrame()
+        if len(sub_reg) >= 5:
+            mses = {m: float(np.mean((sub_reg['Actual'].values - sub_reg[m].values) ** 2)) for m in models}
+            chosen = min(mses, key=mses.get)
+            best_model_by_regime[reg] = chosen
+            val_scores[reg] = float(np.sqrt(mses[chosen]))
+        else:
+            best_model_by_regime[reg] = fallback_m
+            val_scores[reg] = 0.0
+
+    # Predictions on test slice
+    pred = np.zeros(len(test_slice), dtype=float)
+    for i, r in enumerate(test_slice['Regime'].values):
+        chosen_m = best_model_by_regime.get(r, fallback_m)
+        pred[i] = test_slice[chosen_m].values[i]
+
+    # In Optuna mode: optimize convex combination among the selected models
+    if tune and not hist_slice.empty and len(hist_slice) >= 50:
+        optuna.logging.set_verbosity(optuna.logging.WARNING)
+        study = optuna.create_study(direction='minimize', sampler=optuna.samplers.TPESampler(seed=seed))
+        unique_chosen = list(set(best_model_by_regime.values()))
+        if len(unique_chosen) > 1:
+            y_h = hist_slice['Actual'].values
+            X_mat = np.column_stack([hist_slice[m].values for m in unique_chosen])
+            def obj(trial):
+                w = np.array([trial.suggest_float(f'w_{m}', 0.0, 1.0) for m in unique_chosen])
+                s = w.sum()
+                w = w / s if s > 0 else np.full(len(unique_chosen), 1.0 / len(unique_chosen))
+                return float(np.sqrt(np.mean((y_h - X_mat @ w) ** 2)))
+            study.optimize(obj, n_trials=n_trials)
+            opt_w = {m: round(study.best_params[f'w_{m}'] / sum(study.best_params.values()), 6) for m in unique_chosen}
+            avg_val_score = float(study.best_value)
+            best_params_record = {
+                'mode': 'c1_optuna_tuned',
+                'selected_models_by_regime': best_model_by_regime,
+                'optuna_weights': opt_w,
+                'fallback_model': fallback_m
+            }
+        else:
+            avg_val_score = float(np.mean(list(val_scores.values())))
+            best_params_record = {
+                'mode': 'c1_single_best',
+                'selected_models_by_regime': best_model_by_regime,
+                'fallback_model': fallback_m
+            }
+    else:
+        avg_val_score = float(np.mean(list(val_scores.values()))) if val_scores else 0.0
+        best_params_record = {
+            'mode': 'c1_deterministic_argmin_mse',
+            'selected_models_by_regime': best_model_by_regime,
+            'fallback_model': fallback_m
+        }
+
+    return pred, best_params_record, avg_val_score
+
+def execute_c2_forecast(hist_slice, test_slice, models=CONSTITUENTS_A2, tune=False, n_trials=50, seed=config.RANDOM_SEED):
+    """
+    C2: Regime-Shrunk Inverse-MSE Weighting
+    - Base horizon weights B2: w_B2 = (1 / MSE_h) / sum(1 / MSE_h)
+    - Regime sample weights: w_sample = (1 / MSE_{h,s}) / sum(1 / MSE_{h,s})
+    - Shrinkage: lambda_s = N_s / (N_s + N_0)
+    - Final weight: w_{m,h,s} = lambda_s * w_{sample} + (1 - lambda_s) * w_{B2}
+    - If tune=True (Lan05): Optuna optimizes N_0 in [5, 200] and inverse power gamma in [0.5, 3.0].
+    """
+    eps = 1e-8
+    regimes = ['Low', 'Normal', 'High']
+
+    if hist_slice.empty:
+        # Cold start fallback to equal weighting
+        w_b2 = {m: 0.25 for m in models}
+        w_final_by_reg = {r: w_b2.copy() for r in regimes}
+        pred = np.zeros(len(test_slice), dtype=float)
+        for i, r in enumerate(test_slice['Regime'].values):
+            pred[i] = sum(0.25 * test_slice[m].values[i] for m in models)
+        return pred, {'mode': 'c2_cold_start_prior', 'weights': w_final_by_reg, 'N0': 50.0}, 0.0
+
+    # Optimal N0 and power determination
+    if tune and len(hist_slice) >= 50:
+        optuna.logging.set_verbosity(optuna.logging.WARNING)
+        study = optuna.create_study(direction='minimize', sampler=optuna.samplers.TPESampler(seed=seed))
+        y_h = hist_slice['Actual'].values
+
+        def obj(trial):
+            n0_val = trial.suggest_float('N0', 5.0, 200.0)
+            pow_val = trial.suggest_float('power', 0.5, 3.0)
+
+            # Compute B2
+            mses_b2 = {m: np.mean((hist_slice['Actual'].values - hist_slice[m].values) ** 2) for m in models}
+            inv_b2 = {m: (1.0 / (mses_b2[m] + eps)) ** pow_val for m in models}
+            tot_b2 = sum(inv_b2.values())
+            wb2 = {m: inv_b2[m] / tot_b2 for m in models}
+
+            # Reg weights
+            w_reg_map = {}
+            for reg in regimes:
+                s_df = hist_slice[hist_slice['Regime'] == reg]
+                ns = len(s_df)
+                lam = ns / (ns + n0_val)
+                if ns >= 5:
+                    m_reg = {m: np.mean((s_df['Actual'].values - s_df[m].values) ** 2) for m in models}
+                    inv_r = {m: (1.0 / (m_reg[m] + eps)) ** pow_val for m in models}
+                    tot_r = sum(inv_r.values())
+                    ws = {m: inv_r[m] / tot_r for m in models}
+                else:
+                    ws = wb2
+                w_reg_map[reg] = {m: lam * ws[m] + (1.0 - lam) * wb2[m] for m in models}
+
+            p_h = np.zeros(len(hist_slice), dtype=float)
+            for idx, r_val in enumerate(hist_slice['Regime'].values):
+                w_curr = w_reg_map.get(r_val, wb2)
+                p_h[idx] = sum(w_curr[m] * hist_slice[m].values[idx] for m in models)
+            return float(np.sqrt(np.mean((y_h - p_h) ** 2)))
+
+        study.optimize(obj, n_trials=n_trials)
+        best_N0 = float(study.best_params['N0'])
+        best_power = float(study.best_params['power'])
+        val_score = float(study.best_value)
+    else:
+        best_N0 = 50.0  # Default per section 5.5
+        best_power = 1.0
+        val_score = 0.0
+
+    # Calculate final weights with best_N0 and best_power
+    mses_b2 = {m: float(np.mean((hist_slice['Actual'].values - hist_slice[m].values) ** 2)) for m in models}
+    inv_b2 = {m: (1.0 / (mses_b2[m] + eps)) ** best_power for m in models}
+    tot_b2 = sum(inv_b2.values())
+    w_b2 = {m: inv_b2[m] / tot_b2 for m in models}
+
+    w_final_by_reg = {}
+    lambda_by_reg = {}
+    for reg in regimes:
+        sub_reg = hist_slice[hist_slice['Regime'] == reg]
+        Ns = len(sub_reg)
+        lam = Ns / (Ns + best_N0)
+        lambda_by_reg[reg] = round(float(lam), 4)
+
+        if Ns >= 5:
+            mses_reg = {m: float(np.mean((sub_reg['Actual'].values - sub_reg[m].values) ** 2)) for m in models}
+            inv_reg = {m: (1.0 / (mses_reg[m] + eps)) ** best_power for m in models}
+            tot_reg = sum(inv_reg.values())
+            w_sample = {m: inv_reg[m] / tot_reg for m in models}
+        else:
+            w_sample = w_b2
+
+        w_final = {m: round(float(lam * w_sample[m] + (1.0 - lam) * w_b2[m]), 6) for m in models}
+        w_final_by_reg[reg] = w_final
+
+    # Generate predictions on test_slice
+    pred = np.zeros(len(test_slice), dtype=float)
+    for i, r in enumerate(test_slice['Regime'].values):
+        w_curr = w_final_by_reg.get(r, w_b2)
+        pred[i] = sum(w_curr[m] * test_slice[m].values[i] for m in models)
+
+    best_params_record = {
+        'mode': 'c2_optuna_shrunk' if tune else 'c2_default_shrunk_N0_50',
+        'N0': best_N0,
+        'power': best_power,
+        'base_b2_weights': {m: round(float(v), 6) for m, v in w_b2.items()},
+        'lambda_shrinkage': lambda_by_reg,
+        'final_regime_weights': w_final_by_reg
+    }
+    return pred, best_params_record, val_score
+
+def execute_c3_forecast(hist_slice, test_slice, models=CONSTITUENTS_A2, tune=False, n_trials=50, seed=config.RANDOM_SEED):
+    """
+    C3: Defensive Volatility Switch
+    - Rule:
+      - Low volatility: A2 (Core 4 Ensemble)
+      - Normal volatility: A2 (Core 4 Ensemble)
+      - High volatility: Historical Mean (Defensive benchmark)
+    - If tune=True (Lan05): Optuna optimizes defensive blending alpha in [0, 1] for High volatility
+      and core weights for Low/Normal volatility.
+    """
+    pred_a2 = test_slice[models].mean(axis=1).values
+    pred_hm = test_slice['Historical_Mean'].values
+
+    if not tune or hist_slice.empty or len(hist_slice) < 50:
+        # Default strict switch (Lan04)
+        pred = np.where(test_slice['Regime'] == 'High', pred_hm, pred_a2)
+        best_params_record = {
+            'mode': 'c3_default_defensive_switch',
+            'rule': 'Low/Normal -> A2 (Core 4 Equal), High -> Historical Mean',
+            'high_defensive_weight': 1.0
+        }
+        val_score = 0.0
+    else:
+        # Optuna mode (Lan05)
+        optuna.logging.set_verbosity(optuna.logging.WARNING)
+        study = optuna.create_study(direction='minimize', sampler=optuna.samplers.TPESampler(seed=seed))
+        y_h = hist_slice['Actual'].values
+
+        def obj(trial):
+            alpha_high = trial.suggest_float('alpha_high', 0.0, 1.0)
+            # Weights for Low/Normal
+            w_norm = np.array([trial.suggest_float(f'w_{m}', 0.0, 1.0) for m in models])
+            s = w_norm.sum()
+            w_norm = w_norm / s if s > 0 else np.full(len(models), 0.25)
+
+            p_h = np.zeros(len(hist_slice), dtype=float)
+            for idx, r_val in enumerate(hist_slice['Regime'].values):
+                if r_val == 'High':
+                    a2_val = sum(w_norm[k] * hist_slice[m].values[idx] for k, m in enumerate(models))
+                    p_h[idx] = alpha_high * hist_slice['Historical_Mean'].values[idx] + (1.0 - alpha_high) * a2_val
+                else:
+                    p_h[idx] = sum(w_norm[k] * hist_slice[m].values[idx] for k, m in enumerate(models))
+            return float(np.sqrt(np.mean((y_h - p_h) ** 2)))
+
+        study.optimize(obj, n_trials=n_trials)
+        best_alpha = float(study.best_params['alpha_high'])
+        w_raw = [study.best_params[f'w_{m}'] for m in models]
+        s_best = sum(w_raw)
+        opt_core_w = {m: round(float(w / s_best), 6) for m, w in zip(models, w_raw)} if s_best > 0 else {m: 0.25 for m in models}
+
+        # Apply to test_slice
+        pred = np.zeros(len(test_slice), dtype=float)
+        for i, r in enumerate(test_slice['Regime'].values):
+            a2_pt = sum(opt_core_w[m] * test_slice[m].values[i] for m in models)
+            if r == 'High':
+                pred[i] = best_alpha * test_slice['Historical_Mean'].values[i] + (1.0 - best_alpha) * a2_pt
+            else:
+                pred[i] = a2_pt
+
+        val_score = float(study.best_value)
+        best_params_record = {
+            'mode': 'c3_optuna_defensive_switch',
+            'best_alpha_high_defensive': best_alpha,
+            'low_normal_core_weights': opt_core_w
+        }
+
+    return pred, best_params_record, val_score
+
+# ==============================================================================
+# GENERAL ENSEMBLE RUNNER (Dispatches A1, A2, A3, C1, C2, C3)
+# ==============================================================================
+
 def run_ensemble(exp_key='A1', tune=False, horizons=config.HORIZONS, n_trials=50, logger=None, seed=config.RANDOM_SEED):
     """
-    Executes walk-forward evaluation of an ensemble experiment (A1, A2, or A3).
-    - If tune=False (Lan04): Uses fixed theoretical Equal-Weights (tham số mặc định: 1/13, 1/4, 1/3).
-    - If tune=True (Lan05): Optimizes simplex weights via Optuna (TPE Sampler) on expanding historical OOS.
+    Executes walk-forward evaluation of any experiment (A1, A2, A3, C1, C2, C3).
+    - If tune=False (Lan04): Uses fixed default parameters.
+    - If tune=True (Lan05): Optimizes parameters/weights via Optuna on expanding historical OOS.
     """
     if exp_key not in EXPERIMENT_SPECS:
-        raise ValueError(f"Unknown ensemble experiment: {exp_key}. Choose from {list(EXPERIMENT_SPECS.keys())}")
+        raise ValueError(f"Unknown experiment: {exp_key}. Choose from {list(EXPERIMENT_SPECS.keys())}")
 
     spec = EXPERIMENT_SPECS[exp_key]
     model_name = spec['display_name']
     constituents = spec['models']
-    default_w = spec['default_weights']
 
     if logger:
         logger.info(f"▶ Initializing {model_name} ({spec['title']})")
-        logger.info(f"  Constituent Models ({len(constituents)}): {', '.join(constituents)}")
-        logger.info(f"  Mode: {'Optuna Adaptive Weighting (Lan05)' if tune else 'Fixed Equal-Weighting (Lan04)'}")
+        logger.info(f"  Description: {spec.get('description', '')}")
+        logger.info(f"  Mode: {'Optuna Adaptive Tuning (Lan05)' if tune else 'Fixed Default Parameters (Lan04)'}")
 
-    # Load and pivot constituent predictions
     pvt_df = load_constituent_predictions()
 
     # Load fold date boundaries
@@ -199,59 +480,70 @@ def run_ensemble(exp_key='A1', tune=False, horizons=config.HORIZONS, n_trials=50
         h_steps = config.HORIZON_TO_STEPS.get(horizon, 1)
 
         for fold in range(1, 6):
-            # Target test fold slice
             test_slice = pvt_df[(pvt_df['Horizon'] == horizon) & (pvt_df['Fold'] == fold)].copy()
             if test_slice.empty:
                 continue
 
-            # Determine weights
-            if not tune:
-                # Mode 1: Equal-weight default parameters (Lan04)
-                weights_dict = default_w.copy()
-                val_score = 0.0
-                score_metric = "Default_Equal_Weights"
-                best_params_record = {
-                    'mode': 'equal_weight',
-                    'formula': f"1/{len(constituents)} * sum({model_name})",
-                    'weights': weights_dict
-                }
-            else:
-                # Mode 2: Optuna-tuned weights (Lan05)
-                # Zero-leakage walk-forward:
-                # For fold > 1: Optimize weights on expanding historical OOS from folds 1 to fold-1
-                # For fold 1: Cold start prior = 1/N equal weights (or inner validation split)
-                hist_slice = pvt_df[(pvt_df['Horizon'] == horizon) & (pvt_df['Fold'] < fold)].copy()
-                if not hist_slice.empty and len(hist_slice) >= 100:
-                    weights_dict, val_score = optimize_simplex_weights(
-                        hist_slice, constituents, n_trials=n_trials, seed=seed
-                    )
-                    score_metric = "Hist_OOS_RMSE"
+            hist_slice = pvt_df[(pvt_df['Horizon'] == horizon) & (pvt_df['Fold'] < fold)].copy()
+
+            # Dispatch based on experiment family
+            if exp_key in ['A1', 'A2', 'A3']:
+                default_w = spec['default_weights']
+                if not tune:
+                    weights_dict = default_w.copy()
+                    val_score = 0.0
+                    score_metric = "Default_Equal_Weights"
                     best_params_record = {
-                        'mode': 'optuna_tpe',
-                        'tuning_folds': f"1..{fold-1}",
-                        'tuning_samples': len(hist_slice),
+                        'mode': 'equal_weight',
+                        'formula': f"1/{len(constituents)} * sum({model_name})",
                         'weights': weights_dict
                     }
                 else:
-                    # Cold-start prior: standard 1/N equal weights
-                    weights_dict = default_w.copy()
-                    val_score = 0.0
-                    score_metric = "Cold_Start_Prior"
-                    best_params_record = {
-                        'mode': 'cold_start_prior',
-                        'reason': 'No prior OOS fold available for Fold 1',
-                        'weights': weights_dict
-                    }
+                    if not hist_slice.empty and len(hist_slice) >= 100:
+                        weights_dict, val_score = optimize_simplex_weights(
+                            hist_slice, constituents, n_trials=n_trials, seed=seed
+                        )
+                        score_metric = "Hist_OOS_RMSE"
+                        best_params_record = {
+                            'mode': 'optuna_tpe',
+                            'tuning_folds': f"1..{fold-1}",
+                            'weights': weights_dict
+                        }
+                    else:
+                        weights_dict = default_w.copy()
+                        val_score = 0.0
+                        score_metric = "Cold_Start_Prior"
+                        best_params_record = {
+                            'mode': 'cold_start_prior',
+                            'weights': weights_dict
+                        }
 
-            # Save tuning record into results/tuning/3.0.3_best_hyperparameters.csv
+                ensemble_pred = np.zeros(len(test_slice), dtype=float)
+                for m in constituents:
+                    ensemble_pred += weights_dict[m] * test_slice[m].values
+
+            elif exp_key == 'C1':
+                score_metric = "Val_RMSE"
+                ensemble_pred, best_params_record, val_score = execute_c1_forecast(
+                    hist_slice, test_slice, models=constituents, tune=tune, n_trials=n_trials, seed=seed
+                )
+
+            elif exp_key == 'C2':
+                score_metric = "Val_RMSE"
+                ensemble_pred, best_params_record, val_score = execute_c2_forecast(
+                    hist_slice, test_slice, models=constituents, tune=tune, n_trials=n_trials, seed=seed
+                )
+
+            elif exp_key == 'C3':
+                score_metric = "Val_RMSE"
+                ensemble_pred, best_params_record, val_score = execute_c3_forecast(
+                    hist_slice, test_slice, models=CONSTITUENTS_A2, tune=tune, n_trials=n_trials, seed=seed
+                )
+
+            # Record tuning details in results/tuning/3.0.3_best_hyperparameters.csv
             utils.save_tuning_record(
                 model_name, horizon, fold, best_params_record, val_score, score_metric=score_metric
             )
-
-            # Compute ensemble prediction: \hat{R} = sum_m w_m * \hat{R}^(m)
-            ensemble_pred = np.zeros(len(test_slice), dtype=float)
-            for m in constituents:
-                ensemble_pred += weights_dict[m] * test_slice[m].values
 
             # Calculate metrics
             y_true = test_slice['Actual'].values
@@ -277,10 +569,9 @@ def run_ensemble(exp_key='A1', tune=False, horizons=config.HORIZONS, n_trials=50
                 'Sign_pvalue': m.get('Sign_pvalue', np.nan),
                 'DM_Stat': m.get('DM_Stat', np.nan),
                 'DM_pvalue': m.get('DM_pvalue', np.nan),
-                'tuning_mode': 'Optuna' if tune else 'Equal'
+                'tuning_mode': 'Optuna' if tune else 'Default'
             })
 
-            # Record predictions
             dates = test_slice['Date'].values
             regimes = test_slice['Regime'].values
             for dt, act, pr, reg in zip(dates, y_true, ensemble_pred, regimes):
@@ -303,6 +594,5 @@ def run_ensemble(exp_key='A1', tune=False, horizons=config.HORIZONS, n_trials=50
     m_df = pd.DataFrame(fold_metrics)
     p_df = pd.DataFrame(oos_preds)
 
-    # Save outputs following strict in-place update into central Tier 1 & 2 files
     utils.save_model_latest_results(CURRENT_DIR, m_df, p_df)
     return m_df, p_df

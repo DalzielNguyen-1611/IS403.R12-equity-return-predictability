@@ -170,6 +170,9 @@ MODEL_REGISTRY = {
     'ensemble_a1': ('ensemble', 'ensemble_a1.py'),
     'ensemble_a2': ('ensemble', 'ensemble_a2.py'),
     'ensemble_a3': ('ensemble', 'ensemble_a3.py'),
+    'baseline_c1': ('ensemble', 'baseline_c1.py'),
+    'baseline_c2': ('ensemble', 'baseline_c2.py'),
+    'baseline_c3': ('ensemble', 'baseline_c3.py'),
 }
 
 MODELS = list(MODEL_REGISTRY.keys())
@@ -202,7 +205,10 @@ HYPERPARAM_STRATEGY = {
     'cnn': 'Optuna',
     'ensemble_a1': 'Optuna',
     'ensemble_a2': 'Optuna',
-    'ensemble_a3': 'Optuna'
+    'ensemble_a3': 'Optuna',
+    'baseline_c1': 'Optuna',
+    'baseline_c2': 'Optuna',
+    'baseline_c3': 'Optuna'
 }
 
 OPTUNA_TRIALS = {
@@ -221,7 +227,10 @@ OPTUNA_TRIALS = {
     'cnn': 30,
     'ensemble_a1': 50,
     'ensemble_a2': 50,
-    'ensemble_a3': 50
+    'ensemble_a3': 50,
+    'baseline_c1': 50,
+    'baseline_c2': 50,
+    'baseline_c3': 50
 }
 
 # 1. Logistic Regression (Grid Search, 12 combinations)

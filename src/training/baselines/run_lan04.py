@@ -18,7 +18,7 @@ import config
 import utils
 from ensemble.ensemble_models import run_ensemble, EXPERIMENT_SPECS
 
-LAN04_EXPERIMENTS = ['A1', 'A2', 'A3']
+LAN04_EXPERIMENTS = ['A1', 'A2', 'A3', 'C1', 'C2', 'C3']
 
 def ensure_benchmark_baseline(logger):
     """
@@ -95,17 +95,20 @@ def generate_lan04_summary_report():
         return
 
     s_df = pd.read_csv(summary_file)
-    ens_df = s_df[s_df['Model'].str.startswith('Ensemble_')]
+    ens_df = s_df[s_df['Model'].str.startswith('Ensemble_') | s_df['Model'].str.startswith('Baseline_C')]
 
     lines = [
-        "# 📊 BÁO CÁO THỰC NGHIỆM LẦN 04 (LAN04) — EQUAL-WEIGHT ENSEMBLES",
+        "# 📊 BÁO CÁO THỰC NGHIỆM LẦN 04 (LAN04) — EQUAL-WEIGHT ENSEMBLES & REGIME BASELINES",
         f"**Thời gian tạo:** {time.strftime('%Y-%m-%d %H:%M:%S')}  ",
-        "**Thiết kế thực nghiệm:** Đánh giá 3 tổ hợp mô hình với **tham số mặc định (Equal-Weighting)**:  ",
+        "**Thiết kế thực nghiệm:** Đánh giá 6 tổ hợp mô hình với **tham số mặc định**:",
         "- **Ensemble A1:** Toàn bộ 13 mô hình hồi quy (w = 1/13 ≈ 7.69%)",
         "- **Ensemble A2:** 4 mô hình hạt nhân cốt lõi (Ridge, SVR, LightGBM, SARIMA với w = 1/4 = 25%)",
-        "- **Ensemble A3:** Tổ hợp gọn (Ridge, SARIMA, Historical Mean với w = 1/3 ≈ 33.33%)  \n",
+        "- **Ensemble A3:** Tổ hợp gọn (Ridge, SARIMA, Historical Mean với w = 1/3 ≈ 33.33%)",
+        "- **Baseline C1:** Best Single Model per Horizon and Regime (argmin MSE trên validation)",
+        "- **Baseline C2:** Regime-Shrunk Inverse-MSE Weighting (co rút N_0 = 50)",
+        "- **Baseline C3:** Defensive Volatility Switch (Low/Normal dùng A2, High dùng Historical Mean)  \n",
         "---",
-        "## 1. BẢNG HIỆU NĂNG TỔNG HỢP CÁC ENSEMBLE THEO CHÂN TRỜI (OOS R² & DA)",
+        "## 1. BẢNG HIỆU NĂNG TỔNG HỢP CÁC MÔ HÌNH (OOS R² & DA)",
         "| Mô hình | Chân trời | OOS R² Trung bình | Độ lệch chuẩn R² | DA (%) | RMSE |",
         "| :--- | :---: | :---: | :---: | :---: | :---: |"
     ]
@@ -122,18 +125,20 @@ def generate_lan04_summary_report():
         "\n---",
         "## 2. NHẬN XÉT PHƯƠNG PHÁP LUẬN",
         "1. **Bình đẳng trọng số (1/N DeMiguel et al. 2009):** Kháng quá khớp tham số mạnh mẽ vì không ước lượng trọng số trên mẫu.",
-        "2. **Đa dạng hóa phương pháp:** Khi kết hợp các họ thuật toán đối lập (tuyến tính, phi tuyến, chuỗi thời gian), sai số cá lẻ triệt tiêu lẫn nhau.",
-        "3. **Mốc so sánh cho Lần 05:** Các chỉ số này là baseline chuẩn xác để đối chứng với Lần 05 (Optuna Adaptive Weights)."
+        "2. **Thích ứng Regime (C1, C2, C3):** Tận dụng thông tin chế độ thị trường (Low, Normal, High) để luân chuyển mô hình hoặc co rút trọng số về mốc chuẩn an toàn.",
+        "3. **Mốc so sánh cho Lần 05:** Toàn bộ kết quả ở Lần 04 là baseline tham số mặc định chuẩn xác để đối chứng với Lần 05 (Optuna Adaptive Weights)."
     ])
 
     with open(report_path, 'w', encoding='utf-8') as f:
         f.write('\n'.join(lines))
 
 def main():
-    parser = argparse.ArgumentParser(description="Run Equal-Weight Ensemble Experiments A1, A2, A3 (Lan04 - Default Weights)")
+    parser = argparse.ArgumentParser(description="Run Ensemble & Regime Experiments (Lan04 - Default Parameters)")
     parser.add_argument('--model', type=str, default='all',
-                        choices=['all', 'A1', 'A2', 'A3', 'ensemble_a1', 'ensemble_a2', 'ensemble_a3'],
-                        help="Select an ensemble ('A1', 'A2', 'A3', or 'all')")
+                        choices=['all', 'A1', 'A2', 'A3', 'C1', 'C2', 'C3',
+                                 'ensemble_a1', 'ensemble_a2', 'ensemble_a3',
+                                 'baseline_c1', 'baseline_c2', 'baseline_c3'],
+                        help="Select an experiment ('A1', 'A2', 'A3', 'C1', 'C2', 'C3', or 'all')")
     parser.add_argument('--horizon', type=str, default='all',
                         choices=['all'] + config.HORIZONS,
                         help="Specific forecast horizon (default: all)")
@@ -145,7 +150,7 @@ def main():
     utils.set_all_seeds(args.seed)
 
     logger.info("=" * 75)
-    logger.info("   STARTING RUN 4 (LAN04) — EQUAL-WEIGHT ENSEMBLES (DEFAULT PARAMETERS)")
+    logger.info("   STARTING RUN 4 (LAN04) — ENSEMBLES & REGIME BASELINES (DEFAULT PARAMETERS)")
     logger.info(f"   Run Name: {config.RUN_NAME} | Output: {config.RESULTS_DIR}")
     logger.info(f"   Target: {args.model.upper()} | Horizons: {args.horizon}")
     logger.info("=" * 75)
@@ -156,16 +161,13 @@ def main():
     horizons = config.HORIZONS if args.horizon == 'all' else [args.horizon]
 
     # Map model argument
-    if args.model in ['all']:
-        exps_to_run = ['A1', 'A2', 'A3']
-    elif args.model in ['A1', 'ensemble_a1']:
-        exps_to_run = ['A1']
-    elif args.model in ['A2', 'ensemble_a2']:
-        exps_to_run = ['A2']
-    elif args.model in ['A3', 'ensemble_a3']:
-        exps_to_run = ['A3']
+    m_arg = args.model.upper().replace('ENSEMBLE_', '').replace('BASELINE_', '')
+    if m_arg == 'ALL':
+        exps_to_run = LAN04_EXPERIMENTS
+    elif m_arg in LAN04_EXPERIMENTS:
+        exps_to_run = [m_arg]
     else:
-        exps_to_run = ['A1', 'A2', 'A3']
+        exps_to_run = LAN04_EXPERIMENTS
 
     total_start = time.time()
     failed = []
@@ -173,8 +175,8 @@ def main():
     for idx, exp_k in enumerate(exps_to_run, 1):
         spec = EXPERIMENT_SPECS[exp_k]
         logger.info(f"\n[{idx}/{len(exps_to_run)}] ======================================================")
-        logger.info(f"Executing Ensemble: {spec['display_name']} ({spec['title']})")
-        logger.info(f"Formula: {spec.get('description', '')}")
+        logger.info(f"Executing: {spec['display_name']} ({spec['title']})")
+        logger.info(f"Description: {spec.get('description', '')}")
         logger.info("===========================================================================")
 
         t0 = time.time()
@@ -200,7 +202,7 @@ def main():
     if failed:
         logger.warning(f"Failed models ({len(failed)}): {failed}")
     else:
-        logger.info("ALL EQUAL-WEIGHT ENSEMBLES COMPLETED SUCCESSFULLY!")
+        logger.info("ALL ENSEMBLES & REGIME BASELINES COMPLETED SUCCESSFULLY!")
     logger.info("=" * 75)
 
     # Post-hoc RQ Analysis & Statistical Tests

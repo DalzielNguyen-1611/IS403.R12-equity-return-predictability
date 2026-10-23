@@ -18,7 +18,7 @@ import config
 import utils
 from ensemble.ensemble_models import run_ensemble, EXPERIMENT_SPECS
 
-LAN05_EXPERIMENTS = ['A1', 'A2', 'A3']
+LAN05_EXPERIMENTS = ['A1', 'A2', 'A3', 'C1', 'C2', 'C3']
 
 def ensure_benchmark_baseline(logger):
     """
@@ -95,7 +95,7 @@ def generate_lan05_summary_report():
         return
 
     s_df = pd.read_csv(summary_file)
-    ens_df = s_df[s_df['Model'].str.startswith('Ensemble_')]
+    ens_df = s_df[s_df['Model'].str.startswith('Ensemble_') | s_df['Model'].str.startswith('Baseline_C')]
 
     # Check Lan04 summary for comparative delta
     lan04_summary_file = os.path.join(config.RESULTS_BASE_DIR, 'Lan04', 'summary', '3.0.3_model_horizon_summary.csv')
@@ -109,16 +109,19 @@ def generate_lan05_summary_report():
             pass
 
     lines = [
-        "# 🎯 BÁO CÁO THỰC NGHIỆM LẦN 05 (LAN05) — OPTUNA-TUNED ADAPTIVE ENSEMBLES",
+        "# 🎯 BÁO CÁO THỰC NGHIỆM LẦN 05 (LAN05) — OPTUNA-TUNED ENSEMBLES & REGIME STRATEGIES",
         f"**Thời gian tạo:** {time.strftime('%Y-%m-%d %H:%M:%S')}  ",
-        "**Thiết kế thực nghiệm:** Tối ưu hóa véc-tơ trọng số simplex $w_m \\ge 0, \\sum w_m = 1$ bằng **Optuna (TPE Sampler)**:  ",
-        "- **Ensemble A1:** Tối ưu 13 trọng số cho toàn bộ 13 mô hình hồi quy",
+        "**Thiết kế thực nghiệm:** Tối ưu hóa siêu tham số & tỷ trọng bằng **Optuna (TPE Sampler)**:",
+        "- **Ensemble A1:** Tối ưu 13 trọng số simplex cho toàn bộ 13 mô hình hồi quy",
         "- **Ensemble A2:** Tối ưu 4 trọng số cho Core 4 Models (Ridge, SVR, LightGBM, SARIMA)",
         "- **Ensemble A3:** Tối ưu 3 trọng số cho Trio (Ridge, SARIMA, Historical Mean)",
+        "- **Baseline C1:** Tối ưu lựa chọn mô hình & hòa trộn theo từng Volatility Regime",
+        "- **Baseline C2:** Tối ưu tham số co rút James-Stein N_0 và độ nhạy gamma của Inverse-MSE",
+        "- **Baseline C3:** Tối ưu mức phòng thủ alpha trong chế độ High Volatility và phân bổ Core trong Low/Normal",
         "- **Zero-Data-Leakage:** Tối ưu hóa trên tập OOS tích lũy quá khứ (Expanding Window Walk-Forward)  \n",
         "---",
-        "## 1. BẢNG HIỆU NĂNG TỔNG HỢP (SO SÁNH LAN05 OPTUNA VS LAN04 EQUAL-WEIGHT)",
-        "| Mô hình | Chân trời | OOS R² Lan05 (Optuna) | OOS R² Lan04 (Equal) | Δ OOS R² | DA (%) | RMSE |",
+        "## 1. BẢNG HIỆU NĂNG TỔNG HỢP (SO SÁNH LAN05 OPTUNA VS LAN04 MẶC ĐỊNH)",
+        "| Mô hình | Chân trời | OOS R² Lan05 (Optuna) | OOS R² Lan04 (Mặc định) | Δ OOS R² | DA (%) | RMSE |",
         "| :--- | :---: | :---: | :---: | :---: | :---: | :---: |"
     ]
 
@@ -139,19 +142,21 @@ def generate_lan05_summary_report():
     lines.extend([
         "\n---",
         "## 2. Ý NGHĨA KHOA HỌC & KINH TẾ LƯỢNG",
-        "1. **Tối ưu hóa Simplex không gian liên tục:** Optuna TPE khám phá không gian tỷ trọng lồi (Convex Combination) mượt mà, triệt tiêu các mô hình có tín hiệu nhiễu cao.",
-        "2. **Thích ứng động (Adaptive Walk-Forward):** Trọng số được tái cân bằng khi bước sang fold mới dựa trên thành tích ngoại mẫu thực tế của các mô hình trong quá khứ.",
-        "3. **Kiểm chứng định lý DeMiguel (2009):** So sánh trực tiếp xem việc ước lượng trọng số bằng Optuna có vượt trội hơn phân bổ ngây thơ 1/N trong điều kiện thị trường chứng khoán nhiễu cao hay không."
+        "1. **Tối ưu hóa Simplex & Tham số Co rút:** Optuna TPE khám phá không gian tỷ trọng lồi và tìm mức co rút N_0 tối ưu, cân bằng giữa tín hiệu cục bộ và mốc chuẩn toàn cục.",
+        "2. **Thích ứng Động theo Regime:** Chuyển đổi và tinh chỉnh tỷ trọng tự động khi thị trường rơi vào pha biến động mạnh (High Volatility).",
+        "3. **Kiểm chứng So Sánh:** Đo lường chính xác giá trị thặng dư (Δ OOS R²) do việc tối ưu hóa tham số mang lại so với quy tắc mặc định (Lần 04)."
     ])
 
     with open(report_path, 'w', encoding='utf-8') as f:
         f.write('\n'.join(lines))
 
 def main():
-    parser = argparse.ArgumentParser(description="Run Optuna-Tuned Ensemble Experiments A1, A2, A3 (Lan05)")
+    parser = argparse.ArgumentParser(description="Run Optuna-Tuned Ensemble & Regime Experiments (Lan05)")
     parser.add_argument('--model', type=str, default='all',
-                        choices=['all', 'A1', 'A2', 'A3', 'ensemble_a1', 'ensemble_a2', 'ensemble_a3'],
-                        help="Select an ensemble ('A1', 'A2', 'A3', or 'all')")
+                        choices=['all', 'A1', 'A2', 'A3', 'C1', 'C2', 'C3',
+                                 'ensemble_a1', 'ensemble_a2', 'ensemble_a3',
+                                 'baseline_c1', 'baseline_c2', 'baseline_c3'],
+                        help="Select an experiment ('A1', 'A2', 'A3', 'C1', 'C2', 'C3', or 'all')")
     parser.add_argument('--horizon', type=str, default='all',
                         choices=['all'] + config.HORIZONS,
                         help="Specific forecast horizon (default: all)")
@@ -165,7 +170,7 @@ def main():
     utils.set_all_seeds(args.seed)
 
     logger.info("=" * 75)
-    logger.info("   STARTING RUN 5 (LAN05) — OPTUNA-TUNED ADAPTIVE ENSEMBLES (A1, A2, A3)")
+    logger.info("   STARTING RUN 5 (LAN05) — OPTUNA ENSEMBLES & REGIME STRATEGIES (A1..A3, C1..C3)")
     logger.info(f"   Run Name: {config.RUN_NAME} | Output: {config.RESULTS_DIR}")
     logger.info(f"   Target: {args.model.upper()} | Horizons: {args.horizon} | Trials: {args.n_trials}")
     logger.info("=" * 75)
@@ -176,16 +181,13 @@ def main():
     horizons = config.HORIZONS if args.horizon == 'all' else [args.horizon]
 
     # Map model argument
-    if args.model in ['all']:
-        exps_to_run = ['A1', 'A2', 'A3']
-    elif args.model in ['A1', 'ensemble_a1']:
-        exps_to_run = ['A1']
-    elif args.model in ['A2', 'ensemble_a2']:
-        exps_to_run = ['A2']
-    elif args.model in ['A3', 'ensemble_a3']:
-        exps_to_run = ['A3']
+    m_arg = args.model.upper().replace('ENSEMBLE_', '').replace('BASELINE_', '')
+    if m_arg == 'ALL':
+        exps_to_run = LAN05_EXPERIMENTS
+    elif m_arg in LAN05_EXPERIMENTS:
+        exps_to_run = [m_arg]
     else:
-        exps_to_run = ['A1', 'A2', 'A3']
+        exps_to_run = LAN05_EXPERIMENTS
 
     total_start = time.time()
     failed = []
@@ -194,7 +196,7 @@ def main():
         spec = EXPERIMENT_SPECS[exp_k]
         logger.info(f"\n[{idx}/{len(exps_to_run)}] ======================================================")
         logger.info(f"Executing Optuna Tuning: {spec['display_name']} ({spec['title']})")
-        logger.info(f"Constituents: {', '.join(spec['models'])}")
+        logger.info(f"Description: {spec.get('description', '')}")
         logger.info(f"Optuna Trials: {args.n_trials} (TPESampler seed={args.seed})")
         logger.info("===========================================================================")
 
