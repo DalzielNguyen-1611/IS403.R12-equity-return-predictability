@@ -1,0 +1,8 @@
+Model,Historical_Total_Seconds,Avg_Seconds_Per_Fold,Total_Folds
+TCN,2165.38,86.62,25
+N-BEATS,987.86,39.51,25
+N-HiTS,478.48,19.14,25
+PatchTST,536.98,21.48,25
+TSMixer,1283.17,51.33,25
+iTransformer,607.37,24.29,25
+CNN,324.0,12.96,25

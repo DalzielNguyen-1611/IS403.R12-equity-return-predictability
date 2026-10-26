@@ -1,1 +1,1 @@
-{"model": "TCN", "horizon": "1D", "fold": 1, "epoch": 12, "total_epochs": 1000, "pct": 1.2, "vloss": 0.001385, "best_loss": 0.001385, "timestamp": "17:38:50"}
+{"model": "CNN", "horizon": "120D", "fold": 5, "epoch": 9, "total_epochs": 1000, "pct": 0.9, "vloss": 0.005534, "best_loss": 0.004259, "epoch_sec": 0.6, "fold_eta_sec": 590.1, "timestamp": "17:36:46"}

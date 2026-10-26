@@ -1,0 +1,1 @@
+{"model": "CNN", "horizon": "120D", "fold": 5, "epoch": 15, "total_epochs": 1000, "pct": 1.5, "vloss": 0.003642, "best_loss": 0.003383, "epoch_sec": 0.7, "fold_eta_sec": 684.7, "timestamp": "16:57:25"}
