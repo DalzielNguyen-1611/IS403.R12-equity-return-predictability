@@ -141,11 +141,11 @@ def generate_lan04_summary_report():
 
 def main():
     parser = argparse.ArgumentParser(description="Run Ensemble & Regime Experiments (Lan04 - Default Parameters)")
-    parser.add_argument('--model', type=str, default='all',
-                        choices=['all', 'A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3',
-                                 'ensemble_a1', 'ensemble_a2', 'ensemble_a3',
-                                 'baseline_b1', 'baseline_b2', 'baseline_b3',
-                                 'baseline_c1', 'baseline_c2', 'baseline_c3'],
+    parser.add_argument('--model', type=str.upper, default='ALL',
+                        choices=['ALL', 'A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3',
+                                 'ENSEMBLE_A1', 'ENSEMBLE_A2', 'ENSEMBLE_A3',
+                                 'BASELINE_B1', 'BASELINE_B2', 'BASELINE_B3',
+                                 'BASELINE_C1', 'BASELINE_C2', 'BASELINE_C3'],
                         help="Select an experiment ('A1'..'A3', 'B1'..'B3', 'C1'..'C3', or 'all')")
     parser.add_argument('--horizon', type=str, default='all',
                         choices=['all'] + config.HORIZONS,
