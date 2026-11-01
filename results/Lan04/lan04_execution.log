@@ -1,0 +1,830 @@
+[2026-10-23 22:35:55][INFO] ===========================================================================
+[2026-10-23 22:35:55][INFO]    STARTING RUN 4 (LAN04) — ENSEMBLES & REGIME BASELINES (DEFAULT PARAMETERS)
+[2026-10-23 22:35:55][INFO]    Run Name: Lan04 | Output: C:\Users\ACER\IS403.R12-equity-return-predictability\results\Lan04
+[2026-10-23 22:35:55][INFO]    Target: A1 | Horizons: all
+[2026-10-23 22:35:55][INFO] ===========================================================================
+[2026-10-23 22:35:55][INFO] Initializing Historical_Mean benchmark baseline for Lan04 from Lan01...
+[2026-10-23 22:35:55][INFO] ✓ Copied Historical_Mean benchmark from Lan01 to Lan04.
+[2026-10-23 22:35:55][INFO] 
+[1/1] ======================================================
+[2026-10-23 22:35:55][INFO] Executing: Ensemble_A1 (All 13 Models Equal-Weight Ensemble)
+[2026-10-23 22:35:55][INFO] Description: Combines all 13 regression baselines across linear, tree, kernel, statistical, and deep learning families.
+[2026-10-23 22:35:55][INFO] ===========================================================================
+[2026-10-23 22:35:55][INFO] ▶ Initializing Ensemble_A1 (All 13 Models Equal-Weight Ensemble)
+[2026-10-23 22:35:55][INFO]   Description: Combines all 13 regression baselines across linear, tree, kernel, statistical, and deep learning families.
+[2026-10-23 22:35:55][INFO]   Mode: Fixed Default Parameters (Lan04)
+[2026-10-23 22:35:56][INFO]   ✓ Ensemble_A1 [1D | Fold 1/5]: OOS R² = -0.0095 | DA = 50.7% | RMSE = 0.0107
+[2026-10-23 22:35:56][INFO]   ✓ Ensemble_A1 [1D | Fold 2/5]: OOS R² = +0.0120 | DA = 52.9% | RMSE = 0.0049
+[2026-10-23 22:35:56][INFO]   ✓ Ensemble_A1 [1D | Fold 3/5]: OOS R² = +0.0060 | DA = 49.6% | RMSE = 0.0077
+[2026-10-23 22:35:56][INFO]   ✓ Ensemble_A1 [1D | Fold 4/5]: OOS R² = +0.0034 | DA = 52.2% | RMSE = 0.0103
+[2026-10-23 22:35:56][INFO]   ✓ Ensemble_A1 [1D | Fold 5/5]: OOS R² = +0.0055 | DA = 53.3% | RMSE = 0.0209
+[2026-10-23 22:35:56][INFO]   ✓ Ensemble_A1 [5D | Fold 1/5]: OOS R² = -0.0069 | DA = 47.8% | RMSE = 0.0229
+[2026-10-23 22:35:56][INFO]   ✓ Ensemble_A1 [5D | Fold 2/5]: OOS R² = -0.0534 | DA = 44.9% | RMSE = 0.0101
+[2026-10-23 22:35:56][INFO]   ✓ Ensemble_A1 [5D | Fold 3/5]: OOS R² = -0.0117 | DA = 63.2% | RMSE = 0.0164
+[2026-10-23 22:35:56][INFO]   ✓ Ensemble_A1 [5D | Fold 4/5]: OOS R² = +0.0134 | DA = 55.9% | RMSE = 0.0222
+[2026-10-23 22:35:56][INFO]   ✓ Ensemble_A1 [5D | Fold 5/5]: OOS R² = -0.0257 | DA = 63.6% | RMSE = 0.0402
+[2026-10-23 22:35:56][INFO]   ✓ Ensemble_A1 [20D | Fold 1/5]: OOS R² = -0.0224 | DA = 42.3% | RMSE = 0.0411
+[2026-10-23 22:35:56][INFO]   ✓ Ensemble_A1 [20D | Fold 2/5]: OOS R² = -0.0778 | DA = 65.1% | RMSE = 0.0182
+[2026-10-23 22:35:56][INFO]   ✓ Ensemble_A1 [20D | Fold 3/5]: OOS R² = -0.0434 | DA = 72.8% | RMSE = 0.0266
+[2026-10-23 22:35:56][INFO]   ✓ Ensemble_A1 [20D | Fold 4/5]: OOS R² = -0.0281 | DA = 53.7% | RMSE = 0.0436
+[2026-10-23 22:35:56][INFO]   ✓ Ensemble_A1 [20D | Fold 5/5]: OOS R² = -0.0497 | DA = 65.1% | RMSE = 0.0890
+[2026-10-23 22:35:56][INFO]   ✓ Ensemble_A1 [60D | Fold 1/5]: OOS R² = -0.1741 | DA = 47.8% | RMSE = 0.0637
+[2026-10-23 22:35:56][INFO]   ✓ Ensemble_A1 [60D | Fold 2/5]: OOS R² = -0.1800 | DA = 89.3% | RMSE = 0.0318
+[2026-10-23 22:35:56][INFO]   ✓ Ensemble_A1 [60D | Fold 3/5]: OOS R² = -0.1582 | DA = 64.0% | RMSE = 0.0492
+[2026-10-23 22:35:56][INFO]   ✓ Ensemble_A1 [60D | Fold 4/5]: OOS R² = -0.2079 | DA = 68.4% | RMSE = 0.0700
+[2026-10-23 22:35:56][INFO]   ✓ Ensemble_A1 [60D | Fold 5/5]: OOS R² = -0.0335 | DA = 67.6% | RMSE = 0.1289
+[2026-10-23 22:35:56][INFO]   ✓ Ensemble_A1 [120D | Fold 1/5]: OOS R² = -0.4703 | DA = 50.0% | RMSE = 0.0752
+[2026-10-23 22:35:56][INFO]   ✓ Ensemble_A1 [120D | Fold 2/5]: OOS R² = +0.0694 | DA = 100.0% | RMSE = 0.0483
+[2026-10-23 22:35:56][INFO]   ✓ Ensemble_A1 [120D | Fold 3/5]: OOS R² = -0.0605 | DA = 60.3% | RMSE = 0.0614
+[2026-10-23 22:35:56][INFO]   ✓ Ensemble_A1 [120D | Fold 4/5]: OOS R² = -0.2704 | DA = 75.7% | RMSE = 0.0864
+[2026-10-23 22:35:56][INFO]   ✓ Ensemble_A1 [120D | Fold 5/5]: OOS R² = +0.1815 | DA = 66.5% | RMSE = 0.1207
+[2026-10-23 22:35:57][INFO] ✓ Ensemble_A1 completed in 1.33s.
+[2026-10-23 22:35:57][INFO] 
+===========================================================================
+[2026-10-23 22:35:57][INFO] LAN04 RUN COMPLETED IN 1.33s
+[2026-10-23 22:35:57][INFO] ALL ENSEMBLES & REGIME BASELINES COMPLETED SUCCESSFULLY!
+[2026-10-23 22:35:57][INFO] ===========================================================================
+[2026-10-23 22:35:57][INFO] ✓ Auto-generated RQ1, RQ2, RQ3 analysis and statistical tests for Lan04.
+[2026-10-23 22:35:57][INFO] ✓ Auto-generated executive report in results/Lan04/agent_reports/.
+[2026-10-23 22:36:20][INFO] ===========================================================================
+[2026-10-23 22:36:20][INFO]    STARTING RUN 4 (LAN04) — ENSEMBLES & REGIME BASELINES (DEFAULT PARAMETERS)
+[2026-10-23 22:36:20][INFO]    Run Name: Lan04 | Output: C:\Users\ACER\IS403.R12-equity-return-predictability\results\Lan04
+[2026-10-23 22:36:20][INFO]    Target: A2 | Horizons: all
+[2026-10-23 22:36:20][INFO] ===========================================================================
+[2026-10-23 22:36:20][INFO] 
+[1/1] ======================================================
+[2026-10-23 22:36:20][INFO] Executing: Ensemble_A2 (Core 4 Models Equal-Weight Ensemble)
+[2026-10-23 22:36:20][INFO] Description: Diverse 4-model core ensemble: Ridge (Regularized Linear) + SVR (Kernel) + LightGBM (Gradient Boosting) + SARIMA (Statistical TS).
+[2026-10-23 22:36:20][INFO] ===========================================================================
+[2026-10-23 22:36:20][INFO] ▶ Initializing Ensemble_A2 (Core 4 Models Equal-Weight Ensemble)
+[2026-10-23 22:36:20][INFO]   Description: Diverse 4-model core ensemble: Ridge (Regularized Linear) + SVR (Kernel) + LightGBM (Gradient Boosting) + SARIMA (Statistical TS).
+[2026-10-23 22:36:20][INFO]   Mode: Fixed Default Parameters (Lan04)
+[2026-10-23 22:36:21][INFO]   ✓ Ensemble_A2 [1D | Fold 1/5]: OOS R² = -0.0131 | DA = 48.5% | RMSE = 0.0107
+[2026-10-23 22:36:21][INFO]   ✓ Ensemble_A2 [1D | Fold 2/5]: OOS R² = -0.0038 | DA = 51.1% | RMSE = 0.0049
+[2026-10-23 22:36:21][INFO]   ✓ Ensemble_A2 [1D | Fold 3/5]: OOS R² = +0.0044 | DA = 51.8% | RMSE = 0.0077
+[2026-10-23 22:36:21][INFO]   ✓ Ensemble_A2 [1D | Fold 4/5]: OOS R² = -0.0028 | DA = 51.5% | RMSE = 0.0103
+[2026-10-23 22:36:21][INFO]   ✓ Ensemble_A2 [1D | Fold 5/5]: OOS R² = -0.0095 | DA = 50.0% | RMSE = 0.0210
+[2026-10-23 22:36:21][INFO]   ✓ Ensemble_A2 [5D | Fold 1/5]: OOS R² = -0.0144 | DA = 49.3% | RMSE = 0.0230
+[2026-10-23 22:36:21][INFO]   ✓ Ensemble_A2 [5D | Fold 2/5]: OOS R² = -0.2325 | DA = 40.8% | RMSE = 0.0110
+[2026-10-23 22:36:21][INFO]   ✓ Ensemble_A2 [5D | Fold 3/5]: OOS R² = -0.0074 | DA = 64.0% | RMSE = 0.0164
+[2026-10-23 22:36:21][INFO]   ✓ Ensemble_A2 [5D | Fold 4/5]: OOS R² = -0.0208 | DA = 45.2% | RMSE = 0.0226
+[2026-10-23 22:36:21][INFO]   ✓ Ensemble_A2 [5D | Fold 5/5]: OOS R² = -0.0263 | DA = 60.7% | RMSE = 0.0402
+[2026-10-23 22:36:21][INFO]   ✓ Ensemble_A2 [20D | Fold 1/5]: OOS R² = -0.0607 | DA = 39.7% | RMSE = 0.0419
+[2026-10-23 22:36:21][INFO]   ✓ Ensemble_A2 [20D | Fold 2/5]: OOS R² = -0.0564 | DA = 66.5% | RMSE = 0.0180
+[2026-10-23 22:36:21][INFO]   ✓ Ensemble_A2 [20D | Fold 3/5]: OOS R² = -0.0862 | DA = 70.6% | RMSE = 0.0271
+[2026-10-23 22:36:21][INFO]   ✓ Ensemble_A2 [20D | Fold 4/5]: OOS R² = -0.0411 | DA = 47.4% | RMSE = 0.0439
+[2026-10-23 22:36:21][INFO]   ✓ Ensemble_A2 [20D | Fold 5/5]: OOS R² = -0.0914 | DA = 63.6% | RMSE = 0.0907
+[2026-10-23 22:36:21][INFO]   ✓ Ensemble_A2 [60D | Fold 1/5]: OOS R² = -0.3352 | DA = 46.0% | RMSE = 0.0679
+[2026-10-23 22:36:21][INFO]   ✓ Ensemble_A2 [60D | Fold 2/5]: OOS R² = +0.0437 | DA = 89.3% | RMSE = 0.0286
+[2026-10-23 22:36:21][INFO]   ✓ Ensemble_A2 [60D | Fold 3/5]: OOS R² = -0.2195 | DA = 59.9% | RMSE = 0.0505
+[2026-10-23 22:36:21][INFO]   ✓ Ensemble_A2 [60D | Fold 4/5]: OOS R² = -0.2705 | DA = 60.3% | RMSE = 0.0718
+[2026-10-23 22:36:21][INFO]   ✓ Ensemble_A2 [60D | Fold 5/5]: OOS R² = -0.1561 | DA = 55.9% | RMSE = 0.1363
+[2026-10-23 22:36:21][INFO]   ✓ Ensemble_A2 [120D | Fold 1/5]: OOS R² = -0.8594 | DA = 43.8% | RMSE = 0.0845
+[2026-10-23 22:36:21][INFO]   ✓ Ensemble_A2 [120D | Fold 2/5]: OOS R² = +0.2777 | DA = 100.0% | RMSE = 0.0425
+[2026-10-23 22:36:21][INFO]   ✓ Ensemble_A2 [120D | Fold 3/5]: OOS R² = -0.2261 | DA = 54.0% | RMSE = 0.0660
+[2026-10-23 22:36:21][INFO]   ✓ Ensemble_A2 [120D | Fold 4/5]: OOS R² = -0.4655 | DA = 55.1% | RMSE = 0.0928
+[2026-10-23 22:36:21][INFO]   ✓ Ensemble_A2 [120D | Fold 5/5]: OOS R² = +0.0551 | DA = 61.4% | RMSE = 0.1297
+[2026-10-23 22:36:22][INFO] ✓ Ensemble_A2 completed in 1.58s.
+[2026-10-23 22:36:22][INFO] 
+===========================================================================
+[2026-10-23 22:36:22][INFO] LAN04 RUN COMPLETED IN 1.58s
+[2026-10-23 22:36:22][INFO] ALL ENSEMBLES & REGIME BASELINES COMPLETED SUCCESSFULLY!
+[2026-10-23 22:36:22][INFO] ===========================================================================
+[2026-10-23 22:36:22][INFO] ✓ Auto-generated RQ1, RQ2, RQ3 analysis and statistical tests for Lan04.
+[2026-10-23 22:36:22][INFO] ✓ Auto-generated executive report in results/Lan04/agent_reports/.
+[2026-10-23 22:36:28][INFO] ===========================================================================
+[2026-10-23 22:36:28][INFO]    STARTING RUN 4 (LAN04) — ENSEMBLES & REGIME BASELINES (DEFAULT PARAMETERS)
+[2026-10-23 22:36:28][INFO]    Run Name: Lan04 | Output: C:\Users\ACER\IS403.R12-equity-return-predictability\results\Lan04
+[2026-10-23 22:36:28][INFO]    Target: A3 | Horizons: all
+[2026-10-23 22:36:28][INFO] ===========================================================================
+[2026-10-23 22:36:28][INFO] 
+[1/1] ======================================================
+[2026-10-23 22:36:28][INFO] Executing: Ensemble_A3 (Ridge + SARIMA + Historical Mean)
+[2026-10-23 22:36:28][INFO] Description: Parsimonious 3-model ensemble: Ridge + SARIMA + Historical Mean baseline.
+[2026-10-23 22:36:28][INFO] ===========================================================================
+[2026-10-23 22:36:28][INFO] ▶ Initializing Ensemble_A3 (Ridge + SARIMA + Historical Mean)
+[2026-10-23 22:36:28][INFO]   Description: Parsimonious 3-model ensemble: Ridge + SARIMA + Historical Mean baseline.
+[2026-10-23 22:36:28][INFO]   Mode: Fixed Default Parameters (Lan04)
+[2026-10-23 22:36:28][INFO]   ✓ Ensemble_A3 [1D | Fold 1/5]: OOS R² = -0.0047 | DA = 49.3% | RMSE = 0.0106
+[2026-10-23 22:36:28][INFO]   ✓ Ensemble_A3 [1D | Fold 2/5]: OOS R² = +0.0020 | DA = 51.1% | RMSE = 0.0049
+[2026-10-23 22:36:28][INFO]   ✓ Ensemble_A3 [1D | Fold 3/5]: OOS R² = +0.0079 | DA = 57.0% | RMSE = 0.0077
+[2026-10-23 22:36:28][INFO]   ✓ Ensemble_A3 [1D | Fold 4/5]: OOS R² = -0.0005 | DA = 50.4% | RMSE = 0.0103
+[2026-10-23 22:36:28][INFO]   ✓ Ensemble_A3 [1D | Fold 5/5]: OOS R² = +0.0142 | DA = 55.9% | RMSE = 0.0208
+[2026-10-23 22:36:28][INFO]   ✓ Ensemble_A3 [5D | Fold 1/5]: OOS R² = -0.0364 | DA = 45.2% | RMSE = 0.0232
+[2026-10-23 22:36:28][INFO]   ✓ Ensemble_A3 [5D | Fold 2/5]: OOS R² = -0.0516 | DA = 53.3% | RMSE = 0.0101
+[2026-10-23 22:36:28][INFO]   ✓ Ensemble_A3 [5D | Fold 3/5]: OOS R² = -0.0271 | DA = 61.8% | RMSE = 0.0165
+[2026-10-23 22:36:28][INFO]   ✓ Ensemble_A3 [5D | Fold 4/5]: OOS R² = -0.0283 | DA = 52.6% | RMSE = 0.0227
+[2026-10-23 22:36:28][INFO]   ✓ Ensemble_A3 [5D | Fold 5/5]: OOS R² = -0.0180 | DA = 57.0% | RMSE = 0.0401
+[2026-10-23 22:36:28][INFO]   ✓ Ensemble_A3 [20D | Fold 1/5]: OOS R² = +0.0163 | DA = 51.5% | RMSE = 0.0403
+[2026-10-23 22:36:28][INFO]   ✓ Ensemble_A3 [20D | Fold 2/5]: OOS R² = +0.0288 | DA = 69.1% | RMSE = 0.0173
+[2026-10-23 22:36:28][INFO]   ✓ Ensemble_A3 [20D | Fold 3/5]: OOS R² = -0.0242 | DA = 77.2% | RMSE = 0.0263
+[2026-10-23 22:36:28][INFO]   ✓ Ensemble_A3 [20D | Fold 4/5]: OOS R² = -0.0697 | DA = 50.4% | RMSE = 0.0445
+[2026-10-23 22:36:28][INFO]   ✓ Ensemble_A3 [20D | Fold 5/5]: OOS R² = -0.0769 | DA = 63.6% | RMSE = 0.0901
+[2026-10-23 22:36:28][INFO]   ✓ Ensemble_A3 [60D | Fold 1/5]: OOS R² = +0.0012 | DA = 59.2% | RMSE = 0.0587
+[2026-10-23 22:36:28][INFO]   ✓ Ensemble_A3 [60D | Fold 2/5]: OOS R² = -0.0228 | DA = 89.3% | RMSE = 0.0296
+[2026-10-23 22:36:28][INFO]   ✓ Ensemble_A3 [60D | Fold 3/5]: OOS R² = -0.1404 | DA = 66.9% | RMSE = 0.0489
+[2026-10-23 22:36:28][INFO]   ✓ Ensemble_A3 [60D | Fold 4/5]: OOS R² = -0.2086 | DA = 64.3% | RMSE = 0.0700
+[2026-10-23 22:36:28][INFO]   ✓ Ensemble_A3 [60D | Fold 5/5]: OOS R² = -0.1578 | DA = 55.1% | RMSE = 0.1364
+[2026-10-23 22:36:28][INFO]   ✓ Ensemble_A3 [120D | Fold 1/5]: OOS R² = -0.1042 | DA = 72.4% | RMSE = 0.0651
+[2026-10-23 22:36:28][INFO]   ✓ Ensemble_A3 [120D | Fold 2/5]: OOS R² = +0.1384 | DA = 100.0% | RMSE = 0.0464
+[2026-10-23 22:36:28][INFO]   ✓ Ensemble_A3 [120D | Fold 3/5]: OOS R² = +0.0130 | DA = 66.2% | RMSE = 0.0592
+[2026-10-23 22:36:28][INFO]   ✓ Ensemble_A3 [120D | Fold 4/5]: OOS R² = -0.0887 | DA = 83.8% | RMSE = 0.0800
+[2026-10-23 22:36:28][INFO]   ✓ Ensemble_A3 [120D | Fold 5/5]: OOS R² = -0.0360 | DA = 61.8% | RMSE = 0.1358
+[2026-10-23 22:36:30][INFO] ✓ Ensemble_A3 completed in 1.91s.
+[2026-10-23 22:36:30][INFO] 
+===========================================================================
+[2026-10-23 22:36:30][INFO] LAN04 RUN COMPLETED IN 1.93s
+[2026-10-23 22:36:30][INFO] ALL ENSEMBLES & REGIME BASELINES COMPLETED SUCCESSFULLY!
+[2026-10-23 22:36:30][INFO] ===========================================================================
+[2026-10-23 22:36:30][INFO] ✓ Auto-generated RQ1, RQ2, RQ3 analysis and statistical tests for Lan04.
+[2026-10-23 22:36:30][INFO] ✓ Auto-generated executive report in results/Lan04/agent_reports/.
+[2026-10-23 22:36:35][INFO] ===========================================================================
+[2026-10-23 22:36:35][INFO]    STARTING RUN 4 (LAN04) — ENSEMBLES & REGIME BASELINES (DEFAULT PARAMETERS)
+[2026-10-23 22:36:35][INFO]    Run Name: Lan04 | Output: C:\Users\ACER\IS403.R12-equity-return-predictability\results\Lan04
+[2026-10-23 22:36:35][INFO]    Target: B1 | Horizons: all
+[2026-10-23 22:36:35][INFO] ===========================================================================
+[2026-10-23 22:36:35][INFO] 
+[1/1] ======================================================
+[2026-10-23 22:36:35][INFO] Executing: Baseline_B1 (Best Single Model per Horizon)
+[2026-10-23 22:36:35][INFO] Description: Selects argmin MSE(m, h) on historical validation folds across all 13 regression baselines.
+[2026-10-23 22:36:35][INFO] ===========================================================================
+[2026-10-23 22:36:35][INFO] ▶ Initializing Baseline_B1 (Best Single Model per Horizon)
+[2026-10-23 22:36:35][INFO]   Description: Selects argmin MSE(m, h) on historical validation folds across all 13 regression baselines.
+[2026-10-23 22:36:35][INFO]   Mode: Fixed Default Parameters (Lan04)
+[2026-10-23 22:36:36][INFO]   ✓ Baseline_B1 [1D | Fold 1/5]: OOS R² = -0.0090 | DA = 48.2% | RMSE = 0.0107
+[2026-10-23 22:36:36][INFO]   ✓ Baseline_B1 [1D | Fold 2/5]: OOS R² = -0.0309 | DA = 51.1% | RMSE = 0.0050
+[2026-10-23 22:36:36][INFO]   ✓ Baseline_B1 [1D | Fold 3/5]: OOS R² = +0.0012 | DA = 58.1% | RMSE = 0.0077
+[2026-10-23 22:36:36][INFO]   ✓ Baseline_B1 [1D | Fold 4/5]: OOS R² = +0.0020 | DA = 54.0% | RMSE = 0.0103
+[2026-10-23 22:36:36][INFO]   ✓ Baseline_B1 [1D | Fold 5/5]: OOS R² = +0.0005 | DA = 58.8% | RMSE = 0.0209
+[2026-10-23 22:36:36][INFO]   ✓ Baseline_B1 [5D | Fold 1/5]: OOS R² = -0.0001 | DA = 55.1% | RMSE = 0.0228
+[2026-10-23 22:36:36][INFO]   ✓ Baseline_B1 [5D | Fold 2/5]: OOS R² = +0.0126 | DA = 57.4% | RMSE = 0.0098
+[2026-10-23 22:36:36][INFO]   ✓ Baseline_B1 [5D | Fold 3/5]: OOS R² = +0.0015 | DA = 63.2% | RMSE = 0.0163
+[2026-10-23 22:36:36][INFO]   ✓ Baseline_B1 [5D | Fold 4/5]: OOS R² = +0.0026 | DA = 52.6% | RMSE = 0.0224
+[2026-10-23 22:36:36][INFO]   ✓ Baseline_B1 [5D | Fold 5/5]: OOS R² = -0.0146 | DA = 65.4% | RMSE = 0.0400
+[2026-10-23 22:36:36][INFO]   ✓ Baseline_B1 [20D | Fold 1/5]: OOS R² = +0.0000 | DA = 57.4% | RMSE = 0.0407
+[2026-10-23 22:36:36][INFO]   ✓ Baseline_B1 [20D | Fold 2/5]: OOS R² = -1.0829 | DA = 35.7% | RMSE = 0.0253
+[2026-10-23 22:36:36][INFO]   ✓ Baseline_B1 [20D | Fold 3/5]: OOS R² = -0.0355 | DA = 70.2% | RMSE = 0.0265
+[2026-10-23 22:36:36][INFO]   ✓ Baseline_B1 [20D | Fold 4/5]: OOS R² = -0.0666 | DA = 40.1% | RMSE = 0.0444
+[2026-10-23 22:36:36][INFO]   ✓ Baseline_B1 [20D | Fold 5/5]: OOS R² = +0.0000 | DA = 77.2% | RMSE = 0.0869
+[2026-10-23 22:36:36][INFO]   ✓ Baseline_B1 [60D | Fold 1/5]: OOS R² = +0.0000 | DA = 62.5% | RMSE = 0.0588
+[2026-10-23 22:36:36][INFO]   ✓ Baseline_B1 [60D | Fold 2/5]: OOS R² = -0.8982 | DA = 46.0% | RMSE = 0.0403
+[2026-10-23 22:36:36][INFO]   ✓ Baseline_B1 [60D | Fold 3/5]: OOS R² = +0.0000 | DA = 72.4% | RMSE = 0.0458
+[2026-10-23 22:36:36][INFO]   ✓ Baseline_B1 [60D | Fold 4/5]: OOS R² = +0.0000 | DA = 73.5% | RMSE = 0.0637
+[2026-10-23 22:36:36][INFO]   ✓ Baseline_B1 [60D | Fold 5/5]: OOS R² = +0.0000 | DA = 75.0% | RMSE = 0.1268
+[2026-10-23 22:36:36][INFO]   ✓ Baseline_B1 [120D | Fold 1/5]: OOS R² = -0.0662 | DA = 62.1% | RMSE = 0.0640
+[2026-10-23 22:36:36][INFO]   ✓ Baseline_B1 [120D | Fold 2/5]: OOS R² = +0.0000 | DA = 100.0% | RMSE = 0.0500
+[2026-10-23 22:36:36][INFO]   ✓ Baseline_B1 [120D | Fold 3/5]: OOS R² = +0.0000 | DA = 66.2% | RMSE = 0.0596
+[2026-10-23 22:36:36][INFO]   ✓ Baseline_B1 [120D | Fold 4/5]: OOS R² = +0.0000 | DA = 83.8% | RMSE = 0.0767
+[2026-10-23 22:36:36][INFO]   ✓ Baseline_B1 [120D | Fold 5/5]: OOS R² = +0.6077 | DA = 66.5% | RMSE = 0.0836
+[2026-10-23 22:36:38][INFO] ✓ Baseline_B1 completed in 2.21s.
+[2026-10-23 22:36:38][INFO] 
+===========================================================================
+[2026-10-23 22:36:38][INFO] LAN04 RUN COMPLETED IN 2.23s
+[2026-10-23 22:36:38][INFO] ALL ENSEMBLES & REGIME BASELINES COMPLETED SUCCESSFULLY!
+[2026-10-23 22:36:38][INFO] ===========================================================================
+[2026-10-23 22:36:39][INFO] ✓ Auto-generated RQ1, RQ2, RQ3 analysis and statistical tests for Lan04.
+[2026-10-23 22:36:39][INFO] ✓ Auto-generated executive report in results/Lan04/agent_reports/.
+[2026-10-23 22:36:44][INFO] ===========================================================================
+[2026-10-23 22:36:44][INFO]    STARTING RUN 4 (LAN04) — ENSEMBLES & REGIME BASELINES (DEFAULT PARAMETERS)
+[2026-10-23 22:36:44][INFO]    Run Name: Lan04 | Output: C:\Users\ACER\IS403.R12-equity-return-predictability\results\Lan04
+[2026-10-23 22:36:44][INFO]    Target: B2 | Horizons: all
+[2026-10-23 22:36:44][INFO] ===========================================================================
+[2026-10-23 22:36:44][INFO] 
+[1/1] ======================================================
+[2026-10-23 22:36:44][INFO] Executing: Baseline_B2 (Normalized Inverse-MSE Weighting)
+[2026-10-23 22:36:44][INFO] Description: Computes weights proportional to 1/MSE(m, h) across Core 4 models normalized to sum to 1.
+[2026-10-23 22:36:44][INFO] ===========================================================================
+[2026-10-23 22:36:44][INFO] ▶ Initializing Baseline_B2 (Normalized Inverse-MSE Weighting)
+[2026-10-23 22:36:44][INFO]   Description: Computes weights proportional to 1/MSE(m, h) across Core 4 models normalized to sum to 1.
+[2026-10-23 22:36:44][INFO]   Mode: Fixed Default Parameters (Lan04)
+[2026-10-23 22:36:44][INFO]   ✓ Baseline_B2 [1D | Fold 1/5]: OOS R² = -0.0131 | DA = 48.5% | RMSE = 0.0107
+[2026-10-23 22:36:44][INFO]   ✓ Baseline_B2 [1D | Fold 2/5]: OOS R² = -0.0036 | DA = 51.5% | RMSE = 0.0049
+[2026-10-23 22:36:44][INFO]   ✓ Baseline_B2 [1D | Fold 3/5]: OOS R² = +0.0045 | DA = 51.8% | RMSE = 0.0077
+[2026-10-23 22:36:44][INFO]   ✓ Baseline_B2 [1D | Fold 4/5]: OOS R² = -0.0028 | DA = 51.5% | RMSE = 0.0103
+[2026-10-23 22:36:44][INFO]   ✓ Baseline_B2 [1D | Fold 5/5]: OOS R² = -0.0094 | DA = 50.4% | RMSE = 0.0210
+[2026-10-23 22:36:44][INFO]   ✓ Baseline_B2 [5D | Fold 1/5]: OOS R² = -0.0144 | DA = 49.3% | RMSE = 0.0230
+[2026-10-23 22:36:44][INFO]   ✓ Baseline_B2 [5D | Fold 2/5]: OOS R² = -0.2491 | DA = 40.8% | RMSE = 0.0110
+[2026-10-23 22:36:44][INFO]   ✓ Baseline_B2 [5D | Fold 3/5]: OOS R² = -0.0063 | DA = 64.3% | RMSE = 0.0164
+[2026-10-23 22:36:44][INFO]   ✓ Baseline_B2 [5D | Fold 4/5]: OOS R² = -0.0142 | DA = 44.5% | RMSE = 0.0225
+[2026-10-23 22:36:44][INFO]   ✓ Baseline_B2 [5D | Fold 5/5]: OOS R² = -0.0268 | DA = 61.4% | RMSE = 0.0402
+[2026-10-23 22:36:44][INFO]   ✓ Baseline_B2 [20D | Fold 1/5]: OOS R² = -0.0607 | DA = 39.7% | RMSE = 0.0419
+[2026-10-23 22:36:44][INFO]   ✓ Baseline_B2 [20D | Fold 2/5]: OOS R² = -0.0658 | DA = 64.7% | RMSE = 0.0181
+[2026-10-23 22:36:44][INFO]   ✓ Baseline_B2 [20D | Fold 3/5]: OOS R² = -0.0882 | DA = 69.1% | RMSE = 0.0271
+[2026-10-23 22:36:44][INFO]   ✓ Baseline_B2 [20D | Fold 4/5]: OOS R² = -0.0462 | DA = 46.3% | RMSE = 0.0440
+[2026-10-23 22:36:44][INFO]   ✓ Baseline_B2 [20D | Fold 5/5]: OOS R² = -0.0927 | DA = 62.9% | RMSE = 0.0908
+[2026-10-23 22:36:44][INFO]   ✓ Baseline_B2 [60D | Fold 1/5]: OOS R² = -0.3352 | DA = 46.0% | RMSE = 0.0679
+[2026-10-23 22:36:44][INFO]   ✓ Baseline_B2 [60D | Fold 2/5]: OOS R² = +0.0171 | DA = 90.8% | RMSE = 0.0290
+[2026-10-23 22:36:44][INFO]   ✓ Baseline_B2 [60D | Fold 3/5]: OOS R² = -0.2168 | DA = 61.0% | RMSE = 0.0505
+[2026-10-23 22:36:44][INFO]   ✓ Baseline_B2 [60D | Fold 4/5]: OOS R² = -0.2684 | DA = 61.4% | RMSE = 0.0717
+[2026-10-23 22:36:44][INFO]   ✓ Baseline_B2 [60D | Fold 5/5]: OOS R² = -0.1712 | DA = 55.9% | RMSE = 0.1372
+[2026-10-23 22:36:44][INFO]   ✓ Baseline_B2 [120D | Fold 1/5]: OOS R² = -0.8594 | DA = 43.8% | RMSE = 0.0845
+[2026-10-23 22:36:44][INFO]   ✓ Baseline_B2 [120D | Fold 2/5]: OOS R² = +0.1705 | DA = 100.0% | RMSE = 0.0456
+[2026-10-23 22:36:44][INFO]   ✓ Baseline_B2 [120D | Fold 3/5]: OOS R² = -0.1304 | DA = 56.6% | RMSE = 0.0634
+[2026-10-23 22:36:44][INFO]   ✓ Baseline_B2 [120D | Fold 4/5]: OOS R² = -0.3399 | DA = 64.3% | RMSE = 0.0888
+[2026-10-23 22:36:44][INFO]   ✓ Baseline_B2 [120D | Fold 5/5]: OOS R² = +0.0441 | DA = 63.6% | RMSE = 0.1305
+[2026-10-23 22:36:46][INFO] ✓ Baseline_B2 completed in 2.34s.
+[2026-10-23 22:36:46][INFO] 
+===========================================================================
+[2026-10-23 22:36:46][INFO] LAN04 RUN COMPLETED IN 2.36s
+[2026-10-23 22:36:46][INFO] ALL ENSEMBLES & REGIME BASELINES COMPLETED SUCCESSFULLY!
+[2026-10-23 22:36:46][INFO] ===========================================================================
+[2026-10-23 22:36:47][INFO] ✓ Auto-generated RQ1, RQ2, RQ3 analysis and statistical tests for Lan04.
+[2026-10-23 22:36:47][INFO] ✓ Auto-generated executive report in results/Lan04/agent_reports/.
+[2026-10-23 22:36:52][INFO] ===========================================================================
+[2026-10-23 22:36:52][INFO]    STARTING RUN 4 (LAN04) — ENSEMBLES & REGIME BASELINES (DEFAULT PARAMETERS)
+[2026-10-23 22:36:52][INFO]    Run Name: Lan04 | Output: C:\Users\ACER\IS403.R12-equity-return-predictability\results\Lan04
+[2026-10-23 22:36:52][INFO]    Target: B3 | Horizons: all
+[2026-10-23 22:36:52][INFO] ===========================================================================
+[2026-10-23 22:36:52][INFO] 
+[1/1] ======================================================
+[2026-10-23 22:36:52][INFO] Executing: Baseline_B3 (NNLS / Simplex Quadratic Programming)
+[2026-10-23 22:36:52][INFO] Description: Solves min ||y - P*w||_2^2 subject to w >= 0 and sum(w) = 1 across Core 4 models.
+[2026-10-23 22:36:52][INFO] ===========================================================================
+[2026-10-23 22:36:52][INFO] ▶ Initializing Baseline_B3 (NNLS / Simplex Quadratic Programming)
+[2026-10-23 22:36:52][INFO]   Description: Solves min ||y - P*w||_2^2 subject to w >= 0 and sum(w) = 1 across Core 4 models.
+[2026-10-23 22:36:52][INFO]   Mode: Fixed Default Parameters (Lan04)
+[2026-10-23 22:36:52][INFO]   ✓ Baseline_B3 [1D | Fold 1/5]: OOS R² = -0.0131 | DA = 48.5% | RMSE = 0.0107
+[2026-10-23 22:36:52][INFO]   ✓ Baseline_B3 [1D | Fold 2/5]: OOS R² = +0.0043 | DA = 54.0% | RMSE = 0.0049
+[2026-10-23 22:36:52][INFO]   ✓ Baseline_B3 [1D | Fold 3/5]: OOS R² = +0.0061 | DA = 55.5% | RMSE = 0.0077
+[2026-10-23 22:36:52][INFO]   ✓ Baseline_B3 [1D | Fold 4/5]: OOS R² = -0.0034 | DA = 50.4% | RMSE = 0.0103
+[2026-10-23 22:36:52][INFO]   ✓ Baseline_B3 [1D | Fold 5/5]: OOS R² = -0.0050 | DA = 52.9% | RMSE = 0.0210
+[2026-10-23 22:36:52][INFO]   ✓ Baseline_B3 [5D | Fold 1/5]: OOS R² = -0.0144 | DA = 49.3% | RMSE = 0.0230
+[2026-10-23 22:36:52][INFO]   ✓ Baseline_B3 [5D | Fold 2/5]: OOS R² = -0.7665 | DA = 40.1% | RMSE = 0.0131
+[2026-10-23 22:36:52][INFO]   ✓ Baseline_B3 [5D | Fold 3/5]: OOS R² = -0.0026 | DA = 58.1% | RMSE = 0.0163
+[2026-10-23 22:36:52][INFO]   ✓ Baseline_B3 [5D | Fold 4/5]: OOS R² = -0.0141 | DA = 47.8% | RMSE = 0.0225
+[2026-10-23 22:36:52][INFO]   ✓ Baseline_B3 [5D | Fold 5/5]: OOS R² = -0.0734 | DA = 54.0% | RMSE = 0.0411
+[2026-10-23 22:36:52][INFO]   ✓ Baseline_B3 [20D | Fold 1/5]: OOS R² = -0.0607 | DA = 39.7% | RMSE = 0.0419
+[2026-10-23 22:36:53][INFO]   ✓ Baseline_B3 [20D | Fold 2/5]: OOS R² = -0.2896 | DA = 42.3% | RMSE = 0.0199
+[2026-10-23 22:36:53][INFO]   ✓ Baseline_B3 [20D | Fold 3/5]: OOS R² = -0.0345 | DA = 68.4% | RMSE = 0.0265
+[2026-10-23 22:36:53][INFO]   ✓ Baseline_B3 [20D | Fold 4/5]: OOS R² = -0.1032 | DA = 41.2% | RMSE = 0.0452
+[2026-10-23 22:36:53][INFO]   ✓ Baseline_B3 [20D | Fold 5/5]: OOS R² = -0.1289 | DA = 53.7% | RMSE = 0.0923
+[2026-10-23 22:36:53][INFO]   ✓ Baseline_B3 [60D | Fold 1/5]: OOS R² = -0.3352 | DA = 46.0% | RMSE = 0.0679
+[2026-10-23 22:36:53][INFO]   ✓ Baseline_B3 [60D | Fold 2/5]: OOS R² = -0.2227 | DA = 80.5% | RMSE = 0.0324
+[2026-10-23 22:36:53][INFO]   ✓ Baseline_B3 [60D | Fold 3/5]: OOS R² = -0.3689 | DA = 51.5% | RMSE = 0.0535
+[2026-10-23 22:36:53][INFO]   ✓ Baseline_B3 [60D | Fold 4/5]: OOS R² = -0.3224 | DA = 59.6% | RMSE = 0.0732
+[2026-10-23 22:36:53][INFO]   ✓ Baseline_B3 [60D | Fold 5/5]: OOS R² = -0.2142 | DA = 54.4% | RMSE = 0.1397
+[2026-10-23 22:36:53][INFO]   ✓ Baseline_B3 [120D | Fold 1/5]: OOS R² = -0.8594 | DA = 43.8% | RMSE = 0.0845
+[2026-10-23 22:36:53][INFO]   ✓ Baseline_B3 [120D | Fold 2/5]: OOS R² = -0.5904 | DA = 93.0% | RMSE = 0.0631
+[2026-10-23 22:36:53][INFO]   ✓ Baseline_B3 [120D | Fold 3/5]: OOS R² = +0.0263 | DA = 66.2% | RMSE = 0.0588
+[2026-10-23 22:36:53][INFO]   ✓ Baseline_B3 [120D | Fold 4/5]: OOS R² = -0.0783 | DA = 83.8% | RMSE = 0.0796
+[2026-10-23 22:36:53][INFO]   ✓ Baseline_B3 [120D | Fold 5/5]: OOS R² = -0.0357 | DA = 59.6% | RMSE = 0.1358
+[2026-10-23 22:36:55][INFO] ✓ Baseline_B3 completed in 2.73s.
+[2026-10-23 22:36:55][INFO] 
+===========================================================================
+[2026-10-23 22:36:55][INFO] LAN04 RUN COMPLETED IN 2.75s
+[2026-10-23 22:36:55][INFO] ALL ENSEMBLES & REGIME BASELINES COMPLETED SUCCESSFULLY!
+[2026-10-23 22:36:55][INFO] ===========================================================================
+[2026-10-23 22:36:56][INFO] ✓ Auto-generated RQ1, RQ2, RQ3 analysis and statistical tests for Lan04.
+[2026-10-23 22:36:56][INFO] ✓ Auto-generated executive report in results/Lan04/agent_reports/.
+[2026-10-23 22:37:01][INFO] ===========================================================================
+[2026-10-23 22:37:01][INFO]    STARTING RUN 4 (LAN04) — ENSEMBLES & REGIME BASELINES (DEFAULT PARAMETERS)
+[2026-10-23 22:37:01][INFO]    Run Name: Lan04 | Output: C:\Users\ACER\IS403.R12-equity-return-predictability\results\Lan04
+[2026-10-23 22:37:01][INFO]    Target: C1 | Horizons: all
+[2026-10-23 22:37:01][INFO] ===========================================================================
+[2026-10-23 22:37:01][INFO] 
+[1/1] ======================================================
+[2026-10-23 22:37:01][INFO] Executing: Baseline_C1 (Best Single Model per Horizon and Regime)
+[2026-10-23 22:37:01][INFO] Description: Selects argmin MSE(m, h, s) on historical validation for each volatility regime (Low, Normal, High).
+[2026-10-23 22:37:01][INFO] ===========================================================================
+[2026-10-23 22:37:01][INFO] ▶ Initializing Baseline_C1 (Best Single Model per Horizon and Regime)
+[2026-10-23 22:37:01][INFO]   Description: Selects argmin MSE(m, h, s) on historical validation for each volatility regime (Low, Normal, High).
+[2026-10-23 22:37:01][INFO]   Mode: Fixed Default Parameters (Lan04)
+[2026-10-23 22:37:01][INFO]   ✓ Baseline_C1 [1D | Fold 1/5]: OOS R² = -0.0144 | DA = 52.9% | RMSE = 0.0107
+[2026-10-23 22:37:01][INFO]   ✓ Baseline_C1 [1D | Fold 2/5]: OOS R² = -0.1531 | DA = 50.7% | RMSE = 0.0053
+[2026-10-23 22:37:01][INFO]   ✓ Baseline_C1 [1D | Fold 3/5]: OOS R² = -0.0031 | DA = 58.8% | RMSE = 0.0078
+[2026-10-23 22:37:01][INFO]   ✓ Baseline_C1 [1D | Fold 4/5]: OOS R² = +0.0035 | DA = 48.9% | RMSE = 0.0103
+[2026-10-23 22:37:01][INFO]   ✓ Baseline_C1 [1D | Fold 5/5]: OOS R² = +0.0228 | DA = 54.8% | RMSE = 0.0207
+[2026-10-23 22:37:01][INFO]   ✓ Baseline_C1 [5D | Fold 1/5]: OOS R² = +0.0009 | DA = 47.1% | RMSE = 0.0228
+[2026-10-23 22:37:02][INFO]   ✓ Baseline_C1 [5D | Fold 2/5]: OOS R² = -0.3102 | DA = 47.4% | RMSE = 0.0113
+[2026-10-23 22:37:02][INFO]   ✓ Baseline_C1 [5D | Fold 3/5]: OOS R² = -0.0128 | DA = 54.0% | RMSE = 0.0164
+[2026-10-23 22:37:02][INFO]   ✓ Baseline_C1 [5D | Fold 4/5]: OOS R² = +0.0006 | DA = 48.9% | RMSE = 0.0224
+[2026-10-23 22:37:02][INFO]   ✓ Baseline_C1 [5D | Fold 5/5]: OOS R² = -0.0151 | DA = 66.9% | RMSE = 0.0400
+[2026-10-23 22:37:02][INFO]   ✓ Baseline_C1 [20D | Fold 1/5]: OOS R² = +0.0070 | DA = 51.5% | RMSE = 0.0405
+[2026-10-23 22:37:02][INFO]   ✓ Baseline_C1 [20D | Fold 2/5]: OOS R² = -0.9924 | DA = 39.7% | RMSE = 0.0248
+[2026-10-23 22:37:02][INFO]   ✓ Baseline_C1 [20D | Fold 3/5]: OOS R² = -0.0455 | DA = 73.2% | RMSE = 0.0266
+[2026-10-23 22:37:02][INFO]   ✓ Baseline_C1 [20D | Fold 4/5]: OOS R² = -0.1059 | DA = 44.1% | RMSE = 0.0452
+[2026-10-23 22:37:02][INFO]   ✓ Baseline_C1 [20D | Fold 5/5]: OOS R² = -0.0495 | DA = 77.2% | RMSE = 0.0890
+[2026-10-23 22:37:02][INFO]   ✓ Baseline_C1 [60D | Fold 1/5]: OOS R² = +0.0462 | DA = 54.8% | RMSE = 0.0574
+[2026-10-23 22:37:02][INFO]   ✓ Baseline_C1 [60D | Fold 2/5]: OOS R² = -0.2152 | DA = 83.5% | RMSE = 0.0323
+[2026-10-23 22:37:02][INFO]   ✓ Baseline_C1 [60D | Fold 3/5]: OOS R² = -0.1617 | DA = 69.9% | RMSE = 0.0493
+[2026-10-23 22:37:02][INFO]   ✓ Baseline_C1 [60D | Fold 4/5]: OOS R² = -0.2040 | DA = 59.6% | RMSE = 0.0699
+[2026-10-23 22:37:02][INFO]   ✓ Baseline_C1 [60D | Fold 5/5]: OOS R² = -0.0146 | DA = 66.2% | RMSE = 0.1277
+[2026-10-23 22:37:02][INFO]   ✓ Baseline_C1 [120D | Fold 1/5]: OOS R² = -0.0077 | DA = 62.9% | RMSE = 0.0622
+[2026-10-23 22:37:02][INFO]   ✓ Baseline_C1 [120D | Fold 2/5]: OOS R² = -0.5417 | DA = 97.1% | RMSE = 0.0621
+[2026-10-23 22:37:02][INFO]   ✓ Baseline_C1 [120D | Fold 3/5]: OOS R² = +0.1130 | DA = 66.2% | RMSE = 0.0561
+[2026-10-23 22:37:02][INFO]   ✓ Baseline_C1 [120D | Fold 4/5]: OOS R² = -0.0286 | DA = 81.6% | RMSE = 0.0778
+[2026-10-23 22:37:02][INFO]   ✓ Baseline_C1 [120D | Fold 5/5]: OOS R² = +0.5953 | DA = 66.5% | RMSE = 0.0849
+[2026-10-23 22:37:04][INFO] ✓ Baseline_C1 completed in 2.93s.
+[2026-10-23 22:37:04][INFO] 
+===========================================================================
+[2026-10-23 22:37:04][INFO] LAN04 RUN COMPLETED IN 2.95s
+[2026-10-23 22:37:04][INFO] ALL ENSEMBLES & REGIME BASELINES COMPLETED SUCCESSFULLY!
+[2026-10-23 22:37:04][INFO] ===========================================================================
+[2026-10-23 22:37:06][INFO] ✓ Auto-generated RQ1, RQ2, RQ3 analysis and statistical tests for Lan04.
+[2026-10-23 22:37:06][INFO] ✓ Auto-generated executive report in results/Lan04/agent_reports/.
+[2026-10-23 22:37:11][INFO] ===========================================================================
+[2026-10-23 22:37:11][INFO]    STARTING RUN 4 (LAN04) — ENSEMBLES & REGIME BASELINES (DEFAULT PARAMETERS)
+[2026-10-23 22:37:11][INFO]    Run Name: Lan04 | Output: C:\Users\ACER\IS403.R12-equity-return-predictability\results\Lan04
+[2026-10-23 22:37:11][INFO]    Target: C2 | Horizons: all
+[2026-10-23 22:37:11][INFO] ===========================================================================
+[2026-10-23 22:37:12][INFO] 
+[1/1] ======================================================
+[2026-10-23 22:37:12][INFO] Executing: Baseline_C2 (Regime-Shrunk Inverse-MSE Weighting)
+[2026-10-23 22:37:12][INFO] Description: Shrinks regime-specific inverse-MSE weights towards horizon B2 baseline using shrinkage parameter N_0.
+[2026-10-23 22:37:12][INFO] ===========================================================================
+[2026-10-23 22:37:12][INFO] ▶ Initializing Baseline_C2 (Regime-Shrunk Inverse-MSE Weighting)
+[2026-10-23 22:37:12][INFO]   Description: Shrinks regime-specific inverse-MSE weights towards horizon B2 baseline using shrinkage parameter N_0.
+[2026-10-23 22:37:12][INFO]   Mode: Fixed Default Parameters (Lan04)
+[2026-10-23 22:37:12][INFO]   ✓ Baseline_C2 [1D | Fold 1/5]: OOS R² = -0.0131 | DA = 48.5% | RMSE = 0.0107
+[2026-10-23 22:37:12][INFO]   ✓ Baseline_C2 [1D | Fold 2/5]: OOS R² = -0.0036 | DA = 51.5% | RMSE = 0.0049
+[2026-10-23 22:37:12][INFO]   ✓ Baseline_C2 [1D | Fold 3/5]: OOS R² = +0.0045 | DA = 51.8% | RMSE = 0.0077
+[2026-10-23 22:37:12][INFO]   ✓ Baseline_C2 [1D | Fold 4/5]: OOS R² = -0.0028 | DA = 51.5% | RMSE = 0.0103
+[2026-10-23 22:37:12][INFO]   ✓ Baseline_C2 [1D | Fold 5/5]: OOS R² = -0.0094 | DA = 50.4% | RMSE = 0.0210
+[2026-10-23 22:37:12][INFO]   ✓ Baseline_C2 [5D | Fold 1/5]: OOS R² = -0.0144 | DA = 49.3% | RMSE = 0.0230
+[2026-10-23 22:37:12][INFO]   ✓ Baseline_C2 [5D | Fold 2/5]: OOS R² = -0.2399 | DA = 40.8% | RMSE = 0.0110
+[2026-10-23 22:37:12][INFO]   ✓ Baseline_C2 [5D | Fold 3/5]: OOS R² = -0.0028 | DA = 64.0% | RMSE = 0.0163
+[2026-10-23 22:37:12][INFO]   ✓ Baseline_C2 [5D | Fold 4/5]: OOS R² = -0.0211 | DA = 44.1% | RMSE = 0.0226
+[2026-10-23 22:37:12][INFO]   ✓ Baseline_C2 [5D | Fold 5/5]: OOS R² = -0.0299 | DA = 59.6% | RMSE = 0.0403
+[2026-10-23 22:37:12][INFO]   ✓ Baseline_C2 [20D | Fold 1/5]: OOS R² = -0.0607 | DA = 39.7% | RMSE = 0.0419
+[2026-10-23 22:37:12][INFO]   ✓ Baseline_C2 [20D | Fold 2/5]: OOS R² = -0.0673 | DA = 64.3% | RMSE = 0.0181
+[2026-10-23 22:37:12][INFO]   ✓ Baseline_C2 [20D | Fold 3/5]: OOS R² = -0.0758 | DA = 69.1% | RMSE = 0.0270
+[2026-10-23 22:37:12][INFO]   ✓ Baseline_C2 [20D | Fold 4/5]: OOS R² = -0.0510 | DA = 47.1% | RMSE = 0.0441
+[2026-10-23 22:37:12][INFO]   ✓ Baseline_C2 [20D | Fold 5/5]: OOS R² = -0.0952 | DA = 62.9% | RMSE = 0.0909
+[2026-10-23 22:37:12][INFO]   ✓ Baseline_C2 [60D | Fold 1/5]: OOS R² = -0.3352 | DA = 46.0% | RMSE = 0.0679
+[2026-10-23 22:37:12][INFO]   ✓ Baseline_C2 [60D | Fold 2/5]: OOS R² = +0.0252 | DA = 90.8% | RMSE = 0.0289
+[2026-10-23 22:37:12][INFO]   ✓ Baseline_C2 [60D | Fold 3/5]: OOS R² = -0.2133 | DA = 59.9% | RMSE = 0.0504
+[2026-10-23 22:37:12][INFO]   ✓ Baseline_C2 [60D | Fold 4/5]: OOS R² = -0.2716 | DA = 60.3% | RMSE = 0.0718
+[2026-10-23 22:37:12][INFO]   ✓ Baseline_C2 [60D | Fold 5/5]: OOS R² = -0.1800 | DA = 55.5% | RMSE = 0.1377
+[2026-10-23 22:37:12][INFO]   ✓ Baseline_C2 [120D | Fold 1/5]: OOS R² = -0.8594 | DA = 43.8% | RMSE = 0.0845
+[2026-10-23 22:37:12][INFO]   ✓ Baseline_C2 [120D | Fold 2/5]: OOS R² = +0.1402 | DA = 100.0% | RMSE = 0.0464
+[2026-10-23 22:37:13][INFO]   ✓ Baseline_C2 [120D | Fold 3/5]: OOS R² = -0.1374 | DA = 57.7% | RMSE = 0.0636
+[2026-10-23 22:37:13][INFO]   ✓ Baseline_C2 [120D | Fold 4/5]: OOS R² = -0.2923 | DA = 65.1% | RMSE = 0.0872
+[2026-10-23 22:37:13][INFO]   ✓ Baseline_C2 [120D | Fold 5/5]: OOS R² = +0.0205 | DA = 62.9% | RMSE = 0.1321
+[2026-10-23 22:37:15][INFO] ✓ Baseline_C2 completed in 3.61s.
+[2026-10-23 22:37:15][INFO] 
+===========================================================================
+[2026-10-23 22:37:15][INFO] LAN04 RUN COMPLETED IN 3.64s
+[2026-10-23 22:37:15][INFO] ALL ENSEMBLES & REGIME BASELINES COMPLETED SUCCESSFULLY!
+[2026-10-23 22:37:15][INFO] ===========================================================================
+[2026-10-23 22:37:18][INFO] ✓ Auto-generated RQ1, RQ2, RQ3 analysis and statistical tests for Lan04.
+[2026-10-23 22:37:18][INFO] ✓ Auto-generated executive report in results/Lan04/agent_reports/.
+[2026-10-23 22:37:23][INFO] ===========================================================================
+[2026-10-23 22:37:23][INFO]    STARTING RUN 4 (LAN04) — ENSEMBLES & REGIME BASELINES (DEFAULT PARAMETERS)
+[2026-10-23 22:37:23][INFO]    Run Name: Lan04 | Output: C:\Users\ACER\IS403.R12-equity-return-predictability\results\Lan04
+[2026-10-23 22:37:23][INFO]    Target: C3 | Horizons: all
+[2026-10-23 22:37:23][INFO] ===========================================================================
+[2026-10-23 22:37:23][INFO] 
+[1/1] ======================================================
+[2026-10-23 22:37:23][INFO] Executing: Baseline_C3 (Defensive Volatility Switch)
+[2026-10-23 22:37:23][INFO] Description: Switches between Core 4 Ensemble (A2) in Low/Normal regimes and Historical Mean benchmark in High volatility.
+[2026-10-23 22:37:23][INFO] ===========================================================================
+[2026-10-23 22:37:23][INFO] ▶ Initializing Baseline_C3 (Defensive Volatility Switch)
+[2026-10-23 22:37:23][INFO]   Description: Switches between Core 4 Ensemble (A2) in Low/Normal regimes and Historical Mean benchmark in High volatility.
+[2026-10-23 22:37:23][INFO]   Mode: Fixed Default Parameters (Lan04)
+[2026-10-23 22:37:23][INFO]   ✓ Baseline_C3 [1D | Fold 1/5]: OOS R² = +0.0004 | DA = 51.5% | RMSE = 0.0106
+[2026-10-23 22:37:23][INFO]   ✓ Baseline_C3 [1D | Fold 2/5]: OOS R² = +0.0004 | DA = 52.2% | RMSE = 0.0049
+[2026-10-23 22:37:23][INFO]   ✓ Baseline_C3 [1D | Fold 3/5]: OOS R² = -0.0057 | DA = 53.7% | RMSE = 0.0078
+[2026-10-23 22:37:23][INFO]   ✓ Baseline_C3 [1D | Fold 4/5]: OOS R² = +0.0007 | DA = 55.1% | RMSE = 0.0103
+[2026-10-23 22:37:23][INFO]   ✓ Baseline_C3 [1D | Fold 5/5]: OOS R² = -0.0001 | DA = 52.6% | RMSE = 0.0209
+[2026-10-23 22:37:23][INFO]   ✓ Baseline_C3 [5D | Fold 1/5]: OOS R² = -0.0056 | DA = 52.2% | RMSE = 0.0229
+[2026-10-23 22:37:23][INFO]   ✓ Baseline_C3 [5D | Fold 2/5]: OOS R² = -0.2062 | DA = 43.4% | RMSE = 0.0108
+[2026-10-23 22:37:23][INFO]   ✓ Baseline_C3 [5D | Fold 3/5]: OOS R² = +0.0017 | DA = 65.4% | RMSE = 0.0163
+[2026-10-23 22:37:23][INFO]   ✓ Baseline_C3 [5D | Fold 4/5]: OOS R² = -0.0020 | DA = 50.4% | RMSE = 0.0224
+[2026-10-23 22:37:24][INFO]   ✓ Baseline_C3 [5D | Fold 5/5]: OOS R² = -0.0013 | DA = 67.6% | RMSE = 0.0397
+[2026-10-23 22:37:24][INFO]   ✓ Baseline_C3 [20D | Fold 1/5]: OOS R² = +0.0499 | DA = 57.0% | RMSE = 0.0396
+[2026-10-23 22:37:24][INFO]   ✓ Baseline_C3 [20D | Fold 2/5]: OOS R² = -0.0385 | DA = 70.6% | RMSE = 0.0179
+[2026-10-23 22:37:24][INFO]   ✓ Baseline_C3 [20D | Fold 3/5]: OOS R² = -0.0887 | DA = 74.3% | RMSE = 0.0271
+[2026-10-23 22:37:24][INFO]   ✓ Baseline_C3 [20D | Fold 4/5]: OOS R² = -0.0124 | DA = 55.9% | RMSE = 0.0433
+[2026-10-23 22:37:24][INFO]   ✓ Baseline_C3 [20D | Fold 5/5]: OOS R² = -0.0083 | DA = 77.2% | RMSE = 0.0872
+[2026-10-23 22:37:24][INFO]   ✓ Baseline_C3 [60D | Fold 1/5]: OOS R² = +0.1293 | DA = 65.1% | RMSE = 0.0548
+[2026-10-23 22:37:24][INFO]   ✓ Baseline_C3 [60D | Fold 2/5]: OOS R² = +0.0243 | DA = 89.3% | RMSE = 0.0289
+[2026-10-23 22:37:24][INFO]   ✓ Baseline_C3 [60D | Fold 3/5]: OOS R² = -0.1162 | DA = 67.6% | RMSE = 0.0483
+[2026-10-23 22:37:24][INFO]   ✓ Baseline_C3 [60D | Fold 4/5]: OOS R² = -0.0902 | DA = 71.7% | RMSE = 0.0665
+[2026-10-23 22:37:24][INFO]   ✓ Baseline_C3 [60D | Fold 5/5]: OOS R² = -0.0368 | DA = 75.0% | RMSE = 0.1291
+[2026-10-23 22:37:24][INFO]   ✓ Baseline_C3 [120D | Fold 1/5]: OOS R² = -0.1491 | DA = 66.2% | RMSE = 0.0664
+[2026-10-23 22:37:24][INFO]   ✓ Baseline_C3 [120D | Fold 2/5]: OOS R² = +0.2761 | DA = 100.0% | RMSE = 0.0426
+[2026-10-23 22:37:24][INFO]   ✓ Baseline_C3 [120D | Fold 3/5]: OOS R² = +0.0156 | DA = 64.3% | RMSE = 0.0592
+[2026-10-23 22:37:24][INFO]   ✓ Baseline_C3 [120D | Fold 4/5]: OOS R² = -0.0526 | DA = 72.8% | RMSE = 0.0787
+[2026-10-23 22:37:24][INFO]   ✓ Baseline_C3 [120D | Fold 5/5]: OOS R² = +0.0214 | DA = 66.5% | RMSE = 0.1320
+[2026-10-23 22:37:27][INFO] ✓ Baseline_C3 completed in 3.62s.
+[2026-10-23 22:37:27][INFO] 
+===========================================================================
+[2026-10-23 22:37:27][INFO] LAN04 RUN COMPLETED IN 3.63s
+[2026-10-23 22:37:27][INFO] ALL ENSEMBLES & REGIME BASELINES COMPLETED SUCCESSFULLY!
+[2026-10-23 22:37:27][INFO] ===========================================================================
+[2026-10-23 22:37:29][INFO] ✓ Auto-generated RQ1, RQ2, RQ3 analysis and statistical tests for Lan04.
+[2026-10-23 22:37:29][INFO] ✓ Auto-generated executive report in results/Lan04/agent_reports/.
+[2026-10-26 11:30:05][INFO] ===========================================================================
+[2026-10-26 11:30:05][INFO]    STARTING RUN 4 (LAN04) — ENSEMBLES & REGIME BASELINES (DEFAULT PARAMETERS)
+[2026-10-26 11:30:05][INFO]    Run Name: Lan04 | Output: C:\IS\ĐỒ ÁN\KỲ 5\IS403.R12-equity-return-predictability\results\Lan04
+[2026-10-26 11:30:05][INFO]    Target: A1 | Horizons: all
+[2026-10-26 11:30:05][INFO] ===========================================================================
+[2026-10-26 11:30:05][INFO] 
+[1/1] ======================================================
+[2026-10-26 11:30:05][INFO] Executing: Ensemble_A1 (All 13 Models Equal-Weight Ensemble)
+[2026-10-26 11:30:05][INFO] Description: Combines all 13 regression baselines across linear, tree, kernel, statistical, and deep learning families.
+[2026-10-26 11:30:05][INFO] ===========================================================================
+[2026-10-26 11:30:05][INFO] ▶ Initializing Ensemble_A1 (All 13 Models Equal-Weight Ensemble)
+[2026-10-26 11:30:05][INFO]   Description: Combines all 13 regression baselines across linear, tree, kernel, statistical, and deep learning families.
+[2026-10-26 11:30:05][INFO]   Mode: Fixed Default Parameters (Lan04)
+[2026-10-26 11:30:05][INFO]   ✓ Ensemble_A1 [1D | Fold 1/5]: OOS R² = -0.0095 | DA = 50.7% | RMSE = 0.0107
+[2026-10-26 11:30:05][INFO]   ✓ Ensemble_A1 [1D | Fold 2/5]: OOS R² = +0.0120 | DA = 52.9% | RMSE = 0.0049
+[2026-10-26 11:30:05][INFO]   ✓ Ensemble_A1 [1D | Fold 3/5]: OOS R² = +0.0060 | DA = 49.6% | RMSE = 0.0077
+[2026-10-26 11:30:05][INFO]   ✓ Ensemble_A1 [1D | Fold 4/5]: OOS R² = +0.0034 | DA = 52.2% | RMSE = 0.0103
+[2026-10-26 11:30:05][INFO]   ✓ Ensemble_A1 [1D | Fold 5/5]: OOS R² = +0.0055 | DA = 53.3% | RMSE = 0.0209
+[2026-10-26 11:30:05][INFO]   ✓ Ensemble_A1 [5D | Fold 1/5]: OOS R² = -0.0069 | DA = 47.8% | RMSE = 0.0229
+[2026-10-26 11:30:05][INFO]   ✓ Ensemble_A1 [5D | Fold 2/5]: OOS R² = -0.0534 | DA = 44.9% | RMSE = 0.0101
+[2026-10-26 11:30:05][INFO]   ✓ Ensemble_A1 [5D | Fold 3/5]: OOS R² = -0.0117 | DA = 63.2% | RMSE = 0.0164
+[2026-10-26 11:30:05][INFO]   ✓ Ensemble_A1 [5D | Fold 4/5]: OOS R² = +0.0134 | DA = 55.9% | RMSE = 0.0222
+[2026-10-26 11:30:05][INFO]   ✓ Ensemble_A1 [5D | Fold 5/5]: OOS R² = -0.0257 | DA = 63.6% | RMSE = 0.0402
+[2026-10-26 11:30:05][INFO]   ✓ Ensemble_A1 [20D | Fold 1/5]: OOS R² = -0.0224 | DA = 42.3% | RMSE = 0.0411
+[2026-10-26 11:30:05][INFO]   ✓ Ensemble_A1 [20D | Fold 2/5]: OOS R² = -0.0778 | DA = 65.1% | RMSE = 0.0182
+[2026-10-26 11:30:05][INFO]   ✓ Ensemble_A1 [20D | Fold 3/5]: OOS R² = -0.0434 | DA = 72.8% | RMSE = 0.0266
+[2026-10-26 11:30:05][INFO]   ✓ Ensemble_A1 [20D | Fold 4/5]: OOS R² = -0.0281 | DA = 53.7% | RMSE = 0.0436
+[2026-10-26 11:30:05][INFO]   ✓ Ensemble_A1 [20D | Fold 5/5]: OOS R² = -0.0497 | DA = 65.1% | RMSE = 0.0890
+[2026-10-26 11:30:05][INFO]   ✓ Ensemble_A1 [60D | Fold 1/5]: OOS R² = -0.1741 | DA = 47.8% | RMSE = 0.0637
+[2026-10-26 11:30:05][INFO]   ✓ Ensemble_A1 [60D | Fold 2/5]: OOS R² = -0.1800 | DA = 89.3% | RMSE = 0.0318
+[2026-10-26 11:30:05][INFO]   ✓ Ensemble_A1 [60D | Fold 3/5]: OOS R² = -0.1582 | DA = 64.0% | RMSE = 0.0492
+[2026-10-26 11:30:05][INFO]   ✓ Ensemble_A1 [60D | Fold 4/5]: OOS R² = -0.2079 | DA = 68.4% | RMSE = 0.0700
+[2026-10-26 11:30:05][INFO]   ✓ Ensemble_A1 [60D | Fold 5/5]: OOS R² = -0.0335 | DA = 67.6% | RMSE = 0.1289
+[2026-10-26 11:30:05][INFO]   ✓ Ensemble_A1 [120D | Fold 1/5]: OOS R² = -0.4703 | DA = 50.0% | RMSE = 0.0752
+[2026-10-26 11:30:05][INFO]   ✓ Ensemble_A1 [120D | Fold 2/5]: OOS R² = +0.0694 | DA = 100.0% | RMSE = 0.0483
+[2026-10-26 11:30:05][INFO]   ✓ Ensemble_A1 [120D | Fold 3/5]: OOS R² = -0.0605 | DA = 60.3% | RMSE = 0.0614
+[2026-10-26 11:30:05][INFO]   ✓ Ensemble_A1 [120D | Fold 4/5]: OOS R² = -0.2704 | DA = 75.7% | RMSE = 0.0864
+[2026-10-26 11:30:06][INFO]   ✓ Ensemble_A1 [120D | Fold 5/5]: OOS R² = +0.1815 | DA = 66.5% | RMSE = 0.1207
+[2026-10-26 11:30:10][INFO] ✓ Ensemble_A1 completed in 5.02s.
+[2026-10-26 11:30:10][INFO] 
+===========================================================================
+[2026-10-26 11:30:10][INFO] LAN04 RUN COMPLETED IN 5.03s
+[2026-10-26 11:30:10][INFO] ALL ENSEMBLES & REGIME BASELINES COMPLETED SUCCESSFULLY!
+[2026-10-26 11:30:10][INFO] ===========================================================================
+[2026-10-26 11:30:12][INFO] ✓ Auto-generated RQ1, RQ2, RQ3 analysis and statistical tests for Lan04.
+[2026-10-26 11:30:12][INFO] ✓ Auto-generated executive report in results/Lan04/agent_reports/.
+[2026-10-26 11:32:24][INFO] ===========================================================================
+[2026-10-26 11:32:24][INFO]    STARTING RUN 4 (LAN04) — ENSEMBLES & REGIME BASELINES (DEFAULT PARAMETERS)
+[2026-10-26 11:32:24][INFO]    Run Name: Lan04 | Output: C:\IS\ĐỒ ÁN\KỲ 5\IS403.R12-equity-return-predictability\results\Lan04
+[2026-10-26 11:32:24][INFO]    Target: A2 | Horizons: all
+[2026-10-26 11:32:24][INFO] ===========================================================================
+[2026-10-26 11:32:24][INFO] 
+[1/1] ======================================================
+[2026-10-26 11:32:24][INFO] Executing: Ensemble_A2 (Core 4 Models Equal-Weight Ensemble)
+[2026-10-26 11:32:24][INFO] Description: Diverse 4-model core ensemble: Ridge (Regularized Linear) + SVR (Kernel) + LightGBM (Gradient Boosting) + SARIMA (Statistical TS).
+[2026-10-26 11:32:24][INFO] ===========================================================================
+[2026-10-26 11:32:24][INFO] ▶ Initializing Ensemble_A2 (Core 4 Models Equal-Weight Ensemble)
+[2026-10-26 11:32:24][INFO]   Description: Diverse 4-model core ensemble: Ridge (Regularized Linear) + SVR (Kernel) + LightGBM (Gradient Boosting) + SARIMA (Statistical TS).
+[2026-10-26 11:32:24][INFO]   Mode: Fixed Default Parameters (Lan04)
+[2026-10-26 11:32:24][INFO]   ✓ Ensemble_A2 [1D | Fold 1/5]: OOS R² = -0.0131 | DA = 48.5% | RMSE = 0.0107
+[2026-10-26 11:32:24][INFO]   ✓ Ensemble_A2 [1D | Fold 2/5]: OOS R² = -0.0038 | DA = 51.1% | RMSE = 0.0049
+[2026-10-26 11:32:24][INFO]   ✓ Ensemble_A2 [1D | Fold 3/5]: OOS R² = +0.0044 | DA = 51.8% | RMSE = 0.0077
+[2026-10-26 11:32:24][INFO]   ✓ Ensemble_A2 [1D | Fold 4/5]: OOS R² = -0.0028 | DA = 51.5% | RMSE = 0.0103
+[2026-10-26 11:32:24][INFO]   ✓ Ensemble_A2 [1D | Fold 5/5]: OOS R² = -0.0095 | DA = 50.0% | RMSE = 0.0210
+[2026-10-26 11:32:24][INFO]   ✓ Ensemble_A2 [5D | Fold 1/5]: OOS R² = -0.0144 | DA = 49.3% | RMSE = 0.0230
+[2026-10-26 11:32:24][INFO]   ✓ Ensemble_A2 [5D | Fold 2/5]: OOS R² = -0.2325 | DA = 40.8% | RMSE = 0.0110
+[2026-10-26 11:32:24][INFO]   ✓ Ensemble_A2 [5D | Fold 3/5]: OOS R² = -0.0074 | DA = 64.0% | RMSE = 0.0164
+[2026-10-26 11:32:24][INFO]   ✓ Ensemble_A2 [5D | Fold 4/5]: OOS R² = -0.0208 | DA = 45.2% | RMSE = 0.0226
+[2026-10-26 11:32:25][INFO]   ✓ Ensemble_A2 [5D | Fold 5/5]: OOS R² = -0.0263 | DA = 60.7% | RMSE = 0.0402
+[2026-10-26 11:32:25][INFO]   ✓ Ensemble_A2 [20D | Fold 1/5]: OOS R² = -0.0607 | DA = 39.7% | RMSE = 0.0419
+[2026-10-26 11:32:25][INFO]   ✓ Ensemble_A2 [20D | Fold 2/5]: OOS R² = -0.0564 | DA = 66.5% | RMSE = 0.0180
+[2026-10-26 11:32:25][INFO]   ✓ Ensemble_A2 [20D | Fold 3/5]: OOS R² = -0.0862 | DA = 70.6% | RMSE = 0.0271
+[2026-10-26 11:32:25][INFO]   ✓ Ensemble_A2 [20D | Fold 4/5]: OOS R² = -0.0411 | DA = 47.4% | RMSE = 0.0439
+[2026-10-26 11:32:25][INFO]   ✓ Ensemble_A2 [20D | Fold 5/5]: OOS R² = -0.0914 | DA = 63.6% | RMSE = 0.0907
+[2026-10-26 11:32:25][INFO]   ✓ Ensemble_A2 [60D | Fold 1/5]: OOS R² = -0.3352 | DA = 46.0% | RMSE = 0.0679
+[2026-10-26 11:32:25][INFO]   ✓ Ensemble_A2 [60D | Fold 2/5]: OOS R² = +0.0437 | DA = 89.3% | RMSE = 0.0286
+[2026-10-26 11:32:25][INFO]   ✓ Ensemble_A2 [60D | Fold 3/5]: OOS R² = -0.2195 | DA = 59.9% | RMSE = 0.0505
+[2026-10-26 11:32:25][INFO]   ✓ Ensemble_A2 [60D | Fold 4/5]: OOS R² = -0.2705 | DA = 60.3% | RMSE = 0.0718
+[2026-10-26 11:32:25][INFO]   ✓ Ensemble_A2 [60D | Fold 5/5]: OOS R² = -0.1561 | DA = 55.9% | RMSE = 0.1363
+[2026-10-26 11:32:25][INFO]   ✓ Ensemble_A2 [120D | Fold 1/5]: OOS R² = -0.8594 | DA = 43.8% | RMSE = 0.0845
+[2026-10-26 11:32:25][INFO]   ✓ Ensemble_A2 [120D | Fold 2/5]: OOS R² = +0.2777 | DA = 100.0% | RMSE = 0.0425
+[2026-10-26 11:32:25][INFO]   ✓ Ensemble_A2 [120D | Fold 3/5]: OOS R² = -0.2261 | DA = 54.0% | RMSE = 0.0660
+[2026-10-26 11:32:25][INFO]   ✓ Ensemble_A2 [120D | Fold 4/5]: OOS R² = -0.4655 | DA = 55.1% | RMSE = 0.0928
+[2026-10-26 11:32:25][INFO]   ✓ Ensemble_A2 [120D | Fold 5/5]: OOS R² = +0.0551 | DA = 61.4% | RMSE = 0.1297
+[2026-10-26 11:32:29][INFO] ✓ Ensemble_A2 completed in 4.41s.
+[2026-10-26 11:32:29][INFO] 
+===========================================================================
+[2026-10-26 11:32:29][INFO] LAN04 RUN COMPLETED IN 4.42s
+[2026-10-26 11:32:29][INFO] ALL ENSEMBLES & REGIME BASELINES COMPLETED SUCCESSFULLY!
+[2026-10-26 11:32:29][INFO] ===========================================================================
+[2026-10-26 11:32:31][INFO] ✓ Auto-generated RQ1, RQ2, RQ3 analysis and statistical tests for Lan04.
+[2026-10-26 11:32:31][INFO] ✓ Auto-generated executive report in results/Lan04/agent_reports/.
+[2026-10-26 11:32:56][INFO] ===========================================================================
+[2026-10-26 11:32:56][INFO]    STARTING RUN 4 (LAN04) — ENSEMBLES & REGIME BASELINES (DEFAULT PARAMETERS)
+[2026-10-26 11:32:56][INFO]    Run Name: Lan04 | Output: C:\IS\ĐỒ ÁN\KỲ 5\IS403.R12-equity-return-predictability\results\Lan04
+[2026-10-26 11:32:56][INFO]    Target: A3 | Horizons: all
+[2026-10-26 11:32:56][INFO] ===========================================================================
+[2026-10-26 11:32:56][INFO] 
+[1/1] ======================================================
+[2026-10-26 11:32:56][INFO] Executing: Ensemble_A3 (Ridge + SARIMA + Historical Mean)
+[2026-10-26 11:32:56][INFO] Description: Parsimonious 3-model ensemble: Ridge + SARIMA + Historical Mean baseline.
+[2026-10-26 11:32:56][INFO] ===========================================================================
+[2026-10-26 11:32:56][INFO] ▶ Initializing Ensemble_A3 (Ridge + SARIMA + Historical Mean)
+[2026-10-26 11:32:56][INFO]   Description: Parsimonious 3-model ensemble: Ridge + SARIMA + Historical Mean baseline.
+[2026-10-26 11:32:56][INFO]   Mode: Fixed Default Parameters (Lan04)
+[2026-10-26 11:32:57][INFO]   ✓ Ensemble_A3 [1D | Fold 1/5]: OOS R² = -0.0047 | DA = 49.3% | RMSE = 0.0106
+[2026-10-26 11:32:57][INFO]   ✓ Ensemble_A3 [1D | Fold 2/5]: OOS R² = +0.0020 | DA = 51.1% | RMSE = 0.0049
+[2026-10-26 11:32:57][INFO]   ✓ Ensemble_A3 [1D | Fold 3/5]: OOS R² = +0.0079 | DA = 57.0% | RMSE = 0.0077
+[2026-10-26 11:32:57][INFO]   ✓ Ensemble_A3 [1D | Fold 4/5]: OOS R² = -0.0005 | DA = 50.4% | RMSE = 0.0103
+[2026-10-26 11:32:57][INFO]   ✓ Ensemble_A3 [1D | Fold 5/5]: OOS R² = +0.0142 | DA = 55.9% | RMSE = 0.0208
+[2026-10-26 11:32:57][INFO]   ✓ Ensemble_A3 [5D | Fold 1/5]: OOS R² = -0.0364 | DA = 45.2% | RMSE = 0.0232
+[2026-10-26 11:32:57][INFO]   ✓ Ensemble_A3 [5D | Fold 2/5]: OOS R² = -0.0516 | DA = 53.3% | RMSE = 0.0101
+[2026-10-26 11:32:57][INFO]   ✓ Ensemble_A3 [5D | Fold 3/5]: OOS R² = -0.0271 | DA = 61.8% | RMSE = 0.0165
+[2026-10-26 11:32:57][INFO]   ✓ Ensemble_A3 [5D | Fold 4/5]: OOS R² = -0.0283 | DA = 52.6% | RMSE = 0.0227
+[2026-10-26 11:32:57][INFO]   ✓ Ensemble_A3 [5D | Fold 5/5]: OOS R² = -0.0180 | DA = 57.0% | RMSE = 0.0401
+[2026-10-26 11:32:57][INFO]   ✓ Ensemble_A3 [20D | Fold 1/5]: OOS R² = +0.0163 | DA = 51.5% | RMSE = 0.0403
+[2026-10-26 11:32:57][INFO]   ✓ Ensemble_A3 [20D | Fold 2/5]: OOS R² = +0.0288 | DA = 69.1% | RMSE = 0.0173
+[2026-10-26 11:32:57][INFO]   ✓ Ensemble_A3 [20D | Fold 3/5]: OOS R² = -0.0242 | DA = 77.2% | RMSE = 0.0263
+[2026-10-26 11:32:57][INFO]   ✓ Ensemble_A3 [20D | Fold 4/5]: OOS R² = -0.0697 | DA = 50.4% | RMSE = 0.0445
+[2026-10-26 11:32:57][INFO]   ✓ Ensemble_A3 [20D | Fold 5/5]: OOS R² = -0.0769 | DA = 63.6% | RMSE = 0.0901
+[2026-10-26 11:32:57][INFO]   ✓ Ensemble_A3 [60D | Fold 1/5]: OOS R² = +0.0012 | DA = 59.2% | RMSE = 0.0587
+[2026-10-26 11:32:57][INFO]   ✓ Ensemble_A3 [60D | Fold 2/5]: OOS R² = -0.0228 | DA = 89.3% | RMSE = 0.0296
+[2026-10-26 11:32:57][INFO]   ✓ Ensemble_A3 [60D | Fold 3/5]: OOS R² = -0.1404 | DA = 66.9% | RMSE = 0.0489
+[2026-10-26 11:32:57][INFO]   ✓ Ensemble_A3 [60D | Fold 4/5]: OOS R² = -0.2086 | DA = 64.3% | RMSE = 0.0700
+[2026-10-26 11:32:57][INFO]   ✓ Ensemble_A3 [60D | Fold 5/5]: OOS R² = -0.1578 | DA = 55.1% | RMSE = 0.1364
+[2026-10-26 11:32:57][INFO]   ✓ Ensemble_A3 [120D | Fold 1/5]: OOS R² = -0.1042 | DA = 72.4% | RMSE = 0.0651
+[2026-10-26 11:32:57][INFO]   ✓ Ensemble_A3 [120D | Fold 2/5]: OOS R² = +0.1384 | DA = 100.0% | RMSE = 0.0464
+[2026-10-26 11:32:57][INFO]   ✓ Ensemble_A3 [120D | Fold 3/5]: OOS R² = +0.0130 | DA = 66.2% | RMSE = 0.0592
+[2026-10-26 11:32:57][INFO]   ✓ Ensemble_A3 [120D | Fold 4/5]: OOS R² = -0.0887 | DA = 83.8% | RMSE = 0.0800
+[2026-10-26 11:32:57][INFO]   ✓ Ensemble_A3 [120D | Fold 5/5]: OOS R² = -0.0360 | DA = 61.8% | RMSE = 0.1358
+[2026-10-26 11:33:01][INFO] ✓ Ensemble_A3 completed in 4.36s.
+[2026-10-26 11:33:01][INFO] 
+===========================================================================
+[2026-10-26 11:33:01][INFO] LAN04 RUN COMPLETED IN 4.36s
+[2026-10-26 11:33:01][INFO] ALL ENSEMBLES & REGIME BASELINES COMPLETED SUCCESSFULLY!
+[2026-10-26 11:33:01][INFO] ===========================================================================
+[2026-10-26 11:33:03][INFO] ✓ Auto-generated RQ1, RQ2, RQ3 analysis and statistical tests for Lan04.
+[2026-10-26 11:33:03][INFO] ✓ Auto-generated executive report in results/Lan04/agent_reports/.
+[2026-10-26 11:34:16][INFO] ===========================================================================
+[2026-10-26 11:34:16][INFO]    STARTING RUN 4 (LAN04) — ENSEMBLES & REGIME BASELINES (DEFAULT PARAMETERS)
+[2026-10-26 11:34:16][INFO]    Run Name: Lan04 | Output: C:\IS\ĐỒ ÁN\KỲ 5\IS403.R12-equity-return-predictability\results\Lan04
+[2026-10-26 11:34:16][INFO]    Target: B1 | Horizons: all
+[2026-10-26 11:34:16][INFO] ===========================================================================
+[2026-10-26 11:34:16][INFO] 
+[1/1] ======================================================
+[2026-10-26 11:34:16][INFO] Executing: Baseline_B1 (Best Single Model per Horizon)
+[2026-10-26 11:34:16][INFO] Description: Selects argmin MSE(m, h) on historical validation folds across all 13 regression baselines.
+[2026-10-26 11:34:16][INFO] ===========================================================================
+[2026-10-26 11:34:16][INFO] ▶ Initializing Baseline_B1 (Best Single Model per Horizon)
+[2026-10-26 11:34:16][INFO]   Description: Selects argmin MSE(m, h) on historical validation folds across all 13 regression baselines.
+[2026-10-26 11:34:16][INFO]   Mode: Fixed Default Parameters (Lan04)
+[2026-10-26 11:34:16][INFO]   ✓ Baseline_B1 [1D | Fold 1/5]: OOS R² = -0.0090 | DA = 48.2% | RMSE = 0.0107
+[2026-10-26 11:34:16][INFO]   ✓ Baseline_B1 [1D | Fold 2/5]: OOS R² = -0.0309 | DA = 51.1% | RMSE = 0.0050
+[2026-10-26 11:34:16][INFO]   ✓ Baseline_B1 [1D | Fold 3/5]: OOS R² = +0.0012 | DA = 58.1% | RMSE = 0.0077
+[2026-10-26 11:34:16][INFO]   ✓ Baseline_B1 [1D | Fold 4/5]: OOS R² = +0.0020 | DA = 54.0% | RMSE = 0.0103
+[2026-10-26 11:34:16][INFO]   ✓ Baseline_B1 [1D | Fold 5/5]: OOS R² = +0.0005 | DA = 58.8% | RMSE = 0.0209
+[2026-10-26 11:34:16][INFO]   ✓ Baseline_B1 [5D | Fold 1/5]: OOS R² = -0.0001 | DA = 55.1% | RMSE = 0.0228
+[2026-10-26 11:34:16][INFO]   ✓ Baseline_B1 [5D | Fold 2/5]: OOS R² = +0.0126 | DA = 57.4% | RMSE = 0.0098
+[2026-10-26 11:34:16][INFO]   ✓ Baseline_B1 [5D | Fold 3/5]: OOS R² = +0.0015 | DA = 63.2% | RMSE = 0.0163
+[2026-10-26 11:34:16][INFO]   ✓ Baseline_B1 [5D | Fold 4/5]: OOS R² = +0.0026 | DA = 52.6% | RMSE = 0.0224
+[2026-10-26 11:34:16][INFO]   ✓ Baseline_B1 [5D | Fold 5/5]: OOS R² = -0.0146 | DA = 65.4% | RMSE = 0.0400
+[2026-10-26 11:34:16][INFO]   ✓ Baseline_B1 [20D | Fold 1/5]: OOS R² = +0.0000 | DA = 57.4% | RMSE = 0.0407
+[2026-10-26 11:34:16][INFO]   ✓ Baseline_B1 [20D | Fold 2/5]: OOS R² = -1.0829 | DA = 35.7% | RMSE = 0.0253
+[2026-10-26 11:34:16][INFO]   ✓ Baseline_B1 [20D | Fold 3/5]: OOS R² = -0.0355 | DA = 70.2% | RMSE = 0.0265
+[2026-10-26 11:34:16][INFO]   ✓ Baseline_B1 [20D | Fold 4/5]: OOS R² = -0.0666 | DA = 40.1% | RMSE = 0.0444
+[2026-10-26 11:34:16][INFO]   ✓ Baseline_B1 [20D | Fold 5/5]: OOS R² = +0.0000 | DA = 77.2% | RMSE = 0.0869
+[2026-10-26 11:34:16][INFO]   ✓ Baseline_B1 [60D | Fold 1/5]: OOS R² = +0.0000 | DA = 62.5% | RMSE = 0.0588
+[2026-10-26 11:34:16][INFO]   ✓ Baseline_B1 [60D | Fold 2/5]: OOS R² = -0.8982 | DA = 46.0% | RMSE = 0.0403
+[2026-10-26 11:34:16][INFO]   ✓ Baseline_B1 [60D | Fold 3/5]: OOS R² = +0.0000 | DA = 72.4% | RMSE = 0.0458
+[2026-10-26 11:34:17][INFO]   ✓ Baseline_B1 [60D | Fold 4/5]: OOS R² = +0.0000 | DA = 73.5% | RMSE = 0.0637
+[2026-10-26 11:34:17][INFO]   ✓ Baseline_B1 [60D | Fold 5/5]: OOS R² = +0.0000 | DA = 75.0% | RMSE = 0.1268
+[2026-10-26 11:34:17][INFO]   ✓ Baseline_B1 [120D | Fold 1/5]: OOS R² = -0.0662 | DA = 62.1% | RMSE = 0.0640
+[2026-10-26 11:34:17][INFO]   ✓ Baseline_B1 [120D | Fold 2/5]: OOS R² = +0.0000 | DA = 100.0% | RMSE = 0.0500
+[2026-10-26 11:34:17][INFO]   ✓ Baseline_B1 [120D | Fold 3/5]: OOS R² = +0.0000 | DA = 66.2% | RMSE = 0.0596
+[2026-10-26 11:34:17][INFO]   ✓ Baseline_B1 [120D | Fold 4/5]: OOS R² = +0.0000 | DA = 83.8% | RMSE = 0.0767
+[2026-10-26 11:34:17][INFO]   ✓ Baseline_B1 [120D | Fold 5/5]: OOS R² = +0.6077 | DA = 66.5% | RMSE = 0.0836
+[2026-10-26 11:34:20][INFO] ✓ Baseline_B1 completed in 4.18s.
+[2026-10-26 11:34:20][INFO] 
+===========================================================================
+[2026-10-26 11:34:20][INFO] LAN04 RUN COMPLETED IN 4.18s
+[2026-10-26 11:34:20][INFO] ALL ENSEMBLES & REGIME BASELINES COMPLETED SUCCESSFULLY!
+[2026-10-26 11:34:20][INFO] ===========================================================================
+[2026-10-26 11:34:22][INFO] ✓ Auto-generated RQ1, RQ2, RQ3 analysis and statistical tests for Lan04.
+[2026-10-26 11:34:22][INFO] ✓ Auto-generated executive report in results/Lan04/agent_reports/.
+[2026-10-26 11:34:32][INFO] ===========================================================================
+[2026-10-26 11:34:32][INFO]    STARTING RUN 4 (LAN04) — ENSEMBLES & REGIME BASELINES (DEFAULT PARAMETERS)
+[2026-10-26 11:34:32][INFO]    Run Name: Lan04 | Output: C:\IS\ĐỒ ÁN\KỲ 5\IS403.R12-equity-return-predictability\results\Lan04
+[2026-10-26 11:34:32][INFO]    Target: B2 | Horizons: all
+[2026-10-26 11:34:32][INFO] ===========================================================================
+[2026-10-26 11:34:32][INFO] 
+[1/1] ======================================================
+[2026-10-26 11:34:32][INFO] Executing: Baseline_B2 (Normalized Inverse-MSE Weighting)
+[2026-10-26 11:34:32][INFO] Description: Computes weights proportional to 1/MSE(m, h) across Core 4 models normalized to sum to 1.
+[2026-10-26 11:34:32][INFO] ===========================================================================
+[2026-10-26 11:34:32][INFO] ▶ Initializing Baseline_B2 (Normalized Inverse-MSE Weighting)
+[2026-10-26 11:34:32][INFO]   Description: Computes weights proportional to 1/MSE(m, h) across Core 4 models normalized to sum to 1.
+[2026-10-26 11:34:32][INFO]   Mode: Fixed Default Parameters (Lan04)
+[2026-10-26 11:34:32][INFO]   ✓ Baseline_B2 [1D | Fold 1/5]: OOS R² = -0.0131 | DA = 48.5% | RMSE = 0.0107
+[2026-10-26 11:34:32][INFO]   ✓ Baseline_B2 [1D | Fold 2/5]: OOS R² = -0.0036 | DA = 51.5% | RMSE = 0.0049
+[2026-10-26 11:34:32][INFO]   ✓ Baseline_B2 [1D | Fold 3/5]: OOS R² = +0.0045 | DA = 51.8% | RMSE = 0.0077
+[2026-10-26 11:34:32][INFO]   ✓ Baseline_B2 [1D | Fold 4/5]: OOS R² = -0.0028 | DA = 51.5% | RMSE = 0.0103
+[2026-10-26 11:34:32][INFO]   ✓ Baseline_B2 [1D | Fold 5/5]: OOS R² = -0.0094 | DA = 50.4% | RMSE = 0.0210
+[2026-10-26 11:34:32][INFO]   ✓ Baseline_B2 [5D | Fold 1/5]: OOS R² = -0.0144 | DA = 49.3% | RMSE = 0.0230
+[2026-10-26 11:34:32][INFO]   ✓ Baseline_B2 [5D | Fold 2/5]: OOS R² = -0.2491 | DA = 40.8% | RMSE = 0.0110
+[2026-10-26 11:34:32][INFO]   ✓ Baseline_B2 [5D | Fold 3/5]: OOS R² = -0.0063 | DA = 64.3% | RMSE = 0.0164
+[2026-10-26 11:34:32][INFO]   ✓ Baseline_B2 [5D | Fold 4/5]: OOS R² = -0.0142 | DA = 44.5% | RMSE = 0.0225
+[2026-10-26 11:34:32][INFO]   ✓ Baseline_B2 [5D | Fold 5/5]: OOS R² = -0.0268 | DA = 61.4% | RMSE = 0.0402
+[2026-10-26 11:34:32][INFO]   ✓ Baseline_B2 [20D | Fold 1/5]: OOS R² = -0.0607 | DA = 39.7% | RMSE = 0.0419
+[2026-10-26 11:34:32][INFO]   ✓ Baseline_B2 [20D | Fold 2/5]: OOS R² = -0.0658 | DA = 64.7% | RMSE = 0.0181
+[2026-10-26 11:34:32][INFO]   ✓ Baseline_B2 [20D | Fold 3/5]: OOS R² = -0.0882 | DA = 69.1% | RMSE = 0.0271
+[2026-10-26 11:34:32][INFO]   ✓ Baseline_B2 [20D | Fold 4/5]: OOS R² = -0.0462 | DA = 46.3% | RMSE = 0.0440
+[2026-10-26 11:34:32][INFO]   ✓ Baseline_B2 [20D | Fold 5/5]: OOS R² = -0.0927 | DA = 62.9% | RMSE = 0.0908
+[2026-10-26 11:34:32][INFO]   ✓ Baseline_B2 [60D | Fold 1/5]: OOS R² = -0.3352 | DA = 46.0% | RMSE = 0.0679
+[2026-10-26 11:34:32][INFO]   ✓ Baseline_B2 [60D | Fold 2/5]: OOS R² = +0.0171 | DA = 90.8% | RMSE = 0.0290
+[2026-10-26 11:34:32][INFO]   ✓ Baseline_B2 [60D | Fold 3/5]: OOS R² = -0.2168 | DA = 61.0% | RMSE = 0.0505
+[2026-10-26 11:34:32][INFO]   ✓ Baseline_B2 [60D | Fold 4/5]: OOS R² = -0.2684 | DA = 61.4% | RMSE = 0.0717
+[2026-10-26 11:34:32][INFO]   ✓ Baseline_B2 [60D | Fold 5/5]: OOS R² = -0.1712 | DA = 55.9% | RMSE = 0.1372
+[2026-10-26 11:34:32][INFO]   ✓ Baseline_B2 [120D | Fold 1/5]: OOS R² = -0.8594 | DA = 43.8% | RMSE = 0.0845
+[2026-10-26 11:34:32][INFO]   ✓ Baseline_B2 [120D | Fold 2/5]: OOS R² = +0.1705 | DA = 100.0% | RMSE = 0.0456
+[2026-10-26 11:34:32][INFO]   ✓ Baseline_B2 [120D | Fold 3/5]: OOS R² = -0.1304 | DA = 56.6% | RMSE = 0.0634
+[2026-10-26 11:34:32][INFO]   ✓ Baseline_B2 [120D | Fold 4/5]: OOS R² = -0.3399 | DA = 64.3% | RMSE = 0.0888
+[2026-10-26 11:34:33][INFO]   ✓ Baseline_B2 [120D | Fold 5/5]: OOS R² = +0.0441 | DA = 63.6% | RMSE = 0.1305
+[2026-10-26 11:34:36][INFO] ✓ Baseline_B2 completed in 4.54s.
+[2026-10-26 11:34:36][INFO] 
+===========================================================================
+[2026-10-26 11:34:36][INFO] LAN04 RUN COMPLETED IN 4.56s
+[2026-10-26 11:34:36][INFO] ALL ENSEMBLES & REGIME BASELINES COMPLETED SUCCESSFULLY!
+[2026-10-26 11:34:36][INFO] ===========================================================================
+[2026-10-26 11:34:38][INFO] ✓ Auto-generated RQ1, RQ2, RQ3 analysis and statistical tests for Lan04.
+[2026-10-26 11:34:38][INFO] ✓ Auto-generated executive report in results/Lan04/agent_reports/.
+[2026-10-26 11:34:53][INFO] ===========================================================================
+[2026-10-26 11:34:53][INFO]    STARTING RUN 4 (LAN04) — ENSEMBLES & REGIME BASELINES (DEFAULT PARAMETERS)
+[2026-10-26 11:34:53][INFO]    Run Name: Lan04 | Output: C:\IS\ĐỒ ÁN\KỲ 5\IS403.R12-equity-return-predictability\results\Lan04
+[2026-10-26 11:34:53][INFO]    Target: B3 | Horizons: all
+[2026-10-26 11:34:53][INFO] ===========================================================================
+[2026-10-26 11:34:53][INFO] 
+[1/1] ======================================================
+[2026-10-26 11:34:53][INFO] Executing: Baseline_B3 (NNLS / Simplex Quadratic Programming)
+[2026-10-26 11:34:53][INFO] Description: Solves min ||y - P*w||_2^2 subject to w >= 0 and sum(w) = 1 across Core 4 models.
+[2026-10-26 11:34:53][INFO] ===========================================================================
+[2026-10-26 11:34:53][INFO] ▶ Initializing Baseline_B3 (NNLS / Simplex Quadratic Programming)
+[2026-10-26 11:34:53][INFO]   Description: Solves min ||y - P*w||_2^2 subject to w >= 0 and sum(w) = 1 across Core 4 models.
+[2026-10-26 11:34:53][INFO]   Mode: Fixed Default Parameters (Lan04)
+[2026-10-26 11:34:54][INFO]   ✓ Baseline_B3 [1D | Fold 1/5]: OOS R² = -0.0131 | DA = 48.5% | RMSE = 0.0107
+[2026-10-26 11:34:54][INFO]   ✓ Baseline_B3 [1D | Fold 2/5]: OOS R² = +0.0043 | DA = 54.0% | RMSE = 0.0049
+[2026-10-26 11:34:54][INFO]   ✓ Baseline_B3 [1D | Fold 3/5]: OOS R² = +0.0061 | DA = 55.5% | RMSE = 0.0077
+[2026-10-26 11:34:54][INFO]   ✓ Baseline_B3 [1D | Fold 4/5]: OOS R² = -0.0034 | DA = 50.4% | RMSE = 0.0103
+[2026-10-26 11:34:54][INFO]   ✓ Baseline_B3 [1D | Fold 5/5]: OOS R² = -0.0050 | DA = 52.9% | RMSE = 0.0210
+[2026-10-26 11:34:54][INFO]   ✓ Baseline_B3 [5D | Fold 1/5]: OOS R² = -0.0144 | DA = 49.3% | RMSE = 0.0230
+[2026-10-26 11:34:54][INFO]   ✓ Baseline_B3 [5D | Fold 2/5]: OOS R² = -0.7665 | DA = 40.1% | RMSE = 0.0131
+[2026-10-26 11:34:54][INFO]   ✓ Baseline_B3 [5D | Fold 3/5]: OOS R² = -0.0026 | DA = 58.1% | RMSE = 0.0163
+[2026-10-26 11:34:54][INFO]   ✓ Baseline_B3 [5D | Fold 4/5]: OOS R² = -0.0141 | DA = 47.8% | RMSE = 0.0225
+[2026-10-26 11:34:54][INFO]   ✓ Baseline_B3 [5D | Fold 5/5]: OOS R² = -0.0734 | DA = 54.0% | RMSE = 0.0411
+[2026-10-26 11:34:54][INFO]   ✓ Baseline_B3 [20D | Fold 1/5]: OOS R² = -0.0607 | DA = 39.7% | RMSE = 0.0419
+[2026-10-26 11:34:54][INFO]   ✓ Baseline_B3 [20D | Fold 2/5]: OOS R² = -0.2896 | DA = 42.3% | RMSE = 0.0199
+[2026-10-26 11:34:54][INFO]   ✓ Baseline_B3 [20D | Fold 3/5]: OOS R² = -0.0345 | DA = 68.4% | RMSE = 0.0265
+[2026-10-26 11:34:54][INFO]   ✓ Baseline_B3 [20D | Fold 4/5]: OOS R² = -0.1032 | DA = 41.2% | RMSE = 0.0452
+[2026-10-26 11:34:54][INFO]   ✓ Baseline_B3 [20D | Fold 5/5]: OOS R² = -0.1289 | DA = 53.7% | RMSE = 0.0923
+[2026-10-26 11:34:54][INFO]   ✓ Baseline_B3 [60D | Fold 1/5]: OOS R² = -0.3352 | DA = 46.0% | RMSE = 0.0679
+[2026-10-26 11:34:54][INFO]   ✓ Baseline_B3 [60D | Fold 2/5]: OOS R² = -0.2227 | DA = 80.5% | RMSE = 0.0324
+[2026-10-26 11:34:54][INFO]   ✓ Baseline_B3 [60D | Fold 3/5]: OOS R² = -0.3689 | DA = 51.5% | RMSE = 0.0535
+[2026-10-26 11:34:54][INFO]   ✓ Baseline_B3 [60D | Fold 4/5]: OOS R² = -0.3224 | DA = 59.6% | RMSE = 0.0732
+[2026-10-26 11:34:54][INFO]   ✓ Baseline_B3 [60D | Fold 5/5]: OOS R² = -0.2142 | DA = 54.4% | RMSE = 0.1397
+[2026-10-26 11:34:54][INFO]   ✓ Baseline_B3 [120D | Fold 1/5]: OOS R² = -0.8594 | DA = 43.8% | RMSE = 0.0845
+[2026-10-26 11:34:54][INFO]   ✓ Baseline_B3 [120D | Fold 2/5]: OOS R² = -0.5904 | DA = 93.0% | RMSE = 0.0631
+[2026-10-26 11:34:54][INFO]   ✓ Baseline_B3 [120D | Fold 3/5]: OOS R² = +0.0263 | DA = 66.2% | RMSE = 0.0588
+[2026-10-26 11:34:54][INFO]   ✓ Baseline_B3 [120D | Fold 4/5]: OOS R² = -0.0783 | DA = 83.8% | RMSE = 0.0796
+[2026-10-26 11:34:55][INFO]   ✓ Baseline_B3 [120D | Fold 5/5]: OOS R² = -0.0357 | DA = 59.6% | RMSE = 0.1358
+[2026-10-26 11:35:04][INFO] ✓ Baseline_B3 completed in 10.28s.
+[2026-10-26 11:35:04][INFO] 
+===========================================================================
+[2026-10-26 11:35:04][INFO] LAN04 RUN COMPLETED IN 10.30s
+[2026-10-26 11:35:04][INFO] ALL ENSEMBLES & REGIME BASELINES COMPLETED SUCCESSFULLY!
+[2026-10-26 11:35:04][INFO] ===========================================================================
+[2026-10-26 11:35:08][INFO] ✓ Auto-generated RQ1, RQ2, RQ3 analysis and statistical tests for Lan04.
+[2026-10-26 11:35:08][INFO] ✓ Auto-generated executive report in results/Lan04/agent_reports/.
+[2026-10-26 11:35:20][INFO] ===========================================================================
+[2026-10-26 11:35:20][INFO]    STARTING RUN 4 (LAN04) — ENSEMBLES & REGIME BASELINES (DEFAULT PARAMETERS)
+[2026-10-26 11:35:20][INFO]    Run Name: Lan04 | Output: C:\IS\ĐỒ ÁN\KỲ 5\IS403.R12-equity-return-predictability\results\Lan04
+[2026-10-26 11:35:20][INFO]    Target: C1 | Horizons: all
+[2026-10-26 11:35:20][INFO] ===========================================================================
+[2026-10-26 11:35:20][INFO] 
+[1/1] ======================================================
+[2026-10-26 11:35:20][INFO] Executing: Baseline_C1 (Best Single Model per Horizon and Regime)
+[2026-10-26 11:35:20][INFO] Description: Selects argmin MSE(m, h, s) on historical validation for each volatility regime (Low, Normal, High).
+[2026-10-26 11:35:20][INFO] ===========================================================================
+[2026-10-26 11:35:20][INFO] ▶ Initializing Baseline_C1 (Best Single Model per Horizon and Regime)
+[2026-10-26 11:35:20][INFO]   Description: Selects argmin MSE(m, h, s) on historical validation for each volatility regime (Low, Normal, High).
+[2026-10-26 11:35:20][INFO]   Mode: Fixed Default Parameters (Lan04)
+[2026-10-26 11:35:20][INFO]   ✓ Baseline_C1 [1D | Fold 1/5]: OOS R² = -0.0144 | DA = 52.9% | RMSE = 0.0107
+[2026-10-26 11:35:20][INFO]   ✓ Baseline_C1 [1D | Fold 2/5]: OOS R² = -0.1531 | DA = 50.7% | RMSE = 0.0053
+[2026-10-26 11:35:20][INFO]   ✓ Baseline_C1 [1D | Fold 3/5]: OOS R² = -0.0031 | DA = 58.8% | RMSE = 0.0078
+[2026-10-26 11:35:20][INFO]   ✓ Baseline_C1 [1D | Fold 4/5]: OOS R² = +0.0035 | DA = 48.9% | RMSE = 0.0103
+[2026-10-26 11:35:20][INFO]   ✓ Baseline_C1 [1D | Fold 5/5]: OOS R² = +0.0228 | DA = 54.8% | RMSE = 0.0207
+[2026-10-26 11:35:20][INFO]   ✓ Baseline_C1 [5D | Fold 1/5]: OOS R² = +0.0009 | DA = 47.1% | RMSE = 0.0228
+[2026-10-26 11:35:20][INFO]   ✓ Baseline_C1 [5D | Fold 2/5]: OOS R² = -0.3102 | DA = 47.4% | RMSE = 0.0113
+[2026-10-26 11:35:20][INFO]   ✓ Baseline_C1 [5D | Fold 3/5]: OOS R² = -0.0128 | DA = 54.0% | RMSE = 0.0164
+[2026-10-26 11:35:21][INFO]   ✓ Baseline_C1 [5D | Fold 4/5]: OOS R² = +0.0006 | DA = 48.9% | RMSE = 0.0224
+[2026-10-26 11:35:21][INFO]   ✓ Baseline_C1 [5D | Fold 5/5]: OOS R² = -0.0151 | DA = 66.9% | RMSE = 0.0400
+[2026-10-26 11:35:21][INFO]   ✓ Baseline_C1 [20D | Fold 1/5]: OOS R² = +0.0070 | DA = 51.5% | RMSE = 0.0405
+[2026-10-26 11:35:21][INFO]   ✓ Baseline_C1 [20D | Fold 2/5]: OOS R² = -0.9924 | DA = 39.7% | RMSE = 0.0248
+[2026-10-26 11:35:21][INFO]   ✓ Baseline_C1 [20D | Fold 3/5]: OOS R² = -0.0455 | DA = 73.2% | RMSE = 0.0266
+[2026-10-26 11:35:21][INFO]   ✓ Baseline_C1 [20D | Fold 4/5]: OOS R² = -0.1059 | DA = 44.1% | RMSE = 0.0452
+[2026-10-26 11:35:21][INFO]   ✓ Baseline_C1 [20D | Fold 5/5]: OOS R² = -0.0495 | DA = 77.2% | RMSE = 0.0890
+[2026-10-26 11:35:21][INFO]   ✓ Baseline_C1 [60D | Fold 1/5]: OOS R² = +0.0462 | DA = 54.8% | RMSE = 0.0574
+[2026-10-26 11:35:21][INFO]   ✓ Baseline_C1 [60D | Fold 2/5]: OOS R² = -0.2152 | DA = 83.5% | RMSE = 0.0323
+[2026-10-26 11:35:21][INFO]   ✓ Baseline_C1 [60D | Fold 3/5]: OOS R² = -0.1617 | DA = 69.9% | RMSE = 0.0493
+[2026-10-26 11:35:21][INFO]   ✓ Baseline_C1 [60D | Fold 4/5]: OOS R² = -0.2040 | DA = 59.6% | RMSE = 0.0699
+[2026-10-26 11:35:21][INFO]   ✓ Baseline_C1 [60D | Fold 5/5]: OOS R² = -0.0146 | DA = 66.2% | RMSE = 0.1277
+[2026-10-26 11:35:21][INFO]   ✓ Baseline_C1 [120D | Fold 1/5]: OOS R² = -0.0077 | DA = 62.9% | RMSE = 0.0622
+[2026-10-26 11:35:21][INFO]   ✓ Baseline_C1 [120D | Fold 2/5]: OOS R² = -0.5417 | DA = 97.1% | RMSE = 0.0621
+[2026-10-26 11:35:21][INFO]   ✓ Baseline_C1 [120D | Fold 3/5]: OOS R² = +0.1130 | DA = 66.2% | RMSE = 0.0561
+[2026-10-26 11:35:21][INFO]   ✓ Baseline_C1 [120D | Fold 4/5]: OOS R² = -0.0286 | DA = 81.6% | RMSE = 0.0778
+[2026-10-26 11:35:21][INFO]   ✓ Baseline_C1 [120D | Fold 5/5]: OOS R² = +0.5953 | DA = 66.5% | RMSE = 0.0849
+[2026-10-26 11:35:25][INFO] ✓ Baseline_C1 completed in 4.45s.
+[2026-10-26 11:35:25][INFO] 
+===========================================================================
+[2026-10-26 11:35:25][INFO] LAN04 RUN COMPLETED IN 4.47s
+[2026-10-26 11:35:25][INFO] ALL ENSEMBLES & REGIME BASELINES COMPLETED SUCCESSFULLY!
+[2026-10-26 11:35:25][INFO] ===========================================================================
+[2026-10-26 11:35:27][INFO] ✓ Auto-generated RQ1, RQ2, RQ3 analysis and statistical tests for Lan04.
+[2026-10-26 11:35:27][INFO] ✓ Auto-generated executive report in results/Lan04/agent_reports/.
+[2026-10-26 11:35:39][INFO] ===========================================================================
+[2026-10-26 11:35:39][INFO]    STARTING RUN 4 (LAN04) — ENSEMBLES & REGIME BASELINES (DEFAULT PARAMETERS)
+[2026-10-26 11:35:39][INFO]    Run Name: Lan04 | Output: C:\IS\ĐỒ ÁN\KỲ 5\IS403.R12-equity-return-predictability\results\Lan04
+[2026-10-26 11:35:39][INFO]    Target: C2 | Horizons: all
+[2026-10-26 11:35:39][INFO] ===========================================================================
+[2026-10-26 11:35:39][INFO] 
+[1/1] ======================================================
+[2026-10-26 11:35:39][INFO] Executing: Baseline_C2 (Regime-Shrunk Inverse-MSE Weighting)
+[2026-10-26 11:35:39][INFO] Description: Shrinks regime-specific inverse-MSE weights towards horizon B2 baseline using shrinkage parameter N_0.
+[2026-10-26 11:35:39][INFO] ===========================================================================
+[2026-10-26 11:35:39][INFO] ▶ Initializing Baseline_C2 (Regime-Shrunk Inverse-MSE Weighting)
+[2026-10-26 11:35:39][INFO]   Description: Shrinks regime-specific inverse-MSE weights towards horizon B2 baseline using shrinkage parameter N_0.
+[2026-10-26 11:35:39][INFO]   Mode: Fixed Default Parameters (Lan04)
+[2026-10-26 11:35:39][INFO]   ✓ Baseline_C2 [1D | Fold 1/5]: OOS R² = -0.0131 | DA = 48.5% | RMSE = 0.0107
+[2026-10-26 11:35:39][INFO]   ✓ Baseline_C2 [1D | Fold 2/5]: OOS R² = -0.0036 | DA = 51.5% | RMSE = 0.0049
+[2026-10-26 11:35:39][INFO]   ✓ Baseline_C2 [1D | Fold 3/5]: OOS R² = +0.0045 | DA = 51.8% | RMSE = 0.0077
+[2026-10-26 11:35:39][INFO]   ✓ Baseline_C2 [1D | Fold 4/5]: OOS R² = -0.0028 | DA = 51.5% | RMSE = 0.0103
+[2026-10-26 11:35:39][INFO]   ✓ Baseline_C2 [1D | Fold 5/5]: OOS R² = -0.0094 | DA = 50.4% | RMSE = 0.0210
+[2026-10-26 11:35:39][INFO]   ✓ Baseline_C2 [5D | Fold 1/5]: OOS R² = -0.0144 | DA = 49.3% | RMSE = 0.0230
+[2026-10-26 11:35:39][INFO]   ✓ Baseline_C2 [5D | Fold 2/5]: OOS R² = -0.2399 | DA = 40.8% | RMSE = 0.0110
+[2026-10-26 11:35:39][INFO]   ✓ Baseline_C2 [5D | Fold 3/5]: OOS R² = -0.0028 | DA = 64.0% | RMSE = 0.0163
+[2026-10-26 11:35:39][INFO]   ✓ Baseline_C2 [5D | Fold 4/5]: OOS R² = -0.0211 | DA = 44.1% | RMSE = 0.0226
+[2026-10-26 11:35:39][INFO]   ✓ Baseline_C2 [5D | Fold 5/5]: OOS R² = -0.0299 | DA = 59.6% | RMSE = 0.0403
+[2026-10-26 11:35:39][INFO]   ✓ Baseline_C2 [20D | Fold 1/5]: OOS R² = -0.0607 | DA = 39.7% | RMSE = 0.0419
+[2026-10-26 11:35:39][INFO]   ✓ Baseline_C2 [20D | Fold 2/5]: OOS R² = -0.0673 | DA = 64.3% | RMSE = 0.0181
+[2026-10-26 11:35:39][INFO]   ✓ Baseline_C2 [20D | Fold 3/5]: OOS R² = -0.0758 | DA = 69.1% | RMSE = 0.0270
+[2026-10-26 11:35:39][INFO]   ✓ Baseline_C2 [20D | Fold 4/5]: OOS R² = -0.0510 | DA = 47.1% | RMSE = 0.0441
+[2026-10-26 11:35:39][INFO]   ✓ Baseline_C2 [20D | Fold 5/5]: OOS R² = -0.0952 | DA = 62.9% | RMSE = 0.0909
+[2026-10-26 11:35:39][INFO]   ✓ Baseline_C2 [60D | Fold 1/5]: OOS R² = -0.3352 | DA = 46.0% | RMSE = 0.0679
+[2026-10-26 11:35:39][INFO]   ✓ Baseline_C2 [60D | Fold 2/5]: OOS R² = +0.0252 | DA = 90.8% | RMSE = 0.0289
+[2026-10-26 11:35:39][INFO]   ✓ Baseline_C2 [60D | Fold 3/5]: OOS R² = -0.2133 | DA = 59.9% | RMSE = 0.0504
+[2026-10-26 11:35:39][INFO]   ✓ Baseline_C2 [60D | Fold 4/5]: OOS R² = -0.2716 | DA = 60.3% | RMSE = 0.0718
+[2026-10-26 11:35:39][INFO]   ✓ Baseline_C2 [60D | Fold 5/5]: OOS R² = -0.1800 | DA = 55.5% | RMSE = 0.1377
+[2026-10-26 11:35:40][INFO]   ✓ Baseline_C2 [120D | Fold 1/5]: OOS R² = -0.8594 | DA = 43.8% | RMSE = 0.0845
+[2026-10-26 11:35:40][INFO]   ✓ Baseline_C2 [120D | Fold 2/5]: OOS R² = +0.1402 | DA = 100.0% | RMSE = 0.0464
+[2026-10-26 11:35:40][INFO]   ✓ Baseline_C2 [120D | Fold 3/5]: OOS R² = -0.1374 | DA = 57.7% | RMSE = 0.0636
+[2026-10-26 11:35:40][INFO]   ✓ Baseline_C2 [120D | Fold 4/5]: OOS R² = -0.2923 | DA = 65.1% | RMSE = 0.0872
+[2026-10-26 11:35:40][INFO]   ✓ Baseline_C2 [120D | Fold 5/5]: OOS R² = +0.0205 | DA = 62.9% | RMSE = 0.1321
+[2026-10-26 11:35:43][INFO] ✓ Baseline_C2 completed in 4.63s.
+[2026-10-26 11:35:43][INFO] 
+===========================================================================
+[2026-10-26 11:35:43][INFO] LAN04 RUN COMPLETED IN 4.64s
+[2026-10-26 11:35:43][INFO] ALL ENSEMBLES & REGIME BASELINES COMPLETED SUCCESSFULLY!
+[2026-10-26 11:35:43][INFO] ===========================================================================
+[2026-10-26 11:35:46][INFO] ✓ Auto-generated RQ1, RQ2, RQ3 analysis and statistical tests for Lan04.
+[2026-10-26 11:35:46][INFO] ✓ Auto-generated executive report in results/Lan04/agent_reports/.
+[2026-10-26 11:35:56][INFO] ===========================================================================
+[2026-10-26 11:35:56][INFO]    STARTING RUN 4 (LAN04) — ENSEMBLES & REGIME BASELINES (DEFAULT PARAMETERS)
+[2026-10-26 11:35:56][INFO]    Run Name: Lan04 | Output: C:\IS\ĐỒ ÁN\KỲ 5\IS403.R12-equity-return-predictability\results\Lan04
+[2026-10-26 11:35:56][INFO]    Target: C3 | Horizons: all
+[2026-10-26 11:35:56][INFO] ===========================================================================
+[2026-10-26 11:35:57][INFO] 
+[1/1] ======================================================
+[2026-10-26 11:35:57][INFO] Executing: Baseline_C3 (Defensive Volatility Switch)
+[2026-10-26 11:35:57][INFO] Description: Switches between Core 4 Ensemble (A2) in Low/Normal regimes and Historical Mean benchmark in High volatility.
+[2026-10-26 11:35:57][INFO] ===========================================================================
+[2026-10-26 11:35:57][INFO] ▶ Initializing Baseline_C3 (Defensive Volatility Switch)
+[2026-10-26 11:35:57][INFO]   Description: Switches between Core 4 Ensemble (A2) in Low/Normal regimes and Historical Mean benchmark in High volatility.
+[2026-10-26 11:35:57][INFO]   Mode: Fixed Default Parameters (Lan04)
+[2026-10-26 11:35:57][INFO]   ✓ Baseline_C3 [1D | Fold 1/5]: OOS R² = +0.0004 | DA = 51.5% | RMSE = 0.0106
+[2026-10-26 11:35:57][INFO]   ✓ Baseline_C3 [1D | Fold 2/5]: OOS R² = +0.0004 | DA = 52.2% | RMSE = 0.0049
+[2026-10-26 11:35:57][INFO]   ✓ Baseline_C3 [1D | Fold 3/5]: OOS R² = -0.0057 | DA = 53.7% | RMSE = 0.0078
+[2026-10-26 11:35:57][INFO]   ✓ Baseline_C3 [1D | Fold 4/5]: OOS R² = +0.0007 | DA = 55.1% | RMSE = 0.0103
+[2026-10-26 11:35:57][INFO]   ✓ Baseline_C3 [1D | Fold 5/5]: OOS R² = -0.0001 | DA = 52.6% | RMSE = 0.0209
+[2026-10-26 11:35:57][INFO]   ✓ Baseline_C3 [5D | Fold 1/5]: OOS R² = -0.0056 | DA = 52.2% | RMSE = 0.0229
+[2026-10-26 11:35:57][INFO]   ✓ Baseline_C3 [5D | Fold 2/5]: OOS R² = -0.2062 | DA = 43.4% | RMSE = 0.0108
+[2026-10-26 11:35:57][INFO]   ✓ Baseline_C3 [5D | Fold 3/5]: OOS R² = +0.0017 | DA = 65.4% | RMSE = 0.0163
+[2026-10-26 11:35:57][INFO]   ✓ Baseline_C3 [5D | Fold 4/5]: OOS R² = -0.0020 | DA = 50.4% | RMSE = 0.0224
+[2026-10-26 11:35:57][INFO]   ✓ Baseline_C3 [5D | Fold 5/5]: OOS R² = -0.0013 | DA = 67.6% | RMSE = 0.0397
+[2026-10-26 11:35:57][INFO]   ✓ Baseline_C3 [20D | Fold 1/5]: OOS R² = +0.0499 | DA = 57.0% | RMSE = 0.0396
+[2026-10-26 11:35:57][INFO]   ✓ Baseline_C3 [20D | Fold 2/5]: OOS R² = -0.0385 | DA = 70.6% | RMSE = 0.0179
+[2026-10-26 11:35:57][INFO]   ✓ Baseline_C3 [20D | Fold 3/5]: OOS R² = -0.0887 | DA = 74.3% | RMSE = 0.0271
+[2026-10-26 11:35:57][INFO]   ✓ Baseline_C3 [20D | Fold 4/5]: OOS R² = -0.0124 | DA = 55.9% | RMSE = 0.0433
+[2026-10-26 11:35:57][INFO]   ✓ Baseline_C3 [20D | Fold 5/5]: OOS R² = -0.0083 | DA = 77.2% | RMSE = 0.0872
+[2026-10-26 11:35:57][INFO]   ✓ Baseline_C3 [60D | Fold 1/5]: OOS R² = +0.1293 | DA = 65.1% | RMSE = 0.0548
+[2026-10-26 11:35:57][INFO]   ✓ Baseline_C3 [60D | Fold 2/5]: OOS R² = +0.0243 | DA = 89.3% | RMSE = 0.0289
+[2026-10-26 11:35:57][INFO]   ✓ Baseline_C3 [60D | Fold 3/5]: OOS R² = -0.1162 | DA = 67.6% | RMSE = 0.0483
+[2026-10-26 11:35:57][INFO]   ✓ Baseline_C3 [60D | Fold 4/5]: OOS R² = -0.0902 | DA = 71.7% | RMSE = 0.0665
+[2026-10-26 11:35:57][INFO]   ✓ Baseline_C3 [60D | Fold 5/5]: OOS R² = -0.0368 | DA = 75.0% | RMSE = 0.1291
+[2026-10-26 11:35:57][INFO]   ✓ Baseline_C3 [120D | Fold 1/5]: OOS R² = -0.1491 | DA = 66.2% | RMSE = 0.0664
+[2026-10-26 11:35:57][INFO]   ✓ Baseline_C3 [120D | Fold 2/5]: OOS R² = +0.2761 | DA = 100.0% | RMSE = 0.0426
+[2026-10-26 11:35:57][INFO]   ✓ Baseline_C3 [120D | Fold 3/5]: OOS R² = +0.0156 | DA = 64.3% | RMSE = 0.0592
+[2026-10-26 11:35:57][INFO]   ✓ Baseline_C3 [120D | Fold 4/5]: OOS R² = -0.0526 | DA = 72.8% | RMSE = 0.0787
+[2026-10-26 11:35:57][INFO]   ✓ Baseline_C3 [120D | Fold 5/5]: OOS R² = +0.0214 | DA = 66.5% | RMSE = 0.1320
+[2026-10-26 11:36:02][INFO] ✓ Baseline_C3 completed in 5.16s.
+[2026-10-26 11:36:02][INFO] 
+===========================================================================
+[2026-10-26 11:36:02][INFO] LAN04 RUN COMPLETED IN 5.17s
+[2026-10-26 11:36:02][INFO] ALL ENSEMBLES & REGIME BASELINES COMPLETED SUCCESSFULLY!
+[2026-10-26 11:36:02][INFO] ===========================================================================
+[2026-10-26 11:36:04][INFO] ✓ Auto-generated RQ1, RQ2, RQ3 analysis and statistical tests for Lan04.
+[2026-10-26 11:36:04][INFO] ✓ Auto-generated executive report in results/Lan04/agent_reports/.
