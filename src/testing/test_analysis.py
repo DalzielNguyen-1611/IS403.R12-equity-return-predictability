@@ -213,9 +213,9 @@ def generate_markdown_report(df_reg, df_cls, df_stat, df_regime):
     Generates a high-quality academic Markdown report synthesizing all test results on Split 3.
     """
     report_lines = []
-    report_lines.append("# BÁO CÁO ĐÁNH GIÁ TẬP KIỂM THỬ ĐỘC LẬP (OUT-OF-SAMPLE TEST SET EVALUATION)")
+    report_lines.append(f"# BÁO CÁO ĐÁNH GIÁ TẬP KIỂM THỬ ĐỘC LẬP (OUT-OF-SAMPLE TEST SET EVALUATION) — {config.RUN_NAME.upper()}")
     report_lines.append("\n**Giai đoạn:** Split 3 (2020-11-02 đến 2026-04-07 | 1,362 phiên giao dịch thực tế)")
-    report_lines.append("**Bộ dữ liệu gốc:** `dataset/3.0.3_val_folds.csv`")
+    report_lines.append(f"**Cấu hình thực nghiệm:** {config.RUN_NAME} | **Bộ dữ liệu gốc:** `dataset/3.0.3_val_folds.csv`")
     report_lines.append("**Quy chuẩn kiểm nghiệm:** Strictly Out-of-Sample, Marcos López de Prado Purging ($h-1$ days), Campbell-Thompson (2008) Historical Mean Benchmark.")
     report_lines.append("\n---\n")
     

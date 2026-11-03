@@ -151,7 +151,7 @@ def train_fold(X_train, y_train, X_val, params=None, tune=False, n_trials=30, me
     for epoch in range(p['epochs']):
         ep_t0 = time.time()
         model.train()
-        for bx, by in train_loader:
+        for bx, by in utils.get_batch_pbar(train_loader, desc=f"   ↳ [{MODEL_NAME} {horizon or ''} Ep {epoch+1:02d}/{p['epochs']}]"):
             bx, by = bx.to(config.DEVICE), by.to(config.DEVICE)
             optimizer.zero_grad()
             loss = criterion(model(bx), by)

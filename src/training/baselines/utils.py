@@ -47,6 +47,14 @@ def setup_logger(name="baseline_runner", log_file=None):
             logger.addHandler(fh)
     return logger
 
+def get_batch_pbar(dataloader, desc=None):
+    try:
+        from tqdm import tqdm
+        return tqdm(dataloader, desc=desc, leave=False, dynamic_ncols=True)
+    except Exception:
+        return dataloader
+
+
 def save_epoch_progress(model_name, horizon, fold, epoch, total_epochs, vloss, best_loss, epoch_duration=None):
     """Save live epoch progress and ETA metrics to results/epoch_progress.json for real-time dashboard tracking."""
     progress_file = os.path.join(config.RESULTS_DIR, "epoch_progress.json")

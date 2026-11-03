@@ -31,8 +31,10 @@ def setup_test_logger():
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Out-of-Sample Test Evaluation Runner (Split 3: 2020-2026)")
+    parser.add_argument('--run', type=str, default='Lan01', choices=['Lan01', 'Lan02', 'Lan03'],
+                        help="Target run / configuration: Lan01 (14 core models), Lan02 (7 DL default), Lan03 (7 DL Optuna-tuned)")
     parser.add_argument('--models', type=str, default='all',
-                        help="Comma-separated models or 'all' (options: " + ", ".join(config.MODELS) + ")")
+                        help="Comma-separated models or 'all'")
     parser.add_argument('--horizons', type=str, default='all',
                         help="Comma-separated horizons or 'all' (options: " + ", ".join(config.HORIZONS) + ")")
     parser.add_argument('--device', type=str, default=config.DEVICE,
@@ -44,10 +46,12 @@ def parse_args():
 
 def main():
     args = parse_args()
+    config.set_run(args.run)
     logger = setup_test_logger()
     
     logger.info("=" * 70)
-    logger.info("STARTING OUT-OF-SAMPLE TEST EVALUATION (SPLIT 3: 2020-2026)")
+    logger.info(f"STARTING OUT-OF-SAMPLE TEST EVALUATION — {args.run.upper()} (SPLIT 3: 2020-2026)")
+    logger.info(f"Output Directory: {config.TEST_RESULTS_DIR}")
     logger.info("=" * 70)
     
     if args.report_only:
@@ -60,7 +64,12 @@ def main():
         logger.info(f"Report generated successfully at: {config.TEST_REPORT_PATH}")
         return
         
-    models = config.MODELS if args.models.lower() == 'all' else [m.strip().lower() for m in args.models.split(',')]
+    if args.run in ['Lan02', 'Lan03']:
+        default_models = config.ADVANCED_DL_MODELS
+    else:
+        default_models = config.LAN01_MODELS
+        
+    models = default_models if args.models.lower() == 'all' else [m.strip().lower() for m in args.models.split(',')]
     horizons = config.HORIZONS if args.horizons.lower() == 'all' else [config.normalize_horizon(h) for h in args.horizons.split(',')]
     
     # 1. Run model evaluations
