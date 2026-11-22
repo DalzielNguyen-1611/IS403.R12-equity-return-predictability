@@ -1,0 +1,14 @@
+{
+  "model_name": "LSTM",
+  "model_family": "Classic Deep Learning",
+  "model_category": "Regression",
+  "best_horizon": "20D",
+  "worst_horizon": "120D",
+  "best_regime": "Normal",
+  "worst_regime": "High",
+  "max_oos_r2": 0.0148,
+  "min_oos_r2": -0.0334,
+  "max_da": 0.7805,
+  "total_test_observations": 1362,
+  "total_val_observations": 1360
+}

@@ -1,0 +1,16 @@
+{
+  "model_name": "Logistic_Regression",
+  "model_family": "Linear Models / Classification",
+  "model_category": "Classification",
+  "stages_available": {
+    "part_a_before_tuning": false,
+    "part_b_after_tuning": true,
+    "part_c_final_test": true
+  },
+  "best_hyperparameters": "{'C': 0.001, 'class_weight': None}",
+  "evaluation_date_ranges": {
+    "walk_forward_validation": "2015-06-10 to 2020-10-30",
+    "independent_final_test": "2020-11-02 to 2026-04-07"
+  },
+  "verification_status": "VERIFIED"
+}

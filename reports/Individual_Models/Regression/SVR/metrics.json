@@ -1,0 +1,14 @@
+{
+  "model_name": "SVR",
+  "model_family": "Kernel & Tree-based ML",
+  "model_category": "Regression",
+  "best_horizon": "60D",
+  "worst_horizon": "120D",
+  "best_regime": "High",
+  "worst_regime": "Low",
+  "max_oos_r2": 0.0464,
+  "min_oos_r2": -0.191,
+  "max_da": 0.7496,
+  "total_test_observations": 1362,
+  "total_val_observations": 1360
+}

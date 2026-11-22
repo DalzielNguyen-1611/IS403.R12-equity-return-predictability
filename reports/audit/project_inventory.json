@@ -1,0 +1,380 @@
+[
+  {
+    "model_name": "ARIMA",
+    "model_family": "Statistical Models",
+    "model_type": "Regression",
+    "available_horizons": [
+      "1D",
+      "5D",
+      "20D",
+      "60D",
+      "120D"
+    ],
+    "available_regimes": [
+      "Low",
+      "Normal",
+      "High"
+    ],
+    "verification_status": "VERIFIED"
+  },
+  {
+    "model_name": "ARIMAX",
+    "model_family": "Statistical Models",
+    "model_type": "Regression",
+    "available_horizons": [
+      "1D",
+      "5D",
+      "20D",
+      "60D",
+      "120D"
+    ],
+    "available_regimes": [
+      "Low",
+      "Normal",
+      "High"
+    ],
+    "verification_status": "VERIFIED"
+  },
+  {
+    "model_name": "SARIMA",
+    "model_family": "Statistical Models",
+    "model_type": "Regression",
+    "available_horizons": [
+      "1D",
+      "5D",
+      "20D",
+      "60D",
+      "120D"
+    ],
+    "available_regimes": [
+      "Low",
+      "Normal",
+      "High"
+    ],
+    "verification_status": "VERIFIED"
+  },
+  {
+    "model_name": "Ridge",
+    "model_family": "Linear Models",
+    "model_type": "Regression",
+    "available_horizons": [
+      "1D",
+      "5D",
+      "20D",
+      "60D",
+      "120D"
+    ],
+    "available_regimes": [
+      "Low",
+      "Normal",
+      "High"
+    ],
+    "verification_status": "VERIFIED"
+  },
+  {
+    "model_name": "Elastic_Net",
+    "model_family": "Linear Models",
+    "model_type": "Regression",
+    "available_horizons": [
+      "1D",
+      "5D",
+      "20D",
+      "60D",
+      "120D"
+    ],
+    "available_regimes": [
+      "Low",
+      "Normal",
+      "High"
+    ],
+    "verification_status": "VERIFIED"
+  },
+  {
+    "model_name": "SVR",
+    "model_family": "Kernel & Tree-based ML",
+    "model_type": "Regression",
+    "available_horizons": [
+      "1D",
+      "5D",
+      "20D",
+      "60D",
+      "120D"
+    ],
+    "available_regimes": [
+      "Low",
+      "Normal",
+      "High"
+    ],
+    "verification_status": "VERIFIED"
+  },
+  {
+    "model_name": "Random_Forest",
+    "model_family": "Kernel & Tree-based ML",
+    "model_type": "Regression",
+    "available_horizons": [
+      "1D",
+      "5D",
+      "20D",
+      "60D",
+      "120D"
+    ],
+    "available_regimes": [
+      "Low",
+      "Normal",
+      "High"
+    ],
+    "verification_status": "VERIFIED"
+  },
+  {
+    "model_name": "XGBoost",
+    "model_family": "Kernel & Tree-based ML",
+    "model_type": "Regression",
+    "available_horizons": [
+      "1D",
+      "5D",
+      "20D",
+      "60D",
+      "120D"
+    ],
+    "available_regimes": [
+      "Low",
+      "Normal",
+      "High"
+    ],
+    "verification_status": "VERIFIED"
+  },
+  {
+    "model_name": "LightGBM",
+    "model_family": "Kernel & Tree-based ML",
+    "model_type": "Regression",
+    "available_horizons": [
+      "1D",
+      "5D",
+      "20D",
+      "60D",
+      "120D"
+    ],
+    "available_regimes": [
+      "Low",
+      "Normal",
+      "High"
+    ],
+    "verification_status": "VERIFIED"
+  },
+  {
+    "model_name": "RNN",
+    "model_family": "Classic Deep Learning",
+    "model_type": "Regression",
+    "available_horizons": [
+      "1D",
+      "5D",
+      "20D",
+      "60D",
+      "120D"
+    ],
+    "available_regimes": [
+      "Low",
+      "Normal",
+      "High"
+    ],
+    "verification_status": "VERIFIED"
+  },
+  {
+    "model_name": "LSTM",
+    "model_family": "Classic Deep Learning",
+    "model_type": "Regression",
+    "available_horizons": [
+      "1D",
+      "5D",
+      "20D",
+      "60D",
+      "120D"
+    ],
+    "available_regimes": [
+      "Low",
+      "Normal",
+      "High"
+    ],
+    "verification_status": "VERIFIED"
+  },
+  {
+    "model_name": "Transformer",
+    "model_family": "Classic Deep Learning",
+    "model_type": "Regression",
+    "available_horizons": [
+      "1D",
+      "5D",
+      "20D",
+      "60D",
+      "120D"
+    ],
+    "available_regimes": [
+      "Low",
+      "Normal",
+      "High"
+    ],
+    "verification_status": "VERIFIED"
+  },
+  {
+    "model_name": "CNN",
+    "model_family": "Advanced Time-Series Deep Learning",
+    "model_type": "Regression",
+    "available_horizons": [
+      "1D",
+      "5D",
+      "20D",
+      "60D",
+      "120D"
+    ],
+    "available_regimes": [
+      "Low",
+      "Normal",
+      "High"
+    ],
+    "verification_status": "VERIFIED"
+  },
+  {
+    "model_name": "TCN",
+    "model_family": "Advanced Time-Series Deep Learning",
+    "model_type": "Regression",
+    "available_horizons": [
+      "1D",
+      "5D",
+      "20D",
+      "60D",
+      "120D"
+    ],
+    "available_regimes": [
+      "Low",
+      "Normal",
+      "High"
+    ],
+    "verification_status": "VERIFIED"
+  },
+  {
+    "model_name": "N-BEATS",
+    "model_family": "Advanced Time-Series Deep Learning",
+    "model_type": "Regression",
+    "available_horizons": [
+      "1D",
+      "5D",
+      "20D",
+      "60D",
+      "120D"
+    ],
+    "available_regimes": [
+      "Low",
+      "Normal",
+      "High"
+    ],
+    "verification_status": "VERIFIED"
+  },
+  {
+    "model_name": "N-HiTS",
+    "model_family": "Advanced Time-Series Deep Learning",
+    "model_type": "Regression",
+    "available_horizons": [
+      "1D",
+      "5D",
+      "20D",
+      "60D",
+      "120D"
+    ],
+    "available_regimes": [
+      "Low",
+      "Normal",
+      "High"
+    ],
+    "verification_status": "VERIFIED"
+  },
+  {
+    "model_name": "PatchTST",
+    "model_family": "Advanced Time-Series Deep Learning",
+    "model_type": "Regression",
+    "available_horizons": [
+      "1D",
+      "5D",
+      "20D",
+      "60D",
+      "120D"
+    ],
+    "available_regimes": [
+      "Low",
+      "Normal",
+      "High"
+    ],
+    "verification_status": "VERIFIED"
+  },
+  {
+    "model_name": "TSMixer",
+    "model_family": "Advanced Time-Series Deep Learning",
+    "model_type": "Regression",
+    "available_horizons": [
+      "1D",
+      "5D",
+      "20D",
+      "60D",
+      "120D"
+    ],
+    "available_regimes": [
+      "Low",
+      "Normal",
+      "High"
+    ],
+    "verification_status": "VERIFIED"
+  },
+  {
+    "model_name": "iTransformer",
+    "model_family": "Advanced Time-Series Deep Learning",
+    "model_type": "Regression",
+    "available_horizons": [
+      "1D",
+      "5D",
+      "20D",
+      "60D",
+      "120D"
+    ],
+    "available_regimes": [
+      "Low",
+      "Normal",
+      "High"
+    ],
+    "verification_status": "VERIFIED"
+  },
+  {
+    "model_name": "Logistic_Regression",
+    "model_family": "Linear Models / Classification",
+    "model_type": "Classification",
+    "available_horizons": [
+      "1D",
+      "5D",
+      "20D",
+      "60D",
+      "120D"
+    ],
+    "available_regimes": [
+      "Low",
+      "Normal",
+      "High"
+    ],
+    "verification_status": "VERIFIED"
+  },
+  {
+    "model_name": "Historical_Mean",
+    "model_family": "Benchmark",
+    "model_type": "Benchmark",
+    "available_horizons": [
+      "1D",
+      "5D",
+      "20D",
+      "60D",
+      "120D"
+    ],
+    "available_regimes": [
+      "Low",
+      "Normal",
+      "High"
+    ],
+    "verification_status": "VERIFIED"
+  }
+]

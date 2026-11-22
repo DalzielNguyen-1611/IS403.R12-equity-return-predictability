@@ -135,8 +135,8 @@ def get_purged_train_df(train_df, horizon):
     For horizon h > 1, drops last h - 1 observations of train_df to eliminate overlap into test set.
     """
     h_step = config.HORIZON_TO_STEPS.get(horizon, 1)
-    if h_step > 1:
-        purge_gap = h_step - 1
+    if h_step >= 1:
+        purge_gap = h_step
         return train_df.iloc[:-purge_gap].copy()
     return train_df.copy()
 
@@ -474,7 +474,7 @@ def train_and_eval_dl_model(model_cls, data, horizon, params=None, device=config
     n_train = len(X_train)
     split_idx = int(n_train * 0.85)
     h_step = config.HORIZON_TO_STEPS.get(horizon, 1)
-    purge_gap = max(0, h_step - 1)
+    purge_gap = max(0, h_step)
     end_tr_idx = max(0, split_idx - purge_gap)
     
     X_tr_in = X_train[:end_tr_idx]

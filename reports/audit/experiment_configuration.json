@@ -1,0 +1,46 @@
+{
+  "dataset": "S&P 500 (^GSPC)",
+  "volatility_indicator": "VIX (Volatility_20D)",
+  "regime_thresholds": "Expanding 33% and 67% quantiles, min_periods=252",
+  "horizons": [
+    "1D",
+    "5D",
+    "20D",
+    "60D",
+    "120D"
+  ],
+  "regimes": [
+    "Low",
+    "Normal",
+    "High"
+  ],
+  "purging_protocol": "Marcos Lopez de Prado h-1 days for multi-step forecasts",
+  "train_val_period": "1990-03-27 to 2020-10-30 (7,711 obs)",
+  "walk_forward_validation_period": "2015-06-10 to 2020-10-30 (5 folds, 1,360 obs)",
+  "test_period": "2020-11-02 to 2026-04-07 (1,362 obs)",
+  "benchmark": "Historical Mean (expanding cumulative return)",
+  "regression_metrics": [
+    "OOS_R2",
+    "RMSE",
+    "MAE",
+    "DA",
+    "Naive_Positive_DA",
+    "Excess_DA",
+    "DM_Stat",
+    "DM_pvalue",
+    "Sign_pvalue"
+  ],
+  "classification_metrics": [
+    "ROC_AUC",
+    "Accuracy",
+    "Balanced_Accuracy",
+    "Precision",
+    "Recall",
+    "F1",
+    "DA",
+    "Sign_pvalue"
+  ],
+  "total_intended_models": 20,
+  "total_benchmarks": 1,
+  "total_evaluation_reports": 23
+}

@@ -1,0 +1,14 @@
+{
+  "model_name": "LightGBM",
+  "model_family": "Kernel & Tree-based ML",
+  "model_category": "Regression",
+  "best_horizon": "60D",
+  "worst_horizon": "120D",
+  "best_regime": "High",
+  "worst_regime": "Normal",
+  "max_oos_r2": 0.0289,
+  "min_oos_r2": -0.1652,
+  "max_da": 0.7335,
+  "total_test_observations": 1362,
+  "total_val_observations": 1360
+}

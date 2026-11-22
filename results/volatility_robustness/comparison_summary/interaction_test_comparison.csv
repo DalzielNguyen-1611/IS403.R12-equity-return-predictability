@@ -1,0 +1,13 @@
+Model,Wald_10D,pHolm_10D,Sig_10D,Wald_20D,pHolm_20D,Sig_20D,Wald_60D,pHolm_60D,Sig_60D
+ARIMA,9.6958,1.0,False,17.118,0.289,False,14.9189,0.6074,False
+ARIMAX,5.6008,1.0,False,9.2826,1.0,False,4.3868,1.0,False
+Ridge,7.4499,1.0,False,6.4439,1.0,False,5.6312,1.0,False
+Elastic_Net,1.713,1.0,False,3.4982,1.0,False,4.0259,1.0,False
+SVR,7.159,1.0,False,9.4479,1.0,False,12.9613,0.9055,False
+Random_Forest,21.5823,0.0633,False,21.724,0.06,False,22.9803,0.0373,True
+XGBoost,11.0306,1.0,False,14.1973,0.6909,False,12.2046,0.9961,False
+LSTM,12.3635,1.0,False,12.1211,1.0,False,6.8883,1.0,False
+Transformer,11.3793,1.0,False,10.2816,1.0,False,11.0534,1.0,False
+TCN,22.0775,0.0573,False,30.0223,0.0025,True,23.5759,0.0324,True
+PatchTST,9.0452,1.0,False,9.5971,1.0,False,13.7078,0.8074,False
+TSMixer,14.9077,0.6097,False,8.6626,1.0,False,9.2267,1.0,False

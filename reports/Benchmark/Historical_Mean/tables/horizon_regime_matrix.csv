@@ -1,0 +1,16 @@
+Model,Horizon,Regime,Observations,OOS_R2,MAE,RMSE,DA
+Historical_Mean,120D,High,431,0.0,0.0932,0.1122,0.6705
+Historical_Mean,120D,Low,332,0.0,0.0666,0.0783,0.762
+Historical_Mean,120D,Normal,599,0.0,0.0681,0.0837,0.8698
+Historical_Mean,1D,High,431,0.0,0.0107,0.0146,0.5174
+Historical_Mean,1D,Low,332,0.0,0.0052,0.007,0.5542
+Historical_Mean,1D,Normal,599,0.0,0.0065,0.0085,0.5426
+Historical_Mean,20D,High,431,0.0,0.0482,0.0572,0.5615
+Historical_Mean,20D,Low,332,0.0,0.0206,0.0256,0.6747
+Historical_Mean,20D,Normal,599,0.0,0.0284,0.0351,0.7429
+Historical_Mean,5D,High,431,0.0,0.0239,0.0308,0.5708
+Historical_Mean,5D,Low,332,0.0,0.0115,0.0144,0.5934
+Historical_Mean,5D,Normal,599,0.0,0.0141,0.0183,0.611
+Historical_Mean,60D,High,431,0.0,0.0679,0.0826,0.6288
+Historical_Mean,60D,Low,332,0.0,0.0414,0.0497,0.747
+Historical_Mean,60D,Normal,599,0.0,0.048,0.059,0.8381

@@ -1,0 +1,10 @@
+{
+  "total_metrics_verified": 1305,
+  "verification_success_rate": "100.0%",
+  "missing_artifacts_in_test": 0,
+  "critical_warnings": [
+    "Ordinary Sign Test assumes independent Bernoulli observations; overlapping multi-day forecasts induce serial correlation.",
+    "Traditional models (Lan01) executed tuning directly on Walk-Forward Validation without persisting un-tuned baseline runs.",
+    "Diebold-Mariano test is mathematically defined for continuous forecast errors and excluded from classification models."
+  ]
+}

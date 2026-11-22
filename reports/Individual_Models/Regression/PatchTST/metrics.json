@@ -1,0 +1,14 @@
+{
+  "model_name": "PatchTST",
+  "model_family": "Advanced Time-Series Deep Learning",
+  "model_category": "Regression",
+  "best_horizon": "5D",
+  "worst_horizon": "60D",
+  "best_regime": "Normal",
+  "worst_regime": "High",
+  "max_oos_r2": 0.001,
+  "min_oos_r2": -0.2243,
+  "max_da": 0.7775,
+  "total_test_observations": 1362,
+  "total_val_observations": 1360
+}

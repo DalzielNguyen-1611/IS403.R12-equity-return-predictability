@@ -1,0 +1,14 @@
+{
+  "model_name": "ARIMA",
+  "model_family": "Statistical Models",
+  "model_category": "Regression",
+  "best_horizon": "120D",
+  "worst_horizon": "20D",
+  "best_regime": "Normal",
+  "worst_regime": "High",
+  "max_oos_r2": 0.0195,
+  "min_oos_r2": -0.127,
+  "max_da": 0.7687,
+  "total_test_observations": 1362,
+  "total_val_observations": 1360
+}

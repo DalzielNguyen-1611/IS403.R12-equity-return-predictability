@@ -1,0 +1,16 @@
+{
+  "model_name": "LightGBM",
+  "model_family": "Kernel & Tree-based ML",
+  "model_category": "Regression",
+  "stages_available": {
+    "part_a_before_tuning": false,
+    "part_b_after_tuning": true,
+    "part_c_final_test": true
+  },
+  "best_hyperparameters": "{'n_estimators': 400, 'learning_rate': 0.11049890000613266, 'num_leaves': 49, 'max_depth': 10, 'min_child_samples': 34, 'subsample': 0.7840602059905246, 'colsample_bytree': 0.7428464775168512, 'reg_alpha': 0.44766655633145197, 'reg_lambda': 1.1488808987955952}",
+  "evaluation_date_ranges": {
+    "walk_forward_validation": "2015-06-10 to 2020-10-30",
+    "independent_final_test": "2020-11-02 to 2026-04-07"
+  },
+  "verification_status": "VERIFIED"
+}

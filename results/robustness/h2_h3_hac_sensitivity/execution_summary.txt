@@ -1,0 +1,42 @@
+================================================================================
+HAC BANDWIDTH SENSITIVITY ANALYSIS EXECUTION SUMMARY (H2 & H3)
+================================================================================
+
+Execution Status: SUCCESS
+Input Datasets:
+  - Hold-out predictions: Split 3 (2020-2026), N = 81720 rows
+  - Validation predictions: Split 2 (2015-2020), N = 81600 rows
+Bandwidths Tested: [5, 20, 60, 119]
+Total Tests Executed: 1008
+Total Tests Failed: 0
+Reproduces L=20 Baseline: True
+
+Breakdown of Findings Across Bandwidths:
+
+--- H2: GW-CPA (Total cases: 60) ---
+  * Stable insignificant: 40
+  * Significance-sensitive: 14
+  * Stable significant: 6
+  * Stable significant models: ['ARIMA', 'TCN', 'Transformer']
+
+--- H2: Horizon x Regime Interaction (Total cases: 12) ---
+  * Stable insignificant: 6
+  * Significance-sensitive: 5
+  * Stable significant: 1
+  * Stable significant models: ['TCN']
+
+--- H3: Fluctuation Test (Total cases: 60) ---
+  * Stable insignificant: 57
+  * Stable significant: 3
+  * Stable significant models: ['ARIMA', 'TCN', 'Transformer']
+
+--- H3: Hold-out Subperiod Wald (Total cases: 60) ---
+  * Stable insignificant: 45
+  * Significance-sensitive: 15
+
+Important Implementation Notes:
+1. GW-CPA: Evaluated with instruments [1, I(Low), I(High)] independently for each (model, horizon, bandwidth).
+2. Horizon-Regime Interaction: 15-dimensional stacked SUR/GMM moments preserving exact temporal cross-horizon alignment.
+3. Fluctuation Test: Full-sample sigma_HAC estimated per bandwidth; 500 block bootstrap replications (seed=42, block=60).
+4. Subperiod Wald Test: Predefined calendar blocks tested with Newey-West covariance across indicator regressors.
+5. Multiple testing: Step-down Holm correction applied family-wise across the 12 models at each horizon/test.

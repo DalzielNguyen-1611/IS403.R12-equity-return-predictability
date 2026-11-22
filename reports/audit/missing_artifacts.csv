@@ -1,0 +1,14 @@
+Model,Stage,Expected_File,Reason
+ARIMA,Part A - Before Tuning,results/Lan01/default/3.0.3_model_horizon_summary.csv,Experiment design executed tuning directly on Walk-Forward folds.
+ARIMAX,Part A - Before Tuning,results/Lan01/default/3.0.3_model_horizon_summary.csv,Experiment design executed tuning directly on Walk-Forward folds.
+SARIMA,Part A - Before Tuning,results/Lan01/default/3.0.3_model_horizon_summary.csv,Experiment design executed tuning directly on Walk-Forward folds.
+Ridge,Part A - Before Tuning,results/Lan01/default/3.0.3_model_horizon_summary.csv,Experiment design executed tuning directly on Walk-Forward folds.
+Elastic_Net,Part A - Before Tuning,results/Lan01/default/3.0.3_model_horizon_summary.csv,Experiment design executed tuning directly on Walk-Forward folds.
+SVR,Part A - Before Tuning,results/Lan01/default/3.0.3_model_horizon_summary.csv,Experiment design executed tuning directly on Walk-Forward folds.
+Random_Forest,Part A - Before Tuning,results/Lan01/default/3.0.3_model_horizon_summary.csv,Experiment design executed tuning directly on Walk-Forward folds.
+XGBoost,Part A - Before Tuning,results/Lan01/default/3.0.3_model_horizon_summary.csv,Experiment design executed tuning directly on Walk-Forward folds.
+LightGBM,Part A - Before Tuning,results/Lan01/default/3.0.3_model_horizon_summary.csv,Experiment design executed tuning directly on Walk-Forward folds.
+RNN,Part A - Before Tuning,results/Lan01/default/3.0.3_model_horizon_summary.csv,Experiment design executed tuning directly on Walk-Forward folds.
+LSTM,Part A - Before Tuning,results/Lan01/default/3.0.3_model_horizon_summary.csv,Experiment design executed tuning directly on Walk-Forward folds.
+Transformer,Part A - Before Tuning,results/Lan01/default/3.0.3_model_horizon_summary.csv,Experiment design executed tuning directly on Walk-Forward folds.
+Logistic_Regression,Part A - Before Tuning,results/Lan01/default/3.0.3_model_horizon_summary.csv,Experiment design executed tuning directly on Walk-Forward folds.

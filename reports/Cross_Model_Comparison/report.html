@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cross-Model Comparative Evaluation</title>
+    <!-- KaTeX CSS & JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #24292e;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem;
+            background-color: #ffffff;
+        }
+        h1, h2, h3, h4 {
+            color: #0d1117;
+            border-bottom: 1px solid #eaecef;
+            padding-bottom: 0.3em;
+            margin-top: 1.5em;
+            margin-bottom: 0.8em;
+        }
+        h1 { font-size: 2.1rem; border-bottom: 2px solid #0969da; }
+        h2 { font-size: 1.6rem; color: #1f2328; }
+        h3 { font-size: 1.3rem; border-bottom: none; }
+        h4 { font-size: 1.1rem; border-bottom: none; }
+        hr { height: 2px; background-color: #eaecef; border: none; margin: 2rem 0; }
+        blockquote {
+            margin: 1.2rem 0;
+            padding: 0.8rem 1.2rem;
+            color: #57606a;
+            background-color: #f6f8fa;
+            border-left: 0.25rem solid #0969da;
+            border-radius: 4px;
+        }
+        code {
+            background-color: #f6f8fa;
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-size: 88%;
+            font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+        }
+        .table-container {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+        th, td {
+            border: 1px solid #d0d7de;
+            padding: 8px 14px;
+            text-align: left;
+        }
+        th {
+            background-color: #f6f8fa;
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background-color: #fcfcfc;
+        }
+        tr:hover {
+            background-color: #f2f8fd;
+        }
+        .figure-box {
+            text-align: center;
+            margin: 2rem 0;
+            padding: 1rem;
+            background: #fafbfc;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+        }
+        .figure-box img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .figure-box .caption {
+            margin-top: 0.6rem;
+            font-size: 0.9rem;
+            color: #586069;
+            font-weight: 500;
+        }
+        a { color: #0969da; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+<h1>CROSS-MODEL COMPARATIVE RESEARCH REPORT</h1>
+<p><strong>Research Project:</strong> <em>When Does Equity Return Predictability Decay? A Multi-Horizon and Regime-Dependent Out-of-Sample Analysis</em></p>
+<p><strong>Evaluated Models:</strong> Exactly 19 Regression Models + 1 Classification Model (Logistic Regression) + Historical Mean Benchmark</p>
+<p><strong>Out-of-Sample Evaluation Dataset:</strong> S&P 500 (^GSPC), Split 3 (2020-11-02 to 2026-04-07, 1,362 trading days)</p>
+
+<hr/>
+
+<h2>1. Overall Regression Model Rankings (Primary Metric: Campbell–Thompson OOS R²)</h2>
+<p>The table below presents the overall ranking of all 19 regression forecasting models, averaged across all five horizons (1D to 120D) on the independent Final Test set.</p>
+
+<div class="table-container"><table>
+<tr><th>Model</th><th>Family</th><th>OOS_R2</th><th>RMSE</th><th>MAE</th><th>DA</th><th>Excess_DA</th><th>Rank_OOS_R2</th></tr>
+<tr><td>XGBoost</td><td>Kernel & Tree-based ML</td><td>0.0059</td><td>0.04646</td><td>0.03704</td><td>0.66388</td><td>-0.00222</td><td>1</td></tr>
+<tr><td>Ridge</td><td>Linear Models</td><td>0.00182</td><td>0.04678</td><td>0.03692</td><td>0.63538</td><td>-0.03068</td><td>2</td></tr>
+<tr><td>Elastic_Net</td><td>Linear Models</td><td>0.00148</td><td>0.0465</td><td>0.03702</td><td>0.65904</td><td>-0.00706</td><td>3</td></tr>
+<tr><td>LSTM</td><td>Classic Deep Learning</td><td>-0.00794</td><td>0.04686</td><td>0.0371</td><td>0.64332</td><td>-0.02276</td><td>4</td></tr>
+<tr><td>Random_Forest</td><td>Kernel & Tree-based ML</td><td>-0.01202</td><td>0.04712</td><td>0.03776</td><td>0.6505</td><td>-0.01556</td><td>5</td></tr>
+<tr><td>RNN</td><td>Classic Deep Learning</td><td>-0.01208</td><td>0.04686</td><td>0.03562</td><td>0.63026</td><td>-0.03582</td><td>6</td></tr>
+<tr><td>ARIMAX</td><td>Statistical Models</td><td>-0.01432</td><td>0.0467</td><td>0.03658</td><td>0.61468</td><td>-0.0514</td><td>7</td></tr>
+<tr><td>SVR</td><td>Kernel & Tree-based ML</td><td>-0.0159</td><td>0.04772</td><td>0.03822</td><td>0.63538</td><td>-0.03068</td><td>8</td></tr>
+<tr><td>LightGBM</td><td>Kernel & Tree-based ML</td><td>-0.0213</td><td>0.04774</td><td>0.03806</td><td>0.64216</td><td>-0.02394</td><td>9</td></tr>
+<tr><td>TSMixer</td><td>Advanced Time-Series Deep Learning</td><td>-0.05214</td><td>0.04792</td><td>0.03676</td><td>0.5652</td><td>-0.1009</td><td>10</td></tr>
+<tr><td>ARIMA</td><td>Statistical Models</td><td>-0.0595</td><td>0.04768</td><td>0.03614</td><td>0.61512</td><td>-0.05094</td><td>11</td></tr>
+<tr><td>PatchTST</td><td>Advanced Time-Series Deep Learning</td><td>-0.07026</td><td>0.04866</td><td>0.03828</td><td>0.65844</td><td>-0.00764</td><td>12</td></tr>
+<tr><td>TCN</td><td>Advanced Time-Series Deep Learning</td><td>-0.07996</td><td>0.04984</td><td>0.03854</td><td>0.61908</td><td>-0.047</td><td>13</td></tr>
+<tr><td>SARIMA</td><td>Statistical Models</td><td>-0.08416</td><td>0.04764</td><td>0.03626</td><td>0.61262</td><td>-0.05346</td><td>14</td></tr>
+<tr><td>iTransformer</td><td>Advanced Time-Series Deep Learning</td><td>-0.13078</td><td>0.05122</td><td>0.03962</td><td>0.66124</td><td>-0.00484</td><td>15</td></tr>
+<tr><td>N-BEATS</td><td>Advanced Time-Series Deep Learning</td><td>-0.1508</td><td>0.04992</td><td>0.04108</td><td>0.51262</td><td>-0.15344</td><td>16</td></tr>
+<tr><td>N-HiTS</td><td>Advanced Time-Series Deep Learning</td><td>-0.19834</td><td>0.05098</td><td>0.0417</td><td>0.52894</td><td>-0.13716</td><td>17</td></tr>
+<tr><td>Transformer</td><td>Classic Deep Learning</td><td>-0.22188</td><td>0.0513</td><td>0.04104</td><td>0.55448</td><td>-0.1116</td><td>18</td></tr>
+<tr><td>CNN</td><td>Advanced Time-Series Deep Learning</td><td>-0.22338</td><td>0.05166</td><td>0.04096</td><td>0.56828</td><td>-0.09782</td><td>19</td></tr>
+</table></div>
+
+<div class="figure-box"><img src="figures/ranking_oos_r2_final_test.png" alt="Overall Rankings OOS R2"/><div class="caption">Overall Rankings OOS R2</div></div>
+
+<h2>2. Forecast Horizon Decay & Horizon-Specific Rankings</h2>
+<p>Multi-horizon comparative matrix evaluating predictability decay from 1D to 120D:</p>
+
+<div class="table-container"><table>
+<tr><th>Model</th><th>1D</th><th>5D</th><th>20D</th><th>60D</th><th>120D</th></tr>
+<tr><td>ARIMA</td><td>-0.0049</td><td>-0.0825</td><td>-0.127</td><td>-0.1026</td><td>0.0195</td></tr>
+<tr><td>ARIMAX</td><td>0.0118</td><td>-0.059</td><td>-0.0461</td><td>0.0252</td><td>-0.0035</td></tr>
+<tr><td>CNN</td><td>-0.1003</td><td>-0.3415</td><td>-0.1514</td><td>-0.3242</td><td>-0.1995</td></tr>
+<tr><td>Elastic_Net</td><td>0.0013</td><td>0.0061</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>LSTM</td><td>-0.0065</td><td>-0.005</td><td>0.0148</td><td>-0.0096</td><td>-0.0334</td></tr>
+<tr><td>LightGBM</td><td>0.0208</td><td>0.0029</td><td>0.0061</td><td>0.0289</td><td>-0.1652</td></tr>
+<tr><td>N-BEATS</td><td>-0.023</td><td>-0.0128</td><td>-0.3295</td><td>-0.4574</td><td>0.0687</td></tr>
+<tr><td>N-HiTS</td><td>-0.019</td><td>0.0037</td><td>-0.4644</td><td>-0.5898</td><td>0.0778</td></tr>
+<tr><td>PatchTST</td><td>0.0001</td><td>0.001</td><td>-0.0847</td><td>-0.2243</td><td>-0.0434</td></tr>
+<tr><td>RNN</td><td>-0.0141</td><td>-0.0143</td><td>0.0048</td><td>-0.0083</td><td>-0.0285</td></tr>
+<tr><td>Random_Forest</td><td>0.0177</td><td>-0.013</td><td>-0.0039</td><td>0.0033</td><td>-0.0642</td></tr>
+<tr><td>Ridge</td><td>0.015</td><td>0.0179</td><td>0.0166</td><td>0.0091</td><td>-0.0495</td></tr>
+<tr><td>SARIMA</td><td>-0.0049</td><td>-0.2612</td><td>-0.127</td><td>-0.0719</td><td>0.0442</td></tr>
+<tr><td>SVR</td><td>0.0198</td><td>0.0148</td><td>0.0305</td><td>0.0464</td><td>-0.191</td></tr>
+<tr><td>TCN</td><td>-0.0308</td><td>0.0024</td><td>0.0207</td><td>0.0462</td><td>-0.4383</td></tr>
+<tr><td>TSMixer</td><td>-0.0022</td><td>-0.0393</td><td>-0.061</td><td>-0.141</td><td>-0.0172</td></tr>
+<tr><td>Transformer</td><td>-0.1528</td><td>-0.3972</td><td>-0.1164</td><td>-0.2128</td><td>-0.2302</td></tr>
+<tr><td>XGBoost</td><td>0.0148</td><td>0.0011</td><td>0.0137</td><td>0.0013</td><td>-0.0014</td></tr>
+<tr><td>iTransformer</td><td>-0.0083</td><td>-0.0009</td><td>0.0103</td><td>-0.359</td><td>-0.296</td></tr>
+</table></div>
+
+<div class="figure-box"><img src="figures/horizon_comparison_heatmap.png" alt="Horizon Comparison Heatmap"/><div class="caption">Horizon Comparison Heatmap</div></div>
+
+<h2>3. Horizon × Volatility Regime Extremes (Best vs Weakest Models)</h2>
+<p>Identifies the leading and lagging model in each cell of the 5 × 3 Horizon × Regime state space:</p>
+
+<div class="table-container"><table>
+<tr><th>Horizon</th><th>Regime</th><th>Observations</th><th>Best_Model</th><th>Best_OOS_R2</th><th>Best_DA</th><th>Weakest_Model</th><th>Weakest_OOS_R2</th><th>Weakest_DA</th></tr>
+<tr><td>1D</td><td>Low</td><td>332</td><td>LightGBM</td><td>0.0049</td><td>0.5331</td><td>CNN</td><td>-0.3359</td><td>0.4849</td></tr>
+<tr><td>1D</td><td>Normal</td><td>599</td><td>LightGBM</td><td>0.0089</td><td>0.5326</td><td>Transformer</td><td>-0.297</td><td>0.4825</td></tr>
+<tr><td>1D</td><td>High</td><td>431</td><td>SVR</td><td>0.031</td><td>0.529</td><td>Transformer</td><td>-0.072</td><td>0.4872</td></tr>
+<tr><td>5D</td><td>Low</td><td>332</td><td>iTransformer</td><td>0.0048</td><td>0.5934</td><td>CNN</td><td>-0.675</td><td>0.4759</td></tr>
+<tr><td>5D</td><td>Normal</td><td>599</td><td>N-BEATS</td><td>0.0111</td><td>0.596</td><td>Transformer</td><td>-0.7018</td><td>0.5309</td></tr>
+<tr><td>5D</td><td>High</td><td>431</td><td>RNN</td><td>0.042</td><td>0.5151</td><td>CNN</td><td>-0.3696</td><td>0.5429</td></tr>
+<tr><td>20D</td><td>Low</td><td>332</td><td>TCN</td><td>0.0289</td><td>0.6657</td><td>N-HiTS</td><td>-1.709</td><td>0.3253</td></tr>
+<tr><td>20D</td><td>Normal</td><td>599</td><td>SVR</td><td>0.0708</td><td>0.7429</td><td>N-HiTS</td><td>-1.0129</td><td>0.2571</td></tr>
+<tr><td>20D</td><td>High</td><td>431</td><td>TCN</td><td>0.0306</td><td>0.5336</td><td>PatchTST</td><td>-0.172</td><td>0.5592</td></tr>
+<tr><td>60D</td><td>Low</td><td>332</td><td>SVR</td><td>0.0349</td><td>0.747</td><td>N-HiTS</td><td>-1.4275</td><td>0.3253</td></tr>
+<tr><td>60D</td><td>Normal</td><td>599</td><td>SVR</td><td>0.1654</td><td>0.8381</td><td>N-HiTS</td><td>-0.8624</td><td>0.3589</td></tr>
+<tr><td>60D</td><td>High</td><td>431</td><td>LightGBM</td><td>0.0932</td><td>0.6125</td><td>iTransformer</td><td>-0.7347</td><td>0.6288</td></tr>
+<tr><td>120D</td><td>Low</td><td>332</td><td>N-HiTS</td><td>0.0675</td><td>0.762</td><td>TCN</td><td>-0.7092</td><td>0.6867</td></tr>
+<tr><td>120D</td><td>Normal</td><td>599</td><td>RNN</td><td>0.1586</td><td>0.8698</td><td>SVR</td><td>-0.3319</td><td>0.7195</td></tr>
+<tr><td>120D</td><td>High</td><td>431</td><td>N-HiTS</td><td>0.0648</td><td>0.6705</td><td>iTransformer</td><td>-0.6961</td><td>0.6705</td></tr>
+</table></div>
+
+<h2>4. Model Architectural Family Comparison</h2>
+<p>Consolidated performance aggregated across the 5 primary structural families:</p>
+
+<div class="table-container"><table>
+<tr><th>Family</th><th>OOS_R2</th><th>RMSE</th><th>MAE</th><th>DA</th><th>Excess_DA</th></tr>
+<tr><td>Linear Models</td><td>0.00165</td><td>0.04664</td><td>0.03697</td><td>0.64721</td><td>-0.01887</td></tr>
+<tr><td>Kernel & Tree-based ML</td><td>-0.01083</td><td>0.04726</td><td>0.03777</td><td>0.64798</td><td>-0.0181</td></tr>
+<tr><td>Statistical Models</td><td>-0.05266</td><td>0.04734</td><td>0.0363267</td><td>0.61414</td><td>-0.0519333</td></tr>
+<tr><td>Classic Deep Learning</td><td>-0.0806333</td><td>0.04834</td><td>0.03792</td><td>0.609353</td><td>-0.0567267</td></tr>
+<tr><td>Advanced Time-Series Deep Learning</td><td>-0.12938</td><td>0.0500286</td><td>0.0395629</td><td>0.587686</td><td>-0.0784</td></tr>
+</table></div>
+
+<div class="figure-box"><img src="figures/model_family_comparison.png" alt="Model Family Comparison"/><div class="caption">Model Family Comparison</div></div>
+
+<h2>5. Group III – Logistic Regression (Standalone Classification Analysis)</h2>
+<p>Logistic Regression produces directional probability predictions rather than continuous returns. It is evaluated independently using classification metrics:</p>
+
+<div class="table-container"><table>
+<tr><th>Model</th><th>Horizon</th><th>ROC_AUC</th><th>Accuracy</th><th>Balanced_Accuracy</th><th>Precision</th><th>Recall</th><th>F1</th><th>DA</th><th>Sign_pvalue</th></tr>
+<tr><td>Logistic_Regression</td><td>120D</td><td>0.5756</td><td>0.7805</td><td>0.5</td><td>0.7805</td><td>1</td><td>0.8767</td><td>0.7805</td><td>0</td></tr>
+<tr><td>Logistic_Regression</td><td>1D</td><td>0.4974</td><td>0.489</td><td>0.492</td><td>0.5288</td><td>0.4522</td><td>0.4875</td><td>0.489</td><td>0.7995</td></tr>
+<tr><td>Logistic_Regression</td><td>20D</td><td>0.5212</td><td>0.6689</td><td>0.5</td><td>0.6689</td><td>1</td><td>0.8016</td><td>0.6689</td><td>0</td></tr>
+<tr><td>Logistic_Regression</td><td>5D</td><td>0.5226</td><td>0.5117</td><td>0.5135</td><td>0.6071</td><td>0.5043</td><td>0.551</td><td>0.5117</td><td>0.2005</td></tr>
+<tr><td>Logistic_Regression</td><td>60D</td><td>0.6264</td><td>0.746</td><td>0.4976</td><td>0.7487</td><td>0.9951</td><td>0.8545</td><td>0.746</td><td>0</td></tr>
+</table></div>
+
+</body>
+</html>

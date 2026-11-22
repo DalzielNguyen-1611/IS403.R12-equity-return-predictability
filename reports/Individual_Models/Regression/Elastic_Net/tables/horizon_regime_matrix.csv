@@ -1,0 +1,16 @@
+Model,Horizon,Regime,Observations,OOS_R2,MAE,RMSE,DA
+Elastic_Net,120D,High,431,0.0,0.0932,0.1122,0.6705
+Elastic_Net,120D,Low,332,0.0,0.0666,0.0783,0.762
+Elastic_Net,120D,Normal,599,0.0,0.0681,0.0837,0.8698
+Elastic_Net,1D,High,431,0.0013,0.0107,0.0146,0.5012
+Elastic_Net,1D,Low,332,0.0015,0.0052,0.007,0.5361
+Elastic_Net,1D,Normal,599,0.0011,0.0065,0.0085,0.5075
+Elastic_Net,20D,High,431,0.0,0.0482,0.0572,0.5615
+Elastic_Net,20D,Low,332,0.0,0.0206,0.0256,0.6747
+Elastic_Net,20D,Normal,599,0.0,0.0284,0.0351,0.7429
+Elastic_Net,5D,High,431,0.007,0.0239,0.0307,0.5499
+Elastic_Net,5D,Low,332,-0.0019,0.0115,0.0144,0.5934
+Elastic_Net,5D,Normal,599,0.007,0.0141,0.0182,0.6027
+Elastic_Net,60D,High,431,0.0,0.0679,0.0826,0.6288
+Elastic_Net,60D,Low,332,0.0,0.0414,0.0497,0.747
+Elastic_Net,60D,Normal,599,0.0,0.048,0.059,0.8381

@@ -1,0 +1,331 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                        ord.sty                                   %%
+%%  Operations Research and Decisions package style             %%
+%%                      Version 2.1                                 %%
+%%                  November 2024                                 %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\ProvidesClass{ord}[2021/09/19 Operations Research and Decisions package file]
+\NeedsTeXFormat{LaTeX2e}
+
+\PassOptionsToPackage{sort&compress}{natbib}
+
+%Using more packages
+\RequirePackage{sectsty}
+\RequirePackage{footmisc}
+%\RequirePackage{biblatex}
+\RequirePackage{fancyhdr}
+\RequirePackage{ifthen}
+\RequirePackage{tabulary}
+%\RequirePackage{a4wide}
+%\RequirePackage{abstract}
+\RequirePackage{xstring}
+%\RequirePackage{ragged2e} 
+%\usepackage[font=xipt,labelfont=bf]{caption}
+\RequirePackage[figurename=Figure, tablename=Table]{caption}
+%\RequirePackage{secdot}
+\RequirePackage[colorlinks=true,allcolors=blue]{hyperref}
+\RequirePackage{graphicx}
+\RequirePackage{xcolor}
+\RequirePackage{geometry}
+%\RequirePackage{setspace}
+\RequirePackage{titlesec}
+\RequirePackage[numbers,square]{natbib}
+\RequirePackage{ntheorem}
+\RequirePackage{algorithm2e}
+%\RequirePackage[rightcaption]{sidecap}
+%\RequirePackage{helvet}
+%\RequirePackage{floatrow}
+\RequirePackage[labelformat=simple]{subcaption}
+\RequirePackage{setspace}
+\renewcommand{\thesubfigure}{\alph{subfigure})}
+\captionsetup{font={bf,small},skip=0.25\baselineskip, position=top}
+%\captionsetup[subfigure]{font={bf,small}, skip=1pt, singlelinecheck=false}
+
+
+%Set baseline globally
+\renewcommand{\baselinestretch}{1.2}
+
+%Colors
+\definecolor{colorlogo}{RGB}{60,130,172}
+
+%Page Settings
+\geometry{
+    a4paper,
+    top=20mm,
+    bottom=20mm
+}
+%\setlength  {\headsep}        	{5 truemm}
+\setlength  {\headheight}     	{2 cc}
+\setlength  {\footskip}       		{0 mm}
+\setlength {\footnotesep}		{0mm}
+\setlength  {\textwidth}      		{500pt}
+\setlength  {\textheight}     		{700pt}
+\setlength  {\topmargin}     		 {-13  truemm}
+\setlength  {\oddsidemargin}  	{-7 mm}
+\setlength  {\evensidemargin} 	{-7 mm}
+
+
+%Bibitem size
+\def\bibfont{\fontsize{9}{9}\selectfont} % set bibliography font size to small
+\setlength{\bibsep}{1 pt} % set 2 pt spacing between entries
+\renewcommand{\refname}{\fontsize{14}{14}\selectfont \bf References} 
+%\bibliographystyle{custom} % custom style created above
+
+% Title, authors, affiliations
+\newcommand{\ORDtitle}[1]{\def \ordtitledef{#1}}
+\newcommand{\ORDshortafill}[1]{\def \ordshortafilldef{#1}}
+\newcommand{\ORDshorttitle}[1]{\def \ordshorttitledef{\textit{#1}}}
+\newcommand{\ORDaffilone}[1]{\def \ordaffilonedef{#1}}
+\newcommand{\ORDaffiltwo}[1]{\def \ordaffiltwodef{#1}}
+\newcommand{\ORDaffilthree}[1]{\def \ordaffilthreedef{#1}}
+\newcommand{\ORDaffilfour}[1]{\def \ordaffilfourdef{#1}}
+
+\newcommand{\ORDauthorone}[4]{\def \aonename{#1} \def \aoneaffil{#2} \def \aoneorcid{#3} \def \aonemail{#4}}
+\newcommand{\ORDauthortwo}[4]{\def \atwoname{#1} \def \atwoaffil{#2} \def \atwoorcid{#3} \def \atwomail{#4}}
+\newcommand{\ORDauthorthree}[4]{\def \athreename{#1} \def \athreeaffil{#2} \def \athreeorcid{#3} \def \athreemail{#4}}
+\newcommand{\ORDauthorfour}[4]{\def \afourname{#1} \def \afouraffil{#2} \def \afourorcid{#3} \def \afourmail{#4}}
+\newcommand{\ORDauthorfive}[4]{\def \afivename{#1} \def \afiveaffil{#2} \def \afiveorcid{#3} \def \afivemail{#4}}
+\newcommand{\ORDauthorsix}[4]{\def \asixname{#1} \def \asixaffil{#2} \def \asixorcid{#3} \def \asixmail{#4}}
+\def \asixname{}
+\def \asixaffil{}
+\def \asixorcid{}
+\def \asixmail{}
+
+\newcommand{\ORDcorrespoding}[2]{\def \ordcorrespondingtext{#1} \def \ordcorrespondingdef{#2}}
+
+\newcommand{\ORDvolume}[1]{\def \ordvolumedef{#1}}
+\newcommand{\ORDnumber}[1]{\def \ordnumberdef{#1}}
+\newcommand{\ORDyear}[1]{\def \ordyeardef{#1}}
+\newcommand{\ORDdoi}[1]{\def \orddoidef{#1}}
+\newcommand{\ORDReceived}[1]{\def \ordreceiveddef{#1}}
+\newcommand{\ORDRevised}[1]{\def \ordreviseddef{#1}}
+\newcommand{\ORDAccepted}[1]{\def \ordaccepteddef{#1}}
+\newcommand{\ORDPublished}[1]{\def \ordpublisheddef{#1}}
+\newcommand{\ORDFounding}[1]{\def \ordfoundingdef{#1}}
+
+\newcommand{\ORDFirstpagenum}[1]{
+\setcounter{page}{#1}
+}
+
+
+%Font sizes
+\newcommand{\ORDtitlefont}{ptm} %First page font
+\newcommand{\ORDheadersize}{10pt}
+\newcommand{\ORDfootsize}{10pt}
+\newcommand{\ORDjournalsize}{17pt}
+\newcommand{\ORDopensize}{12pt}
+\newcommand{\ORDwwwsize}{12pt}
+\newcommand{\ORDtitlesize}{20pt}
+\newcommand{\ORDauthorssize}{13pt}
+\newcommand{\ORDaffilsize}{9pt}
+\newcommand{\ORDabstractsize}{10pt}
+\newcommand{\ORDkeywordssize}{10pt}
+
+
+
+%Titlepage environment-------------------------------
+\renewenvironment{maketitle}{%
+\thispagestyle{firststyle}
+\ordfirstpage
+\fontfamily{ptm}\fontsize{12pt}{.5cm}\selectfont %Select font in the paper
+}
+%--------------------------------------------------------------
+
+%Abstract environment-----------------------
+\renewenvironment{abstract}{%
+\setstretch{1}
+  \fontsize{\ORDabstractsize}{0.5cm}\selectfont
+  {
+   \noindent \rule{500pt}{0.5pt}
+   \vspace{0.2cm}
+   \noindent  \textbf{\abstractname} \vspace{-10pt}\\
+   \noindent \rule{500pt}{0.5pt}
+	}
+ }
+ %----------------------------------------------------
+
+%Keywords
+\newcommand{\ORDKeywords}[1]{%
+	\vspace{-10pt}
+	\noindent \rule{500pt}{0.5pt}
+	%\vspace{0.2cm}
+ 	{ \fontsize{\ORDkeywordssize}{10} \selectfont \noindent   \textbf{Keywords:} {\em #1} \vspace{-5pt}\\}
+	\noindent \rule{500pt}{0.5pt}
+	\vspace{-10pt}
+}
+%------------------
+
+%ORCID icon
+\newcommand{\orcid}[1]{\textsuperscript{\href{https://orcid.org/#1}{\includegraphics[scale=0.5]{orcid.png}}}}
+
+%Set header and footer
+\pagestyle{fancy}
+\fancyhead{}
+\fancyhead[RO, LE]{\thepage}
+%\rhead{\thepage}
+\cfoot{} % 
+\fancyhead[EC]{\fontsize{\ORDheadersize}{10} \selectfont \ordshortafilldef}    % Chapter in the right on even pages
+\fancyhead[OC]{\fontsize{\ORDheadersize}{10}\selectfont\ordshorttitledef} % Short title on odd pages
+\setlength{\headheight}{1pt} 
+\fancypagestyle{firststyle}{
+	\setlength  {\headsep}{5 truemm}
+	\fancyhead{}
+	\fancyfoot{}
+	\renewcommand{\headrulewidth}{0pt}
+	\fancyhead[L]{{\fontfamily{\ORDtitlefont}\fontsize{\ORDheadersize}{1pt}\fontseries{b}\selectfont Vol.~\ordvolumedef, No.~\ordnumberdef~(\ordyeardef)~$|$~\orddoidef}\vspace{-15pt}}
+	\renewcommand{\footrulewidth}{0pt}
+	\renewcommand{\footskip}{15pt}
+ 	\fancyfoot[L]{
+ 		\rule{100pt}{0.5pt}\\[10pt]
+		 %\justify
+		{\fontfamily{\ORDtitlefont}\fontsize{\ORDfootsize}{1pt}\selectfont Received~\ordreceiveddef,~accepted~\ordaccepteddef,~published online~\ordpublisheddef \\[1pt] ISSN 2391-6060 (Online)/© 2024 Authors \\[3pt]
+		 \ordfoundingdef
+  }
+		}
+}
+
+
+%Set title page
+\newcommand{\ordfirstpage}
+{
+\begin{flushleft}
+	 \rule{400pt}{0.3pt}
+	 \begin{tabular*}{\textwidth}{@{\hskip0pt}@{\extracolsep{\fill}}lcr@{\hskip0pt}}
+	 \begin{tabular}{@{\hskip0pt}c}
+		\includegraphics[height=1.9cm]{ord_logo.png} \end{tabular} & 
+		\begin{tabular}{c} {\fontfamily{\ORDtitlefont}\fontsize{\ORDopensize}{1pt}\fontseries{b}\selectfont \textcolor{colorlogo}{OPEN ACCESS}}  \\ \\  {\fontfamily{\ORDtitlefont} \fontsize{\ORDjournalsize}{1pt}\fontseries{b}\selectfont Operations Research and Decisions}  \\  \\ {\fontfamily{\ORDtitlefont}\fontsize{\ORDwwwsize}{1pt}\fontseries{b}\selectfont {\href{http:\\www.ord.pwr.edu.pl}{\textcolor{colorlogo}{www.ord.pwr.edu.pl}}}}\end{tabular} & 
+		\begin{tabular}{r@{\hskip0pt}}  \includegraphics[height=3.5cm]{ord_cover.jpg} \end{tabular} \\
+	\end{tabular*}
+	\end{flushleft}
+	
+	 \noindent \rule{500pt}{2pt}
+	 %\vspace{1mm}
+	 
+%Title of the paper	
+%Flush left version
+\begin{flushleft}{\fontfamily{\ORDtitlefont} \fontsize{\ORDtitlesize}{20}\selectfont  \noindent  \ordtitledef \par} \end{flushleft}
+
+\vspace{0.1cm}
+
+%Flush left version
+{ \fontfamily{\ORDtitlefont}\fontsize{\ORDauthorssize}{0.5cm}\selectfont
+\begin{flushleft}
+ \noindent	
+ \ifthenelse{\equal{\aonename}{}}{}{\aonename$^{\aoneaffil}$\ifthenelse{\equal{\aoneorcid}{}}{} {\orcid{\aoneorcid}}}  \hspace{2pt} 
+ \ifthenelse{\equal{\atwoname}{}}{}{\atwoname$^{\atwoaffil}$\ifthenelse{\equal{\atwoorcid}{}}{}{\orcid{\atwoorcid}}} \hspace{2pt} 
+\ifthenelse{\equal{\athreename}{}}{}{\athreename$^{\athreeaffil}$\ifthenelse{\equal{\athreeorcid}{}}{}{\orcid{\athreeorcid}}} \hspace{2pt} 
+\ifthenelse{\equal{\afourname}{}}{}{\afourname$^{\afouraffil}$\ifthenelse{\equal{\afourorcid}{}}{}{\orcid{\afourorcid}}} 
+\hspace{2pt} 
+\ifthenelse{\equal{\afivename}{}}{}{\afivename$^{\afiveaffil}$\ifthenelse{\equal{\afiveorcid}{}}{}{\orcid{\afiveorcid}}}
+\hspace{2pt} 
+\ifthenelse{\equal{\asixname}{}}{}{\asixname$^{\asixaffil}$\ifthenelse{\equal{\asixorcid}{}}{}{\orcid{\asixorcid}}}
+\end{flushleft}} 
+
+\vspace{0.2cm} 
+    
+{\fontfamily{\ORDtitlefont}\fontsize{\ORDaffilsize}{1pt}\fontshape{it}\selectfont
+		\ifthenelse{\equal{\ordaffilonedef}{}}{}{\noindent$^1$\ordaffilonedef}\\ 
+		\ifthenelse{\equal{\ordaffiltwodef}{}}{}{\noindent$^2$\ordaffiltwodef\\}
+	 	\ifthenelse{\equal{\ordaffilthreedef}{}}{}{\noindent$^3$\ordaffilthreedef\\}
+		\ifthenelse{\equal{\ordaffilfourdef}{}}{}{\noindent$^4$\ordaffilfourdef\\}
+		\ordcorrespondingtext~\href{mailto:\ordcorrespondingdef}{\ordcorrespondingdef}}
+
+ \vspace{0.1cm}
+ }
+ 
+%Foototes
+%\let\footnotesize\Large 
+\let\oldfootnotesize\footnotesize
+\renewcommand*{\footnotesize}{\oldfootnotesize\fontsize{10pt}{10pt}\selectfont}
+\renewcommand{\footnoterule}{%
+  %\kern -3pt
+  \hrule width 100pt height 0.5 pt
+  %\kern 2pt
+}
+\renewcommand{\footnotesep}{15pt}
+\renewcommand{\footnotelayout}{\setstretch{1.2}}
+\renewcommand*{\footnotelayout}{\fontfamily{\ORDtitlefont}\fontsize{\ORDheadersize}{12pt}\selectfont}
+
+
+ 
+%Sections and subsections titles
+\titlespacing*{\section}{0pt}{16pt}{12pt}
+\titlelabel{\thetitle.\quad}
+\sectionfont{\fontsize{16}{16}\selectfont}
+\subsectionfont{\fontsize{14}{14}\selectfont}
+\subsubsectionfont{\fontsize{12}{12}\selectfont}
+
+%Ackonwledgements
+\newcommand{\acknowledg}[1]{
+        \vspace{0.5cm}
+	{\fontsize{14}{14}\selectfont\noindent  \bf Acknowledgement \\} {\fontsize{10}{10}\selectfont #1}
+}
+
+%Funding
+\newcommand{\funding}[1]{
+        \vspace{0.5cm}
+	{\fontsize{14}{14}\selectfont\noindent  \bf Funding \\}  {\fontsize{10}{10}\selectfont #1}
+}
+
+
+
+\theorembodyfont{\fontfamily{ptm}\fontsize{12pt}{.5cm}}
+\theoremseparator{.}
+%\theorempostskip{0pt}
+%\theorempreskip{8pt}
+
+
+\newtheorem{theorem}{Theorem}%[section]
+\newtheorem{definition}{Definition}%[section]
+\newtheorem{lemma}{Lemma}%[section]
+\newtheorem{observation}{Observation}%[section]
+\newtheorem{corollary}{Corollary}%[section]
+\newtheorem{remark}{Remark}%[section]
+\newtheorem{assumption}{Assumption}%[section]
+\newtheorem{proposition}{Proposition}%[section]
+\newtheorem{claim}{Claim}%[section]
+
+
+\newenvironment{proof}{\paragraph{\fontsize{12}{12}\selectfont \bf Proof.}}{\hfill$\square$}
+\newenvironment{proofof}[1]{\paragraph{\fontsize{12}{12}\selectfont \bf Proof of #1.}}{\hfill$\square$}
+
+%Tables
+\let\Tabular\tabular
+\def\tabular{\fontsize{10pt}{12pt}\fontfamily{ptm}\selectfont\Tabular}
+
+%\captionsetup[table]{labelfont=bf}
+%\captionsetup[table]{skip=3pt,singlelinecheck=off}
+\DeclareCaptionFont{xipt1}{\fontsize{10}{11}\fontfamily{ptm}\selectfont}
+ \captionsetup[table]{font=xipt1, labelfont=bf,  labelsep = period, skip=6pt}
+
+\renewenvironment{table}
+  {
+  \renewcommand{\rmdefault}{ptm}
+  \renewcommand\familydefault\rmdefault
+  \@float{table}}
+  {\end@float}
+%------------------------------
+
+
+%Figures
+\setlength\abovecaptionskip{-8pt}
+\setlength\belowcaptionskip{7pt}
+\captionsetup{justification=centering}
+\DeclareCaptionFont{xipt}{\fontsize{10}{10}\fontfamily{ptm}\selectfont}
+ \captionsetup[figure]{font=xipt,labelfont=bf, labelsep = period}
+ \captionsetup[subfigure]{font=xipt, labelsep = period}
+
+\renewenvironment{figure}
+  {
+  \renewcommand{\rmdefault}{ptm}
+  \renewcommand\familydefault\rmdefault
+   \@float{figure}}
+  {\end@float}
+%------------------------------
+
+%Algorithms
+\SetAlgoCaptionSeparator{.}
+\SetAlFnt{\fontsize{10}{12}\fontfamily{ptm}\linespread{1.25}\selectfont}
+
+

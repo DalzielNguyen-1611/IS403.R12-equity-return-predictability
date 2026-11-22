@@ -1,0 +1,6 @@
+Block_Length,Total_Models,Raw_Sig_Count_05,Raw_Sig_Models,Holm_Sig_Count_05,Holm_Sig_Models,HAC_Baseline_Holm_Sig_Models,Consistent_with_HAC_Holm
+20,12,0,None,0,None,ARIMA,False
+40,12,0,None,0,None,ARIMA,False
+60,12,0,None,0,None,ARIMA,False
+80,12,0,None,0,None,ARIMA,False
+120,12,0,None,0,None,ARIMA,False

@@ -1,0 +1,58 @@
+Model,Family,Regime,OOS_R2,RMSE,MAE,DA
+ARIMA,Statistical Models,High,-0.0833,0.062,0.0495,0.5174
+ARIMA,Statistical Models,Low,-0.0362,0.0358,0.0272,0.6524
+ARIMA,Statistical Models,Normal,-0.0264,0.0409,0.0315,0.6648
+ARIMAX,Statistical Models,High,0.012,0.0586,0.0475,0.5782
+ARIMAX,Statistical Models,Low,-0.0588,0.0364,0.0294,0.6289
+ARIMAX,Statistical Models,Normal,-0.034,0.0414,0.0328,0.6331
+SARIMA,Statistical Models,High,-0.1074,0.0618,0.0495,0.5132
+SARIMA,Statistical Models,Low,-0.0433,0.0355,0.0273,0.6428
+SARIMA,Statistical Models,Normal,-0.0569,0.041,0.0317,0.6675
+Ridge,Linear Models,High,0.0098,0.0595,0.0485,0.5503
+Ridge,Linear Models,Low,-0.0407,0.0363,0.0295,0.6385
+Ridge,Linear Models,Normal,0.0057,0.0409,0.0327,0.6948
+Elastic_Net,Linear Models,High,0.0017,0.0595,0.0488,0.5824
+Elastic_Net,Linear Models,Low,-0.0001,0.035,0.0291,0.6626
+Elastic_Net,Linear Models,Normal,0.0016,0.0409,0.033,0.7122
+SVR,Kernel & Tree-based ML,High,0.0005,0.0599,0.0491,0.5708
+SVR,Kernel & Tree-based ML,Low,-0.0616,0.0372,0.0309,0.6301
+SVR,Kernel & Tree-based ML,Normal,-0.0165,0.0422,0.0344,0.6848
+Random_Forest,Kernel & Tree-based ML,High,0.0004,0.0597,0.0493,0.5596
+Random_Forest,Kernel & Tree-based ML,Low,-0.0055,0.0351,0.0292,0.6657
+Random_Forest,Kernel & Tree-based ML,Normal,-0.0346,0.0422,0.0342,0.7075
+XGBoost,Kernel & Tree-based ML,High,0.0122,0.0592,0.0486,0.5838
+XGBoost,Kernel & Tree-based ML,Low,-0.0012,0.035,0.0292,0.6657
+XGBoost,Kernel & Tree-based ML,Normal,-0.0036,0.041,0.0331,0.7205
+LightGBM,Kernel & Tree-based ML,High,-0.0037,0.0603,0.0496,0.5592
+LightGBM,Kernel & Tree-based ML,Low,-0.0043,0.0352,0.0291,0.6578
+LightGBM,Kernel & Tree-based ML,Normal,-0.0574,0.0432,0.0347,0.6932
+RNN,Classic Deep Learning,High,-0.0424,0.0619,0.0491,0.5791
+RNN,Classic Deep Learning,Low,-0.0677,0.0359,0.028,0.6271
+RNN,Classic Deep Learning,Normal,0.037,0.0389,0.0301,0.6688
+LSTM,Classic Deep Learning,High,-0.0212,0.0607,0.0501,0.5726
+LSTM,Classic Deep Learning,Low,-0.0139,0.0349,0.0285,0.6313
+LSTM,Classic Deep Learning,Normal,0.008,0.0406,0.0325,0.7008
+Transformer,Classic Deep Learning,High,-0.148,0.0644,0.052,0.5591
+Transformer,Classic Deep Learning,Low,-0.3408,0.0396,0.0332,0.5325
+Transformer,Classic Deep Learning,Normal,-0.3362,0.0461,0.0375,0.5633
+CNN,Advanced Time-Series Deep Learning,High,-0.2396,0.0669,0.0527,0.5791
+CNN,Advanced Time-Series Deep Learning,Low,-0.4196,0.0404,0.0346,0.5175
+CNN,Advanced Time-Series Deep Learning,Normal,-0.1506,0.0437,0.036,0.5886
+TCN,Advanced Time-Series Deep Learning,High,-0.0758,0.0635,0.052,0.5476
+TCN,Advanced Time-Series Deep Learning,Low,-0.1477,0.0398,0.0307,0.6217
+TCN,Advanced Time-Series Deep Learning,Normal,-0.0578,0.0429,0.0332,0.6691
+N-BEATS,Advanced Time-Series Deep Learning,High,-0.032,0.0604,0.0502,0.5322
+N-BEATS,Advanced Time-Series Deep Learning,Low,-0.3812,0.0403,0.034,0.491
+N-BEATS,Advanced Time-Series Deep Learning,Normal,-0.2779,0.046,0.0384,0.5105
+N-HiTS,Advanced Time-Series Deep Learning,High,-0.0192,0.06,0.0484,0.5837
+N-HiTS,Advanced Time-Series Deep Learning,Low,-0.619,0.0433,0.0365,0.4819
+N-HiTS,Advanced Time-Series Deep Learning,Normal,-0.3584,0.0473,0.0397,0.5155
+PatchTST,Advanced Time-Series Deep Learning,High,-0.1171,0.0641,0.0515,0.5894
+PatchTST,Advanced Time-Series Deep Learning,Low,-0.0251,0.0354,0.0296,0.656
+PatchTST,Advanced Time-Series Deep Learning,Normal,-0.0158,0.0413,0.0336,0.7095
+TSMixer,Advanced Time-Series Deep Learning,High,-0.0018,0.0591,0.0468,0.5485
+TSMixer,Advanced Time-Series Deep Learning,Low,-0.1449,0.0381,0.03,0.5476
+TSMixer,Advanced Time-Series Deep Learning,Normal,-0.0854,0.0431,0.0333,0.587
+iTransformer,Advanced Time-Series Deep Learning,High,-0.2837,0.0714,0.0579,0.5875
+iTransformer,Advanced Time-Series Deep Learning,Low,0.0046,0.0348,0.0292,0.6602
+iTransformer,Advanced Time-Series Deep Learning,Normal,0.0151,0.0401,0.0323,0.7149

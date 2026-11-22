@@ -1,0 +1,17 @@
+
+@Article{forecast8020034,
+AUTHOR = {Perez, Francisco Augusto Nuñez and Mosqueda, Francisco Javier Aguilar and Cuevas, Adrian Ramos and Beltran, Jaqueline Muñoz and Perez, Jose Cruz Nuñez},
+TITLE = {Leakage-Controlled Horizon-Specific Model Selection for Daily Equity Forecasting: An Automated Multi-Model Pipeline},
+JOURNAL = {Forecasting},
+VOLUME = {8},
+YEAR = {2026},
+NUMBER = {2},
+ARTICLE-NUMBER = {34},
+URL = {https://www.mdpi.com/2571-9394/8/2/34},
+ISSN = {2571-9394},
+ABSTRACT = {Short-horizon equity forecasting remains challenging because daily prices are noisy, heavy-tailed, and subject to structural breaks and regime shifts. We develop a fully automated, reproducible, and leakage-controlled multi-model pipeline for daily forecasting with horizon-specific configuration selection. The task is formulated as predicting cumulative H-day log-returns from OHLCV-derived information and converting them to implied price forecasts. All model families share a homologated design: causal feature construction, a strictly chronological split with an explicit purging rule to prevent label-window overlap for multi-day targets, training-only robustification (winsorization and adaptive clipping), and a unified metric suite computed consistently in return and price spaces. The framework benchmarks transparent baselines (zero- and mean-return), gradient-boosted trees (XGBoost), and deep temporal models (LSTM and CNN/TCN). Lookback length L∈{60,180,500} is selected via an internal walk-forward procedure on the pre-evaluation block, and final performance is reported on an external hold-out segment (last 15% of instances). Experiments on daily data for MT, DELL, and the S&P 500 index (through 3 February 2026) show that all families achieve similarly strong price-level fit at H=1, largely driven by persistence in the price process, while separation across families becomes more visible at H=5. However, predictive performance in return space remains weak, with R2 close to zero or negative, and Diebold–Mariano tests do not provide consistent evidence of statistical superiority over naive benchmarks. Under an operational rule that minimizes hold-out RMSE on the price scale, selected models are asset- and horizon-dependent, supporting horizon-wise selection rather than a single global architecture. Overall, the primary contribution lies in the proposed leakage-controlled evaluation and benchmarking framework rather than in demonstrating consistent predictive gains in financial time series forecasting.},
+DOI = {10.3390/forecast8020034}
+}
+
+
+

@@ -1,0 +1,14 @@
+{
+  "model_name": "ARIMAX",
+  "model_family": "Statistical Models",
+  "model_category": "Regression",
+  "best_horizon": "60D",
+  "worst_horizon": "5D",
+  "best_regime": "High",
+  "worst_regime": "Low",
+  "max_oos_r2": 0.0252,
+  "min_oos_r2": -0.059,
+  "max_da": 0.7885,
+  "total_test_observations": 1362,
+  "total_val_observations": 1360
+}

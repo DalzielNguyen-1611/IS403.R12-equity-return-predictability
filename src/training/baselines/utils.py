@@ -145,8 +145,8 @@ def get_purged_train_df(train_df, horizon):
     Purging removes the last h - 1 rows of train_df to strictly eliminate this lookahead.
     """
     h_step = config.HORIZON_TO_STEPS.get(horizon, 1)
-    if getattr(config, 'APPLY_PURGING', True) and h_step > 1:
-        purge_gap = h_step - 1
+    if getattr(config, 'APPLY_PURGING', True) and h_step >= 1:
+        purge_gap = h_step
         return train_df.iloc[:-purge_gap].copy()
     return train_df.copy()
 
@@ -510,7 +510,7 @@ def get_internal_train_val_split(X_train, y_train, val_ratio=0.15, horizon=None)
     n_train = len(X_train)
     split_idx = int(n_train * (1.0 - val_ratio))
     h_step = config.HORIZON_TO_STEPS.get(horizon, 1) if horizon else 1
-    purge_gap = max(0, h_step - 1) if getattr(config, 'APPLY_PURGING', True) else 0
+    purge_gap = max(0, h_step) if getattr(config, 'APPLY_PURGING', True) else 0
     
     end_tr_idx = max(0, split_idx - purge_gap)
     X_tr_inner = X_train[:end_tr_idx]

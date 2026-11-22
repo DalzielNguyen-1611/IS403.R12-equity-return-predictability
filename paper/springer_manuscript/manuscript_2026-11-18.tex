@@ -1,0 +1,1832 @@
+% This is samplepaper.tex, a sample chapter demonstrating the
+% LLNCS macro package for Springer Computer Science proceedings;
+% Version 2.25 of 2026/09/03
+%
+\documentclass[runningheads,orivec]{llncs}
+%
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\let\origvec\vec
+\let\vec\relax
+\usepackage{amsmath}
+\usepackage{amssymb}
+\let\vec\origvec
+\usepackage{mathptmx}
+\makeatletter
+\def\boldmath{\relax}
+\def\unboldmath{\relax}
+\makeatother
+\AtBeginDocument{%
+  \let\boldmath\relax
+  \let\unboldmath\relax
+}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{longtable}
+\makeatletter
+% Pure LaTeX2e float barrier (avoids missing placeins.sty in local MiKTeX)
+\providecommand{\FloatBarrier}{\par\ifx\@deferlist\@empty\else\clearpage\fi}
+\makeatother
+\usepackage{color}
+\usepackage[colorlinks=true,allcolors=blue,bookmarks=true,bookmarksnumbered=true,bookmarksopen=true,bookmarksopenlevel=2]{hyperref}
+\setcounter{tocdepth}{2}
+\renewcommand\UrlFont{\color{blue}\rmfamily}
+\urlstyle{rm}
+\emergencystretch 3em
+\hfuzz=100pt
+\vfuzz=100pt
+\hbadness=10000
+\vbadness=10000
+\raggedbottom
+\setlength\textfloatsep{8mm plus 0.5pt minus 0.5pt}
+\setlength\intextsep{8mm plus 0.5pt minus 0.5pt}
+
+
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.85}
+
+\begin{document}
+%
+\title{How Does Equity Return Predictability Vary Across Horizons and Market Regimes? An Out-of-Sample Analysis}
+%
+\titlerunning{How Does Equity Return Predictability Vary?}
+\author{Doan Duc Hieu Nguyen\orcidID{0009-0008-5897-8147} \and
+Thi Phuong Hoa Nguyen\orcidID{0009-0002-7378-5091} \and
+Van Phat Nguyen\orcidID{0009-0009-4400-0794} \and
+Anh Thu Tran\orcidID{0009-0000-7168-2123} \and
+Ngoc Thao Tran\orcidID{0009-0009-6563-9394} \and
+Phi Long Duong\orcidID{0000-0000-0000-0000}}
+%
+\authorrunning{D. D. H. Nguyen et al.}
+%
+\institute{University of Information Technology, Vietnam National University Ho Chi Minh City,\\
+Ho Chi Minh City, Vietnam\\
+\email{\{24520500, 24520524, 24521307, 24521643, 24521609\}@gm.uit.edu.vn, longdp@uit.edu.vn}}
+\maketitle              % typeset the header of the contribution
+%
+\begin{abstract}
+This study examines out-of-sample (OOS) predictability of S\&P~500 price-index returns across forecast horizons, volatility regimes, and chronological subperiods using daily S\&P~500 and VIX data from 1990 to 2026. Twelve econometric, machine-learning, and deep-learning models are evaluated against the Historical Mean (HM) benchmark for cumulative log returns over 1, 5, 20, 60, and 120 trading days, using a final holdout of 1,362 forecast origins. Performance is model-specific and non-monotonic: TSMixer achieves positive OOS $R^2$ values at 20, 60, and 120 days, reaching 17.53\% at 120 days, but no model significantly outperforms HM after Holm correction across 60 comparisons. For H1, only ARIMA rejects cross-horizon equality under the baseline and alternative HAC bandwidths, a result not corroborated by the synchronized moving-block bootstrap. For H2, Normal volatility contains the largest number of positive model--horizon outcomes, while nine baseline Giacomini--White conditional predictive ability tests reject their joint null after Holm correction, all with negative full-sample mean differentials. The horizon--regime interaction is significant only for TCN under the baseline 20-day classification, with significance varying across alternative volatility windows. For H3, holdout block-level and rolling-window analyses identify model- and horizon-specific temporal variation, although the evidence is sensitive to HAC bandwidth and bootstrap block length. Multi-seed evaluation further reveals substantial TSMixer initialization sensitivity: mean OOS $R^2$ is negative across all five horizons, reaching $-$18.93\% at 120 days, with only one of ten runs achieving a positive value. Overall, the findings distinguish descriptive forecasting gains from statistically robust and reproducible predictive ability.
+
+\keywords{Equity return predictability \and Multi-horizon forecasting \and Volatility regimes \and Temporal stability \and Machine learning \and Out-of-sample evaluation.}
+\end{abstract}
+
+
+\section{Introduction}\label{sec:intro}
+
+Equity return predictability remains a central question in financial economics because of its implications for asset pricing, portfolio allocation, and risk management. Forecasting is challenging because expected returns are small relative to return volatility, while predictive relationships may vary across investment horizons, market conditions, and historical periods~\cite{campbell1998,welch2008}. Although machine learning can capture complex and nonlinear relationships~\cite{gu2020}, greater model complexity does not necessarily ensure reliable out-of-sample (OOS) performance.
+
+Previous studies document horizon-dependent predictive performance~\cite{nechvatalova2024,xu2020}, differences across market volatility conditions~\cite{baltas2018,cakici2025}, and temporal instability in return prediction models~\cite{harvey2021,paye2006}. Related research also links market and implied volatility to expected stock returns~\cite{banerjee2007,bekaert2014,french1987}, suggesting that predictability should be evaluated across horizons, volatility conditions, and time.
+
+Reliable out-of-sample (OOS) evaluation is essential for determining whether models provide predictive information beyond historical benchmarks~\cite{campbell2008,welch2008}. Chronological validation and information-leakage control are also critical in financial forecasting, particularly for multi-period targets~\cite{hewamalage2023,perez2026,tashman2000}.
+
+Despite these contributions, evidence on equity return predictability remains fragmented across forecast horizons, market conditions, data settings, and evaluation procedures. In particular, the joint relationship between forecast horizons and volatility regimes, together with the temporal stability of these patterns, remains insufficiently examined for aggregate equity index returns within a unified out-of-sample framework. This study addresses this gap by examining whether predictive performance varies across horizons, depends on market volatility, and persists across chronological sub-periods.
+
+To address this gap, the study uses daily S\&P~500 returns and CBOE Volatility Index (VIX) data spanning 1990--2026~\cite{fredvix,yahoosandp} to evaluate 12 econometric, machine-learning, and deep-learning models across five forecast horizons: 1, 5, 20, 60, and 120 trading days. Predictive performance is examined across Low, Normal, and High volatility regimes and chronological subperiods, using an expanding Historical Mean (HM) benchmark~\cite{campbell2008} and chronological forecasting procedures appropriate for multi-period targets~\cite{hewamalage2023,tashman2000}.
+
+Specifically, this study addresses three research questions:
+\begin{enumerate}
+\item How does OOS equity return predictability vary across forecast horizons?
+\item Does the relationship between forecast horizon and predictive performance differ across market volatility regimes?
+\item Do the observed horizon- and regime-dependent patterns remain stable across chronological sub-periods?
+\end{enumerate}
+
+This study makes three contributions to the empirical literature on equity return predictability. First, it provides a unified OOS comparison of 12 forecasting models across five horizons against a common Historical Mean benchmark. Second, it examines whether horizon-dependent predictive performance varies across Low, Normal, and High volatility regimes. Third, it assesses the temporal stability of these horizon- and regime-dependent patterns across chronological subperiods. Rather than proposing a new forecasting algorithm, the study provides an integrated empirical evaluation of the horizon, regime, and temporal dimensions of equity return predictability.
+
+The remainder of this paper is organized as follows. Section~\ref{sec:lit_review} reviews the related literature and develops the research hypotheses. Section~\ref{sec:data} describes the data and research design. Section~\ref{sec:methodology} presents the forecasting models and evaluation methodology. Section~\ref{sec:results} reports and discusses the empirical results, and Section~\ref{sec:conclusion} concludes the study.
+
+
+\section{Related Work and Hypothesis Development}\label{sec:lit_review}
+
+\subsection{Equity Return Predictability and Model Complexity}
+
+Reliable out-of-sample (OOS) equity return predictability beyond historical benchmarks remains a central challenge in empirical finance. Welch and Goyal~\cite{welch2008} document the limited and time-varying performance of conventional equity premium models, while Campbell and Thompson~\cite{campbell2008} show that economically motivated constraints can improve predictive regressions. Gu et al.~\cite{gu2020} further demonstrate that machine learning can capture nonlinear relationships and interactions in asset pricing.
+
+Greater model flexibility does not necessarily improve OOS performance, as weak predictive signals relative to return volatility can increase estimation uncertainty and overfitting. Coakley and Gundersen~\cite{coakley2026} further show that forecasting performance can vary across random initializations, highlighting the trade-off between model complexity and generalization and motivating comparisons under a common OOS framework.
+
+Multi-horizon evaluation must account for the dependence induced by overlapping cumulative-return targets. Quaedvlieg~\cite{quaedvlieg2021} develops joint forecast-path comparison procedures, while Hansen and Hodrick~\cite{hansen1980} show that overlapping multi-period forecast errors can exhibit serial dependence extending up to $h-1$ lags. Although OLS estimation may remain consistent under appropriate orthogonality conditions, ignoring this dependence in conventional standard errors can lead to unreliable inference. Hodrick~\cite{hodrick1992} documents substantial finite-sample distortions in long-horizon return-predictability tests, while Xu~\cite{xu2020} highlights the statistical challenges of evaluating predictability across multiple horizons. These findings motivate dependence-robust covariance estimation and additional finite-sample robustness checks.
+
+\subsection{Horizon and Volatility-Regime Dependence}
+
+Predictive performance may vary across investment horizons as the relevance of financial information changes between short- and long-term periods. Nechv{\'a}talov{\'a}~\cite{nechvatalova2024} and Cakici and Zaremba~\cite{cakici2025} document horizon-dependent predictive relationships in cross-sectional stock-return settings. However, these findings do not necessarily extend to aggregate time-series forecasting of the equity premium.
+
+Statistical forecast accuracy does not necessarily translate into economic value, as the relationship may also depend on portfolio turnover and transaction costs. Cenesizoglu and Timmermann~\cite{cenesizoglu2012} show that models with weaker RMSE performance can generate higher risk-adjusted returns, while Balduzzi and Lynch~\cite{balduzzi1999} demonstrate that transaction costs can reduce the economic benefits of return predictability. Nechv{\'a}talov{\'a}~\cite{nechvatalova2024} similarly highlights differences between statistical predictability and risk-adjusted portfolio performance across horizons. Accordingly, this study focuses on OOS predictive performance without assuming that longer horizons necessarily produce weaker forecasts or lower investment value.
+
+Market volatility is another dimension of conditional predictability. Baltas and Karyampas~\cite{baltas2018} document differences in equity risk premium forecasting performance across volatility regimes, while Cakici and Zaremba~\cite{cakici2025} show that predictive information may also vary in importance across volatility conditions. Other studies examine recessionary and expansionary periods~\cite{li2017} or macroeconomic regimes~\cite{hammerschmid2018} as alternative definitions of market states. These classifications capture related but conceptually distinct dimensions of market conditions.
+
+Despite evidence of regime-dependent predictability, existing studies often examine volatility regimes at a single horizon or multi-horizon performance without conditioning on market volatility. This separation motivates a joint assessment of whether horizon-dependent predictive performance varies across volatility regimes.
+
+\subsection{Temporal Stability and Hypothesis Development}
+
+Equity return predictability may evolve as economic conditions, market structures, monetary policies, and investor behavior change. Paye and Timmermann~\cite{paye2006} document structural instability in return prediction models, while Harvey et al.~\cite{harvey2021} show that periods of predictive ability in the US equity premium may emerge and disappear. These findings suggest that aggregate OOS performance can conceal substantial variation across chronological subperiods.
+
+Structural breaks can also affect long-horizon investment decisions. Pettenuzzo and Timmermann~\cite{pettenuzzo2011} show that accounting for such breaks can materially alter asset allocation outcomes. However, structural-break analysis and chronological OOS evaluation address different aspects of temporal variation: the former identifies changes in model parameters or the data-generating process, whereas the latter examines predictive performance across successive evaluation periods.
+
+Temporal instability may affect not only overall predictive performance but also the interaction between forecast horizons and market volatility. These horizon- and regime-dependent patterns may change across chronological subperiods, making it necessary to assess their persistence across OOS evaluation windows rather than relying solely on full-sample performance.
+
+Based on the above literature, three hypotheses are developed to examine the horizon, volatility-regime, and temporal dimensions of equity return predictability.
+
+\begin{quote}
+\noindent\textbf{H1:} \textit{Out-of-sample predictive performance differs significantly across forecast horizons.}
+
+\medskip
+\noindent\textbf{H2:} \textit{Out-of-sample predictive performance relative to the Historical Mean benchmark exhibits regime-conditional predictability across market volatility states, and the relative performance contrasts across volatility regimes vary with the forecast horizon.}
+
+\medskip
+\noindent\textbf{H3:} \textit{Out-of-sample predictive performance and its horizon--volatility regime patterns exhibit temporal instability across chronological subperiods.}
+\end{quote}
+
+
+\section{Research Design and Methodology}\label{sec:data}
+
+\subsection{Data Sources and Sample Construction}\label{subsec:data_sources}
+
+This study uses daily S\&P~500 and CBOE Volatility Index (VIX) data. S\&P~500 prices are obtained from Yahoo Finance~\cite{yahoosandp}, while VIX data are retrieved from the Federal Reserve Economic Data (FRED) database (series \texttt{VIXCLS})~\cite{fredvix}. The raw datasets contain 9,253 S\&P~500 observations (January 2, 1990--September 29, 2026) and 9,585 VIX observations (January 2, 1990--September 28, 2026).
+
+The study employs 16 predictors across six groups: lagged returns, momentum, historical volatility, VIX-related indicators, intraday indicators, and trading activity. Their construction draws on prior research on return dynamics and volatility~\cite{french1987}, cross-sectional and time-series momentum~\cite{jegadeesh1993,moskowitz2012}, implied volatility and market uncertainty~\cite{banerjee2007,bekaert2014}, trading volume~\cite{campbell1993}, and range-based volatility estimation~\cite{alizadeh2002}. Table~\ref{tab:predictors} summarizes the feature groups, while Section~\ref{subsec:targets_predictors} provides their definitions and construction procedures.
+
+\begin{table}[htbp]
+\caption{Summary of predictor variables across the six feature groups.}\label{tab:predictors}
+\centering
+\begin{tabular}{lcl}
+\hline
+Feature group & Number of predictors & Information captured \\
+\hline
+Lagged returns & 3 & Past return observations \\
+Momentum & 3 & Cumulative return trends \\
+Historical volatility & 3 & Recent return dispersion \\
+VIX-related indicators & 4 & Implied market uncertainty \\
+Intraday indicators & 2 & Intraday price movements \\
+Trading activity & 1 & Changes in reported volume \\
+\hline
+Total & 16 & \\
+\hline
+\end{tabular}
+\end{table}
+
+Following Campbell, Lo, and MacKinlay~\cite{campbell1998}, the one-day continuously compounded return (log return) is calculated from consecutive S\&P~500 closing prices, excluding dividend payments, as:
+\begin{equation}\label{eq:daily_log_return}
+R_t^{(1)} = \ln\left(\frac{P_t}{P_{t-1}}\right) = \ln(P_t) - \ln(P_{t-1}),
+\end{equation}
+where $P_t$ and $P_{t-1}$ denote consecutive S\&P~500 closing index levels. The downloaded ``Close'' and ``Adj Close'' series are identical. The initial return is calculated using the available open-to-close price movement but excluded from subsequent feature construction.
+
+The datasets are aligned through a left join using the S\&P~500 trading calendar, with missing VIX observations forward-filled, yielding 9,252 observations. After constructing forecasting targets and historical features and removing unavailable observations, the final modeling dataset contains 9,073 observations (March~27, 1990--April~7, 2026). The first 60 observations are excluded due to rolling-feature requirements, while the final 119 cannot be used to construct the 120-day forward-return target.
+
+\subsection{Forecasting Targets and Predictor Variables}\label{subsec:targets_predictors}
+
+The forecasting targets are cumulative log returns over five horizons, $h \in \{1, 5, 20, 60, 120\}$, defined as:
+\begin{equation}\label{eq:target_return}
+Y_t^{(h)} = \ln\left(\frac{P_{t+h}}{P_t}\right) = \sum_{i=1}^h R_{t+i}^{(1)}, \qquad h \in \{1, 5, 20, 60, 120\},
+\end{equation}
+where $P_t$ and $P_{t+h}$ denote the S\&P~500 closing levels on days $t$ and $t+h$, respectively, and $R_{t+i}^{(1)}$ is the one-day log return between days $t+i-1$ and $t+i$. The target therefore represents the cumulative log return from the close of day $t$ to day $t+h$.
+
+\noindent\textbf{Predictor construction.} Table~\ref{tab:predictor_definitions} defines the 16 predictors across the six market-information groups summarized in Table~\ref{tab:predictors}. All rolling statistics use observations available up to and including date $t$.
+
+\begin{table}[htbp]
+\centering
+\caption{Definition and construction of predictor variables.}\label{tab:predictor_definitions}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lll}
+\hline
+Predictor group & Predictor & Definition \\
+\hline
+Lagged returns & \texttt{Return\_lag\_1} & $R_{t-1}^{(1)}$ \\
+& \texttt{Return\_lag\_5} & $R_{t-5}^{(1)}$ \\
+& \texttt{Return\_lag\_20} & $R_{t-20}^{(1)}$ \\
+\hline
+Momentum & \texttt{Momentum\_5D} & $\sum_{j=0}^{4} R_{t-j}^{(1)} = \ln(P_t/P_{t-5})$ \\
+& \texttt{Momentum\_20D} & $\sum_{j=0}^{19} R_{t-j}^{(1)} = \ln(P_t/P_{t-20})$ \\
+& \texttt{Momentum\_60D} & $\sum_{j=0}^{59} R_{t-j}^{(1)} = \ln(P_t/P_{t-60})$ \\
+\hline
+Historical volatility & \texttt{Volatility\_5D} & Sample standard deviation of $R_{t-4}^{(1)},\dots,R_t^{(1)}$ \\
+& \texttt{Volatility\_20D} & Sample standard deviation of $R_{t-19}^{(1)},\dots,R_t^{(1)}$ \\
+& \texttt{Volatility\_60D} & Sample standard deviation of $R_{t-59}^{(1)},\dots,R_t^{(1)}$ \\
+\hline
+VIX-related indicators & \texttt{VIXCLS} & $\text{VIX}_t$ \\
+& \texttt{VIX\_lag\_1} & $\text{VIX}_{t-1}$ \\
+& \texttt{VIX\_change\_1D} & $\text{VIX}_t - \text{VIX}_{t-1}$ \\
+& \texttt{VIX\_pct\_change\_1D} & $(\text{VIX}_t - \text{VIX}_{t-1})/\text{VIX}_{t-1}$ \\
+\hline
+Intraday indicators & \texttt{HL\_range} & $(\text{High}_t - \text{Low}_t)/\text{Close}_t$ \\
+& \texttt{OC\_return} & $(\text{Close}_t - \text{Open}_t)/\text{Open}_t$ \\
+\hline
+Trading activity & \texttt{Volume\_change} & $(\text{Volume}_t - \text{Volume}_{t-1})/\text{Volume}_{t-1}$ \\
+\hline
+\end{tabular}
+\par\vspace{4pt}\parbox{\linewidth}{\scriptsize\textit{Note:} The rolling standard deviations used for the three historical-volatility predictors are calculated using the sample standard deviation (denominator $k-1$, consistent with the default pandas implementation). They are daily, non-annualized measures.}
+\end{table}
+
+Lagged-return predictors capture returns from previous sessions, while momentum predictors measure cumulative log returns over rolling windows, following the time-series momentum perspective of an asset's own past returns~\cite{moskowitz2012}, rather than cross-sectional stock rankings~\cite{jegadeesh1993}. Historical volatility measures the dispersion of daily, non-annualized log returns over corresponding rolling windows. \texttt{Volatility\_20D} also serves as the underlying non-annualized measure for the expanding-quantile regime classification in Section~\ref{subsec:regime_classification}; the resulting categorical labels are excluded from the predictor matrix and used exclusively for ex-post evaluation.
+
+The four VIX-related predictors capture option-implied market uncertainty through the VIX level, its previous-session value, and its absolute and percentage daily changes.
+
+The intraday indicators and trading-activity predictor are calculated as follows:
+\begin{equation}\label{eq:hl_range}
+\text{HL\_range}_t = \frac{\text{High}_t - \text{Low}_t}{\text{Close}_t},
+\end{equation}
+\begin{equation}\label{eq:oc_return}
+\text{OC\_return}_t = \frac{\text{Close}_t - \text{Open}_t}{\text{Open}_t},
+\end{equation}
+\begin{equation}\label{eq:volume_change}
+\text{Volume\_change}_t = \frac{\text{Volume}_t - \text{Volume}_{t-1}}{\text{Volume}_{t-1}}.
+\end{equation}
+Here, $\text{High}_t$, $\text{Low}_t$, $\text{Open}_t$, and $\text{Close}_t$ denote daily S\&P~500 index levels, while $\text{Volume}_t$ denotes the reported trading volume. The high--low range and open--close return capture intraday price movements, whereas volume change proxies market trading activity rather than aggregate constituent-stock liquidity.
+
+The zero-volume observation on May~24, 2023, is treated as a data anomaly and replaced with the preceding valid volume observation before calculating percentage changes. This prevents division by zero and preserves the last valid volume value for the subsequent change calculation.
+
+\noindent\textbf{Information availability and temporal alignment.} All 16 predictors use information available on or before date $t$, without future observations. Four predictors---\texttt{Return\_lag\_1}, \texttt{Return\_lag\_5}, \texttt{Return\_lag\_20}, and \texttt{VIX\_lag\_1}---use previous-session information and are available before the current session begins. The remaining 12 incorporate completed date-$t$ price, volume, and VIX observations, making the predictor vector a post-close information set.
+
+As described in \hyperref[subsec:data_sources]{Section~\ref*{subsec:data_sources}}, missing VIX observations are forward-filled using the most recent preceding value, avoiding the introduction of future information. On such dates, the unchanged VIX level produces zero values for the affected daily-change measures.
+
+The framework therefore evaluates subsequent cumulative-return predictability conditional on the information available at the end of date $t$. Because some predictors, including current-day volume and completed VIX observations, are available only after market data are finalized, the forecasts do not imply execution at the closing price $P_t$. An executable strategy would require a subsequent trading opportunity and expose investors to additional risks, including overnight price movements.
+
+\subsection{Volatility Regime Classification}\label{subsec:regime_classification}
+
+Observations are classified into Low, Normal, and High volatility regimes using the non-annualized 20-day rolling sample standard deviation of daily log returns (\texttt{Volatility\_20D}):
+\begin{equation}\label{eq:volatility}
+\sigma_t^{(20)} = \operatorname{Std}_{\mathrm{sample}}\left(R_{t-19}^{(1)}, \dots, R_t^{(1)}\right).
+\end{equation}
+Expanding historical quantiles are employed to determine the volatility thresholds using information available up to time $t$~\cite{feng2024}:
+\begin{equation}\label{eq:quantiles}
+Q_{p,t} = \operatorname{Quantile}_p\left(\left\{\sigma_\tau^{(20)} : \tau \le t\right\}\right), \qquad p \in \{0.33, 0.67\}.
+\end{equation}
+The expanding thresholds require at least 252 historical observations; earlier observations are back-filled using the first available thresholds. Observations are classified as Low when $\sigma_t^{(20)} \le Q_{0.33,t}$, Normal when $Q_{0.33,t} < \sigma_t^{(20)} \le Q_{0.67,t}$, and High when $\sigma_t^{(20)} > Q_{0.67,t}$.
+
+The final sample contains 3,062 Low-volatility observations (33.75\%), 2,753 Normal-volatility observations (30.34\%), and 3,258 High-volatility observations (35.91\%). Although $\sigma_t^{(20)}$ is also used to construct \texttt{Volatility\_20D} in Section~\ref{subsec:targets_predictors}, categorical regime labels are excluded from the predictor matrix. All models are estimated globally using the same 16 predictors, with regime labels reserved exclusively for ex-post conditional evaluation.
+
+The 20-day window is the baseline specification. Robustness is assessed using 10-day and 60-day rolling standard deviations, retaining the same expanding-quantile procedure and date-aligned holdout sample; results are reported in Section~\ref{subsec:volatility_regimes}.
+
+\subsection{Chronological Data Splitting and Walk-Forward Validation}\label{subsec:data_splitting}
+
+The dataset is divided chronologically into three non-overlapping subsets: training (6,351 observations; March~27, 1990--June~9, 2015), validation (1,360 observations; June~10, 2015--October~30, 2020), and hold-out testing (1,362 observations; November~2, 2020--April~7, 2026).
+
+The validation period uses five consecutive 272-observation windows under an expanding-window walk-forward procedure~\cite{tashman2000}. For each horizon $h$, the final $h$ training observations are purged to prevent training targets from extending into the evaluation period:
+\begin{equation}\label{eq:train_purged}
+N_{\mathrm{train,purged}}^{(h)} = N_{\mathrm{train}} - h.
+\end{equation}
+Before holdout testing, the training sample is expanded to include the original training and validation subsets, followed by horizon-specific purging. \texttt{StandardScaler} is fitted only on the corresponding training data and applied to validation or test observations to prevent feature-scaling leakage~\cite{hewamalage2023}. All models and horizons use the same 16 predictors defined in Section~\ref{subsec:targets_predictors}.
+
+For RQ3, the validation period is divided into three non-overlapping calendar subperiods: 2015--2016 (395 observations), 2017--2018 (502), and 2019--2020 (463). The holdout period is separately divided into four subperiods: November--December 2020 (42), 2021--2022 (503), 2023--2024 (502), and 2025--2026 (315). These holdout blocks provide an independent basis for evaluating temporal stability. Although the calendar labels overlap for 2019--2020, observations remain non-overlapping and follow the original chronological split boundaries.
+
+The holdout set is reserved exclusively for final OOS evaluation. Model configurations, hyperparameters, and feature-engineering decisions are determined using training and validation data, without reference to holdout performance.
+
+
+\section{Forecasting Models and Evaluation Framework}\label{sec:methodology}
+
+\subsection{Forecasting Models and Benchmark}\label{subsec:models_benchmark}
+
+Twelve forecasting models are evaluated across five horizons (1, 5, 20, 60, and 120 days), covering four methodological categories: econometric (ARIMA and ARIMAX), penalized linear (Ridge Regression and Elastic Net), kernel- and tree-based (SVR, Random Forest (RF), and XGBoost), and deep learning (LSTM, TCN, Vanilla Transformer, PatchTST, and TSMixer).
+
+The models cover complementary forecasting approaches: ARIMA and ARIMAX capture target-series dynamics with and without exogenous predictors; Ridge and Elastic Net represent regularized linear models; SVR, RF, and XGBoost model nonlinear relationships through kernel- and tree-based methods; and the deep learning architectures cover recurrent, convolutional, attention-based, patch-based, and feature-temporal mixing approaches.
+
+The econometric models use the target return series, with ARIMAX additionally incorporating ten exogenous predictors: \textit{VIXCLS}, \textit{VIX\_lag\_1}, \textit{VIX\_change\_1D}, \textit{VIX\_pct\_change\_1D}, \textit{Momentum\_5D}, \textit{Momentum\_20D}, \textit{Volatility\_20D}, \textit{HL\_range}, \textit{OC\_return}, and \textit{Volume\_change}. The remaining ten machine learning and deep learning models use all 16 predictors defined in \hyperref[sec:data]{Section~\ref*{sec:data}}. A separate model is estimated for each horizon.
+
+The Historical Mean (HM) serves as the primary OOS benchmark~\cite{welch2008}, with the forecast for each horizon $h$ calculated as the arithmetic mean of eligible training targets:
+\begin{equation}\label{eq:historical_mean}
+\widehat{\mu}_{\mathrm{HM}}^{(h)}
+=
+\frac{1}{N_{\mathrm{train,purged}}^{(h)}}
+\sum_{t\in \mathcal{T}_{\mathrm{train,purged}}^{(h)}}
+Y_t^{(h)}.
+\end{equation}
+HM is re-estimated independently for each validation fold and horizon, using the combined purged training and validation sample for final holdout evaluation. Its estimated mean is positive across all evaluation windows, resulting in consistently positive forecasts.
+
+\subsection{Model Configuration and Hyperparameter Optimization}\label{subsec:model_config}
+
+\paragraph{Econometric model configurations.} ARIMA selects among three candidate specifications---ARIMA(1,0,0), ARIMA(0,0,1), and ARIMA(1,0,1)---using the Akaike Information Criterion (AIC), without differencing, independently for each horizon. ARIMAX retains a fixed ARMA(1,1) specification with the ten exogenous predictors described in \hyperref[subsec:models_benchmark]{Section~\ref*{subsec:models_benchmark}} across all horizons. Final configurations are reported in \hyperref[tab:config_econ_ml]{Table~\ref*{tab:config_econ_ml}}.
+
+\paragraph{Conventional machine learning configurations.} Ridge Regression searches over the following regularization strengths:
+\begin{equation}
+\alpha \in \{10^{-3},10^{-2},10^{-1},1,10,100\}.
+\end{equation}
+Elastic Net searches jointly over the regularization strength and mixing parameter:
+\begin{equation}
+\begin{aligned}
+\alpha &\in \operatorname{LogUniform}(10^{-5},1),\\
+\ell_1\text{-ratio} &\in \{0.1,0.3,0.5,0.7,0.9\}.
+\end{aligned}
+\end{equation}
+SVR searches over the penalty parameter $C$, kernel coefficient $\gamma$, and insensitive loss parameter $\varepsilon$:
+\begin{equation}
+\begin{aligned}
+C &\in \{0.1,1,10,100\},\\
+\gamma &\in \{\text{scale},0.001,0.01,0.1\},
+\qquad
+\varepsilon \in \{0.001,0.01,0.05,0.1\}.
+\end{aligned}
+\end{equation}
+RF and XGBoost are optimized over their respective tree-based hyperparameter spaces, as described below and summarized in \hyperref[tab:optuna_search_spaces]{Table~\ref*{tab:optuna_search_spaces}}. Their selected configurations for the final holdout experiments are reported in \hyperref[tab:config_econ_ml]{Tables~\ref*{tab:config_econ_ml}} and~\hyperref[tab:config_trees]{\ref*{tab:config_trees}}.
+
+\begin{table}[htbp]
+\centering
+\caption{Final configurations of econometric and conventional regression models.}\label{tab:config_econ_ml}
+\setlength{\tabcolsep}{4.5pt}
+\begin{tabular}{llccccc}
+\hline
+Model & Hyperparameter & 1D & 5D & 20D & 60D & 120D \\
+\hline
+ARIMA       & Order               & (1,0,1) & (1,0,1) & (1,0,0) & (1,0,1) & (1,0,1) \\
+ARIMAX      & Order               & (1,0,1) & (1,0,1) & (1,0,1) & (1,0,1) & (1,0,1) \\
+ARIMAX      & Exogenous variables & 10      & 10      & 10      & 10      & 10 \\
+Ridge       & Alpha               & 100     & 100     & 100     & 100     & 100 \\
+Elastic Net & Alpha               & 0.001   & 0.001   & 0.005   & 0.05    & 0.05 \\
+Elastic Net & L1 ratio            & 0.5     & 0.9     & 0.9     & 0.3     & 0.5 \\
+SVR         & Kernel              & RBF     & RBF     & RBF     & RBF     & RBF \\
+SVR         & $C$                 & 0.1     & 0.1     & 0.1     & 0.1     & 0.1 \\
+SVR         & $\gamma$            & 0.001   & 0.001   & 0.001   & 0.001   & 0.1 \\
+SVR         & $\varepsilon$       & 0.01    & 0.01    & 0.01    & 0.001   & 0.1 \\
+\hline
+\end{tabular}
+\par\vspace{4pt}\parbox{\linewidth}{\scriptsize\textit{Notes:} ARIMA specifications are selected using AIC from three candidate models. ARIMAX uses ten exogenous predictors. Elastic Net uses \texttt{max\_iter} = 10,000. SVR uses the RBF kernel.}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Final configurations of tree-based machine learning models.}\label{tab:config_trees}
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{lrrrrr}
+\hline
+Hyperparameter & 1D & 5D & 20D & 60D & 120D \\
+\hline
+\multicolumn{6}{l}{\textbf{(a) Random Forest}} \\
+\texttt{n\_estimators}      & 200    & 500    & 200    & 500    & 500 \\
+\texttt{max\_depth}         & 5      & 5      & 5      & 5      & 5 \\
+\texttt{min\_samples\_split}& 5      & 10     & 10     & 2      & 2 \\
+\texttt{min\_samples\_leaf} & 1      & 2      & 2      & 2      & 5 \\
+\texttt{max\_features}      & sqrt   & 0.5    & sqrt   & sqrt   & sqrt \\
+\hline
+\multicolumn{6}{l}{\textbf{(b) XGBoost}} \\
+\texttt{n\_estimators}      & 200    & 500    & 300    & 900    & 500 \\
+\texttt{learning\_rate}     & 0.0935 & 0.0449 & 0.1915 & 0.0902 & 0.0403 \\
+\texttt{max\_depth}         & 9      & 5      & 9      & 3      & 3 \\
+\texttt{min\_child\_weight} & 1      & 4      & 4      & 6      & 1 \\
+\texttt{subsample}          & 0.722  & 0.694  & 0.642  & 0.663  & 0.772 \\
+\texttt{colsample\_bytree}  & 0.656  & 0.780  & 0.625  & 0.807  & 0.932 \\
+\texttt{gamma}              & 0.0015 & 0.0382 & 0.0990 & 4.2589 & 3.6227 \\
+\texttt{reg\_alpha}         & 0.1411 & 0.0083 & 0.0002 & 0.0469 & 0.1260 \\
+\texttt{reg\_lambda}        & 2.8797 & 0.1562 & 16.5550 & 0.2765 & 0.0171 \\
+\hline
+\end{tabular}
+\par\vspace{4pt}\parbox{\linewidth}{\scriptsize\textit{Notes:} The reported values are the final configurations selected for the holdout evaluation. The hyperparameters are selected independently for each forecasting horizon.}
+\end{table}
+
+\paragraph{Hyperparameter optimization.} Conventional statistical and machine learning models use grid-based search, while selected tree-based and deep learning models are optimized using Optuna.
+
+Optuna uses a Tree-structured Parzen Estimator (TPE) sampler with seed 42~\cite{akiba2019} and minimizes validation RMSE on an internal purged split comprising the final 15\% of each fold's training data. This split is reserved for hyperparameter selection and separated from the model-training subset to reduce temporal leakage. The optimization budgets are 30 trials for RF, 50 for XGBoost, and 30 each for LSTM and Vanilla Transformer.
+
+\hyperref[tab:optuna_search_spaces]{Table~\ref*{tab:optuna_search_spaces}} reports the Optuna search spaces for RF, XGBoost, LSTM, and Vanilla Transformer, covering model-specific architectural and optimization parameters. LSTM and Vanilla Transformer are limited to 15 epochs per trial to control computational costs, with the selected configurations used in final training.
+
+The \texttt{weight\_decay} parameter is excluded from the actual Optuna search because it is not passed to the trial suggestion procedure. Consequently, LSTM and Vanilla Transformer use Adam without explicitly specifying weight decay in the final holdout evaluation. \hyperref[tab:optuna_search_spaces]{Table~\ref*{tab:optuna_search_spaces}} therefore reports the hyperparameters actually explored rather than all parameters declared in the configuration files.
+
+Ridge, Elastic Net, and SVR follow the grid-based procedures described above, while ARIMA selects among three specifications using AIC and ARIMAX retains its fixed ARMA(1,1) specification with ten exogenous predictors. TCN, PatchTST, and TSMixer use predefined benchmark configurations rather than the Optuna-based optimization applied to LSTM and Vanilla Transformer. Consequently, the deep learning models do not receive equivalent hyperparameter search budgets, which should be considered when interpreting their performance differences.
+
+\begin{table}[htbp]
+\centering
+\caption{Hyperparameter search spaces and optimization budgets for Optuna-based models.}\label{tab:optuna_search_spaces}
+\setlength{\tabcolsep}{4.5pt}
+\begin{tabular}{lllr}
+\hline
+Model & Hyperparameter & Search space & Trials \\
+\hline
+RF & \texttt{n\_estimators}      & $\{200, 500\}$                    & 30 \\
+   & \texttt{max\_depth}         & $\{\text{None}, 5, 10, 20\}$      & \\
+   & \texttt{min\_samples\_split}& $\{2, 5, 10\}$                    & \\
+   & \texttt{min\_samples\_leaf} & $\{1, 2, 5\}$                     & \\
+   & \texttt{max\_features}      & $\{\text{sqrt}, 0.5\}$            & \\
+\hline
+XGBoost & \texttt{n\_estimators}     & $[100, 1000]$, step 100           & 50 \\
+        & \texttt{learning\_rate}    & $\operatorname{LogUniform}(0.01, 0.2)$ & \\
+        & \texttt{max\_depth}        & $[2, 10]$                         & \\
+        & \texttt{min\_child\_weight}& $[1, 10]$                         & \\
+        & \texttt{subsample}         & $[0.6, 1.0]$                      & \\
+        & \texttt{colsample\_bytree} & $[0.6, 1.0]$                      & \\
+        & \texttt{gamma}             & $[0, 5]$                          & \\
+        & \texttt{reg\_alpha}        & $\operatorname{LogUniform}(10^{-8}, 10)$ & \\
+        & \texttt{reg\_lambda}       & $\operatorname{LogUniform}(10^{-3}, 100)$ & \\
+\hline
+LSTM & \texttt{lookback}      & $\{10, 20, 40, 60\}$                        & 30 \\
+     & \texttt{hidden\_size}   & $\{32, 64, 128\}$                           & \\
+     & \texttt{num\_layers}    & $\{1, 2, 3\}$                               & \\
+     & \texttt{dropout}       & $[0, 0.5]$                                  & \\
+     & \texttt{learning\_rate} & $\operatorname{LogUniform}(10^{-5}, 10^{-3})$ & \\
+     & \texttt{batch\_size}    & $\{16, 32, 64\}$                            & \\
+\hline
+Vanilla Transformer & \texttt{lookback}           & $\{20, 40, 60\}$                                   & 30 \\
+                    & \texttt{d\_model}           & $\{32, 64\}$                                       & \\
+                    & \texttt{nhead}              & $\{2, 4\}$                                         & \\
+                    & \texttt{num\_encoder\_layers}& $\{1, 2\}$                                        & \\
+                    & \texttt{dim\_feedforward}   & $\{64, 128\}$                                      & \\
+                    & \texttt{dropout}            & $[0.05, 0.3]$                                      & \\
+                    & \texttt{learning\_rate}      & $\operatorname{LogUniform}(10^{-5}, 5\times 10^{-4})$ & \\
+                    & \texttt{batch\_size}         & $\{16, 32\}$                                       & \\
+\hline
+\end{tabular}
+\par\vspace{4pt}\parbox{\linewidth}{\scriptsize\textit{Notes:} Optuna optimization uses a TPE sampler with seed 42 and minimizes validation RMSE on an internal purged split containing the final 15\% of each fold's training data. LSTM and Vanilla Transformer are trained for 15 epochs per trial. $\operatorname{LogUniform}$ denotes logarithmic sampling over the specified interval. Weight decay is excluded from the actual LSTM and Vanilla Transformer search spaces because it is not suggested by their respective Optuna implementations.}
+\end{table}
+
+\paragraph{Deep learning training configuration.} LSTM and Vanilla Transformer use Adam without explicitly specifying weight decay~\cite{kingma2014}, whereas TCN, PatchTST, and TSMixer use AdamW with weight decay of $10^{-4}$~\cite{loshchilov2018decoupled}. All deep learning models use MSE loss, early stopping with a patience of seven epochs based on validation MSE, and gradient clipping with a maximum norm of 1.0. The baseline training uses random seed 42, with final configurations reported in \hyperref[tab:config_lstm_transformer]{Tables~\ref*{tab:config_lstm_transformer}} and~\hyperref[tab:config_dl_predefined]{\ref*{tab:config_dl_predefined}}.
+
+\begin{table}[htbp]
+\centering
+\caption{Final configurations of LSTM and Vanilla Transformer.}\label{tab:config_lstm_transformer}
+\setlength{\tabcolsep}{4.5pt}
+\begin{tabular}{lrrrrr}
+\hline
+Hyperparameter & 1D & 5D & 20D & 60D & 120D \\
+\hline
+\multicolumn{6}{l}{\textbf{(a) LSTM}} \\
+Lookback                & 20      & 40      & 40      & 10      & 40 \\
+Hidden size             & 64      & 64      & 64      & 64      & 64 \\
+Num.\ layers            & 3       & 1       & 3       & 3       & 3 \\
+Dropout                 & 0.3539  & 0.4357  & 0.3861  & 0.4203  & 0.2136 \\
+Learning rate           & 7.66e-4 & 4.05e-4 & 2.50e-5 & 5.34e-5 & 2.88e-4 \\
+Batch size              & 16      & 32      & 32      & 32      & 16 \\
+Optimizer               & Adam    & Adam    & Adam    & Adam    & Adam \\
+Max.\ epochs            & 40      & 40      & 40      & 40      & 40 \\
+Early stopping patience & 7       & 7       & 7       & 7       & 7 \\
+\hline
+\multicolumn{6}{l}{\textbf{(b) Vanilla Transformer}} \\
+Lookback                & 60      & 40      & 20      & 20      & 60 \\
+\texttt{d\_model}       & 32      & 32      & 64      & 64      & 64 \\
+\texttt{nhead}          & 4       & 4       & 2       & 2       & 2 \\
+\texttt{num\_layers}$^{\ast}$ & 2   & 2       & 2       & 2       & 2 \\
+\texttt{dim\_feedforward} & 128   & 128     & 128     & 128     & 128 \\
+Dropout                 & 0.2833  & 0.2963  & 0.2275  & 0.2767  & 0.1000 \\
+Learning rate           & 2.02e-4 & 1.74e-4 & 4.80e-4 & 3.68e-4 & 4.86e-4 \\
+Batch size              & 16      & 16      & 16      & 16      & 16 \\
+Optimizer               & Adam    & Adam    & Adam    & Adam    & Adam \\
+Max.\ epochs            & 40      & 40      & 40      & 40      & 40 \\
+Early stopping patience & 7       & 7       & 7       & 7       & 7 \\
+\hline
+\end{tabular}
+\par\vspace{4pt}\parbox{\linewidth}{\scriptsize\textit{Notes:} $^{\ast}$Important implementation note: although the tuning log stores the depth parameter as \texttt{num\_encoder\_layers} with values 1, 2, 2, 2, and 1, the holdout evaluation implementation retrieves \texttt{num\_layers} via \texttt{p.get('num\_layers', 2)}. Therefore, the effective number of encoder layers is 2 for all five horizons; the table reports the actual holdout configuration.}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Predefined configurations of TCN, PatchTST, and TSMixer.}\label{tab:config_dl_predefined}
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{lccc}
+\hline
+Hyperparameter & TCN & PatchTST & TSMixer \\
+\hline
+Lookback                & 20           & 20      & 20 \\
+Architecture depth      & 3 levels     & 1 layer & 3 blocks \\
+Hidden size / channels  & 64           & --      & -- \\
+Number of channels      & [64, 64, 64] & --      & -- \\
+Kernel size             & 3            & --      & -- \\
+Patch length            & --           & 8       & -- \\
+Stride                  & --           & 4       & -- \\
+\texttt{d\_model}       & --           & 32      & -- \\
+\texttt{nhead}          & --           & 2       & -- \\
+\texttt{dim\_feedforward} & --         & 64      & -- \\
+\texttt{ff\_dim}        & --           & --      & 64 \\
+Dropout                 & 0.1          & 0.1     & 0.1 \\
+Learning rate           & $10^{-4}$    & $10^{-4}$ & $10^{-4}$ \\
+Batch size              & 32           & 32      & 32 \\
+Optimizer               & AdamW        & AdamW   & AdamW \\
+Weight decay            & $10^{-4}$    & $10^{-4}$ & $10^{-4}$ \\
+Max.\ epochs            & 1,000        & 1,000   & 1,000 \\
+Early stopping patience & 7            & 7       & 7 \\
+\hline
+\end{tabular}
+\par\vspace{4pt}\parbox{\linewidth}{\scriptsize\textit{Notes:} These configurations are predefined and applied consistently across all five forecasting horizons. They are not selected through the same Optuna-based optimization procedure used for LSTM and Vanilla Transformer.}
+\end{table}
+
+\paragraph{Final configuration selection.} For fold-optimized models, the configuration selected from Fold 5, corresponding to the longest training window, is prioritized for holdout evaluation. If unavailable, the configuration with the lowest recorded \texttt{Best\_Val\_Score} is used. Predefined models retain their original settings. All configurations are frozen before holdout evaluation, with no holdout-based hyperparameter selection or model adjustment. Final configurations are reported in \hyperref[tab:config_econ_ml]{Tables~\ref*{tab:config_econ_ml}}--\hyperref[tab:config_dl_predefined]{\ref*{tab:config_dl_predefined}}.
+
+\paragraph{Computational environment.} Experiments use Python 3.11.9, PyTorch 2.6.0+cu124, and CUDA on an NVIDIA GeForce RTX 4060 Laptop GPU (8 GB VRAM), with approximately 32 GB RAM and Windows 11 Home. Other software versions include scikit-learn 1.9.0, XGBoost 3.2.0, Optuna 5.0.0, statsmodels 0.15.0, and SciPy 1.17.1.
+
+\paragraph{Multi-seed robustness evaluation.} To assess sensitivity to random initialization, an additional evaluation is conducted on the final holdout set (Split 3: 2020--2026). TSMixer is evaluated using ten random seeds, while LSTM, PatchTST, TCN, and Vanilla Transformer use five seeds each. Seeds are specified in advance and kept consistent across architectures where applicable. \hyperref[tab:config_lstm_transformer]{Tables~\ref*{tab:config_lstm_transformer}} and~\hyperref[tab:config_dl_predefined]{\ref*{tab:config_dl_predefined}} configurations remain fixed, with no further hyperparameter optimization. Each model--horizon combination is independently initialized and trained under each seed, including baseline seed 42, enabling direct comparison with the baseline experiment. This design isolates initialization sensitivity while controlling for model configurations and data partitions.
+
+All runs share identical training, validation, and holdout partitions, preprocessing procedures, and a fixed HM benchmark calculated once from the development sample. Each seed's OOS $R^2$ is evaluated independently against this benchmark, and the reported mean is the arithmetic average of seed-level OOS $R^2$ values, not the OOS $R^2$ calculated from averaged predictions:
+\[
+\frac{1}{S}\sum_{s=1}^{S} R^2_{\mathrm{OOS},s}.
+\]
+This statistic therefore measures the average performance of independently trained models, not an ensemble of averaged predictions. Multi-seed OOS $R^2$ values are summarized using the mean, standard deviation, median, minimum, maximum, and proportion of positive runs to assess initialization robustness rather than select model configurations or the best-performing seed.
+
+\subsection{Feature-Group Ablation Design}\label{subsec:ablation_design}
+
+Feature-group ablation evaluates the effects of removing predictor groups using three representative models: XGBoost (tree-based), Ridge (linear), and LSTM (deep learning). The analysis covers six groups---Lagged Returns, Momentum, Historical Volatility, VIX, Intraday, and Trading Volume---from the full 16-predictor specification described in Section~\ref{sec:data}.
+
+Following the dropped-variable importance framework of Hooker, Mentch, and Zhou~\cite{hooker2021}, this study extends predictor removal to feature-group ablation, consistent with established approaches to feature exclusion~\cite{sheikholeslami2021}. For each model and horizon, the effect of removing group $g$ is measured by the difference in OOS $R^2$ between the ablated and full specifications:
+\begin{equation}\label{eq:delta_oos_r2}
+\Delta \mathrm{OOS}\,R^2_g = \mathrm{OOS}\,R^2_{\text{Ablated},g} - \mathrm{OOS}\,R^2_{\text{Full}},
+\end{equation}
+where $g$ denotes the removed feature group. Negative values indicate lower OOS $R^2$ after removal, whereas positive values indicate improved performance relative to the full model.
+
+Each ablated model retains the hyperparameters selected for its corresponding full model at each horizon, without further optimization. Ridge regularization, XGBoost tree and learning parameters, and LSTM architectural and optimization settings remain fixed, while model parameters are re-estimated from scratch using the reduced predictor set. This design isolates feature-removal effects under consistent hyperparameter configurations without allowing further optimization to compensate for excluded predictors.
+
+These differences reflect model- and horizon-specific performance effects of feature-group removal under the evaluated experimental configuration. They should not be interpreted as intrinsic feature importance, independent contributions, or causal effects~\cite{hooker2021}.
+
+\subsection{Sequence Construction and Walk-Forward Implementation}\label{subsec:walk_forward}
+
+Sequence-based models (LSTM, TCN, Vanilla Transformer, PatchTST, and TSMixer) use input sequences constructed according to their respective lookback lengths $L$, following the expanding-window walk-forward protocol in \hyperref[subsec:data_splitting]{Section~\ref*{subsec:data_splitting}}. For validation and holdout inputs, the final $L-1$ observations from the preceding segment are retained as a historical buffer, preserving chronological order and preventing future-information leakage. This procedure is applied consistently across validation folds and final holdout evaluation.
+
+\subsection{Forecast Evaluation Metrics}\label{subsec:eval_metrics}
+
+Forecasting performance is evaluated using five metrics: OOS $R^2$, Root Mean Squared Error (RMSE), Mean Absolute Error (MAE), Directional Accuracy (DA), and Excess DA.
+
+OOS $R^2$ is the primary metric for evaluating performance relative to the HM benchmark~\cite{campbell2008}:
+\begin{equation}\label{eq:oos_r2}
+R^2_{\mathrm{OOS},m,h} = 1 - \frac{\sum_{t=1}^{T_h} (y_t^{(h)} - \hat{y}_{m,t}^{(h)})^2}{\sum_{t=1}^{T_h} (y_t^{(h)} - \hat{y}_{\mathrm{HM},t}^{(h)})^2}.
+\end{equation}
+Positive OOS $R^2$ indicates improvement over HM, whereas negative values indicate underperformance. RMSE and MAE provide supplementary measures of forecast error magnitude~\cite{hodson2022}.
+
+Directional Accuracy (DA) measures the proportion of correctly predicted return signs~\cite{pesaran1992}:
+\begin{equation}\label{eq:da}
+\text{DA}_{m,h} = \frac{1}{T_h}\sum_{t=1}^{T_h} \mathbf{1}\left[\operatorname{sgn}(\hat{y}_{m,t}^{(h)}) = \operatorname{sgn}(y_t^{(h)})\right].
+\end{equation}
+To account for differences in the frequency of positive returns across forecast horizons, Excess Directional Accuracy is defined as:
+\begin{equation}\label{eq:excess_da}
+\text{Excess DA}_{m,h} = \text{DA}_{m,h} - \text{BaseRate}(h),
+\end{equation}
+where $\text{BaseRate}(h)$ is the proportion of positive realized returns at horizon $h$, which equals HM directional accuracy because HM forecasts are always positive. Positive and negative Excess DA values indicate better and worse directional performance than HM, respectively.
+
+\paragraph{Statistical inference for Excess DA.} Directional improvement over the always-positive HM benchmark is tested using a one-sided Newey--West HAC procedure~\cite{newey1987}. For model $m$ and horizon $h$, define:
+\[
+q_{m,t,h}
+=
+\mathbf{1}\left[
+\operatorname{sgn}(\hat{y}_{m,t}^{(h)})
+=
+\operatorname{sgn}(y_t^{(h)})
+\right]
+-
+\mathbf{1}\left[y_t^{(h)}>0\right].
+\]
+Its sample mean equals Excess DA:
+\[
+\overline{q}_{m,h}
+=
+\frac{1}{T_h}\sum_{t=1}^{T_h}q_{m,t,h}
+=
+\mathrm{Excess\ DA}_{m,h},
+\]
+where $T_h$ is the number of valid OOS observations at horizon $h$.
+
+The null and one-sided alternative hypotheses are:
+\[
+H_0:E[q_{m,t,h}]\leq 0,
+\qquad
+H_1:E[q_{m,t,h}]>0.
+\]
+The test statistic is:
+\[
+Z_{m,h}
+=
+\frac{\overline{q}_{m,h}}
+{\sqrt{\widehat{\Omega}_{m,h}/T_h}}.
+\]
+Here, $\widehat{\Omega}_{m,h}$ is the Newey--West long-run variance estimate based on sample autocovariances $\widehat{\gamma}_j$:
+\[
+\widehat{\Omega}_{m,h}
+=
+\widehat{\gamma}_0
++
+2\sum_{j=1}^{L_h}
+\left(1-\frac{j}{L_h+1}\right)
+\widehat{\gamma}_j.
+\]
+The HAC truncation lag is set to $L_h=h-1$ to account for serial dependence from overlapping $h$-day targets, with $L_h=0$ for the one-day horizon. Inference uses a one-sided standard normal approximation.
+
+The resulting $p$-values are adjusted using the Holm step-down procedure~\cite{holm1979} across all 60 model--horizon comparisons (12 candidate models and five forecast horizons). Statistical significance is assessed at the 5\% level using adjusted $p$-values.
+
+Validation metrics are averaged across the five walk-forward folds, while final performance is evaluated on the continuous holdout sample of 1,362 observations.
+
+As a benchmark robustness check, performance is also evaluated against a Zero-Return benchmark, which assumes $\hat{y}^{(h)}_{\mathrm{Zero},t}=0$ for every horizon. Unlike HM, which uses the historical average estimated from training data, Zero-Return provides a fixed reference. Its OOS $R^2$ is calculated as:
+\begin{equation}
+R^2_{\mathrm{OOS,Zero},m,h} = 1 - \frac{\sum_{t=1}^{T_h}\left(y_t^{(h)}-\hat{y}_{m,t}^{(h)}\right)^2}{\sum_{t=1}^{T_h}\left(y_t^{(h)}\right)^2}.
+\end{equation}
+HM remains the primary benchmark, while Zero-Return provides an alternative reference for assessing benchmark sensitivity. Both are evaluated on identical holdout observations, with comparisons reported in Section~\ref{subsec:benchmark_robustness}.
+
+\subsection{Statistical Testing Framework}\label{subsec:hypothesis_testing}
+
+The statistical framework evaluates H1--H3 across forecast horizons, volatility regimes, and evaluation periods, supplemented by Diebold--Mariano (DM) and binomial tests. Newey--West HAC estimators account for serial dependence where applicable.
+
+\paragraph{Normalized loss differentials.} Let $e_{\mathrm{HM},t,h}$ and $e_{m,t,h}$ denote the HM and model $m$ forecast errors, respectively. The normalized squared-error differential is:
+\begin{equation}\label{eq:norm_loss_diff}
+\widetilde d_{m,t,h}
+=
+\frac{e^2_{\mathrm{HM},t,h}-e^2_{m,t,h}}
+{\mathrm{MSE}_{\mathrm{HM},h}},
+\qquad
+\mathrm{MSE}_{\mathrm{HM},h}
+=
+\frac{1}{T_h}\sum_{t=1}^{T_h}e^2_{\mathrm{HM},t,h}.
+\end{equation}
+Positive values indicate lower squared forecast errors than HM, while negative values indicate underperformance.
+
+\paragraph{H1 -- Multi-horizon predictive performance.} H1 tests whether mean normalized predictive performance is equal across the five horizons $h\in\{1,5,20,60,120\}$. For each model, horizon-specific differentials are stacked into a synchronized vector:
+\[
+X_{m,t}
+=
+\left(
+\widetilde d_{m,t,1},
+\widetilde d_{m,t,5},
+\widetilde d_{m,t,20},
+\widetilde d_{m,t,60},
+\widetilde d_{m,t,120}
+\right)^\top
+\in\mathbb{R}^5,
+\]
+using only dates with valid observations at all five horizons. All horizons share the same 1,362 holdout forecast origins, so the synchronized sample equals the full holdout sample and uses consistent HM normalization across horizons. Let $\theta_m=E[X_{m,t}]$. The null hypothesis is:
+\begin{equation}
+H_0:R\theta_m=0,
+\end{equation}
+where
+\begin{equation}
+R=
+\begin{bmatrix}
+1&-1&0&0&0\\
+0&1&-1&0&0\\
+0&0&1&-1&0\\
+0&0&0&1&-1
+\end{bmatrix}.
+\end{equation}
+This restriction tests whether the five horizon-specific mean normalized loss differentials are equal. The Wald statistic is:
+\begin{equation}
+W_{\mathrm{H1},m}
+=
+T(R\bar X_m)^\top
+\left(R\widehat\Omega_mR^\top\right)^{-1}
+(R\bar X_m),
+\end{equation}
+Here, $\bar X_m$ is the sample mean vector, $T$ is the synchronized sample size, and $\widehat\Omega_m$ is the joint Newey--West long-run covariance matrix of the five-dimensional differential vector. The baseline HAC bandwidth is $L=20$, accounting for serial dependence from overlapping multi-period targets, which can induce dependence up to $h-1$ lags~\cite{hansen1980}. Hodrick~\cite{hodrick1992} further documents finite-sample inference distortions at longer horizons. Under the null, the Wald statistic asymptotically follows a chi-squared distribution, with four degrees of freedom for eleven models and two for Elastic Net, whose differential series are degenerate at three horizons.
+
+Robustness is assessed using alternative HAC bandwidths $L\in\{5,60,119\}$ and a paired synchronized moving-block bootstrap with block lengths $b\in\{20,40,60,80,120\}$ and 4,999 replications each. The same resampled time indices are applied across all five horizons to preserve within-block temporal dependence and cross-horizon alignment. Bootstrap samples are recentered under the null, and studentized Wald statistics are recalculated using the baseline HAC bandwidth $L=20$. Holm adjustment is applied separately for each block length. The bootstrap provides complementary finite-sample evidence rather than replacing asymptotic HAC inference.
+
+\paragraph{H2 -- Regime-Conditional Predictive Ability and Horizon--Regime Interaction.} H2 examines whether predictive performance relative to HM exhibits regime-conditional behavior and whether relative performance contrasts across volatility regimes vary by horizon. The analysis uses the Low, Normal, and High volatility indicators defined in \hyperref[subsec:regime_classification]{Section~\ref*{subsec:regime_classification}}, with Normal serving as the reference regime.
+
+H2 comprises two complementary tests. The Giacomini--White conditional predictive ability (GW-CPA) test examines whether normalized loss differentials relative to HM have zero conditional moments across volatility-regime instruments at each horizon. The horizon--regime interaction test assesses whether the Low--Normal and High--Normal performance contrasts vary across horizons. Neither test directly establishes unconditional predictive-performance differences among the three regimes.
+
+\textit{Single-horizon conditional predictive ability (CPA).} At each horizon $h$, the GW-CPA test~\cite{giacomini2006} constructs the moment vector:
+\begin{equation}
+m_{m,t,h}=z_t\widetilde d_{m,t,h},
+\qquad
+z_t=
+\begin{bmatrix}
+1\\
+I(\mathrm{Low}_t)\\
+I(\mathrm{High}_t)
+\end{bmatrix},
+\end{equation}
+with Normal volatility as the reference regime, absorbed into the intercept.
+
+The joint null hypothesis is:
+\begin{equation}
+H_0: E[z_t\widetilde d_{m,t,h}]=0.
+\end{equation}
+The joint null requires the expected normalized loss differential to equal zero conditionally in each regime, assuming positive regime probabilities. Rejection indicates conditional predictive ability relative to HM in at least one regime, but does not establish statistically significant differences between individual regimes.
+
+Letting
+\begin{equation}
+\bar m_{m,h} = \frac{1}{T_h}\sum_{t=1}^{T_h}z_t\widetilde d_{m,t,h},
+\end{equation}
+the Wald statistic is:
+\begin{equation}
+W_{\mathrm{CPA},m,h}
+=
+\bar m_{m,h}^{\top}
+\left(
+\frac{\widehat\Omega_{m,h}}{T_h}
+\right)^{-1}
+\bar m_{m,h}
+\overset{a}{\sim}\chi^2(3),
+\end{equation}
+Here, $\widehat\Omega_{m,h}$ is the Newey--West HAC covariance matrix of the moment series, estimated using a Bartlett kernel with baseline bandwidth $L=20$. Robustness is assessed using $L\in\{5,60,119\}$, with Holm adjustment across twelve models separately at each horizon. For Elastic Net, $\widetilde d_{m,t,h}\equiv 0$ at $h\in\{20,60,120\}$, yielding zero moment vectors and zero effective degrees of freedom ($\mathrm{df}=0$).
+
+\textit{Horizon--regime interaction.} To assess whether relative regime-performance contrasts vary across horizons, observations are stacked over $h\in H=\{1,5,20,60,120\}$ using:
+\begin{equation}
+\widetilde d_{m,t,h}
+=
+\alpha_h+\beta_{h,L}I(\mathrm{Low}_t)
++\beta_{h,H}I(\mathrm{High}_t)+u_{m,t,h},
+\end{equation}
+where Normal is the reference regime, and $\beta_{h,L}$ and $\beta_{h,H}$ represent the Low--Normal and High--Normal differences in mean normalized loss differentials.
+
+The null hypothesis examines whether these regime contrasts remain unchanged relative to the 1-day baseline horizon:
+\begin{equation}
+H_0:
+\begin{cases}
+\beta_{h,L}-\beta_{1,L}=0,\\
+\beta_{h,H}-\beta_{1,H}=0,
+\end{cases}
+\quad
+\forall h\in\{5,20,60,120\}.
+\end{equation}
+The Wald statistic jointly tests the eight restrictions using the stacked five-horizon GMM/OLS covariance estimator:
+\begin{equation}
+W_{\mathrm{int}}
+=
+(R_{\mathrm{int}}\widehat\beta_{\mathrm{int}})^\top
+\left(
+R_{\mathrm{int}}\widehat V_{\mathrm{panel}}
+R_{\mathrm{int}}^\top
+\right)^{-1}
+(R_{\mathrm{int}}\widehat\beta_{\mathrm{int}})
+\overset{a}{\sim}\chi^2(8),
+\end{equation}
+where $\widehat V_{\mathrm{panel}}$ is estimated from the stacked moment conditions using a Newey--West HAC estimator with a Bartlett kernel and baseline bandwidth $L=20$, accounting for contemporaneous cross-horizon dependence. Robustness is assessed using $L\in\{5,60,119\}$, with Holm adjustment across twelve model-specific tests. The test evaluates changes in the Low--Normal and High--Normal contrasts relative to the 1-day baseline, not equality of predictive performance across regimes at any individual horizon. For Elastic Net, the effective degrees of freedom reduce to four because of identical benchmark predictions at 20D, 60D, and 120D.
+
+\paragraph{H3 -- Temporal stability of predictive performance.} H3 examines whether predictive performance remains stable or varies across calendar subperiods.
+
+\textit{Giacomini--Rossi-type fluctuation test with moving-block bootstrap.} Following Giacomini and Rossi~\cite{giacomini2010}, a modified trailing-window fluctuation procedure is implemented, with a fixed-length moving-block bootstrap used to obtain empirical critical probabilities under the null. Unlike the original test, which relies on a functional central limit theorem, this implementation uses a bootstrap approximation. For each model--horizon combination, the local standardized fluctuation statistic is computed over trailing windows of $m_w=252$ trading days:
+\begin{equation}
+t_{m,\tau,h}
+=
+\frac{\sqrt{m_w}}{\widehat\sigma_{\mathrm{HAC},m,h}}
+\left(
+\frac{1}{m_w}
+\sum_{s=\tau-m_w+1}^{\tau}
+\widetilde d_{m,s,h}
+\right),
+\qquad
+\tau=m_w,\ldots,T_h,
+\end{equation}
+Here, $m_w=252$ and $\widehat\sigma_{\mathrm{HAC},m,h}$ is the full-holdout long-run standard deviation estimated separately for each model--horizon combination using a Bartlett kernel and baseline bandwidth $L=20$. This scaling factor remains fixed across rolling windows. The procedure yields $T_h-m_w+1$ windows, corresponding to 1,111 windows when $T_h=1,362$. The summary statistic is the two-sided supremum:
+\begin{equation}
+S_{m,h}
+=
+\max_{\tau=m_w,\ldots,T_h}
+|t_{m,\tau,h}|.
+\end{equation}
+Empirical $p$-values are obtained using a moving-block bootstrap with $B=500$ replications and baseline block length $b=60$. Before resampling, the loss-differential series is demeaned to impose the zero-mean null:
+\begin{equation}
+\widetilde d^*_{m,t,h} = \widetilde d_{m,t,h} - \bar{\widetilde d}_{m,h}.
+\end{equation}
+Each replication recomputes the trailing-window statistics using the same full-sample HAC scaling factor as the observed statistic. The bootstrap $p$-value is:
+\begin{equation}
+\widehat p = \frac{1}{B} \sum_{r=1}^{B} I(S_r^* \geq S_{\mathrm{obs}}), \qquad B=500.
+\end{equation}
+When no replication exceeds the observed statistic, $p<1/B$ is reported rather than zero. Holm adjustment is applied across twelve models within each horizon.
+
+Sensitivity analyses vary the bootstrap replication count and block length: $B\in\{1,999;4,999\}$ at $b=60$, and $B\in\{500;4,999\}$ at $b=120$. The observed statistic, null-centering, trailing-window construction, and HAC standardization remain unchanged. Holm adjustment is recalculated across twelve models within each horizon for each configuration to assess Monte Carlo and block-length sensitivity.
+
+HAC bandwidth sensitivity is assessed using $L\in\{5,20,60,119\}$, while keeping the rolling-window length, block length, bootstrap replications, and random seed fixed. Since the same bandwidth-specific HAC scaling factor is applied to observed and bootstrap statistics, the bootstrap exceedance probability is algebraically invariant to bandwidth choice. This analysis therefore tests the sensitivity of the standardized fluctuation statistic, not the bootstrap $p$-value itself.
+
+\textit{Subperiod stability test.} Calendar-block stability is assessed using a block-level HAC Wald test across the predefined validation and holdout subperiods in \hyperref[subsec:data_splitting]{Section~\ref*{subsec:data_splitting}}. The holdout analysis excludes November--December 2020 and evaluates the remaining three blocks; the same three-block framework is applied to validation. Let $\bar{\widetilde d}_k$ denote the block-specific mean normalized squared-error differential, scaled by full-sample HM MSE rather than within-block OOS $R^2$. The null hypothesis is:
+\begin{equation}
+H_0:
+\bar{\widetilde d}_1
+=
+\bar{\widetilde d}_2
+=
+\bar{\widetilde d}_3.
+\end{equation}
+The Wald test statistic is:
+\begin{equation}
+W_{\mathrm{sub}}
+=
+(R\widehat\mu)^\top
+(R\widehat\Sigma_{\mathrm{HAC}}R^\top)^{-1}
+(R\widehat\mu)
+\overset{a}{\sim}\chi^2(2),
+\end{equation}
+Here, $\widehat\mu$ contains the three block means, $R$ imposes two equality restrictions, and $\widehat\Sigma_{\mathrm{HAC}}$ is estimated using a Newey--West Bartlett-kernel estimator with baseline bandwidth $L=20$. Sensitivity is assessed using $L\in\{5,60,119\}$, separately for validation and holdout samples. When forecasts equal HM across all blocks, as for Elastic Net at longer horizons, the differentials and test statistic are zero ($\mathrm{df}=0$).
+
+\paragraph{Multiple-testing adjustment.} Holm step-down correction is applied separately across twelve models within each horizon for GW-CPA and fluctuation tests, and across the twelve model-specific horizon--regime interaction tests. Both raw and adjusted $p$-values are reported, with significance assessed at the 5\% level using adjusted $p$-values.
+
+\paragraph{Supplementary predictive accuracy tests.} Two additional conventional tests are conducted on the full OOS sample to complement the hypothesis-specific analyses.
+
+The Diebold--Mariano (DM) test compares each model's mean squared forecast error with HM~\cite{diebold1995}. For model $m$ and horizon $h$, define:
+\[
+d_{m,t,h}
+=
+e^2_{\mathrm{HM},t,h}-e^2_{m,t,h}.
+\]
+Positive values indicate improvements over HM. The DM statistic is:
+\[
+\mathrm{DM}_{m,h}
+=
+\frac{\bar d_{m,h}}
+{\sqrt{\widehat{\operatorname{Var}}(\bar d_{m,h})}},
+\]
+with long-run variance estimated using a rectangular spectral window truncated at $h-1$, followed by the Harvey--Leybourne--Newbold (HLN) correction~\cite{buturac2022,diebold1995,harvey1997}:
+\begin{equation}\label{eq:dm_stat}
+\mathrm{DM}^{*}_{m,h}
+=
+\mathrm{DM}_{m,h}
+\sqrt{
+\frac{T+1-2h+h(h-1)/T}{T}
+}.
+\end{equation}
+The HLN-corrected statistic follows a Student-$t$ reference distribution with $T-1$ degrees of freedom~\cite{buturac2022,harvey1997}, using a one-sided test for improvement over HM.
+
+\paragraph{Supplementary directional accuracy test.} An exact one-sided Binomial Test assesses whether directional accuracy exceeds the 50\% random-guessing benchmark:
+\[
+H_0:p\leq 0.5,
+\qquad
+H_1:p>0.5.
+\]
+Let $K$ denote the number of correct predictions among $n$ non-zero realized returns. Under independent Bernoulli outcomes, the $p$-value is:
+\[
+p_{\mathrm{bin}}
+=
+P(K_{\mathrm{bin}}\geq K)
+=
+\sum_{j=K}^{n}
+\binom{n}{j}(0.5)^n.
+\]
+However, overlapping cumulative $h$-day targets generally violate the Binomial Test's independence assumption, potentially making nominal $p$-values unreliable due to serial dependence. Accordingly, the test is used only as a supplementary reference, not as primary evidence of directional forecasting skill.
+
+Primary directional inference instead uses Excess DA with horizon-matched Newey--West HAC testing, as defined in \hyperref[subsec:eval_metrics]{Section~\ref*{subsec:eval_metrics}}. Unlike the Binomial Test, Excess DA measures improvement over the realized positive-return frequency, equivalent to the DA of the always-positive HM benchmark.
+
+Both DM and Binomial tests are conducted on the full OOS sample across twelve models and five horizons. For DM comparisons against HM, Holm adjustment is applied to raw $p$-values both within each horizon across twelve models and jointly across all 60 model--horizon comparisons. Both raw and adjusted $p$-values are reported, with significance assessed at 5\% using adjusted values. DM tests against alternative benchmarks and supplementary Binomial tests report nominal individual $p$-values without multiple-testing adjustment unless otherwise specified. In contrast, Excess DA inference applies Holm correction across all 60 comparisons.
+
+\section{Empirical Results and Discussion}\label{sec:results}
+
+\subsection{Out-of-Sample Forecast Performance}\label{subsec:oos_performance}
+
+The twelve models are evaluated against the Historical Mean (HM) across five horizons using OOS $R^2$, RMSE, MAE, and Directional Accuracy (DA).
+
+\hyperref[tab:oos_r2_main]{Table~\ref*{tab:oos_r2_main}} reports OOS $R^2$ relative to HM. Conventional machine-learning models generally perform more stably at short and intermediate horizons, whereas deep-learning results are more heterogeneous. TSMixer achieves the highest OOS $R^2$ at 20D (+3.80\%), 60D (+4.98\%), and 120D (+17.53\%). At 120D, only TSMixer and ARIMA record positive values (+17.53\% and +1.95\%, respectively). However, TSMixer's DM test at 120D is only nominally significant (raw $p = 0.0485$) and becomes insignificant after Holm correction, with adjusted $p$-values of 0.5817 within the 12-model horizon family and 1.0000 across all 60 comparisons. Thus, no model significantly outperforms HM after multiple-testing adjustment.
+
+\begin{table}[htbp]
+\centering
+\caption{Out-of-sample $R^2$ by model and forecast horizon.}\label{tab:oos_r2_main}
+\setlength{\tabcolsep}{4.5pt}
+\begin{tabular}{lrrrrr}
+\hline
+Model & 1D & 5D & 20D & 60D & 120D \\
+\hline
+ARIMA & $-$0.49\% & $-$8.25\% & $-$12.70\% & $-$10.26\% & +1.95\% \\
+ARIMAX & +1.18\% & $-$5.90\% & $-$4.61\% & +2.52\% & $-$0.35\% \\
+Ridge & +1.50\% & +1.79\% & +1.66\% & +0.91\% & $-$4.95\% \\
+Elastic Net & +0.13\% & +0.61\% & 0.00\% & 0.00\% & 0.00\% \\
+SVR & +1.98\% & +1.48\% & +3.05\% & +4.64\% & $-$19.10\% \\
+Random Forest & +1.77\% & $-$1.30\% & $-$0.39\% & +0.33\% & $-$6.42\% \\
+XGBoost & +1.48\% & +0.11\% & +1.37\% & +0.13\% & $-$0.14\% \\
+LSTM & $-$0.65\% & $-$0.50\% & +1.48\% & $-$0.96\% & $-$3.34\% \\
+Transformer & $-$15.28\% & $-$39.72\% & $-$11.64\% & $-$21.28\% & $-$23.02\% \\
+TCN & $-$14.16\% & $-$64.91\% & $-$123.43\% & $-$87.23\% & $-$142.55\% \\
+PatchTST & $-$4.25\% & $-$6.85\% & $-$12.17\% & $-$21.86\% & $-$12.22\% \\
+TSMixer & $-$2.72\% & $-$5.47\% & +3.80\% & +4.98\% & +17.53\% \\
+\hline
+\end{tabular}
+\par\vspace{4pt}\parbox{0.85\linewidth}{\footnotesize\textit{Note:} OOS $R^2$ is calculated relative to the Historical Mean (HM) benchmark. See \hyperref[subsec:eval_metrics]{Section~\ref*{subsec:eval_metrics}} for its definition and interpretation.}
+\end{table}
+
+\hyperref[tab:rmse_main]{Tables~\ref*{tab:rmse_main}} and~\hyperref[tab:mae_main]{\ref*{tab:mae_main}} show that the lowest forecast errors vary by horizon and metric. SVR achieves the lowest RMSE at 1D (0.0104), while TSMixer leads at 20D, 60D, and 120D (0.0409, 0.0639, and 0.0840, respectively). For MAE, SVR performs best at 5D (0.0164) and 60D (0.0489), whereas TSMixer leads at 20D (0.0308) and 120D (0.0663). At 120D, TSMixer outperforms HM in both RMSE (0.0840 vs.\ 0.0925) and MAE (0.0663 vs.\ 0.0757), while TCN records a substantially higher RMSE of 0.1441. These differences describe point-forecast accuracy but do not establish statistically significant improvements over HM.
+
+\begin{table}[htbp]
+\centering
+\caption{RMSE by model and forecast horizon.}\label{tab:rmse_main}
+\setlength{\tabcolsep}{4.5pt}
+\begin{tabular}{lrrrrr}
+\hline
+Model & 1D & 5D & 20D & 60D & 120D \\
+\hline
+HM & 0.0106 & 0.0223 & 0.0417 & 0.0655 & 0.0925 \\
+ARIMA & 0.0106 & 0.0232 & 0.0442 & 0.0688 & 0.0916 \\
+ARIMAX & 0.0105 & 0.0230 & 0.0426 & 0.0647 & 0.0927 \\
+Ridge & 0.0105 & 0.0221 & 0.0413 & 0.0652 & 0.0948 \\
+Elastic Net & 0.0105 & 0.0223 & 0.0417 & 0.0655 & 0.0925 \\
+SVR & 0.0104 & 0.0222 & 0.0410 & 0.0640 & 0.1010 \\
+Random Forest & 0.0105 & 0.0225 & 0.0418 & 0.0654 & 0.0954 \\
+XGBoost & 0.0105 & 0.0223 & 0.0414 & 0.0655 & 0.0926 \\
+LSTM & 0.0106 & 0.0224 & 0.0414 & 0.0658 & 0.0941 \\
+Transformer & 0.0113 & 0.0264 & 0.0440 & 0.0722 & 0.1026 \\
+TCN & 0.0113 & 0.0287 & 0.0623 & 0.0897 & 0.1441 \\
+PatchTST & 0.0108 & 0.0231 & 0.0441 & 0.0723 & 0.0980 \\
+TSMixer & 0.0107 & 0.0229 & 0.0409 & 0.0639 & 0.0840 \\
+\hline
+\end{tabular}
+\par\vspace{4pt}\parbox{0.85\linewidth}{\footnotesize\textit{Note:} RMSE is measured in cumulative log-return units. Lower values indicate better point-forecast accuracy.}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{MAE by model and forecast horizon.}\label{tab:mae_main}
+\setlength{\tabcolsep}{4.5pt}
+\begin{tabular}{lrrrrr}
+\hline
+Model & 1D & 5D & 20D & 60D & 120D \\
+\hline
+HM & 0.0075 & 0.0166 & 0.0327 & 0.0527 & 0.0757 \\
+ARIMA & 0.0076 & 0.0171 & 0.0338 & 0.0532 & 0.0690 \\
+ARIMAX & 0.0075 & 0.0172 & 0.0338 & 0.0512 & 0.0732 \\
+Ridge & 0.0075 & 0.0165 & 0.0327 & 0.0514 & 0.0765 \\
+Elastic Net & 0.0075 & 0.0165 & 0.0327 & 0.0527 & 0.0757 \\
+SVR & 0.0075 & 0.0164 & 0.0316 & 0.0489 & 0.0867 \\
+Random Forest & 0.0075 & 0.0167 & 0.0328 & 0.0534 & 0.0784 \\
+XGBoost & 0.0075 & 0.0165 & 0.0327 & 0.0526 & 0.0759 \\
+LSTM & 0.0076 & 0.0166 & 0.0322 & 0.0531 & 0.0760 \\
+Transformer & 0.0084 & 0.0196 & 0.0364 & 0.0559 & 0.0849 \\
+TCN & 0.0084 & 0.0209 & 0.0440 & 0.0649 & 0.0998 \\
+PatchTST & 0.0078 & 0.0168 & 0.0344 & 0.0553 & 0.0759 \\
+TSMixer & 0.0077 & 0.0169 & 0.0308 & 0.0497 & 0.0663 \\
+\hline
+\end{tabular}
+\par\vspace{4pt}\parbox{0.85\linewidth}{\footnotesize\textit{Note:} MAE is measured in cumulative log-return units. Lower values indicate better point-forecast accuracy.}
+\end{table}
+
+\hyperref[tab:da_main]{Table~\ref*{tab:da_main}} reports DA and Excess DA relative to HM. Since HM always issues positive forecasts, its DA equals the positive-return base rate, increasing from 53.74\% at 1D to 78.05\% at 120D; thus, higher DA at longer horizons does not necessarily indicate improved directional skill. Only TSMixer at 20D (+1.32 pp) and ARIMAX at 120D (+0.81 pp) numerically outperform HM, but neither is significant under horizon-matched Newey--West HAC inference ($p = 0.2758$ and $p = 0.2035$, respectively). No directional improvement remains significant after Holm correction across 60 comparisons. Nine comparisons yield zero Excess DA because the corresponding models issue positive forecasts for all 1,362 observations, matching HM's predictions.
+
+\begin{table}[htbp]
+\centering
+\caption{Directional accuracy and excess directional accuracy.}\label{tab:da_main}
+{\small
+\setlength{\tabcolsep}{2.2pt}
+\begin{tabular}{lrrrrr@{\hspace{4pt}}c@{\hspace{4pt}}rrrrr}
+\hline
+ & \multicolumn{5}{c}{\textit{Panel A. DA (\%)}} & & \multicolumn{5}{c}{\textit{Panel B. Excess DA vs.\ HM (pp)}} \\
+\cline{2-6}\cline{8-12}
+Model & 1D & 5D & 20D & 60D & 120D & & 1D & 5D & 20D & 60D & 120D \\
+\hline
+HM & 53.74 & 59.40 & 66.89 & 74.96 & 78.05 & & -- & -- & -- & -- & -- \\
+ARIMA & 50.37 & 53.01 & 59.10 & 68.21 & 76.87 & & $-$3.38 & $-$6.39 & $-$7.78 & $-$6.75 & $-$1.17 \\
+ARIMAX & 52.94 & 50.00 & 53.45 & 72.10 & 78.85 & & $-$0.81 & $-$9.40 & $-$13.44 & $-$2.86 & \textbf{+0.81} \\
+Ridge & 51.10 & 53.74 & 63.29 & 72.47 & 77.09 & & $-$2.64 & $-$5.65 & $-$3.60 & $-$2.50 & $-$0.95 \\
+Elastic Net & 51.25 & 58.37 & 66.89 & 74.96 & 78.05 & & $-$2.50 & $-$1.03 & 0.00 & 0.00 & 0.00 \\
+SVR & 52.72 & 58.08 & 66.81 & 74.96 & 65.12 & & $-$1.03 & $-$1.32 & $-$0.07 & 0.00 & $-$12.92 \\
+Random Forest & 53.30 & 58.81 & 65.42 & 73.20 & 74.52 & & $-$0.44 & $-$0.59 & $-$1.47 & $-$1.76 & $-$3.52 \\
+XGBoost & 53.16 & 59.25 & 66.52 & 74.96 & 78.05 & & $-$0.59 & $-$0.15 & $-$0.37 & 0.00 & 0.00 \\
+LSTM & 50.07 & 51.69 & 66.89 & 74.96 & 78.05 & & $-$3.67 & $-$7.71 & 0.00 & 0.00 & 0.00 \\
+Transformer & 48.53 & 51.98 & 42.14 & 62.56 & 72.03 & & $-$5.21 & $-$7.42 & $-$24.74 & $-$12.41 & $-$6.02 \\
+TCN & 46.26 & 50.29 & 52.57 & 70.34 & 73.64 & & $-$7.49 & $-$9.10 & $-$14.32 & $-$4.63 & $-$4.41 \\
+PatchTST & 50.88 & 56.98 & 50.88 & 74.30 & 74.89 & & $-$2.86 & $-$2.42 & $-$16.01 & $-$0.66 & $-$3.16 \\
+TSMixer & 49.12 & 53.67 & 68.21 & 73.13 & 77.39 & & $-$4.63 & $-$5.73 & \textbf{+1.32} & $-$1.84 & $-$0.66 \\
+\hline
+\end{tabular}}
+\par\vspace{4pt}\parbox{\linewidth}{\footnotesize\textit{Note:} Excess DA is calculated as candidate-model DA minus HM DA in percentage points (pp). Positive values indicate a numerical improvement over HM; they do not imply statistical significance. Values are rounded to two decimal places. The unrounded differences for TSMixer 20D and ARIMAX 120D are +1.3216 pp and +0.8076 pp, respectively.}
+\end{table}
+
+Magnitude-based and directional metrics provide different performance assessments. At 120D, TSMixer achieves the highest OOS $R^2$ and lower RMSE and MAE than HM, yet its DA is 0.66 pp below the benchmark. Conversely, ARIMAX records positive Excess DA (+0.81 pp) despite higher RMSE and negative OOS $R^2$ ($-$0.35\%). These results show that improved forecast-magnitude accuracy does not necessarily translate into better directional predictions. Overall, despite metric-specific point-estimate advantages, no model demonstrates statistically significant improvement in forecast accuracy or directional performance over HM after multiple-testing adjustment.
+
+Statistical forecast accuracy and economic value are distinct dimensions of predictive performance. Campbell and Thompson~\cite{campbell2008} and Gu et al.~\cite{gu2020} show that predictive improvements may translate into investment benefits, subject to implementation costs and portfolio turnover. However, this study evaluates forecasting accuracy rather than portfolio returns or investor utility; therefore, OOS $R^2$ improvements should not be interpreted as evidence of economic profitability.
+
+\subsection{Horizon-Dependent Predictability (RQ1)}
+
+RQ1 examines how predictive performance varies across forecast horizons and model classes, with H1 formally testing cross-horizon differences.
+
+\noindent\textbf{Descriptive Evidence of Horizon-Dependent Predictability.} At short horizons (1D--5D), conventional machine-learning models perform relatively competitively, but their rankings vary across horizons, indicating that performance depends on model specification rather than a systematic model-family advantage.
+
+At intermediate horizons (20D--60D), performance becomes more differentiated across architectures: some conventional machine-learning models remain relatively stable, while TSMixer performs more strongly within the deep-learning group. Neither model family exhibits a uniform advantage.
+
+At 120D, TSMixer exhibits a pronounced improvement in relative point-forecast performance compared with shorter horizons, although this model-specific result does not establish that longer horizons are generally more predictable. Overall, performance varies non-monotonically, with model-specific advantages at particular horizons rather than consistent superiority across the forecasting range.
+
+The non-monotonic pattern is consistent with previous evidence of horizon-dependent performance~\cite{quaedvlieg2021,xu2020}, although the present results concern aggregate S\&P~500 time-series forecasting rather than cross-sectional stock prediction~\cite{nechvatalova2024}.
+
+Transformer, TCN, and PatchTST do not consistently outperform simpler models across horizons, indicating that architectural complexity alone does not ensure reliable forecasting performance~\cite{gu2020,welch2008}.
+
+\medskip
+\noindent\textbf{Statistical Evidence for H1.} H1 tests the joint null hypothesis that a model's mean normalized loss differentials are equal across the five horizons. Since each differential is normalized by the horizon-specific HM mean squared error, its sample mean equals the corresponding OOS $R^2$. Thus, H1 evaluates cross-horizon differences in relative performance, not whether a model significantly outperforms HM at an individual horizon or exhibits monotonic performance decay.
+
+Under the baseline HAC specification ($L=20$), ARIMA is the only model rejecting cross-horizon equality after Holm correction ($W=15.7438$, $\mathrm{df}=4$, adjusted $p=0.0406$). Its relative performance deteriorates from short to intermediate horizons before improving at 120D, indicating horizon dependence rather than consistent outperformance over HM.
+
+TSMixer, TCN, and SVR also have unadjusted $p<0.05$, but their Holm-adjusted $p$-values (0.1620, 0.2520, and 0.4031, respectively) are not significant.
+
+HAC bandwidth sensitivity shows that five models (TCN, TSMixer, SVR, ARIMA, and Random Forest) remain significant after Holm correction at $L=5$. At $L=20$, $60$, and $119$, ARIMA is the only significant model, with adjusted $p$-values of 0.0406, 0.0056, and 0.0108, respectively. Its rejection is therefore consistent across all four bandwidths, whereas other models' significance is bandwidth-sensitive.
+
+The paired synchronized moving-block bootstrap provides a complementary finite-sample assessment using 4,999 replications, $b\in\{20,40,60,80,120\}$, and baseline HAC bandwidth $L=20$. No model remains significant after Holm correction at any block length. For ARIMA, the raw bootstrap $p$-value increases from 0.0708 at $b=20$ to 0.2348 at $b=120$; at $b=60$, it is 0.1620, compared with the asymptotic HAC $p$-value of 0.0034. Holm-adjusted bootstrap $p$-values remain above 5\% throughout, so the bootstrap does not corroborate ARIMA's asymptotic rejection. Decisions are unchanged across block lengths, indicating that the discrepancy reflects sensitivity to the inference procedure rather than solely the choice of $b=60$; however, it does not establish that the HAC result is invalid.
+
+Overall, H1 provides limited evidence of horizon-dependent performance. ARIMA remains significant across all four HAC bandwidths but is not corroborated by the synchronized moving-block bootstrap. Four additional models are significant only at $L=5$. These findings indicate model-specific horizon effects and inference sensitivity, without establishing a statistically robust monotonic decay in equity return predictability. As highlighted by Quaedvlieg~\cite{quaedvlieg2021}, multiple-horizon comparisons are also subject to multiple-testing concerns and increasing forecast uncertainty; therefore, rejecting cross-horizon equality does not establish a systematic increase or decrease in predictability.
+
+\FloatBarrier
+\subsection{Volatility Regime-Dependent Predictability (RQ2)}\label{subsec:volatility_regimes}
+
+This section examines OOS predictive performance across volatility regimes and horizons, distinguishing descriptive regime-specific results from formal statistical evidence.
+
+\medskip
+\noindent\textbf{Regime-Specific Predictive Performance.}
+Regime-specific OOS $R^2$ is evaluated against the fixed HM benchmark using the volatility classifications in \hyperref[subsec:regime_classification]{Section~\ref*{subsec:regime_classification}}.
+
+\hyperref[tab:selected_regime_oos_r2]{Table~\ref*{tab:selected_regime_oos_r2}} summarizes positive, zero, and negative OOS $R^2$ outcomes and the number of positive-performing models by horizon, while \hyperref[tab:full_regime_oos_r2]{Table~\ref*{tab:full_regime_oos_r2}} reports the complete regime-specific results for all twelve models across five horizons.
+
+Across the 60 model--horizon combinations within each regime, the Normal regime records the largest number of positive OOS $R^2$ outcomes (25, 41.7\%), followed by the High regime (23, 38.3\%) and the Low regime (16, 26.7\%). Nevertheless, negative values remain prevalent across all three regimes, indicating that most model--horizon combinations do not outperform the historical-mean benchmark.
+
+\hyperref[tab:selected_regime_oos_r2]{Table~\ref*{tab:selected_regime_oos_r2}}, Panel~B, further shows that regime-specific performance varies across horizons. At 1D, the High regime has the most positive outcomes (7 versus 6 in Normal and 4 in Low); at 5D, Low has only one positive outcome compared with five in each of the other regimes. By 60D, Low leads with six positive outcomes, compared with five in Normal and two in High. This reversal indicates a horizon-dependent rather than monotonic relationship between volatility and predictive performance.
+
+\hyperref[tab:full_regime_oos_r2]{Table~\ref*{tab:full_regime_oos_r2}} illustrates these differences through TSMixer, which achieves positive OOS $R^2$ across all three regimes at 120D (17.81\% Low, 20.34\% Normal, and 15.27\% High), and SVR, which is positive across all regimes at 20D (0.12\%, 7.08\%, and 1.39\%, respectively).
+
+Positive performance at one horizon does not imply sustained predictability at longer horizons, consistent with evidence of instability in equity return prediction~\cite{harvey2021,paye2006}. For example, SVR's positive OOS $R^2$ at 60D in Low and Normal regimes (3.49\% and 16.54\%) deteriorates to $-$33.02\% and $-$33.19\% at 120D. Ridge also records negative 120D values across all regimes ($-$17.17\%, $-$3.51\%, and $-$1.47\%).
+
+TCN exhibits particularly severe underperformance under High volatility, with OOS $R^2$ values of $-$90.00\%, $-$195.95\%, $-$168.29\%, and $-$289.23\% at 5D, 20D, 60D, and 120D, respectively. At 120D, its full-holdout forecast standard deviation (0.1053) exceeds that of realized returns (0.0894), while forecast--actual correlation is nearly zero ($-$0.005). Under High volatility, forecast dispersion increases further (SD = 0.1486 versus 0.1119 for realized returns), with a mean predicted return of 0.1779. This excessive dispersion, combined with negligible linear association, contributes to TCN's substantial squared-error penalty relative to HM. A similar pattern occurs at 20D, where forecast standard deviation is 1.16 times that of realized returns and High-regime OOS $R^2$ reaches $-$195.95\%.
+
+TCN's instability may relate to its fixed architecture and training configuration, including dropout of 0.1, residual convolutional blocks with \texttt{BatchNorm1d}, and an unbounded final linear projection. These features may contribute to excessive forecast dispersion relative to the more regularized Ridge model, although their individual causal effects are not isolated. Thus, TCN's underperformance under High volatility appears to involve poorly calibrated forecast dispersion, particularly at longer horizons.
+
+\begin{table}[htbp]
+\centering
+\caption{Summary of Regime-Specific Out-of-Sample Predictive Performance.}\label{tab:selected_regime_oos_r2}
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{llrrr}
+\hline
+\multicolumn{5}{l}{\textit{Panel A. Distribution of OOS $R^2$ outcomes}} \\
+\hline
+\multicolumn{2}{l}{Outcome} & Low & Normal & High \\
+\hline
+\multicolumn{2}{l}{Positive} & 16 (26.7\%) & 25 (41.7\%) & 23 (38.3\%) \\
+\multicolumn{2}{l}{Zero} & 3 (5.0\%) & 3 (5.0\%) & 3 (5.0\%) \\
+\multicolumn{2}{l}{Negative} & 41 (68.3\%) & 32 (53.3\%) & 34 (56.7\%) \\
+\multicolumn{2}{l}{Total} & 60 (100\%) & 60 (100\%) & 60 (100\%) \\
+\hline
+\multicolumn{5}{l}{\textit{Panel B. Number of models with positive OOS $R^2$ by forecast horizon}} \\
+\hline
+\multicolumn{2}{l}{Forecast horizon} & Low & Normal & High \\
+\hline
+\multicolumn{2}{l}{1 day} & 4 & 6 & 7 \\
+\multicolumn{2}{l}{5 days} & 1 & 5 & 5 \\
+\multicolumn{2}{l}{20 days} & 1 & 4 & 6 \\
+\multicolumn{2}{l}{60 days} & 6 & 5 & 2 \\
+\multicolumn{2}{l}{120 days} & 4 & 5 & 3 \\
+\hline
+\end{tabular}
+\par\vspace{4pt}\parbox{\linewidth}{\scriptsize\textit{Notes:} OOS $R^2$ is expressed as a percentage. Panel~A reports the distribution of outcomes across model--horizon combinations, while Panel~B reports the number of models with positive OOS $R^2$ at each horizon.}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Full Regime-Specific Out-of-Sample $R^2$ (\%) Across All Models and Forecast Horizons.}\label{tab:full_regime_oos_r2}
+{\footnotesize
+\setlength{\tabcolsep}{1.8pt}
+\begin{tabular}{lrrr@{\hspace{3pt}}c@{\hspace{3pt}}rrr@{\hspace{3pt}}c@{\hspace{3pt}}rrr}
+\hline
+\multicolumn{12}{l}{\textit{Panel A. Short- and intermediate-horizon regimes (1D, 5D, and 20D)}} \\
+\hline
+ & \multicolumn{3}{c}{1D} & & \multicolumn{3}{c}{5D} & & \multicolumn{3}{c}{20D} \\
+\cline{2-4}\cline{6-8}\cline{10-12}
+Model & Low & Norm. & High & & Low & Norm. & High & & Low & Norm. & High \\
+\hline
+ARIMA         & $+$0.05  & $-$0.47  & $-$0.59  & & $-$2.74  & $-$7.60  & $-$9.49  & & $-$6.67  & $-$5.99  & $-$17.15 \\
+ARIMAX        & $-$0.01  & $+$0.85  & $+$1.55  & & $-$9.19  & $-$6.26  & $-$5.18  & & $-$4.38  & $-$8.76  & $-$2.47 \\
+Ridge         & $-$1.06  & $+$0.53  & $+$2.41  & & $-$1.30  & $+$1.09  & $+$2.64  & & $-$1.95  & $+$0.52  & $+$2.81 \\
+Elastic Net   & $+$0.15  & $+$0.11  & $+$0.13  & & $-$0.19  & $+$0.70  & $+$0.70  & & 0.00     & 0.00     & 0.00 \\
+SVR           & $-$0.21  & $+$0.43  & $+$3.10  & & $-$1.18  & $+$0.89  & $+$2.21  & & $+$0.12  & $+$7.08  & $+$1.39 \\
+Random Forest & $+$0.07  & $+$0.11  & $+$2.85  & & $-$0.07  & $+$0.22  & $-$2.24  & & $-$1.88  & $-$1.68  & $+$0.51 \\
+XGBoost       & $+$0.05  & $+$0.02  & $+$2.42  & & $+$0.00  & $-$0.33  & $+$0.34  & & $-$0.38  & $-$0.99  & $+$2.88 \\
+LSTM          & $-$2.70  & $-$1.72  & $+$0.22  & & $-$6.75  & $-$0.03  & $+$0.31  & & $-$0.12  & $+$3.88  & $+$0.46 \\
+Transformer   & $-$22.78 & $-$29.70 & $-$7.20  & & $-$63.97 & $-$70.18 & $-$20.80 & & $-$38.53 & $-$29.49 & $+$1.86 \\
+TCN           & $-$18.44 & $-$17.19 & $-$11.97 & & $-$39.39 & $-$22.23 & $-$90.00 & & $-$27.69 & $-$13.20 & $-$195.95 \\
+PatchTST      & $-$0.74  & $-$4.60  & $-$4.71  & & $-$1.24  & $-$1.27  & $-$10.51 & & $-$14.62 & $-$8.48  & $-$13.73 \\
+TSMixer       & $-$2.92  & $-$1.32  & $-$3.34  & & $-$2.74  & $+$2.20  & $-$9.67  & & $-$0.10  & $+$15.14 & $-$1.55 \\
+\hline
+\end{tabular}
+
+\vspace{6pt}
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{lrrr@{\hspace{8pt}}c@{\hspace{8pt}}rrr}
+\hline
+\multicolumn{8}{l}{\textit{Panel B. Longer-horizon regimes (60D and 120D)}} \\
+\hline
+ & \multicolumn{3}{c}{60D} & & \multicolumn{3}{c}{120D} \\
+\cline{2-4}\cline{6-8}
+Model & Low & Norm. & High & & Low & Norm. & High \\
+\hline
+ARIMA         & $-$1.30  & $-$10.76 & $-$12.41  & & $-$7.43  & $+$11.61 & $-$1.99 \\
+ARIMAX        & $-$0.53  & $-$4.13  & $+$8.09   & & $-$15.27 & $+$1.28  & $+$3.99 \\
+Ridge         & $+$1.12  & $+$4.23  & $-$1.51   & & $-$17.17 & $-$3.51  & $-$1.47 \\
+Elastic Net   & 0.00     & 0.00     & 0.00      & & 0.00     & 0.00     & 0.00 \\
+SVR           & $+$3.49  & $+$16.54 & $-$3.49   & & $-$33.02 & $-$33.19 & $-$2.98 \\
+Random Forest & $-$1.99  & $-$4.22  & $+$4.21   & & $+$1.10  & $-$11.74 & $-$5.12 \\
+XGBoost       & $+$0.13  & $+$0.33  & $-$0.01   & & $-$0.41  & $-$0.83  & $+$0.49 \\
+LSTM          & $+$0.71  & $-$2.32  & $-$0.46   & & $+$1.90  & $+$4.19  & $-$11.12 \\
+Transformer   & $-$23.95 & $-$9.91  & $-$28.61  & & $-$21.17 & $-$28.80 & $-$19.26 \\
+TCN           & $-$9.80  & $-$3.43  & $-$168.29 & & $-$26.22 & $-$9.23  & $-$289.23 \\
+PatchTST      & $+$2.21  & $+$3.52  & $-$46.59  & & $+$8.29  & $+$0.57  & $-$29.79 \\
+TSMixer       & $+$1.73  & $+$16.42 & $-$2.22   & & $+$17.81 & $+$20.34 & $+$15.27 \\
+\hline
+\end{tabular}}
+\par\vspace{4pt}\parbox{\linewidth}{\scriptsize\textit{Notes:} Regime-specific OOS $R^2$ is expressed as a percentage relative to the Historical Mean (HM) benchmark. Regime sample sizes are Low ($n=332$), Normal ($n=599$), and High ($n=431$). For XGBoost at 5D under Low volatility, the unrounded OOS $R^2$ is strictly positive ($+0.0007\%$), rounding to $+0.00\%$ at two decimal places, whereas $0.00$ for Elastic Net at 20D, 60D, and 120D reflects forecasts identical to HM.}
+\end{table}
+
+\noindent\textbf{Statistical Evaluation of Regime-Dependent Predictive Performance.}
+GW-CPA evaluates regime-conditional predictive ability relative to HM across Low, Normal, and High volatility regimes, following \hyperref[subsec:hypothesis_testing]{Section~\ref*{subsec:hypothesis_testing}}.
+
+\hyperref[tab:h2_gwcpa_sig]{Table~\ref*{tab:h2_gwcpa_sig}} identifies nine statistically significant GW-CPA rejections after Holm correction. These joint rejections indicate that expected normalized loss differentials are not jointly zero across the three volatility regimes, but do not establish significant differences between individual regimes. All nine cases have negative full-sample mean differentials and negative mean differentials within Low, Normal, and High volatility, indicating underperformance relative to HM. However, these regime-specific differentials remain descriptive and do not constitute separate significance tests.
+
+The nine rejections involve four models: TCN at all five horizons, Transformer at 1D and 5D, ARIMA at 5D, and SVR at 120D. None demonstrates statistically significant outperformance over HM after Holm correction.
+
+TSMixer illustrates this distinction at 120D: despite positive OOS $R^2$ across all three regimes, its GW-CPA result is not significant after Holm correction. These descriptive gains therefore do not establish superiority over HM, reinforcing the importance of formal predictive-accuracy tests~\cite{diebold1995,giacomini2006,giacomini2010}.
+
+\begin{table}[htbp]
+\centering
+\caption{Statistically Significant GW-CPA Test Results After Holm Correction.}\label{tab:h2_gwcpa_sig}
+\setlength{\tabcolsep}{1.8pt}
+{\scriptsize
+\begin{tabular}{llrrrrrrrr}
+\hline
+ & & & & & & \multicolumn{4}{c}{Mean differential} \\
+\cline{7-10}
+Model & Horizon & Wald stat. & $\mathrm{df}$ & Raw $p$-value & Holm $p$-value & Full sample & Low & Normal & High \\
+\hline
+Transformer & 1D   & 30.9605 & 3 & 0.000001 & 0.000010 & $-$0.152796 & $-$0.100996 & $-$0.191921 & $-$0.138322 \\
+TCN         & 1D   & 40.6554 & 3 & $7.66\times 10^{-9}$ & $<$0.000001 & $-$0.141560 & $-$0.081764 & $-$0.111082 & $-$0.229980 \\
+ARIMA       & 5D   & 17.8814 & 3 & 0.000465 & 0.004653 & $-$0.082484 & $-$0.011318 & $-$0.050938 & $-$0.181146 \\
+Transformer & 5D   & 23.9464 & 3 & 0.000026 & 0.000308 & $-$0.397171 & $-$0.264519 & $-$0.470621 & $-$0.397273 \\
+TCN         & 5D   & 23.6924 & 3 & 0.000029 & 0.000319 & $-$0.649099 & $-$0.162898 & $-$0.149032 & $-$1.718609 \\
+TCN         & 20D  & 21.2389 & 3 & 0.000094 & 0.001127 & $-$1.234276 & $-$0.104509 & $-$0.093654 & $-$3.689764 \\
+TCN         & 60D  & 16.5454 & 3 & 0.000876 & 0.010517 & $-$0.872323 & $-$0.056391 & $-$0.027822 & $-$2.674518 \\
+SVR         & 120D & 13.0872 & 3 & 0.004452 & 0.048970 & $-$0.190970 & $-$0.236622 & $-$0.271492 & $-$0.043895 \\
+TCN         & 120D & 14.5199 & 3 & 0.002276 & 0.027318 & $-$1.425479 & $-$0.187887 & $-$0.075516 & $-$4.254965 \\
+\hline
+\end{tabular}
+}
+\par\vspace{4pt}\parbox{\linewidth}{\scriptsize\textit{Notes:} The tests use three degrees of freedom for non-degenerate cases. Positive normalized squared-error differentials indicate improvement over HM, whereas negative values indicate underperformance. The full-sample mean differential is calculated over the entire holdout sample, while the Low, Normal, and High columns report the corresponding regime-specific mean differentials. Holm--Bonferroni adjustment is conducted separately within each forecast horizon across the twelve models. Regime-specific mean differentials are reported descriptively and are not subject to separate significance tests.}
+\end{table}
+
+\paragraph{Sensitivity to alternative HAC bandwidths.} GW-CPA sensitivity is examined using $L\in\{5,20,60,119\}$. Six model--horizon combinations retain significance across the examined specifications: ARIMA at 5D, TCN at 1D, 5D, and 20D, and Transformer at 1D and 5D. By contrast, baseline TCN and SVR results at 120D become insignificant at $L=60$, with Holm-adjusted $p$-values above 0.20, indicating greater bandwidth sensitivity at the longest horizon.
+
+\noindent\textbf{Horizon $\times$ Regime Interaction.}
+Unlike GW-CPA, which examines conditional predictive ability relative to HM, the interaction test evaluates whether Low--Normal and High--Normal performance contrasts vary across horizons relative to the 1-day baseline.
+
+The complete interaction-test results are presented in \hyperref[tab:h2_interaction]{Table~\ref*{tab:h2_interaction}}. Table~\ref*{tab:h2_interaction} shows that TCN is the only model with a significant horizon--regime interaction under the baseline specification after Holm correction ($p_{\mathrm{Holm}}=0.002514$). This joint rejection indicates that at least one Low--Normal or High--Normal contrast differs from its 1-day baseline, but does not establish direct performance differences between regimes at any individual horizon. Random Forest is close to significance, but its adjusted $p$-value (0.059990) exceeds 0.05.
+
+Interaction sensitivity is assessed using $L\in\{5,20,60,119\}$. TCN remains significant after Holm correction across all four specifications, with adjusted $p$-values below 0.03, making it the only model with consistent evidence of horizon--regime interaction across bandwidths. This does not establish direct differences between volatility regimes at individual horizons, as the test concerns changes in regime contrasts relative to the 1-day baseline.
+
+TCN's normalized High--Normal differential gap widens from $-$0.1189 at 1D to $-$1.5696 at 5D and $-$4.1795 at 120D. At 120D, \texttt{Mean\_Skill} is $-$0.0755 under Normal volatility and $-$4.2550 under High volatility, indicating disproportionately severe relative underperformance under High volatility as the horizon increases.
+
+\begin{table}[htbp]
+\centering
+\caption{Horizon $\times$ Regime Interaction Test Results.}\label{tab:h2_interaction}
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{lrrrr}
+\hline
+Model & Wald statistic & $\mathrm{df}$ & Raw $p$-value & Holm $p$-value \\
+\hline
+ARIMA         & 17.1180 & 8 & 0.028904 & 0.289037 \\
+ARIMAX        &  9.2826 & 8 & 0.319019 & 1.000000 \\
+Ridge         &  6.4439 & 8 & 0.597638 & 1.000000 \\
+Elastic Net   &  3.4982 & 4 & 0.478153 & 1.000000 \\
+SVR           &  9.4479 & 8 & 0.305929 & 1.000000 \\
+Random Forest & 21.7240 & 8 & 0.005454 & 0.059990 \\
+XGBoost       & 14.1973 & 8 & 0.076766 & 0.690897 \\
+LSTM          & 12.1211 & 8 & 0.145880 & 1.000000 \\
+Transformer   & 10.2816 & 8 & 0.245815 & 1.000000 \\
+TCN           & 30.0223 & 8 & 0.000209 & 0.002514 \\
+PatchTST      &  9.5971 & 8 & 0.294449 & 1.000000 \\
+TSMixer       &  8.6626 & 8 & 0.371553 & 1.000000 \\
+\hline
+\end{tabular}
+\par\vspace{4pt}\parbox{\linewidth}{\scriptsize\textit{Notes:} The interaction test examines whether the Low--Normal and High--Normal contrasts at the four non-baseline horizons differ from the corresponding contrasts at the 1-day horizon. The test has eight degrees of freedom for non-degenerate models. Elastic Net has four degrees of freedom because its forecast differentials are identically zero at the 20-, 60-, and 120-day horizons. Holm--Bonferroni correction is applied across the twelve models. Statistical significance is assessed at the 5\% level.}
+\end{table}
+
+\noindent\textbf{Distinguishing Regime-Specific OOS $R^2$ from \texttt{Mean\_Skill}.}
+Regime-specific OOS $R^2$ and \texttt{Mean\_Skill} in the GW-CPA analysis use different normalization denominators.
+
+Regime-specific OOS $R^2$ uses the HM mean squared error within each volatility regime, whereas \texttt{Mean\_Skill} uses the full-holdout HM mean squared error as a common denominator. Although both reflect relative squared-error performance, their magnitudes are not directly comparable because of these different normalization scales.
+
+This distinction is verified across all 180 model--horizon--regime combinations because regime-specific HM errors can differ substantially from the full-holdout benchmark error.
+
+For TSMixer at 120D, OOS $R^2$ ranks Normal (20.34\%), Low (17.81\%), and High (15.27\%), whereas \texttt{Mean\_Skill} ranks High (+0.224579), Normal (+0.166346), and Low (+0.127670). This reversal reflects differences in benchmark scaling: the regime-specific HM MSE is approximately 1.471 times the full-holdout HM MSE in High, compared with 0.818 in Normal and 0.717 in Low.
+
+Accordingly, OOS $R^2$ describes performance relative to the HM benchmark within each regime, whereas \texttt{Mean\_Skill} supports conditional predictive ability testing using a common full-holdout normalization. They serve different purposes and are not directly comparable.
+
+\medskip
+\noindent\textbf{Overall Findings for RQ2.}
+Overall, volatility-dependent predictability varies across models and horizons, consistent with previous evidence~\cite{baltas2018,hammerschmid2018,giacomini2010,harvey2021,paye2006}. Although Normal volatility has the largest number of positive OOS $R^2$ outcomes, no regime is universally superior. GW-CPA identifies significant conditional departures associated with underperformance relative to HM, while TCN alone exhibits a significant horizon--regime interaction under the baseline specification. Thus, forecasting performance depends on the interaction between model characteristics, volatility conditions, and forecast horizons.
+
+\subsubsection{Robustness to Alternative Volatility Window Definitions}\label{subsec:volatility_robustness}
+
+To assess sensitivity to the baseline 20-day regime classification, the analysis is repeated using 10-day and 60-day rolling standard deviations. Both retain the expanding-quantile procedure in \hyperref[subsec:regime_classification]{Section~\ref*{subsec:regime_classification}} and the same 1,362-observation holdout sample, with models, predictors, and evaluation procedures unchanged.
+
+Regime distributions remain broadly comparable, although longer rolling windows assign more observations to Normal volatility and fewer to the Low and High regimes, as reported in \hyperref[tab:volatility_window_robustness]{Table~\ref*{tab:volatility_window_robustness}}.
+
+Pairwise agreement is 69.68\% between the 10-day and 20-day classifications (949/1,362 observations), 67.33\% between the 20-day and 60-day classifications (917 observations), and 58.00\% between the two alternative specifications. Direct Low-to-High switches are rare, occurring in only 3 observations for the 10-day versus 20-day comparison and 12 for the 20-day versus 60-day comparison. Most differences therefore involve adjacent regimes.
+
+\hyperref[tab:volatility_window_robustness]{Table~\ref*{tab:volatility_window_robustness}} summarizes the results across window specifications. GW-CPA identifies 8, 9, and 6 significant model--horizon combinations after Holm correction under the 10-day, 20-day, and 60-day classifications, respectively; all indicate underperformance relative to HM. Recurring cases include ARIMA at 5D and Transformer at 1D and 5D, while TCN's significant horizons decrease under the 60-day specification. SVR at 120D is significant under the 20-day and 60-day specifications but not under the 10-day specification. None of the three definitions establishes significant predictive gains over HM.
+
+\begin{table}[htbp]
+\centering
+\caption{Summary of Robustness Results Across Volatility Window Specifications.}\label{tab:volatility_window_robustness}
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{lccc}
+\hline
+\textbf{Measure} & \textbf{10-day} & \textbf{20-day} & \textbf{60-day} \\
+\hline
+\multicolumn{4}{l}{\textit{Regime distribution}} \\
+Low volatility & 354 (25.99\%) & 332 (24.38\%) & 315 (23.13\%) \\
+Normal volatility & 567 (41.63\%) & 599 (43.98\%) & 662 (48.60\%) \\
+High volatility & 441 (32.38\%) & 431 (31.64\%) & 385 (28.27\%) \\
+\hline
+GW-CPA significant cases & 8/60 & 9/60 & 6/60 \\
+Significant horizon--regime interactions & 0/12 & 1/12 & 2/12 \\
+\hline
+\end{tabular}
+\par\vspace{4pt}\parbox{\linewidth}{\scriptsize\textit{Notes:} All specifications use the same 1,362-observation holdout sample. GW-CPA counts represent model--horizon combinations with statistically significant results after Holm correction. Interaction counts represent models with statistically significant horizon--regime interactions after Holm correction at the 5\% level. The 20-day specification is the baseline.}
+\end{table}
+
+Horizon--regime interaction results vary across specifications. No model is significant under the 10-day window, while TCN alone is significant under the baseline 20-day window ($p_{\mathrm{Holm}}=0.0025$). Under the 60-day window, both TCN ($p_{\mathrm{Holm}}=0.0324$) and Random Forest ($p_{\mathrm{Holm}}=0.0373$) are significant. Random Forest approaches but does not reach the 5\% threshold under the 10-day and 20-day specifications (adjusted $p=0.0633$ and $0.0600$), as does TCN under the 10-day specification ($p_{\mathrm{Holm}}=0.0573$). Thus, interaction evidence is sensitive to the volatility-window definition, although TCN shows the most recurrent significance.
+
+Despite differences in exact OOS $R^2$ values across specifications, the main descriptive patterns remain recognizable: TSMixer maintains positive OOS $R^2$ across all regimes at 120D, whereas TCN continues to underperform severely under High volatility at longer horizons. These findings are not solely artifacts of the baseline 20-day classification, although their magnitudes and interaction significance show some window sensitivity.
+
+Overall, the alternative-window analyses broadly support the descriptive RQ2 findings, but evidence of horizon--regime interactions is sensitive to the rolling-window length. The 20-day specification is therefore retained as the baseline, with the 10-day and 60-day specifications serving as robustness checks.
+
+\FloatBarrier
+\subsection{Temporal Stability of Predictive Performance (RQ3)}\label{subsec:temporal_stability}
+
+RQ3 assesses whether OOS predictive performance is stable over calendar time or varies by model and horizon, using block-level HAC Wald tests and the modified Giacomini--Rossi-type fluctuation test (\hyperref[subsec:hypothesis_testing]{Section~\ref*{subsec:hypothesis_testing}}).
+
+Block-level tests compare average predictive skill across calendar periods, whereas the fluctuation test assesses local predictive ability relative to HM over rolling windows. This distinction reflects evidence that full-sample evaluation may conceal temporal changes in relative forecasting accuracy~\cite{giacomini2010}. Unlike RQ2, these analyses examine chronological variation rather than Low, Normal, and High volatility regimes.
+
+\medskip
+\noindent\textbf{Holdout Block Stability.}
+Following the subperiod definitions in \hyperref[subsec:data_splitting]{Section~\ref*{subsec:data_splitting}}, the primary holdout analysis compares three non-overlapping periods: 2021--2022, 2023--2024, and 2025--2026. Because the holdout sample was not used for model selection, hyperparameter optimization, or feature engineering, it provides the primary evidence on temporal stability. November--December 2020 is excluded from the block-level analysis but retained in the aggregate holdout evaluation and rolling fluctuation test.
+
+HAC Wald tests assess equality of mean normalized predictive skill across the three blocks. Skill is measured by the normalized squared-error differential using the full-holdout HM mean squared error as the common denominator; positive and negative values indicate lower and higher squared forecast errors than HM, respectively.
+
+At the baseline Newey--West bandwidth ($L=20$), \hyperref[tab:h3_holdout_sig]{Table~\ref*{tab:h3_holdout_sig}} identifies five Holm-significant block differences: TCN at 20D, 60D, and 120D, and LSTM and PatchTST at 60D.
+
+Across HAC bandwidths $L \in \{5,20,60,119\}$, the number of Holm-significant model--horizon combinations decreases from 15 at $L=5$ to 5 at $L=20$ and zero at $L=60$ and 119, indicating substantial sensitivity to bandwidth selection. The baseline findings are therefore not robust to longer bandwidths.
+
+For TCN at 120D, mean predictive skill across the three blocks is $-3.6284$, $0.0679$, and $-0.1418$ (Holm-adjusted $p=0.0047$ at $L=20$), indicating substantial baseline temporal heterogeneity. However, the bandwidth sensitivity results qualify this evidence.
+
+In contrast, TSMixer at 120D shows no significant block-level variation (Wald = 0.6653; adjusted $p=1.0000$). Its mean skill values are $0.2113$, $0.0860$, and $0.1472$, corresponding to within-block OOS $R^2$ values of 15.90\%, 11.53\%, and 18.12\%. Despite these descriptive differences, the Wald test does not reject equality across the three periods.
+
+TSMixer's block-level stability at 120D is conditional on the baseline seed-42 fit, whose favorable performance is not consistently reproduced across independent initializations (\hyperref[subsec:multiseed_robustness]{Section~\ref*{subsec:multiseed_robustness}}). Thus, the non-significant block test indicates temporal consistency of this fitted model, not initialization-robust predictive performance.
+
+\begin{table}[htbp]
+\centering
+\caption{Significant Holdout Block HAC Wald Test Results.}\label{tab:h3_holdout_sig}
+\setlength{\tabcolsep}{4.5pt}
+\begin{tabular}{llrrrr}
+\hline
+Model & Horizon & Wald statistic & $\mathrm{df}$ & Raw $p$-value & Holm-adjusted $p$-value \\
+\hline
+TCN & 20D & 10.9722 & 2 & 0.0041 & 0.0497 \\
+TCN & 60D & 17.0106 & 2 & 0.0002 & 0.0024 \\
+TCN & 120D & 15.6699 & 2 & 0.0004 & 0.0047 \\
+LSTM & 60D & 14.3866 & 2 & 0.0008 & 0.0083 \\
+PatchTST & 60D & 10.6183 & 2 & 0.0049 & 0.0495 \\
+\hline
+\end{tabular}
+\par\vspace{4pt}\parbox{\linewidth}{\scriptsize\textit{Notes:} Holm correction is applied separately within each forecasting horizon across the twelve competing models. Statistical significance is assessed at the 5\% level.}
+\end{table}
+
+\noindent\textbf{Validation Block Stability.}
+As a supplementary analysis, validation performance is compared across the three predefined calendar periods using HAC Wald tests of equal mean normalized predictive skill. Because this sample contributes to model selection and hyperparameter optimization, the results provide contextual evidence of temporal variation during model development rather than independent evidence of OOS generalization.
+
+Some model--horizon combinations show nominal significance, but none survives Holm correction (minimum adjusted $p=0.1184$ for PatchTST at 120D). Thus, validation results provide no significant evidence of differences in average predictive skill across the three periods.
+
+\medskip
+\noindent\textbf{Rolling Predictive Performance: Giacomini--Rossi-Type Fluctuation Test.}
+The modified Giacomini--Rossi-type fluctuation test (\hyperref[subsec:hypothesis_testing]{Section~\ref*{subsec:hypothesis_testing}}) complements the block analysis by assessing rolling local predictive ability relative to HM.
+
+The test uses 252-day trailing windows and full-holdout Newey--West HAC standardization, with baseline bandwidth $L=20$ and sensitivity checks at $L\in\{5,20,60,119\}$. The HAC scaling factor is held fixed across the observed statistic and bootstrap replications. Baseline inference uses 500 moving-block bootstrap replications with $b=60$, recalculating the rolling and two-sided supremum statistics from demeaned resampled differentials. The supremum is evaluated across all 1,111 holdout windows, with Holm correction applied across the twelve models separately for each horizon.
+
+Bootstrap sensitivity checks increase the replication count to 1,999 and 4,999 at $b=60$ and examine $b=120$ with 500 and 4,999 replications. All configurations retain the baseline observed statistic, null-centering procedure, rolling windows, and HAC standardization, with Holm-adjusted $p$-values recalculated separately within each horizon.
+
+Because the same positive HAC scaling factor is applied to the observed and bootstrap supremum statistics, changing the bandwidth rescales both proportionally without altering the bootstrap exceedance event. Empirical $p$-values and rejection decisions are therefore algebraically invariant to the examined bandwidths. This invariance follows from the common scaling factor and does not provide independent evidence of robustness to alternative dependence structures.
+
+Under the baseline specification ($B=500$, $b=60$, $L=20$), \hyperref[tab:h3_fluctuation_sig]{Table~\ref*{tab:h3_fluctuation_sig}} reports Holm-significant departures from zero local predictive ability relative to HM for Transformer at 1D, ARIMA at 20D, and TCN at 60D. Each rejection indicates a significant departure in at least one 252-observation window. However, bootstrap sensitivity analyses show that the evidence for some model--horizon combinations depends on the replication count and block length.
+
+The same three rejections and empirical $p$-values are obtained across $L\in\{5,20,60,119\}$, owing to the common HAC scaling factor. Raw $p$-values are $p<0.002$ for Transformer at 1D, $p=0.002$ for ARIMA at 20D, and $p=0.004$ for TCN at 60D; the corresponding Holm-adjusted values are below 0.002, 0.024, and 0.048. This invariance is algebraic rather than independent evidence of bandwidth robustness.
+
+For TCN at 60D, increasing $B$ to 1,999 and 4,999 while retaining $b=60$ yields Holm-adjusted $p$-values of 0.0600 and 0.0480, respectively. The result is therefore not consistently significant across replication counts. With $b=120$ and $B=4,999$, the raw and Holm-adjusted $p$-values rise to 0.0606 and 0.7274, respectively. The baseline rejection is thus sensitive to block length and should be viewed as suggestive rather than robust evidence of local predictive instability.
+
+ARIMA at 20D shows similar sensitivity: its Holm-adjusted $p$-value increases from 0.0480 at $b=60$ ($B=4,999$) to 0.1056 at $b=120$, so the baseline evidence is not robust to block-length selection.
+
+In contrast, Transformer at 1D produces no bootstrap exceedances across the examined replication counts and block lengths, keeping its empirical $p$-value below the corresponding resolution threshold. This provides more consistent evidence of departure from zero local predictive ability across the tested configurations, although zero observed exceedances do not imply zero probability or robustness under all possible resampling specifications.
+
+Rejection does not necessarily imply alternating periods of superior and inferior predictive performance; the rolling statistics provide further context.
+
+For Transformer at 1D, all 1,111 rolling statistics are negative ($-4.8926$ to $-0.2339$), indicating persistent underperformance relative to HM rather than alternating periods of predictive advantage.
+
+Transformer's persistent underperformance at 1D is consistent with its forecast distribution: the prediction standard deviation is approximately 0.0042, only 0.40 times the realized-return standard deviation (0.0105), while the forecast--actual correlation is 0.031. Despite its low forecast dispersion, the model captures little linear variation in realized returns, and its regime-specific OOS $R^2$ is negative across all three volatility regimes (\hyperref[tab:full_regime_oos_r2]{Table~\ref*{tab:full_regime_oos_r2}}). Its forecasts therefore provide insufficient information to outperform HM; low dispersion should not be interpreted as evidence of effective regularization or reliable prediction.
+
+For ARIMA at 20D and TCN at 60D, rolling statistics range from $-3.3391$ to $0.4237$ and $-7.5441$ to $0.1435$, respectively; 88.39\% and 77.77\% of their windows are negative. Thus, both models predominantly underperform HM locally, although their statistical evidence of temporal instability is block-length sensitive. Neither retains Holm-adjusted significance at $b=120$.
+
+\begin{table}[htbp]
+\centering
+\caption{Significant Giacomini--Rossi-Type Fluctuation Test Results.}\label{tab:h3_fluctuation_sig}
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{llrrr}
+\hline
+Model & Horizon & Supremum statistic & Raw $p$-value & Holm-adjusted $p$-value \\
+\hline
+Transformer & 1D  & 4.8926 & $<$0.002 & $<$0.002 \\
+ARIMA       & 20D & 3.3391 & 0.002    & 0.024 \\
+TCN         & 60D & 7.5441 & 0.004    & 0.048 \\
+\hline
+\end{tabular}
+\par\vspace{4pt}\parbox{\linewidth}{\scriptsize\textit{Notes:} Results are based on the baseline specification with 500 moving-block bootstrap replications and a block length of 60. Empirical $p$-values are calculated as the proportion of bootstrap supremum statistics greater than or equal to the observed statistic. The minimum non-zero empirical $p$-value resolution is 0.002; zero-exceedance results are reported as $p<0.002$. Holm correction is applied separately within each forecast horizon across the twelve candidate models using unrounded empirical $p$-values. Supplementary sensitivity analyses using alternative replication counts ($B=1,999$ and $4,999$) and block length ($b=120$) are discussed in Section 5.4.}
+\end{table}
+
+Descriptively, TSMixer at 120D has mean 252-day rolling normalized predictive skill of 0.138 ($\mathrm{SD}=0.174$), compared with $-1.670$ ($\mathrm{SD}=2.414$) for TCN across the 1,111 windows. These statistics are not within-window OOS $R^2$ measures: they use the full-holdout HM MSE for normalization. TCN's larger dispersion indicates greater temporal variation in local predictive performance.
+
+TCN's rolling instability complements the \hyperref[subsec:volatility_regimes]{Section~\ref*{subsec:volatility_regimes}} diagnostics, which show excessive forecast dispersion and negligible forecast--actual correlation at longer horizons. Its large rolling-statistic dispersion indicates substantial temporal variation in forecast-error performance, not necessarily alternating periods of strong predictive ability. Transformer at 1D exhibits a different pattern: low forecast dispersion relative to realized returns but similarly negligible predictive correlation. The models therefore exhibit distinct forms of underperformance: temporal variation and excessive dispersion for TCN, versus insufficient predictive information for Transformer.
+
+TSMixer's favorable rolling statistics at 120D describe only the baseline seed-42 configuration (\hyperref[subsec:multiseed_robustness]{Section~\ref*{subsec:multiseed_robustness}}), not consistent performance across independent random initializations.
+
+\medskip
+\noindent\textbf{Overall Assessment of RQ3.}
+The results provide qualified support for H3. Holdout block-level HAC Wald tests identify significant temporal differences for five model--horizon combinations, whereas no validation result survives Holm correction.
+
+Under the baseline bootstrap specification, the fluctuation test identifies three significant model--horizon combinations. Transformer at 1D shows no bootstrap exceedances across the examined configurations, supporting persistent underperformance. By contrast, ARIMA at 20D and TCN at 60D lose significance at $b=120$ and should therefore be regarded as specification-sensitive rather than robust evidence of local predictive instability. Moreover, rejection does not necessarily imply alternating performance: Transformer at 1D underperforms across all rolling windows.
+
+Temporal performance is model- and horizon-dependent. Holdout block and rolling-window analyses provide complementary evidence, while validation results offer supplementary context on variation during model development. These findings support evaluating forecasts through both chronological block comparisons and local rolling-window assessments rather than aggregate OOS performance alone.
+
+The multi-seed results in \hyperref[subsec:multiseed_robustness]{Section~\ref*{subsec:multiseed_robustness}} further show that temporal consistency within a fitted model does not ensure reproducibility across random initializations. Taken together, the findings provide qualified support for H3: predictive performance varies by model and horizon over time, while initialization sensitivity represents a distinct dimension of robustness. Chronological stability and reproducibility should therefore be evaluated jointly.
+
+
+\subsection{Multi-Seed Robustness of Deep Learning Models}\label{subsec:multiseed_robustness}
+
+\noindent\textbf{Multi-Seed Robustness of Deep Learning Models.}
+Following \hyperref[subsec:model_config]{Section~\ref*{subsec:model_config}}, multi-seed robustness is evaluated for five architectures: TSMixer (ten random seeds; \hyperref[tab:tsmixer_multiseed]{Table~\ref*{tab:tsmixer_multiseed}}) and LSTM, PatchTST, TCN, and Vanilla Transformer (five seeds each; \hyperref[tab:dl_multiseed_robustness]{Table~\ref*{tab:dl_multiseed_robustness}}). Panel~A reports mean, standard deviation, and median OOS $R^2$; Panel~B reports minimum and maximum OOS $R^2$, MAE, RMSE, and directional accuracy (DA).
+
+\begin{table}[htbp]
+\centering
+\caption{Multi-seed robustness of TSMixer across forecast horizons.}\label{tab:tsmixer_multiseed}
+\setlength{\tabcolsep}{4.5pt}
+\begin{tabular}{lrrrrrr}
+\hline
+Horizon & Mean OOS $R^2$ & SD & Median & Min & Max & Positive seeds \\
+\hline
+1D   & $-$1.67\%  & 0.98\%  & $-$1.55\%  & $-$3.52\%  & $-$0.28\% & 0/10 \\
+5D   & $-$2.73\%  & 2.15\%  & $-$2.57\%  & $-$6.34\%  & $-$0.11\% & 0/10 \\
+20D  & $-$6.96\%  & 10.10\% & $-$4.08\%  & $-$25.34\% & +4.53\%   & 2/10 \\
+60D  & $-$21.49\% & 15.15\% & $-$23.45\% & $-$38.26\% & +4.91\%   & 1/10 \\
+120D & $-$18.93\% & 19.09\% & $-$20.10\% & $-$44.09\% & +17.48\%  & 1/10 \\
+\hline
+\end{tabular}
+\par\vspace{4pt}\parbox{\linewidth}{\scriptsize\textit{Notes:} OOS $R^2$ is expressed as a percentage. Positive seeds indicate the number of runs with OOS $R^2$ greater than zero. TSMixer was evaluated using ten random seeds with fixed hyperparameters.}
+\end{table}
+
+\hyperref[tab:tsmixer_multiseed]{Table~\ref*{tab:tsmixer_multiseed}} reveals substantial initialization sensitivity for TSMixer, with negative mean OOS $R^2$ at every horizon, ranging from $-1.67\%$ at 1D to $-21.49\%$ at 60D.
+
+Performance dispersion increases with the horizon, with SD rising from 0.98\% at 1D to 19.09\% at 120D. No run achieves positive OOS $R^2$ at 1D or 5D; only 2/10 runs do so at 20D and 1/10 at each of 60D and 120D. Thus, TSMixer's performance is not consistently reproduced across independent initializations.
+
+The discrepancy is particularly evident at 120D: the baseline seed-42 model in \hyperref[subsec:oos_performance]{Section~\ref*{subsec:oos_performance}} achieves $+17.53\%$ OOS $R^2$, compared with $+17.48\%$ for the independently retrained seed-42 run. Minor GPU execution differences produce slightly different predictions; therefore, the original baseline result is retained, while multi-seed statistics are calculated from the independent runs without replacing it. Despite positive within-block OOS $R^2$ across all three holdout periods for the baseline configuration (\hyperref[subsec:temporal_stability]{Section~\ref*{subsec:temporal_stability}}), the ten-seed mean is $-18.93\%$ ($\mathrm{SD}=19.09\%$), with only one positive run and a median of $-20.10\%$. Mean OOS $R^2$ is also negative in all three calendar blocks ($-6.18\%$, $-14.61\%$, and $-64.87\%$). Thus, the favorable seed-42 result is not representative of typical performance across initializations. Consistent with Coakley and Gundersen~\cite{coakley2026}, these findings show why an isolated positive OOS result is insufficient evidence of reproducible predictive performance.
+
+\begin{table}[htbp]
+\centering
+\caption{Multi-seed robustness of deep learning models across forecast horizons.}\label{tab:dl_multiseed_robustness}
+\renewcommand{\arraystretch}{0.96}
+\setlength{\tabcolsep}{4.5pt}
+\textbf{Panel A: Out-of-sample $R^2$ distribution across random seeds}\\[3pt]
+\begin{tabular}{llrrr}
+\hline
+Model & Horizon & Mean OOS $R^2$ & SD & Median \\
+\hline
+LSTM & 1D   & $+$0.80\% & 1.85\% & $-$0.10\% \\
+LSTM & 5D   & $+$0.19\% & 1.09\% & $+$0.55\% \\
+LSTM & 20D  & $-$0.75\% & 2.03\% & $-$0.49\% \\
+LSTM & 60D  & $-$2.14\% & 2.13\% & $-$1.64\% \\
+LSTM & 120D & $-$5.36\% & 5.46\% & $-$3.13\% \\
+\hline
+PatchTST & 1D   & $-$8.98\% & 6.77\% & $-$6.05\% \\
+PatchTST & 5D   & $-$10.03\% & 4.62\% & $-$8.81\% \\
+PatchTST & 20D  & $-$23.97\% & 10.50\% & $-$26.36\% \\
+PatchTST & 60D  & $-$23.78\% & 14.03\% & $-$27.21\% \\
+PatchTST & 120D & $-$23.43\% & 12.84\% & $-$20.26\% \\
+\hline
+TCN & 1D   & $-$14.62\% & 4.77\% & $-$14.44\% \\
+TCN & 5D   & $-$54.69\% & 19.34\% & $-$57.72\% \\
+TCN & 20D  & $-$83.30\% & 54.60\% & $-$59.17\% \\
+TCN & 60D  & $-$75.42\% & 51.96\% & $-$85.88\% \\
+TCN & 120D & $-$83.54\% & 52.63\% & $-$70.73\% \\
+\hline
+Vanilla Transformer & 1D   & $-$18.32\% & 11.31\% & $-$19.61\% \\
+Vanilla Transformer & 5D   & $-$26.26\% & 14.35\% & $-$21.10\% \\
+Vanilla Transformer & 20D  & $-$7.83\% & 3.78\% & $-$8.93\% \\
+Vanilla Transformer & 60D  & $-$25.60\% & 18.62\% & $-$18.90\% \\
+Vanilla Transformer & 120D & $-$13.13\% & 18.44\% & $-$6.28\% \\
+\hline
+\end{tabular}
+
+\vspace{8pt}
+\setlength{\tabcolsep}{3.2pt}
+\textbf{Panel B: Range bounds, forecast errors, and directional accuracy}\\[3pt]
+\begin{tabular}{llrrrrr}
+\hline
+Model & Horizon & Min $R^2$ & Max $R^2$ & MAE & RMSE & DA \\
+\hline
+LSTM & 1D   & $-$0.86\% & $+$3.06\% & 0.0076 & 0.0105 & 49.16\% \\
+LSTM & 5D   & $-$1.27\% & $+$1.37\% & 0.0165 & 0.0223 & 54.61\% \\
+LSTM & 20D  & $-$3.95\% & $+$1.48\% & 0.0330 & 0.0418 & 64.45\% \\
+LSTM & 60D  & $-$5.85\% & $-$0.51\% & 0.0536 & 0.0662 & 74.76\% \\
+LSTM & 120D & $-$13.81\% & $+$0.47\% & 0.0759 & 0.0949 & 78.05\% \\
+\hline
+PatchTST & 1D   & $-$19.12\% & $-$2.24\% & 0.0080 & 0.0110 & 49.77\% \\
+PatchTST & 5D   & $-$16.84\% & $-$5.74\% & 0.0172 & 0.0234 & 54.73\% \\
+PatchTST & 20D  & $-$32.66\% & $-$7.19\% & 0.0352 & 0.0463 & 56.27\% \\
+PatchTST & 60D  & $-$40.97\% & $-$7.42\% & 0.0548 & 0.0728 & 72.00\% \\
+PatchTST & 120D & $-$41.36\% & $-$11.86\% & 0.0792 & 0.1027 & 74.80\% \\
+\hline
+TCN & 1D   & $-$21.83\% & $-$10.30\% & 0.0083 & 0.0113 & 48.21\% \\
+TCN & 5D   & $-$79.12\% & $-$29.41\% & 0.0209 & 0.0277 & 47.75\% \\
+TCN & 20D  & $-$162.60\% & $-$34.06\% & 0.0422 & 0.0559 & 48.68\% \\
+TCN & 60D  & $-$129.96\% & $-$21.27\% & 0.0644 & 0.0860 & 64.95\% \\
+TCN & 120D & $-$139.12\% & $-$26.02\% & 0.0906 & 0.1243 & 72.66\% \\
+\hline
+Vanilla Transformer & 1D   & $-$34.81\% & $-$6.24\% & 0.0085 & 0.0115 & 49.85\% \\
+Vanilla Transformer & 5D   & $-$47.03\% & $-$11.52\% & 0.0189 & 0.0251 & 51.09\% \\
+Vanilla Transformer & 20D  & $-$11.79\% & $-$3.75\% & 0.0341 & 0.0433 & 53.67\% \\
+Vanilla Transformer & 60D  & $-$58.01\% & $-$12.12\% & 0.0563 & 0.0733 & 66.68\% \\
+Vanilla Transformer & 120D & $-$43.34\% & $+$4.69\% & 0.0752 & 0.0982 & 74.90\% \\
+\hline
+\end{tabular}
+\par\vspace{4pt}\parbox{\linewidth}{\scriptsize\textit{Notes:} OOS $R^2$ values in Panel A, minimum and maximum bounds in Panel B, and directional accuracy (DA) are expressed as percentages. SD denotes the standard deviation across random seeds. All metrics are computed across five independent random-seed training runs for each architecture and forecast horizon.}
+\end{table}
+
+Among the remaining architectures, LSTM achieves the strongest mean OOS $R^2$, with $+0.80\%$ at 1D and $+0.19\%$ at 5D, but declines to $-5.36\%$ at 120D. Its SD increases from 1.85\% to 5.46\%, while the median and minimum values show that positive short-horizon means do not imply uniformly positive results across runs (\hyperref[tab:dl_multiseed_robustness]{Table~\ref*{tab:dl_multiseed_robustness}}).
+
+PatchTST records negative mean OOS $R^2$ at all horizons, particularly at 20D ($-23.97\%$), 60D ($-23.78\%$), and 120D ($-23.43\%$). Its maximum OOS $R^2$ is also negative at every horizon, indicating that none of the five runs outperforms HM. Despite variation across runs, its underperformance is therefore not attributable to a single unfavorable initialization.
+
+TCN exhibits the weakest and most variable performance, with negative mean OOS $R^2$ at all horizons, from $-14.62\%$ at 1D to $-83.54\%$ at 120D. At 20D, its mean is $-83.30\%$ ($\mathrm{SD}=54.60\%$) and its minimum reaches $-162.60\%$. The maximum OOS $R^2$ remains negative at every horizon, indicating systematic underperformance across the five runs rather than an isolated unfavorable seed.
+
+Vanilla Transformer has negative mean OOS $R^2$ at all horizons, with its weakest results at 5D ($-26.26\%$) and 60D ($-25.60\%$). At 20D, the mean is $-7.83\%$ ($\mathrm{SD}=3.78\%$) and the maximum remains negative. At 120D, the maximum reaches $+4.69\%$, but the mean remains $-13.13\%$ ($\mathrm{SD}=18.44\%$), showing that an individually favorable run does not represent typical performance.
+
+MAE and RMSE generally increase with the forecast horizon, while DA tends to rise, particularly for LSTM, PatchTST, and TCN. However, higher DA does not imply positive OOS $R^2$: LSTM, for example, achieves 78.05\% DA at 120D but has mean OOS $R^2$ of $-5.36\%$. Directional accuracy and relative squared-error performance therefore capture distinct aspects of forecasting quality.
+
+Baseline point estimates can differ substantially from multi-seed performance: TSMixer at 120D has a retrained seed-42 OOS $R^2$ of $+17.48\%$, and Transformer reaches a maximum of $+4.69\%$, despite negative mean performance across runs. LSTM shows comparatively tighter dispersion, although its advantage remains horizon-dependent.
+
+Multi-seed results reveal substantial differences in initialization robustness. LSTM achieves comparatively stronger aggregate OOS performance, although it remains horizon- and seed-dependent. TSMixer, PatchTST, TCN, and Vanilla Transformer generally have negative mean OOS $R^2$. In particular, TSMixer's favorable baseline result at 120D is not representative of its ten-seed distribution. These findings show that single-run evaluations may overstate reproducibility and complement \hyperref[subsec:temporal_stability]{Section~\ref*{subsec:temporal_stability}} by distinguishing temporal consistency within a fitted model from reproducibility across training runs.
+
+These findings are consistent with Coakley and Gundersen~\cite{coakley2026}, whose analysis of 18,600 training runs across 186 experiments documents substantial initialization variability and non-normal performance distributions across architectures and tasks. Extending this perspective to equity return forecasting, the present study shows that favorable single-seed performance may overstate reproducible OOS predictive skill relative to HM across multiple horizons.
+
+\subsection{Feature-Group Ablation Analysis}\label{subsec:ablation_study}
+
+\begin{table}[htbp]
+\centering
+\caption{Feature ablation results for XGBoost ($\Delta \mathrm{OOS}\,R^2$, percentage points).}\label{tab:ablation_xgboost}
+{\footnotesize
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{lrrrrr}
+\hline
+Feature specification & 1D & 5D & 20D & 60D & 120D \\
+\hline
+Full Model & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
+Without Lagged Returns & $-$0.32 & $+$0.06 & $+$0.67 & 0.00 & $-$0.05 \\
+Without Momentum & $+$0.05 & $-$0.11 & $+$0.51 & 0.00 & $-$0.05 \\
+Without Historical Volatility & $-$0.67 & $-$0.54 & $+$1.20 & 0.00 & $-$0.05 \\
+Without VIX & $+$0.01 & $+$0.53 & $+$0.65 & 0.00 & $+$0.18 \\
+Without Intraday & $-$1.20 & $+$0.09 & $+$0.75 & 0.00 & $-$0.05 \\
+Without Trading Volume & $+$0.60 & $+$0.21 & $+$0.37 & 0.00 & 0.00 \\
+\hline
+\end{tabular}
+}
+\par\vspace{4pt}\parbox{\linewidth}{\scriptsize\textit{Notes:} Values are calculated as the OOS $R^2$ of the ablated specification minus that of the full model. Positive values indicate an improvement after removing the corresponding feature group; negative values indicate a reduction. All values are expressed in percentage points.}
+\end{table}
+
+For XGBoost at 1D, removing Intraday produces the largest OOS $R^2$ decline ($-1.20$ percentage points), followed by Historical Volatility ($-0.67$) and Lagged Returns ($-0.32$), indicating their positive contribution within this specification.
+
+At 5D, removing Historical Volatility and Momentum reduces OOS $R^2$ by 0.54 and 0.11 percentage points, whereas removing VIX and Trading Volume improves it by 0.53 and 0.21 points. At 20D, all six ablations improve performance ($+0.37$ to $+1.20$ points), led by removing Historical Volatility ($+1.20$), Intraday ($+0.75$), and Lagged Returns ($+0.67$). Thus, the full predictor set does not uniformly improve XGBoost performance at 20D.
+
+At 120D, removing VIX improves OOS $R^2$ by 0.18 percentage points; removing Lagged Returns, Momentum, or Historical Volatility reduces it by 0.05 points, while removing Trading Volume produces no change.
+
+At 60D, all six ablated specifications produce identical predictions to the full XGBoost model, yielding $\Delta \mathrm{OOS}\,R^2 = 0.00$ percentage points. Diagnostic refitting confirms that all 900 trees contain only root leaf nodes, with no feature-based splits; this result is reproduced under both single- and multi-threaded configurations. Although the constant prediction level differs slightly between the original evaluation and diagnostic refitting, within-experiment ablation comparisons are unaffected. The unchanged performance therefore reflects the fitted XGBoost specification, not evidence that the six feature groups lack predictive information at 60D.
+
+\begin{table}[htbp]
+\centering
+\caption{Feature ablation results for Ridge ($\Delta \mathrm{OOS}\,R^2$, percentage points).}\label{tab:ablation_ridge}
+{\footnotesize
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{lrrrrr}
+\hline
+Feature specification & 1D & 5D & 20D & 60D & 120D \\
+\hline
+Full Model & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
+Without Lagged Returns & $+$0.10 & $-$0.04 & $-$0.03 & $-$0.01 & $+$0.05 \\
+Without Momentum & $+$0.04 & $+$0.29 & $-$0.08 & $-$1.27 & $-$0.76 \\
+Without Historical Volatility & $-$0.37 & $-$0.38 & $-$0.55 & $+$1.82 & $+$4.30 \\
+Without VIX & $-$0.50 & $-$0.44 & $-$1.13 & $+$0.93 & $+$6.53 \\
+Without Intraday & $-$0.07 & $-$0.20 & $-$0.07 & $-$0.25 & $-$0.02 \\
+Without Trading Volume & $-$0.07 & 0.00 & 0.00 & 0.00 & $-$0.01 \\
+\hline
+\end{tabular}
+}
+\par\vspace{4pt}\parbox{\linewidth}{\scriptsize\textit{Notes:} Values are calculated as the OOS $R^2$ of the ablated specification minus that of the full model. Positive values indicate an improvement after removing the corresponding feature group; negative values indicate a reduction. All values are expressed in percentage points.}
+\end{table}
+
+Ridge exhibits a different pattern from XGBoost. At 1D, removing VIX and Historical Volatility reduces OOS $R^2$ by 0.50 and 0.37 percentage points, respectively. Removing Intraday or Trading Volume also produces small declines, whereas removing Lagged Returns or Momentum yields slight improvements.
+
+Removing VIX and Historical Volatility also reduces Ridge OOS $R^2$ at 5D and 20D; at 20D, the declines reach $-1.13$ and $-0.55$ percentage points, respectively.
+
+At 60D, removing Historical Volatility and VIX improves Ridge OOS $R^2$ by 1.82 and 0.93 percentage points, respectively. At 120D, the improvements increase to $+4.30$ and $+6.53$ points, with the latter representing the largest Ridge ablation gain. These changes should be interpreted relative to the full model's negative OOS $R^2$ of $-5.01\%$ at 120D.
+
+Momentum has horizon-dependent effects: its removal improves OOS $R^2$ at 1D and 5D but reduces it at 60D and 120D. Removing Intraday produces small declines across all horizons, whereas removing Trading Volume yields changes close to zero.
+
+\begin{table}[htbp]
+\centering
+\caption{Feature ablation results for LSTM ($\Delta \mathrm{OOS}\,R^2$, percentage points).}\label{tab:ablation_lstm}
+{\footnotesize
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{lrrrrr}
+\hline
+Feature specification & 1D & 5D & 20D & 60D & 120D \\
+\hline
+Full Model & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
+Without Lagged Returns & $+$1.28 & $+$0.92 & $-$2.95 & $+$3.09 & $+$3.94 \\
+Without Momentum & $+$0.75 & $+$0.44 & $-$0.92 & $+$4.91 & $+$3.08 \\
+Without Historical Volatility & $+$2.15 & $+$1.62 & $-$0.33 & $+$1.99 & $+$6.19 \\
+Without VIX & $+$0.96 & $+$0.99 & $-$1.52 & $+$0.56 & $+$9.64 \\
+Without Intraday & $+$1.57 & $+$2.01 & $-$0.60 & $+$2.08 & $+$6.44 \\
+Without Trading Volume & $+$1.69 & $+$1.62 & $-$1.73 & $+$1.18 & $-$2.86 \\
+\hline
+\end{tabular}
+}
+\par\vspace{4pt}\parbox{\linewidth}{\scriptsize\textit{Notes:} Values are calculated as the OOS $R^2$ of the ablated specification minus that of the full model. Positive values indicate an improvement after removing the corresponding feature group; negative values indicate a reduction. All values are expressed in percentage points.}
+\end{table}
+
+For LSTM, removing any feature group improves OOS $R^2$ at 1D and 5D. At 1D, the largest gains come from removing Historical Volatility ($+2.15$ percentage points), Trading Volume ($+1.69$), and Intraday ($+1.57$). At 5D, removing Intraday yields the largest gain ($+2.01$), followed by Historical Volatility and Trading Volume ($+1.62$ each). Thus, the full predictor set is not optimal at these two horizons in the evaluated LSTM configuration.
+
+At 20D, removing any feature group reduces LSTM OOS $R^2$, with the largest declines following the removal of Lagged Returns ($-2.95$ percentage points), Trading Volume ($-1.73$), and VIX ($-1.52$).
+
+At 60D, removing any feature group except Trading Volume improves LSTM OOS $R^2$, led by Momentum ($+4.91$ percentage points) and Lagged Returns ($+3.09$). At 120D, the largest gains follow the removal of VIX ($+9.64$), Intraday ($+6.44$), and Historical Volatility ($+6.19$), whereas removing Trading Volume reduces OOS $R^2$ by 2.86 points.
+
+Feature-removal effects are model- and horizon-dependent. XGBoost shows mostly small changes, Ridge exhibits substantial effects from removing VIX and Historical Volatility at longer horizons, and LSTM displays the strongest variation, with improvements at short and long horizons but declines at 20D.
+
+These findings do not imply that any feature group is universally useful or harmful; its measured effect depends on the model, horizon, and retained predictors. Correlated predictors may compensate for one another through overlapping information~\cite{hooker2021}. Accordingly, a positive $\Delta \mathrm{OOS}\,R^2$ indicates improved performance after removal under this experimental setup, not that the omitted variables are intrinsically uninformative; a negative change likewise does not establish a causal contribution.
+
+Correlated predictors may preserve overlapping information, partially compensating for the removal of a feature group. This relates to the masking effect in permutation-based importance: Kaneko~\cite{kaneko2022} shows that correlated variables can lead to underestimated individual importance, while Hooker, Mentch, and Zhou~\cite{hooker2021} identify extrapolation bias from unrealistic permuted observations. Although these studies examine permutation importance rather than model-retraining ablation, they reinforce the need to interpret feature contributions in light of dependence among retained predictors.
+
+Unlike permutation-based importance, the present ablation removes each feature group and retrains the model using the reduced predictor set. Thus, $\Delta \mathrm{OOS}\,R^2$ measures performance differences between separately fitted specifications, not the immediate effect of perturbing inputs to a fixed model. The results therefore represent incremental predictive contributions within each model--horizon configuration, not intrinsic or causal feature importance.
+
+The ablation results complement \hyperref[subsec:oos_performance]{Sections~\ref*{subsec:oos_performance}} and~\hyperref[subsec:volatility_regimes]{\ref*{subsec:volatility_regimes}}, showing that predictor-group effects depend on both model architecture and forecast horizon. Feature contributions should therefore be assessed at the model--horizon level rather than assuming a universally optimal feature configuration.
+
+\FloatBarrier
+
+\subsection{Robustness to Alternative Benchmark Specifications: Zero-Return Benchmark}\label{subsec:benchmark_robustness}
+
+This section examines benchmark sensitivity by comparing the primary Historical Mean (HM) benchmark with Zero-Return using the same holdout observations for each model--horizon pair. HM-based results appear in \hyperref[tab:oos_r2_main]{Table~\ref*{tab:oos_r2_main}} (\hyperref[subsec:oos_performance]{Section~\ref*{subsec:oos_performance}}), while the following analysis evaluates the alternative benchmark.
+
+\paragraph{Comparison of out-of-sample performance across benchmarks.}
+\hyperref[tab:benchmark_comparison]{Table~\ref*{tab:benchmark_comparison}} reports OOS $R^2$ relative to Zero-Return, with HM-based results provided in \hyperref[tab:oos_r2_main]{Table~\ref*{tab:oos_r2_main}} (\hyperref[subsec:oos_performance]{Section~\ref*{subsec:oos_performance}}) for comparison.
+
+Zero-Return produces more positive model--horizon OOS $R^2$ values, particularly at 60D and 120D. At 120D, TSMixer, ARIMA, and Elastic Net achieve 38.631\%, 27.033\%, and 25.582\%, respectively. These values do not imply outperformance of HM: changing the benchmark alters the reference forecast error in the OOS $R^2$ denominator without changing model predictions or absolute forecast errors~\cite{campbell2008,gu2020,welch2008}. Thus, positive OOS $R^2$ against Zero-Return does not necessarily indicate positive performance against HM.
+
+\begin{table}[htbp]
+\centering
+\caption{Out-of-sample $R^2$ relative to the zero-return benchmark.}\label{tab:benchmark_comparison}
+{\small
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{lrrrrr}
+\hline
+Model & 1D & 5D & 20D & 60D & 120D \\
+\hline
+ARIMA          & $-$0.286 & $-$7.102 &  $-$7.414 &   6.408 & 27.033 \\
+ARIMAX         &  1.379 & $-$4.782 &   0.298 &  17.257 & 25.322 \\
+Ridge          &  1.695 &  2.826 &   6.270 &  15.888 & 21.900 \\
+Elastic Net    &  0.327 &  1.662 &   4.691 &  15.119 & 25.582 \\
+SVR            &  2.181 &  2.523 &   7.596 &  19.057 & 11.370 \\
+Random Forest  &  1.968 & $-$0.224 &   4.316 &  15.400 & 20.806 \\
+XGBoost        &  1.676 &  1.167 &   6.001 &  15.229 & 25.476 \\
+LSTM           & $-$0.449 &  0.560 &   6.097 &  14.305 & 23.098 \\
+Transformer    & $-$15.049 & $-$38.237 &  $-$6.400 &  $-$2.945 &  8.447 \\
+TCN            & $-$13.927 & $-$63.163 & $-$112.947 & $-$58.924 & $-$80.500 \\
+PatchTST       & $-$4.042 & $-$5.722 &  $-$6.909 &  $-$3.438 & 16.491 \\
+TSMixer        & $-$2.513 & $-$4.355 &   8.308 &  19.348 & 38.631 \\
+\hline
+\end{tabular}}
+\par\vspace{4pt}\parbox{\linewidth}{\linespread{1.2}\selectfont\footnotesize\textit{Notes:} Values are expressed as percentages and calculated relative to the Zero-Return benchmark. The corresponding HM-based results are reported in \hyperref[tab:oos_r2_main]{Table~\ref*{tab:oos_r2_main}}.\par}
+\end{table}
+
+\paragraph{Differences between benchmark-based evaluations.}
+\hyperref[tab:benchmark_difference]{Table~\ref*{tab:benchmark_difference}} shows positive OOS $R^2$ differences (Zero-Return minus HM) for all 60 model--horizon combinations. The average gap increases from 0.205 percentage points at 1D to 1.173 at 5D, 5.291 at 20D, 16.733 at 60D, and 29.687 at 120D, with an overall average of 10.618 points.
+
+The widening gap at longer horizons reflects the greater influence of benchmark selection on cumulative-return evaluation, not an improvement in forecasts. It results from changes in the benchmark error used in the OOS $R^2$ denominator~\cite{campbell2008,welch2008}. Because this error varies across horizons, positive OOS $R^2$ against Zero-Return does not imply positive performance against HM. HM is therefore retained as the primary benchmark (\hyperref[tab:oos_r2_main]{Table~\ref*{tab:oos_r2_main}}), with Zero-Return serving as a robustness check.
+
+\begin{table}[htbp]
+\centering
+\caption{Difference in out-of-sample $R^2$ between zero-return and historical mean benchmarks.}\label{tab:benchmark_difference}
+{\small
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{lrrrrr}
+\hline
+Model & 1D & 5D & 20D & 60D & 120D \\
+\hline
+ARIMA          & 0.201 & 1.146 &  5.287 & 16.671 & 25.083 \\
+ARIMAX         & 0.198 & 1.122 &  4.907 & 14.738 & 25.671 \\
+Ridge          & 0.197 & 1.040 &  4.613 & 14.982 & 26.847 \\
+Elastic Net    & 0.200 & 1.053 &  4.691 & 15.119 & 25.582 \\
+SVR            & 0.196 & 1.043 &  4.548 & 14.418 & 30.467 \\
+Random Forest  & 0.197 & 1.073 &  4.709 & 15.069 & 27.223 \\
+XGBoost        & 0.197 & 1.058 &  4.627 & 15.100 & 25.618 \\
+LSTM           & 0.202 & 1.064 &  4.622 & 15.264 & 26.435 \\
+Transformer    & 0.231 & 1.480 &  5.237 & 18.337 & 31.472 \\
+TCN            & 0.229 & 1.746 & 10.481 & 28.308 & 62.048 \\
+PatchTST       & 0.209 & 1.132 &  5.262 & 18.425 & 28.706 \\
+TSMixer        & 0.206 & 1.117 &  4.513 & 14.366 & 21.096 \\
+\hline
+Average        & 0.205 & 1.173 &  5.291 & 16.733 & 29.687 \\
+\hline
+\end{tabular}}
+\par\vspace{4pt}\parbox{\linewidth}{\linespread{1.2}\selectfont\footnotesize\textit{Notes:} Entries represent percentage-point differences calculated as $R^2_{\mathrm{Zero}} - R^2_{\mathrm{HM}}$ relative to the respective benchmarks. The overall average difference across all 60 model--horizon combinations is 10.618 percentage points.\par}
+\end{table}
+
+\paragraph{Statistical comparison.}
+Diebold--Mariano tests with the Harvey--Leybourne--Newbold correction identify 1/60 nominally significant comparison against HM (TSMixer at 120D, $p=0.0485$; 1.7\%) and 8/60 against Zero-Return (13.3\%). The latter comprise ARIMAX at 60D; Ridge at 5D and 20D; Random Forest at 60D; XGBoost at 20D; LSTM at 60D; TSMixer at 120D; and Elastic Net at 5D. These are raw $p$-value results: the HM comparison does not survive Holm correction (\hyperref[subsec:oos_performance]{Section~\ref*{subsec:oos_performance}}), and the counts against either benchmark do not establish multiple-testing-adjusted significance.
+
+The larger number of nominally significant comparisons against Zero-Return indicates benchmark-sensitive statistical conclusions, but the raw $p$-value counts do not establish significance after multiple-testing adjustment or uniform predictive superiority. This is consistent with \hyperref[subsec:oos_performance]{Section~\ref*{subsec:oos_performance}}, where TSMixer's nominal HM result does not survive Holm correction.
+
+\begin{table}[htbp]
+\centering
+\caption{Summary of Diebold--Mariano test results across benchmarks.}\label{tab:dm_benchmark_summary}
+{\small
+\setlength{\tabcolsep}{8pt}
+\begin{tabular}{lrr}
+\hline
+Benchmark & Nominally significant comparisons & Share \\
+\hline
+Historical Mean & 1/60 & 1.7\% \\
+Zero-Return     & 8/60 & 13.3\% \\
+\hline
+\end{tabular}}
+\par\vspace{4pt}\parbox{0.8\linewidth}{\linespread{1.2}\selectfont\footnotesize\textit{Notes:} One-sided Diebold--Mariano tests with the Harvey--Leybourne--Newbold correction. Reported counts are based on raw (unadjusted) $p$-values at the nominal 5\% significance level. They represent individual significance before multiple-testing adjustment and should not be interpreted as evidence of statistical significance after controlling for multiple comparisons.\par}
+\end{table}
+
+\paragraph{Benchmark sensitivity across volatility regimes.}
+\hyperref[tab:benchmark_regimes]{Table~\ref*{tab:benchmark_regimes}} shows that benchmark differences are relatively small at shorter horizons but widen at longer horizons, particularly under Low and Normal volatility. At 120D, the gaps are 30.79, 37.93, and 16.28 percentage points in the Low, Normal, and High regimes, respectively.
+
+Thus, benchmark sensitivity increases with the forecast horizon and varies across volatility regimes.
+
+\begin{table}[htbp]
+\centering
+\caption{Benchmark sensitivity across volatility regimes.}\label{tab:benchmark_regimes}
+{\small
+\setlength{\tabcolsep}{7pt}
+\begin{tabular}{llrrr}
+\hline
+Horizon & Volatility Regime & HM (\%) & Zero-Return (\%) & Difference (pp) \\
+\hline
+1D   & Low    & $-$4.04  & $-$3.98  &  0.07 \\
+1D   & Normal & $-$4.41  & $-$4.07  &  0.34 \\
+1D   & High   & $-$1.26  & $-$1.10  &  0.17 \\
+\hline
+5D   & Low    & $-$10.73 & $-$8.91  &  1.82 \\
+5D   & Normal & $-$8.57  & $-$6.63  &  1.93 \\
+5D   & High   & $-$11.81 & $-$11.13 &  0.68 \\
+\hline
+20D  & Low    & $-$8.01  &  0.03  &  8.04 \\
+20D  & Normal & $-$3.50  &  7.71  & 11.20 \\
+20D  & High   & $-$18.41 & $-$17.63 &  0.78 \\
+\hline
+60D  & Low    & $-$2.35  & 17.28  & 19.63 \\
+60D  & Normal &  0.52  & 26.54  & 26.02 \\
+60D  & High   & $-$20.94 & $-$16.67 &  4.28 \\
+\hline
+120D & Low    & $-$7.63  & 23.16  & 30.79 \\
+120D & Normal & $-$4.11  & 33.82  & 37.93 \\
+120D & High   & $-$28.43 & $-$12.15 & 16.28 \\
+\hline
+\end{tabular}}
+\par\vspace{4pt}\parbox{\linewidth}{\linespread{1.2}\selectfont\footnotesize\textit{Notes:} HM denotes the Historical Mean benchmark. Difference is calculated as the Zero-Return OOS $R^2$ minus the HM OOS $R^2$, in percentage points. Values are averaged across the 12 candidate models within each horizon--regime combination.\par}
+\end{table}
+
+Overall, measured predictive performance is benchmark-sensitive, particularly at longer horizons. Positive OOS $R^2$ and nominally significant DM results against Zero-Return do not establish multiple-testing-adjusted improvements, and performance is generally less favorable against HM. The Historical Mean therefore remains the primary benchmark (\hyperref[subsec:oos_performance]{Section~\ref*{subsec:oos_performance}}), with Zero-Return serving as a complementary robustness check.
+
+\section{Conclusion}\label{sec:conclusion}
+
+This study examines how OOS predictability of S\&P 500 price-index returns varies across forecast horizons, volatility regimes, and chronological subperiods. Using daily S\&P 500 and VIX data from 1990 to 2026, it evaluates twelve econometric, machine-learning, and deep-learning models across five cumulative-return horizons against the Historical Mean (HM). The analysis combines multi-horizon evaluation, regime and temporal-stability tests, feature-group ablation, and multi-seed robustness assessment.
+
+First, predictive performance varies non-monotonically across models and horizons. TSMixer achieves positive OOS $R^2$ at 20D, 60D, and 120D, reaching $+17.53\%$ at 120D. However, no model significantly outperforms HM after Holm correction across the 60 comparisons. Cross-horizon equality tests provide limited evidence: ARIMA is the only model significant across the examined HAC bandwidths, but the synchronized moving-block bootstrap does not confirm its rejection at any tested block length. Thus, the results indicate model-specific horizon variation, not a general monotonic relationship, and positive point estimates do not establish statistically reliable superiority.
+
+Second, volatility-related performance differences are heterogeneous across models and horizons. Normal volatility contains the most positive OOS $R^2$ outcomes (25/60), followed by High (23/60) and Low (16/60), but these descriptive counts do not establish Normal-regime superiority. Under the baseline specification, nine GW-CPA results remain significant after Holm correction, all with negative full-sample mean differentials, indicating conditional departures from HM rather than improvements over it. TCN is the only model with a significant horizon--regime interaction under the baseline 20-day classification, and this result persists across the examined HAC bandwidths. However, alternative-window analyses show that broader interaction evidence is sensitive to regime definition. Thus, no volatility regime is universally advantageous.
+
+Third, temporal-stability results provide qualified evidence of chronological variation. At HAC $L=20$, holdout block tests identify five significant model--horizon combinations: TCN at 20D, 60D, and 120D; LSTM at 60D; and PatchTST at 60D. No block-level result remains significant at $L=60$ or 119. The baseline Giacomini--Rossi-type test identifies local departures from HM for Transformer at 1D, ARIMA at 20D, and TCN at 60D. However, ARIMA and TCN lose significance when the bootstrap block length increases to 120, whereas Transformer at 1D shows more consistent evidence of persistent underperformance. Thus, temporal variation is model- and horizon-dependent, while statistical evidence remains sensitive to inference specifications.
+
+Supplementary analyses further qualify the main findings. Ablation effects depend on both model and horizon, with no feature group uniformly beneficial. Zero-Return produces more favorable OOS $R^2$ than HM, particularly at longer horizons, confirming benchmark sensitivity. Multi-seed results also show that individual deep-learning runs may not be reproducible: TSMixer has negative mean OOS $R^2$ at all five horizons across ten runs, reaching $-18.93\%$ at 120D with only one positive run, compared with $+17.53\%$ for the baseline seed-42 model. This distinction separates the performance of an individual fit from architecture-level reproducibility.
+
+Several limitations remain. First, overlapping cumulative-return targets induce serial dependence, making inference sensitive to covariance estimation and resampling despite the alternative HAC bandwidths and synchronized block-bootstrap checks. Second, using the S\&P 500 price index excludes dividends and therefore does not measure total-return predictability. Third, reliance on a single aggregate equity index limits generalizability to other markets and asset classes. Fourth, deep-learning models receive unequal hyperparameter-optimization budgets. Finally, predictors using post-close information do not support interpretation as executable signals at the corresponding closing prices.
+
+Future research could use total-return indices and additional markets, test alternative volatility definitions, and apply more extensive dependence-robust inference. More repeated-seed experiments and balanced optimization budgets could better separate architecture performance from initialization effects. Incorporating execution prices, transaction costs, turnover, and risk-adjusted measures would further assess whether statistical differences have economic value.
+
+Overall, the study finds no universally superior model, monotonic horizon--predictability relationship, or consistently advantageous volatility regime. OOS performance instead depends on model specification, forecast horizon, volatility, and evaluation period. Descriptive improvement, statistical significance, temporal consistency, and reproducibility are distinct dimensions and should be evaluated jointly when assessing equity return predictability.
+
+
+\begin{thebibliography}{40}
+\bibitem{akiba2019}
+Akiba, T., Sano, S., Yanase, T., Ohta, T., Koyama, M.: Optuna: A next-generation hyperparameter optimization framework. In: Proceedings of the 25th ACM SIGKDD International Conference on Knowledge Discovery \& Data Mining, pp. 2623--2631 (2019).
+
+\bibitem{alizadeh2002}
+Alizadeh, S., Brandt, M.W., Diebold, F.X.: Range-based estimation of stochastic volatility models. The Journal of Finance \textbf{57}(3), 1047--1091 (2002).
+
+\bibitem{balduzzi1999}
+Balduzzi, P., Lynch, A.W.: Transaction costs and predictability: some utility cost calculations. Journal of Financial Economics \textbf{52}(1), 47--78 (1999).
+
+\bibitem{baltas2018}
+Baltas, N., Karyampas, D.: Forecasting the equity risk premium: The importance of regime-dependent evaluation. Journal of Financial Markets \textbf{38}, 83--102 (2018).
+
+\bibitem{banerjee2007}
+Banerjee, P.S., Doran, J.S., Peterson, D.R.: Implied volatility and future portfolio returns. Journal of Banking \& Finance \textbf{31}(10), 3183--3199 (2007).
+
+\bibitem{bekaert2014}
+Bekaert, G., Hoerova, M.: The VIX, the variance premium and stock market volatility. Journal of Econometrics \textbf{183}(2), 181--192 (2014).
+
+\bibitem{buturac2022}
+Buturac, G.: Measurement of economic forecast accuracy: A systematic overview of the empirical literature. Journal of Risk and Financial Management \textbf{15}(1), 1 (2022).
+
+\bibitem{cakici2025}
+Cakici, N., Zaremba, A.: Accounting vs technical information: what matters more for stock return predictability? Journal of International Financial Markets, Institutions and Money \textbf{104}, 102207 (2025).
+
+\bibitem{coakley2026}
+Coakley, K.L., Gundersen, O.E.: Measuring deep learning performance - an empirical study of performance distributions across architectures and tasks. Scientific Reports \textbf{16}(1), 20474 (2026).
+
+\bibitem{campbell1993}
+Campbell, J.Y., Grossman, S.J., Wang, J.: Trading volume and serial correlation in stock returns. The Quarterly Journal of Economics \textbf{108}(4), 905--939 (1993).
+
+\bibitem{campbell1998}
+Campbell, J.Y., Lo, A.W., MacKinlay, A.C.: The Econometrics of Financial Markets. Princeton University Press, Princeton (1997).
+
+\bibitem{campbell2008}
+Campbell, J.Y., Thompson, S.B.: Predicting excess stock returns out of sample: Can anything beat the historical average? The Review of Financial Studies \textbf{21}(4), 1509--1531 (2008).
+
+\bibitem{cenesizoglu2012}
+Cenesizoglu, T., Timmermann, A.: Do return prediction models add economic value? Journal of Banking \& Finance \textbf{36}(11), 2974--2987 (2012).
+
+\bibitem{diebold1995}
+Diebold, F.X., Mariano, R.S.: Comparing predictive accuracy. Journal of Business \& Economic Statistics \textbf{13}(3), 253--263 (1995).
+
+\bibitem{fredvix}
+Federal Reserve Bank of St. Louis: CBOE Volatility Index: VIX (2026), \url{https://fred.stlouisfed.org/series/VIXCLS}. Accessed 28 September 2026
+
+\bibitem{feng2024}
+Feng, Y., Zhang, Y., Wang, Y.: Out-of-sample volatility prediction: Rolling window, expanding window, or both? Journal of Forecasting \textbf{43}(3), 567--582 (2024).
+
+\bibitem{french1987}
+French, K.R., Schwert, G.W., Stambaugh, R.F.: Expected stock returns and volatility. Journal of Financial Economics \textbf{19}(1), 3--29 (1987).
+
+\bibitem{giacomini2006}
+Giacomini, R., White, H.: Tests of conditional predictive ability. Econometrica \textbf{74}(6), 1545--1578 (2006).
+
+\bibitem{giacomini2010}
+Giacomini, R., Rossi, B.: Forecast comparisons in unstable environments. Journal of Applied Econometrics \textbf{25}(4), 595--620 (2010).
+
+\bibitem{gu2020}
+Gu, S., Kelly, B., Xiu, D.: Empirical asset pricing via machine learning. The Review of Financial Studies \textbf{33}(5), 2223--2273 (2020).
+
+\bibitem{hammerschmid2018}
+Hammerschmid, R., Lohre, H.: Regime shifts and stock return predictability. International Review of Economics \& Finance \textbf{56}, 138--160 (2018).
+
+\bibitem{hansen1980}
+Hansen, L.P., Hodrick, R.J.: Forward exchange rates as optimal predictors of future spot rates: An econometric analysis. Journal of Political Economy \textbf{88}(5), 829--853 (1980).
+
+\bibitem{harvey2021}
+Harvey, D.I., Leybourne, S.J., Sollis, R., Taylor, A.M.R.: Real-time detection of regimes of predictability in the US equity premium. Journal of Applied Econometrics \textbf{36}(1), 45--70 (2021).
+
+\bibitem{harvey1997}
+Harvey, D., Leybourne, S., Newbold, P.: Testing the equality of prediction mean squared errors. International Journal of Forecasting \textbf{13}(2), 281--291 (1997).
+
+\bibitem{hewamalage2023}
+Hewamalage, H., Ackermann, K., Bergmeir, C.: Forecast evaluation for data scientists: Common pitfalls and best practices. Data Mining and Knowledge Discovery \textbf{37}(2), 788--832 (2023).
+
+\bibitem{hodrick1992}
+Hodrick, R.J.: Dividend yields and expected stock returns: Alternative procedures for inference and measurement. The Review of Financial Studies \textbf{5}(3), 357--386 (1992).
+
+\bibitem{hodson2022}
+Hodson, T.O.: Root-mean-square error (RMSE) or mean absolute error (MAE): when to use them or not. Geoscientific Model Development \textbf{15}(14), 5481--5487 (2022).
+
+\bibitem{hooker2021}
+Hooker, G., Mentch, L., Zhou, S.: Unrestricted permutation forces extrapolation: variable importance requires at least one more model, or there is no free variable importance. Statistics and Computing \textbf{31}(6), 82 (2021).
+
+\bibitem{holm1979}
+Holm, S.: A simple sequentially rejective multiple test procedure. Scandinavian Journal of Statistics \textbf{6}(2), 65--70 (1979).
+
+\bibitem{jegadeesh1993}
+Jegadeesh, N., Titman, S.: Returns to buying winners and selling losers: Implications for stock market efficiency. The Journal of Finance \textbf{48}(1), 65--91 (1993).
+
+\bibitem{kaneko2022}
+Kaneko, H.: Cross-validated permutation feature importance considering correlation between features. Analytical Science Advances \textbf{3}(9--10), 278--287 (2022).
+
+\bibitem{kingma2014}
+Kingma, D.P., Ba, J.: Adam: A method for stochastic optimization. arXiv preprint arXiv:\allowbreak 1412.6980 (2014).
+
+\bibitem{li2017}
+Li, J., Tsiakas, I.: Equity premium prediction: The role of economic and statistical constraints. Journal of Financial Markets \textbf{36}, 56--75 (2017).
+
+\bibitem{loshchilov2018decoupled}
+Loshchilov, I., Hutter, F.: Decoupled weight decay regularization. In: International Conference on Learning Representations (2019). \url{https://openreview.net/forum?id=Bkg6RiCqY7}
+
+\bibitem{moskowitz2012}
+Moskowitz, T.J., Ooi, Y.H., Pedersen, L.H.: Time series momentum. Journal of Financial Economics \textbf{104}(2), 228--250 (2012).
+
+\bibitem{nechvatalova2024}
+Nechv{\'a}talov{\'a}, L.: Multi-horizon equity returns predictability via machine learning. Czech Journal of Economics and Finance \textbf{74}(2), 142--190 (2024).
+
+\bibitem{newey1987}
+Newey, W.K., West, K.D.: A simple, positive semi-definite, heteroskedasticity and autocorrelation consistent covariance matrix. Econometrica \textbf{55}(3), 703--708 (1987).
+
+\bibitem{perez2026}
+Nu{\~n}ez Perez, F.A., Aguilar Mosqueda, F.J., Ramos Cuevas, A., Mu{\~n}oz Beltran, J., Nu{\~n}ez Perez, J.C.: Leakage-controlled horizon-specific model selection for daily equity forecasting: An automated multi-model pipeline. Forecasting \textbf{8}(2), 34 (2026).
+
+\bibitem{paye2006}
+Paye, B.S., Timmermann, A.: Instability of return prediction models. Journal of Empirical Finance \textbf{13}(3), 274--315 (2006).
+
+\bibitem{pettenuzzo2011}
+Pettenuzzo, D., Timmermann, A.: Predictability of stock returns and asset allocation under structural breaks. Journal of Econometrics \textbf{164}(1), 60--78 (2011).
+
+\bibitem{pesaran1992}
+Pesaran, M.H., Timmermann, A.: A simple nonparametric test of predictive performance. Journal of Business \& Economic Statistics \textbf{10}(4), 461--465 (1992).
+
+\bibitem{quaedvlieg2021}
+Quaedvlieg, R.: Multi-horizon forecast comparison. Journal of Business \& Economic Statistics \textbf{39}(1), 40--53 (2021).
+
+\bibitem{sheikholeslami2021}
+Sheikholeslami, S., Meister, M., Wang, T., Payberah, A.H., Vlassov, V., Dowling, J.: AutoAblation: Automated parallel ablation studies for deep learning. In: Proceedings of the 1st Workshop on Machine Learning and Systems (EuroMLSys '21), pp. 55--61. ACM, New York (2021).
+
+\bibitem{tashman2000}
+Tashman, L.J.: Out-of-sample tests of forecasting accuracy: An analysis and review. International Journal of Forecasting \textbf{16}(4), 437--450 (2000).
+
+\bibitem{welch2008}
+Welch, I., Goyal, A.: A comprehensive look at the empirical performance of equity premium prediction. The Review of Financial Studies \textbf{21}(4), 1455--1508 (2008).
+
+\bibitem{xu2020}
+Xu, K.-L.: Testing for multiple-horizon predictability: Direct regression based versus implication based. The Review of Financial Studies \textbf{33}(9), 4403--4443 (2020).
+
+\bibitem{yahoosandp}
+Yahoo Finance: S\&P 500 (\textasciicircum GSPC) historical data (2026), \url{https://finance.yahoo.com/quote/%5EGSPC/history/}. Accessed 29 September 2026
+\end{thebibliography}
+
+\end{document}

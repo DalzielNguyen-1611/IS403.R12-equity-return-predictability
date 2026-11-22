@@ -1,0 +1,14 @@
+{
+  "model_name": "SARIMA",
+  "model_family": "Statistical Models",
+  "model_category": "Regression",
+  "best_horizon": "120D",
+  "worst_horizon": "5D",
+  "best_regime": "Low",
+  "worst_regime": "High",
+  "max_oos_r2": 0.0442,
+  "min_oos_r2": -0.2612,
+  "max_da": 0.7636,
+  "total_test_observations": 1362,
+  "total_val_observations": 1360
+}

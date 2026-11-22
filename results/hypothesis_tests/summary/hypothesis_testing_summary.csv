@@ -1,0 +1,85 @@
+Hypothesis,Model,Horizon,Test_Method,Statistic,df,Raw_pvalue,Holm_pvalue,Significant_05,Sample,Sample_Size,Conclusion
+H1,ARIMA,All (1D-120D),HAC Wald Test (bw=20),15.743828897826933,4,0.0033828935977070484,0.04059472317248458,True,Hold-out,1362,Significant horizon variation
+H1,ARIMAX,All (1D-120D),HAC Wald Test (bw=20),7.321802016698433,4,0.1198286792191644,0.8388007545341508,False,Hold-out,1362,No significant horizon variation
+H1,Ridge,All (1D-120D),HAC Wald Test (bw=20),5.561630139668744,4,0.2343650218727389,0.9374600874909556,False,Hold-out,1362,No significant horizon variation
+H1,Elastic_Net,All (1D-120D),HAC Wald Test (bw=20),2.747940508841848,2,0.25310009035928116,0.9374600874909556,False,Hold-out,1362,No significant horizon variation
+H1,SVR,All (1D-120D),HAC Wald Test (bw=20),9.75346271443761,4,0.04479177986724625,0.40312601880521626,False,Hold-out,1362,No significant horizon variation
+H1,Random_Forest,All (1D-120D),HAC Wald Test (bw=20),6.700547640614256,4,0.15258476062053627,0.8388007545341508,False,Hold-out,1362,No significant horizon variation
+H1,XGBoost,All (1D-120D),HAC Wald Test (bw=20),7.816346402536025,4,0.09854210251189877,0.7883368200951901,False,Hold-out,1362,No significant horizon variation
+H1,LSTM,All (1D-120D),HAC Wald Test (bw=20),4.617631250758722,4,0.3288264032634043,0.9374600874909556,False,Hold-out,1362,No significant horizon variation
+H1,Transformer,All (1D-120D),HAC Wald Test (bw=20),6.939501272319262,4,0.13912005477876277,0.8388007545341508,False,Hold-out,1362,No significant horizon variation
+H1,TCN,All (1D-120D),HAC Wald Test (bw=20),11.124426722442944,4,0.025200651980743505,0.25200651980743505,False,Hold-out,1362,No significant horizon variation
+H1,PatchTST,All (1D-120D),HAC Wald Test (bw=20),4.619417054764355,4,0.32862158096018357,0.9374600874909556,False,Hold-out,1362,No significant horizon variation
+H1,TSMixer,All (1D-120D),HAC Wald Test (bw=20),12.381578571186772,4,0.014728242876016706,0.16201067163618377,False,Hold-out,1362,No significant horizon variation
+H2,ARIMA,All (Horizon x Regime),Joint Interaction Wald (bw=20),17.11798471479206,8,0.028903695799294082,0.2890369579929408,False,Hold-out,1362,No significant interaction
+H2,ARIMAX,All (Horizon x Regime),Joint Interaction Wald (bw=20),9.282610543164694,8,0.3190191538542282,1.0,False,Hold-out,1362,No significant interaction
+H2,Ridge,All (Horizon x Regime),Joint Interaction Wald (bw=20),6.443886497845952,8,0.5976382689935013,1.0,False,Hold-out,1362,No significant interaction
+H2,Elastic_Net,All (Horizon x Regime),Joint Interaction Wald (bw=20),3.4981918692304026,4,0.4781533280074831,1.0,False,Hold-out,1362,No significant interaction
+H2,SVR,All (Horizon x Regime),Joint Interaction Wald (bw=20),9.447925021852242,8,0.3059286234033034,1.0,False,Hold-out,1362,No significant interaction
+H2,Random_Forest,All (Horizon x Regime),Joint Interaction Wald (bw=20),21.724000828460184,8,0.00545364882814281,0.05999013710957091,False,Hold-out,1362,No significant interaction
+H2,XGBoost,All (Horizon x Regime),Joint Interaction Wald (bw=20),14.197271193480336,8,0.07676632188882515,0.6908968969994264,False,Hold-out,1362,No significant interaction
+H2,LSTM,All (Horizon x Regime),Joint Interaction Wald (bw=20),12.121142487987921,8,0.14588009900030352,1.0,False,Hold-out,1362,No significant interaction
+H2,Transformer,All (Horizon x Regime),Joint Interaction Wald (bw=20),10.281601756807436,8,0.24581483004127902,1.0,False,Hold-out,1362,No significant interaction
+H2,TCN,All (Horizon x Regime),Joint Interaction Wald (bw=20),30.02232737693473,8,0.00020946611991856656,0.0025135934390227987,True,Hold-out,1362,Significant horizon-regime interaction
+H2,PatchTST,All (Horizon x Regime),Joint Interaction Wald (bw=20),9.597116221622173,8,0.29444869680648234,1.0,False,Hold-out,1362,No significant interaction
+H2,TSMixer,All (Horizon x Regime),Joint Interaction Wald (bw=20),8.662601350807655,8,0.37155278198870334,1.0,False,Hold-out,1362,No significant interaction
+H3,ARIMA,120D,Hold-out Block Wald Test,4.404645900924834,2,0.11054606683542711,0.8843685346834169,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,ARIMAX,120D,Hold-out Block Wald Test,2.9195300882084614,2,0.23229084642243747,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,Ridge,120D,Hold-out Block Wald Test,1.2951271782871046,2,0.5233192454756272,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,Elastic_Net,120D,Hold-out Block Wald Test,0.0,0,,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,SVR,120D,Hold-out Block Wald Test,4.795137915980946,2,0.09093876073221507,0.8184488465899357,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,Random_Forest,120D,Hold-out Block Wald Test,1.7687648400740132,2,0.4129691360047417,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,XGBoost,120D,Hold-out Block Wald Test,1.9599641381890236,2,0.37531782857957663,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,LSTM,120D,Hold-out Block Wald Test,9.262758158062312,2,0.009741315790436245,0.10715447369479869,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,Transformer,120D,Hold-out Block Wald Test,1.4902120138110382,2,0.4746839774931424,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,TCN,120D,Hold-out Block Wald Test,15.669912794999561,2,0.0003956595663032747,0.004747914795639296,True,Hold-out (3 Blocks),1320,Significant temporal change across blocks
+H3,PatchTST,120D,Hold-out Block Wald Test,8.341352579291819,2,0.015441813453267561,0.1544181345326756,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,TSMixer,120D,Hold-out Block Wald Test,0.6652692950854716,2,0.7170321157513633,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,ARIMA,1D,Hold-out Block Wald Test,1.7856866756506293,2,0.40948977813276466,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,ARIMAX,1D,Hold-out Block Wald Test,1.3123722340947135,2,0.5188263087517506,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,Ridge,1D,Hold-out Block Wald Test,0.690342738945299,2,0.7080989965180419,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,Elastic_Net,1D,Hold-out Block Wald Test,2.072451713045052,2,0.35479119114353486,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,SVR,1D,Hold-out Block Wald Test,0.7684518870276621,2,0.6809775473362404,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,Random_Forest,1D,Hold-out Block Wald Test,3.7721369539165033,2,0.15166692021427042,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,XGBoost,1D,Hold-out Block Wald Test,1.1660586501521393,2,0.5582048188519066,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,LSTM,1D,Hold-out Block Wald Test,1.7729113310990647,2,0.4121138365259761,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,Transformer,1D,Hold-out Block Wald Test,4.262193290819011,2,0.11870704291222978,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,TCN,1D,Hold-out Block Wald Test,9.709522412208099,2,0.007791193620671155,0.09349432344805386,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,PatchTST,1D,Hold-out Block Wald Test,0.8568921532615422,2,0.6515207217994174,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,TSMixer,1D,Hold-out Block Wald Test,0.922961934911456,2,0.63034942691701,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,ARIMA,20D,Hold-out Block Wald Test,1.530538901330325,2,0.46520856332804605,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,ARIMAX,20D,Hold-out Block Wald Test,2.7825457136902223,2,0.2487584691111273,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,Ridge,20D,Hold-out Block Wald Test,6.248767613117453,2,0.04396401561675223,0.39567614055077005,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,Elastic_Net,20D,Hold-out Block Wald Test,0.0,0,,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,SVR,20D,Hold-out Block Wald Test,0.9586547118809681,2,0.6191997527944406,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,Random_Forest,20D,Hold-out Block Wald Test,8.845982783746653,2,0.011998286970130945,0.11998286970130945,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,XGBoost,20D,Hold-out Block Wald Test,5.205594585753483,2,0.07406610358200849,0.5925288286560679,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,LSTM,20D,Hold-out Block Wald Test,0.8614772606403323,2,0.6500287863893963,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,Transformer,20D,Hold-out Block Wald Test,9.919007261894794,2,0.007016409697003012,0.07718050666703313,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,TCN,20D,Hold-out Block Wald Test,10.972215722140097,2,0.004143941623696357,0.04972729948435628,True,Hold-out (3 Blocks),1320,Significant temporal change across blocks
+H3,PatchTST,20D,Hold-out Block Wald Test,0.26423074709943706,2,0.8762398943402948,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,TSMixer,20D,Hold-out Block Wald Test,0.8909474116857266,2,0.6405207857167567,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,ARIMA,5D,Hold-out Block Wald Test,3.2877555700358436,2,0.19322928596570887,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,ARIMAX,5D,Hold-out Block Wald Test,0.13849717857726063,2,0.933094693898576,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,Ridge,5D,Hold-out Block Wald Test,2.6305169944449354,2,0.26840493234143903,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,Elastic_Net,5D,Hold-out Block Wald Test,1.267669392461297,2,0.5305533840878314,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,SVR,5D,Hold-out Block Wald Test,0.8257160384814923,2,0.661756232810521,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,Random_Forest,5D,Hold-out Block Wald Test,2.368234807905038,2,0.30601614898774665,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,XGBoost,5D,Hold-out Block Wald Test,2.400852552105343,2,0.3010658473937644,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,LSTM,5D,Hold-out Block Wald Test,0.34470243274041534,2,0.8416835082237327,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,Transformer,5D,Hold-out Block Wald Test,6.694672925312552,2,0.03517792715050849,0.3869571986555934,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,TCN,5D,Hold-out Block Wald Test,10.235274105621336,2,0.005990160618277618,0.07188192741933142,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,PatchTST,5D,Hold-out Block Wald Test,5.0296502249484245,2,0.0808770553580418,0.8087705535804179,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,TSMixer,5D,Hold-out Block Wald Test,1.801677671602143,2,0.406228757554848,1.0,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,ARIMA,60D,Hold-out Block Wald Test,2.665467125680873,2,0.26375528332185394,0.7996349156710669,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,ARIMAX,60D,Hold-out Block Wald Test,3.6660758466425953,2,0.15992698313421339,0.7996349156710669,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,Ridge,60D,Hold-out Block Wald Test,3.5760505271876926,2,0.16729019774444187,0.7996349156710669,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,Elastic_Net,60D,Hold-out Block Wald Test,0.0,0,,0.7996349156710669,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,SVR,60D,Hold-out Block Wald Test,6.96897825969837,2,0.030669422520214984,0.24535538016171987,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,Random_Forest,60D,Hold-out Block Wald Test,6.384424456870418,2,0.041080890027829664,0.28756623019480765,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,XGBoost,60D,Hold-out Block Wald Test,7.849973209405051,2,0.01974240132506022,0.177681611925542,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,LSTM,60D,Hold-out Block Wald Test,14.386642432747438,2,0.0007515887817406419,0.008267476599147061,True,Hold-out (3 Blocks),1320,Significant temporal change across blocks
+H3,Transformer,60D,Hold-out Block Wald Test,4.303630584150618,2,0.11627289681317898,0.6976373808790739,False,Hold-out (3 Blocks),1320,No significant block difference
+H3,TCN,60D,Hold-out Block Wald Test,17.010632680673368,2,0.000202389532186098,0.002428674386233176,True,Hold-out (3 Blocks),1320,Significant temporal change across blocks
+H3,PatchTST,60D,Hold-out Block Wald Test,10.618314695834954,2,0.004946092797551538,0.04946092797551538,True,Hold-out (3 Blocks),1320,Significant temporal change across blocks
+H3,TSMixer,60D,Hold-out Block Wald Test,3.374046274417044,2,0.18506963168959056,0.7996349156710669,False,Hold-out (3 Blocks),1320,No significant block difference

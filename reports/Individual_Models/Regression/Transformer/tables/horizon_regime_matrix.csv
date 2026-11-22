@@ -1,0 +1,16 @@
+Model,Horizon,Regime,Observations,OOS_R2,MAE,RMSE,DA
+Transformer,120D,High,431,-0.1926,0.1015,0.1226,0.645
+Transformer,120D,Low,332,-0.2117,0.076,0.0862,0.7078
+Transformer,120D,Normal,599,-0.288,0.0778,0.095,0.7813
+Transformer,1D,High,431,-0.072,0.0114,0.0151,0.4872
+Transformer,1D,Low,332,-0.2278,0.0059,0.0078,0.488
+Transformer,1D,Normal,599,-0.297,0.0077,0.0097,0.4825
+Transformer,20D,High,431,0.0186,0.0476,0.0566,0.5638
+Transformer,20D,Low,332,-0.3853,0.0258,0.0301,0.3735
+Transformer,20D,Normal,599,-0.2949,0.0343,0.0399,0.3456
+Transformer,5D,High,431,-0.208,0.0255,0.0339,0.5568
+Transformer,5D,Low,332,-0.6397,0.0148,0.0184,0.4518
+Transformer,5D,Normal,599,-0.7018,0.0181,0.0238,0.5309
+Transformer,60D,High,431,-0.2861,0.0739,0.0937,0.5429
+Transformer,60D,Low,332,-0.2395,0.0437,0.0553,0.6416
+Transformer,60D,Normal,599,-0.0991,0.0497,0.0619,0.6761

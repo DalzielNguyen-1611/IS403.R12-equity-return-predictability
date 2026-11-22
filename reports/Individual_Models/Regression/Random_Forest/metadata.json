@@ -1,0 +1,16 @@
+{
+  "model_name": "Random_Forest",
+  "model_family": "Kernel & Tree-based ML",
+  "model_category": "Regression",
+  "stages_available": {
+    "part_a_before_tuning": false,
+    "part_b_after_tuning": true,
+    "part_c_final_test": true
+  },
+  "best_hyperparameters": "{'n_estimators': 200, 'max_depth': 10, 'min_samples_split': 2, 'min_samples_leaf': 5, 'max_features': 0.5}",
+  "evaluation_date_ranges": {
+    "walk_forward_validation": "2015-06-10 to 2020-10-30",
+    "independent_final_test": "2020-11-02 to 2026-04-07"
+  },
+  "verification_status": "VERIFIED"
+}

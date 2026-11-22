@@ -1,0 +1,16 @@
+{
+  "model_name": "RNN",
+  "model_family": "Classic Deep Learning",
+  "model_category": "Regression",
+  "stages_available": {
+    "part_a_before_tuning": false,
+    "part_b_after_tuning": true,
+    "part_c_final_test": true
+  },
+  "best_hyperparameters": "{'lookback': 40, 'hidden_size': 64, 'num_layers': 1, 'dropout': 0.43573029509385885, 'learning_rate': 0.00040489662225846743, 'weight_decay': 0.0001, 'batch_size': 32, 'epochs': 40, 'patience': 7}",
+  "evaluation_date_ranges": {
+    "walk_forward_validation": "2015-06-10 to 2020-10-30",
+    "independent_final_test": "2020-11-02 to 2026-04-07"
+  },
+  "verification_status": "VERIFIED"
+}

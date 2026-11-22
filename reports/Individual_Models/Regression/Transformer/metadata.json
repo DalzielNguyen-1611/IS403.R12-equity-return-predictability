@@ -1,0 +1,16 @@
+{
+  "model_name": "Transformer",
+  "model_family": "Classic Deep Learning",
+  "model_category": "Regression",
+  "stages_available": {
+    "part_a_before_tuning": false,
+    "part_b_after_tuning": true,
+    "part_c_final_test": true
+  },
+  "best_hyperparameters": "{'lookback': 40, 'd_model': 32, 'nhead': 4, 'num_encoder_layers': 2, 'dim_feedforward': 128, 'dropout': 0.26355899145378414, 'learning_rate': 0.0004967684390320199, 'weight_decay': 0.0001, 'batch_size': 32, 'epochs': 40, 'patience': 7}",
+  "evaluation_date_ranges": {
+    "walk_forward_validation": "2015-06-10 to 2020-10-30",
+    "independent_final_test": "2020-11-02 to 2026-04-07"
+  },
+  "verification_status": "VERIFIED"
+}

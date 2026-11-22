@@ -1,0 +1,30 @@
+{
+    "task": "High-Replication Bootstrap Validation for H1",
+    "n_boot": 4999,
+    "block_lengths": [
+        20,
+        40,
+        60,
+        80,
+        120
+    ],
+    "hac_bandwidth": 20,
+    "base_seed": 42,
+    "sample_size_T": 1362,
+    "elapsed_seconds": 364.66110706329346,
+    "models": [
+        "ARIMA",
+        "ARIMAX",
+        "Ridge",
+        "Elastic_Net",
+        "SVR",
+        "Random_Forest",
+        "XGBoost",
+        "LSTM",
+        "Transformer",
+        "TCN",
+        "PatchTST",
+        "TSMixer"
+    ],
+    "timestamp": "2026-11-17 11:42:23"
+}

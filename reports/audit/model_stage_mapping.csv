@@ -1,0 +1,69 @@
+Model,Family,Type,Stage,Source_Run,Available,Status,Notes
+ARIMA,Statistical Models,Regression,Part A - Before Tuning,Lan01_Default,False,UNAVAILABLE,Traditional models were tuned directly via Grid/Optuna in Lan01; separate default run not recorded in repo.
+ARIMA,Statistical Models,Regression,Part B - After Tuning,Lan01,True,VERIFIED,Walk-Forward CV with Grid Search / Optuna / Fixed hyperparameter tuning.
+ARIMA,Statistical Models,Regression,Part C - Final Test,Lan01/test_evaluation,True,VERIFIED,"Split 3 independent hold-out test (1,362 trading days)."
+ARIMAX,Statistical Models,Regression,Part A - Before Tuning,Lan01_Default,False,UNAVAILABLE,Traditional models were tuned directly via Grid/Optuna in Lan01; separate default run not recorded in repo.
+ARIMAX,Statistical Models,Regression,Part B - After Tuning,Lan01,True,VERIFIED,Walk-Forward CV with Grid Search / Optuna / Fixed hyperparameter tuning.
+ARIMAX,Statistical Models,Regression,Part C - Final Test,Lan01/test_evaluation,True,VERIFIED,"Split 3 independent hold-out test (1,362 trading days)."
+SARIMA,Statistical Models,Regression,Part A - Before Tuning,Lan01_Default,False,UNAVAILABLE,Traditional models were tuned directly via Grid/Optuna in Lan01; separate default run not recorded in repo.
+SARIMA,Statistical Models,Regression,Part B - After Tuning,Lan01,True,VERIFIED,Walk-Forward CV with Grid Search / Optuna / Fixed hyperparameter tuning.
+SARIMA,Statistical Models,Regression,Part C - Final Test,Lan01/test_evaluation,True,VERIFIED,"Split 3 independent hold-out test (1,362 trading days)."
+Ridge,Linear Models,Regression,Part A - Before Tuning,Lan01_Default,False,UNAVAILABLE,Traditional models were tuned directly via Grid/Optuna in Lan01; separate default run not recorded in repo.
+Ridge,Linear Models,Regression,Part B - After Tuning,Lan01,True,VERIFIED,Walk-Forward CV with Grid Search / Optuna / Fixed hyperparameter tuning.
+Ridge,Linear Models,Regression,Part C - Final Test,Lan01/test_evaluation,True,VERIFIED,"Split 3 independent hold-out test (1,362 trading days)."
+Elastic_Net,Linear Models,Regression,Part A - Before Tuning,Lan01_Default,False,UNAVAILABLE,Traditional models were tuned directly via Grid/Optuna in Lan01; separate default run not recorded in repo.
+Elastic_Net,Linear Models,Regression,Part B - After Tuning,Lan01,True,VERIFIED,Walk-Forward CV with Grid Search / Optuna / Fixed hyperparameter tuning.
+Elastic_Net,Linear Models,Regression,Part C - Final Test,Lan01/test_evaluation,True,VERIFIED,"Split 3 independent hold-out test (1,362 trading days)."
+SVR,Kernel & Tree-based ML,Regression,Part A - Before Tuning,Lan01_Default,False,UNAVAILABLE,Traditional models were tuned directly via Grid/Optuna in Lan01; separate default run not recorded in repo.
+SVR,Kernel & Tree-based ML,Regression,Part B - After Tuning,Lan01,True,VERIFIED,Walk-Forward CV with Grid Search / Optuna / Fixed hyperparameter tuning.
+SVR,Kernel & Tree-based ML,Regression,Part C - Final Test,Lan01/test_evaluation,True,VERIFIED,"Split 3 independent hold-out test (1,362 trading days)."
+Random_Forest,Kernel & Tree-based ML,Regression,Part A - Before Tuning,Lan01_Default,False,UNAVAILABLE,Traditional models were tuned directly via Grid/Optuna in Lan01; separate default run not recorded in repo.
+Random_Forest,Kernel & Tree-based ML,Regression,Part B - After Tuning,Lan01,True,VERIFIED,Walk-Forward CV with Grid Search / Optuna / Fixed hyperparameter tuning.
+Random_Forest,Kernel & Tree-based ML,Regression,Part C - Final Test,Lan01/test_evaluation,True,VERIFIED,"Split 3 independent hold-out test (1,362 trading days)."
+XGBoost,Kernel & Tree-based ML,Regression,Part A - Before Tuning,Lan01_Default,False,UNAVAILABLE,Traditional models were tuned directly via Grid/Optuna in Lan01; separate default run not recorded in repo.
+XGBoost,Kernel & Tree-based ML,Regression,Part B - After Tuning,Lan01,True,VERIFIED,Walk-Forward CV with Grid Search / Optuna / Fixed hyperparameter tuning.
+XGBoost,Kernel & Tree-based ML,Regression,Part C - Final Test,Lan01/test_evaluation,True,VERIFIED,"Split 3 independent hold-out test (1,362 trading days)."
+LightGBM,Kernel & Tree-based ML,Regression,Part A - Before Tuning,Lan01_Default,False,UNAVAILABLE,Traditional models were tuned directly via Grid/Optuna in Lan01; separate default run not recorded in repo.
+LightGBM,Kernel & Tree-based ML,Regression,Part B - After Tuning,Lan01,True,VERIFIED,Walk-Forward CV with Grid Search / Optuna / Fixed hyperparameter tuning.
+LightGBM,Kernel & Tree-based ML,Regression,Part C - Final Test,Lan01/test_evaluation,True,VERIFIED,"Split 3 independent hold-out test (1,362 trading days)."
+RNN,Classic Deep Learning,Regression,Part A - Before Tuning,Lan01_Default,False,UNAVAILABLE,Traditional models were tuned directly via Grid/Optuna in Lan01; separate default run not recorded in repo.
+RNN,Classic Deep Learning,Regression,Part B - After Tuning,Lan01,True,VERIFIED,Walk-Forward CV with Grid Search / Optuna / Fixed hyperparameter tuning.
+RNN,Classic Deep Learning,Regression,Part C - Final Test,Lan01/test_evaluation,True,VERIFIED,"Split 3 independent hold-out test (1,362 trading days)."
+LSTM,Classic Deep Learning,Regression,Part A - Before Tuning,Lan01_Default,False,UNAVAILABLE,Traditional models were tuned directly via Grid/Optuna in Lan01; separate default run not recorded in repo.
+LSTM,Classic Deep Learning,Regression,Part B - After Tuning,Lan01,True,VERIFIED,Walk-Forward CV with Grid Search / Optuna / Fixed hyperparameter tuning.
+LSTM,Classic Deep Learning,Regression,Part C - Final Test,Lan01/test_evaluation,True,VERIFIED,"Split 3 independent hold-out test (1,362 trading days)."
+Transformer,Classic Deep Learning,Regression,Part A - Before Tuning,Lan01_Default,False,UNAVAILABLE,Traditional models were tuned directly via Grid/Optuna in Lan01; separate default run not recorded in repo.
+Transformer,Classic Deep Learning,Regression,Part B - After Tuning,Lan01,True,VERIFIED,Walk-Forward CV with Grid Search / Optuna / Fixed hyperparameter tuning.
+Transformer,Classic Deep Learning,Regression,Part C - Final Test,Lan01/test_evaluation,True,VERIFIED,"Split 3 independent hold-out test (1,362 trading days)."
+CNN,Advanced Time-Series Deep Learning,Regression,Part A - Before Tuning,Lan02,True,VERIFIED,Default architecture parameters on Walk-Forward Split 2.
+CNN,Advanced Time-Series Deep Learning,Regression,Part B - After Tuning,Lan03,True,VERIFIED,Optuna-tuned architecture hyperparameters on Walk-Forward Split 2.
+CNN,Advanced Time-Series Deep Learning,Regression,Part C - Final Test (Default),Lan02/test_evaluation,True,VERIFIED,Split 3 independent hold-out test with default parameters.
+CNN,Advanced Time-Series Deep Learning,Regression,Part C - Final Test (Tuned),Lan03/test_evaluation,True,VERIFIED,Split 3 independent hold-out test with Optuna-tuned parameters.
+TCN,Advanced Time-Series Deep Learning,Regression,Part A - Before Tuning,Lan02,True,VERIFIED,Default architecture parameters on Walk-Forward Split 2.
+TCN,Advanced Time-Series Deep Learning,Regression,Part B - After Tuning,Lan03,True,VERIFIED,Optuna-tuned architecture hyperparameters on Walk-Forward Split 2.
+TCN,Advanced Time-Series Deep Learning,Regression,Part C - Final Test (Default),Lan02/test_evaluation,True,VERIFIED,Split 3 independent hold-out test with default parameters.
+TCN,Advanced Time-Series Deep Learning,Regression,Part C - Final Test (Tuned),Lan03/test_evaluation,True,VERIFIED,Split 3 independent hold-out test with Optuna-tuned parameters.
+N-BEATS,Advanced Time-Series Deep Learning,Regression,Part A - Before Tuning,Lan02,True,VERIFIED,Default architecture parameters on Walk-Forward Split 2.
+N-BEATS,Advanced Time-Series Deep Learning,Regression,Part B - After Tuning,Lan03,True,VERIFIED,Optuna-tuned architecture hyperparameters on Walk-Forward Split 2.
+N-BEATS,Advanced Time-Series Deep Learning,Regression,Part C - Final Test (Default),Lan02/test_evaluation,True,VERIFIED,Split 3 independent hold-out test with default parameters.
+N-BEATS,Advanced Time-Series Deep Learning,Regression,Part C - Final Test (Tuned),Lan03/test_evaluation,True,VERIFIED,Split 3 independent hold-out test with Optuna-tuned parameters.
+N-HiTS,Advanced Time-Series Deep Learning,Regression,Part A - Before Tuning,Lan02,True,VERIFIED,Default architecture parameters on Walk-Forward Split 2.
+N-HiTS,Advanced Time-Series Deep Learning,Regression,Part B - After Tuning,Lan03,True,VERIFIED,Optuna-tuned architecture hyperparameters on Walk-Forward Split 2.
+N-HiTS,Advanced Time-Series Deep Learning,Regression,Part C - Final Test (Default),Lan02/test_evaluation,True,VERIFIED,Split 3 independent hold-out test with default parameters.
+N-HiTS,Advanced Time-Series Deep Learning,Regression,Part C - Final Test (Tuned),Lan03/test_evaluation,True,VERIFIED,Split 3 independent hold-out test with Optuna-tuned parameters.
+PatchTST,Advanced Time-Series Deep Learning,Regression,Part A - Before Tuning,Lan02,True,VERIFIED,Default architecture parameters on Walk-Forward Split 2.
+PatchTST,Advanced Time-Series Deep Learning,Regression,Part B - After Tuning,Lan03,True,VERIFIED,Optuna-tuned architecture hyperparameters on Walk-Forward Split 2.
+PatchTST,Advanced Time-Series Deep Learning,Regression,Part C - Final Test (Default),Lan02/test_evaluation,True,VERIFIED,Split 3 independent hold-out test with default parameters.
+PatchTST,Advanced Time-Series Deep Learning,Regression,Part C - Final Test (Tuned),Lan03/test_evaluation,True,VERIFIED,Split 3 independent hold-out test with Optuna-tuned parameters.
+TSMixer,Advanced Time-Series Deep Learning,Regression,Part A - Before Tuning,Lan02,True,VERIFIED,Default architecture parameters on Walk-Forward Split 2.
+TSMixer,Advanced Time-Series Deep Learning,Regression,Part B - After Tuning,Lan03,True,VERIFIED,Optuna-tuned architecture hyperparameters on Walk-Forward Split 2.
+TSMixer,Advanced Time-Series Deep Learning,Regression,Part C - Final Test (Default),Lan02/test_evaluation,True,VERIFIED,Split 3 independent hold-out test with default parameters.
+TSMixer,Advanced Time-Series Deep Learning,Regression,Part C - Final Test (Tuned),Lan03/test_evaluation,True,VERIFIED,Split 3 independent hold-out test with Optuna-tuned parameters.
+iTransformer,Advanced Time-Series Deep Learning,Regression,Part A - Before Tuning,Lan02,True,VERIFIED,Default architecture parameters on Walk-Forward Split 2.
+iTransformer,Advanced Time-Series Deep Learning,Regression,Part B - After Tuning,Lan03,True,VERIFIED,Optuna-tuned architecture hyperparameters on Walk-Forward Split 2.
+iTransformer,Advanced Time-Series Deep Learning,Regression,Part C - Final Test (Default),Lan02/test_evaluation,True,VERIFIED,Split 3 independent hold-out test with default parameters.
+iTransformer,Advanced Time-Series Deep Learning,Regression,Part C - Final Test (Tuned),Lan03/test_evaluation,True,VERIFIED,Split 3 independent hold-out test with Optuna-tuned parameters.
+Logistic_Regression,Linear Models / Classification,Classification,Part A - Before Tuning,Lan01_Default,False,UNAVAILABLE,Traditional models were tuned directly via Grid/Optuna in Lan01; separate default run not recorded in repo.
+Logistic_Regression,Linear Models / Classification,Classification,Part B - After Tuning,Lan01,True,VERIFIED,Walk-Forward CV with Grid Search / Optuna / Fixed hyperparameter tuning.
+Logistic_Regression,Linear Models / Classification,Classification,Part C - Final Test,Lan01/test_evaluation,True,VERIFIED,"Split 3 independent hold-out test (1,362 trading days)."
+Historical_Mean,Benchmark,Benchmark,Validation & Final Test Benchmark,Lan01 / Lan02 / Lan03,True,VERIFIED,"Expanding historical mean benchmark, available in all runs."

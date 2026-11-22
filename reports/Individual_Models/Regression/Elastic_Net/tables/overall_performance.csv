@@ -1,0 +1,4 @@
+Evaluation Stage,OOS_R2,RMSE,MAE,DA (%),Naive Positive DA (%),Excess DA (pp),DM Statistic,DM p-value,Sign Test p-value,N
+Part A – Before Tuning,N/A,N/A,N/A,N/A,54.00%,0.00,N/A,N/A,N/A,N/A
+Part B – After Tuning,-0.0225,0.0440,0.0345,64.66%,N/A,N/A,N/A,N/A,N/A,1360
+Part C – Final Independent Test,0.0015,0.0465,0.0370,65.90%,66.61%,-0.01,0.2314,0.8247,0.0371,1362

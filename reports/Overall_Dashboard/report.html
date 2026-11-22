@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overall Research Dashboard</title>
+    <!-- KaTeX CSS & JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #24292e;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem;
+            background-color: #ffffff;
+        }
+        h1, h2, h3, h4 {
+            color: #0d1117;
+            border-bottom: 1px solid #eaecef;
+            padding-bottom: 0.3em;
+            margin-top: 1.5em;
+            margin-bottom: 0.8em;
+        }
+        h1 { font-size: 2.1rem; border-bottom: 2px solid #0969da; }
+        h2 { font-size: 1.6rem; color: #1f2328; }
+        h3 { font-size: 1.3rem; border-bottom: none; }
+        h4 { font-size: 1.1rem; border-bottom: none; }
+        hr { height: 2px; background-color: #eaecef; border: none; margin: 2rem 0; }
+        blockquote {
+            margin: 1.2rem 0;
+            padding: 0.8rem 1.2rem;
+            color: #57606a;
+            background-color: #f6f8fa;
+            border-left: 0.25rem solid #0969da;
+            border-radius: 4px;
+        }
+        code {
+            background-color: #f6f8fa;
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-size: 88%;
+            font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+        }
+        .table-container {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+        th, td {
+            border: 1px solid #d0d7de;
+            padding: 8px 14px;
+            text-align: left;
+        }
+        th {
+            background-color: #f6f8fa;
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background-color: #fcfcfc;
+        }
+        tr:hover {
+            background-color: #f2f8fd;
+        }
+        .figure-box {
+            text-align: center;
+            margin: 2rem 0;
+            padding: 1rem;
+            background: #fafbfc;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+        }
+        .figure-box img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .figure-box .caption {
+            margin-top: 0.6rem;
+            font-size: 0.9rem;
+            color: #586069;
+            font-weight: 500;
+        }
+        a { color: #0969da; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+<h1>OVERALL QUANTITATIVE RESEARCH DASHBOARD</h1>
+<p><strong>Research Project:</strong> <em>When Does Equity Return Predictability Decay? A Multi-Horizon and Regime-Dependent Out-of-Sample Analysis</em></p>
+<p><strong>Primary Dataset:</strong> S&P 500 (<code>^GSPC</code>) Daily Returns (1990–2026) | VIX Volatility Conditioning</p>
+<p><strong>Core Inquiry:</strong> Determining the structural form and economic decay of equity return predictability across forecast horizons and volatility regimes.</p>
+
+<hr/>
+
+<h2>A. Model Coverage & Experimental Architecture</h2>
+<ul>
+<li><strong>Total Intended Forecasting Models:</strong> 20 single models (19 regression + 1 classification) + 1 Historical Mean benchmark.</li>
+<li><strong>Models Fully Evaluated on Split 3 Test Set:</strong> 20 / 20 (100% complete coverage).</li>
+<li><strong>Total Verified Test Predictions:</strong> 149,820 individual point forecasts across Split 3 (1,362 days).</li>
+<li><strong>Total Independent Metric Recomputations:</strong> 1,305 metric values audited and 100% verified against raw prediction files.</li>
+</ul>
+
+<hr/>
+
+<h2>B. Top Predictive Models (Final Out-of-Sample Test Set)</h2>
+<h3>Top 5 Models by Mean Out-of-Sample R²:</h3>
+
+<div class="table-container"><table>
+<tr><th>Model</th><th>OOS_R2</th><th>DA</th><th>RMSE</th></tr>
+<tr><td>XGBoost</td><td>0.0059</td><td>0.66388</td><td>0.04646</td></tr>
+<tr><td>Ridge</td><td>0.00182</td><td>0.63538</td><td>0.04678</td></tr>
+<tr><td>Elastic_Net</td><td>0.00148</td><td>0.65904</td><td>0.0465</td></tr>
+<tr><td>LSTM</td><td>-0.00794</td><td>0.64332</td><td>0.04686</td></tr>
+<tr><td>Random_Forest</td><td>-0.01202</td><td>0.6505</td><td>0.04712</td></tr>
+</table></div>
+
+<h3>Models Outperforming Historical Mean ($R^2_{OOS} > 0$) by Horizon:</h3>
+<ul>
+<li><strong>Horizon 1D:</strong> 8 models -> <code>ARIMAX, Ridge, Elastic_Net, SVR, Random_Forest, XGBoost, LightGBM, PatchTST</code></li>
+<li><strong>Horizon 5D:</strong> 8 models -> <code>Ridge, Elastic_Net, SVR, XGBoost, LightGBM, TCN, N-HiTS, PatchTST</code></li>
+<li><strong>Horizon 20D:</strong> 8 models -> <code>Ridge, SVR, XGBoost, LightGBM, RNN, LSTM, TCN, iTransformer</code></li>
+<li><strong>Horizon 60D:</strong> 7 models -> <code>ARIMAX, Ridge, SVR, Random_Forest, XGBoost, LightGBM, TCN</code></li>
+<li><strong>Horizon 120D:</strong> 4 models -> <code>ARIMA, SARIMA, N-BEATS, N-HiTS</code></li>
+</ul>
+
+<hr/>
+
+<h2>C. Predictability Decay Dynamics Across Horizons</h2>
+<p>Summary metrics averaged across all regression models from 1-day to 120-day horizons:</p>
+
+<div class="table-container"><table>
+<tr><th>Horizon</th><th>OOS_R2</th><th>RMSE</th><th>MAE</th><th>DA</th><th>Excess_DA</th></tr>
+<tr><td>1D</td><td>-0.0139737</td><td>0.0106316</td><td>0.00765789</td><td>0.511321</td><td>-0.0261263</td></tr>
+<tr><td>5D</td><td>-0.0619368</td><td>0.0229789</td><td>0.0171</td><td>0.542737</td><td>-0.0512526</td></tr>
+<tr><td>20D</td><td>-0.0733632</td><td>0.0430947</td><td>0.0341158</td><td>0.587758</td><td>-0.0811158</td></tr>
+<tr><td>60D</td><td>-0.123184</td><td>0.0692263</td><td>0.0552211</td><td>0.682279</td><td>-0.0673579</td></tr>
+<tr><td>120D</td><td>-0.0816368</td><td>0.0960579</td><td>0.0766158</td><td>0.747121</td><td>-0.0333368</td></tr>
+</table></div>
+
+<div class="figure-box"><img src="figures/horizon_decay_patterns.png" alt="Horizon Patterns"/><div class="caption">Horizon Patterns</div></div>
+
+
+<hr/>
+
+<h2>D. Market Volatility Regime Patterns</h2>
+<p>Empirical evidence across Low, Normal, and High volatility regimes:</p>
+
+<div class="table-container"><table>
+<tr><th>Regime</th><th>OOS_R2</th><th>RMSE</th><th>MAE</th><th>DA</th></tr>
+<tr><td>Low</td><td>-0.126684</td><td>0.0370526</td><td>0.0302737</td><td>0.611121</td></tr>
+<tr><td>Normal</td><td>-0.0760053</td><td>0.0423</td><td>0.0339316</td><td>0.652968</td></tr>
+<tr><td>High</td><td>-0.0599263</td><td>0.0617316</td><td>0.0500579</td><td>0.562826</td></tr>
+</table></div>
+
+
+<hr/>
+
+<h2>E. Formal Statistical Inference Summary (Diebold–Mariano & Sign Tests)</h2>
+<p>Summary of hypothesis tests conducted against the Historical Mean benchmark (DM Test) and random coin toss (Sign Test):</p>
+
+<div class="table-container"><table>
+<tr><th>Horizon</th><th>Significant_DM_Tests</th><th>Non_Significant_DM_Tests</th><th>Significant_Sign_Tests</th><th>Non_Significant_Sign_Tests</th><th>Total_Models_Tested</th></tr>
+<tr><td>1D</td><td>0</td><td>19</td><td>8</td><td>11</td><td>19</td></tr>
+<tr><td>5D</td><td>0</td><td>19</td><td>12</td><td>7</td><td>19</td></tr>
+<tr><td>20D</td><td>0</td><td>19</td><td>15</td><td>4</td><td>19</td></tr>
+<tr><td>60D</td><td>0</td><td>19</td><td>17</td><td>2</td><td>19</td></tr>
+<tr><td>120D</td><td>0</td><td>19</td><td>19</td><td>0</td><td>19</td></tr>
+</table></div>
+
+<div class="figure-box"><img src="figures/statistical_significance_summary.png" alt="Statistical Significance Summary"/><div class="caption">Statistical Significance Summary</div></div>
+
+
+<hr/>
+
+<h2>F. Directional Classification Overview (Logistic Regression)</h2>
+<p>Classification performance of Logistic Regression on the independent hold-out test set:</p>
+
+<div class="table-container"><table>
+<tr><th>Model</th><th>Horizon</th><th>ROC_AUC</th><th>Accuracy</th><th>Balanced_Accuracy</th><th>Precision</th><th>Recall</th><th>F1</th><th>DA</th><th>Sign_pvalue</th></tr>
+<tr><td>Logistic_Regression</td><td>120D</td><td>0.5756</td><td>0.7805</td><td>0.5</td><td>0.7805</td><td>1</td><td>0.8767</td><td>0.7805</td><td>0</td></tr>
+<tr><td>Logistic_Regression</td><td>1D</td><td>0.4974</td><td>0.489</td><td>0.492</td><td>0.5288</td><td>0.4522</td><td>0.4875</td><td>0.489</td><td>0.7995</td></tr>
+<tr><td>Logistic_Regression</td><td>20D</td><td>0.5212</td><td>0.6689</td><td>0.5</td><td>0.6689</td><td>1</td><td>0.8016</td><td>0.6689</td><td>0</td></tr>
+<tr><td>Logistic_Regression</td><td>5D</td><td>0.5226</td><td>0.5117</td><td>0.5135</td><td>0.6071</td><td>0.5043</td><td>0.551</td><td>0.5117</td><td>0.2005</td></tr>
+<tr><td>Logistic_Regression</td><td>60D</td><td>0.6264</td><td>0.746</td><td>0.4976</td><td>0.7487</td><td>0.9951</td><td>0.8545</td><td>0.746</td><td>0</td></tr>
+</table></div>
+
+
+<hr/>
+
+<h2>G. Data Quality & Methodological Integrity</h2>
+<ul>
+<li><strong>Data Leakage Control:</strong> 100% zero leakage verified. Split 3 labels are never touched during training.</li>
+<li><strong>Purging Protocol:</strong> Marcos López de Prado $h-1$ day purging strictly enforced for all multi-step horizons ($h > 1$).</li>
+<li><strong>Metric Traceability:</strong> All summary metrics match exact point forecasts with numerical difference $< 10^{-4}$.</li>
+</ul>
+</body>
+</html>

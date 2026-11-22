@@ -1,0 +1,14 @@
+{
+  "model_name": "Logistic_Regression",
+  "model_family": "Linear Models / Classification",
+  "model_category": "Classification",
+  "best_horizon": "N/A",
+  "worst_horizon": "N/A",
+  "best_regime": "N/A",
+  "worst_regime": "N/A",
+  "max_oos_r2": null,
+  "min_oos_r2": null,
+  "max_da": 0.0,
+  "total_test_observations": 1362,
+  "total_val_observations": 1360
+}

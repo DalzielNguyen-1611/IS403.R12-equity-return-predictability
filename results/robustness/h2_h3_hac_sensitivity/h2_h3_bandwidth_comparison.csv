@@ -1,0 +1,193 @@
+Test,Model,Horizon,Regime_or_Subperiod,L=5,L=20,L=60,L=119,Conclusion
+H2: GW-CPA,ARIMA,120D,Joint (Low/Norm/High),0.10904099740763207,0.7208521008132879,0.7968695915697133,0.30916521494304394,Stable insignificant
+H2: GW-CPA,ARIMA,1D,Joint (Low/Norm/High),1.0,1.0,1.0,1.0,Stable insignificant
+H2: GW-CPA,ARIMA,20D,Joint (Low/Norm/High),0.08665551968226737,0.7283444576469444,0.22247996414640125,0.323876101637115,Stable insignificant
+H2: GW-CPA,ARIMA,5D,Joint (Low/Norm/High),0.021605613344829466,0.004653401163755566,0.00014035870665174421,7.705220926634837e-06,Stable significant
+H2: GW-CPA,ARIMA,60D,Joint (Low/Norm/High),0.1908358887931012,1.0,1.0,1.0,Stable insignificant
+H2: GW-CPA,ARIMAX,120D,Joint (Low/Norm/High),0.17914057382843573,0.8943321163857969,1.0,1.0,Stable insignificant
+H2: GW-CPA,ARIMAX,1D,Joint (Low/Norm/High),1.0,1.0,1.0,1.0,Stable insignificant
+H2: GW-CPA,ARIMAX,20D,Joint (Low/Norm/High),1.0,1.0,1.0,1.0,Stable insignificant
+H2: GW-CPA,ARIMAX,5D,Joint (Low/Norm/High),1.0,1.0,1.0,0.3368799085758485,Stable insignificant
+H2: GW-CPA,ARIMAX,60D,Joint (Low/Norm/High),1.0,1.0,1.0,1.0,Stable insignificant
+H2: GW-CPA,Elastic_Net,120D,Joint (Low/Norm/High),0.17914057382843573,0.8943321163857969,1.0,1.0,Stable insignificant
+H2: GW-CPA,Elastic_Net,1D,Joint (Low/Norm/High),1.0,1.0,1.0,1.0,Stable insignificant
+H2: GW-CPA,Elastic_Net,20D,Joint (Low/Norm/High),1.0,1.0,1.0,1.0,Stable insignificant
+H2: GW-CPA,Elastic_Net,5D,Joint (Low/Norm/High),1.0,1.0,1.0,0.7028336473565151,Stable insignificant
+H2: GW-CPA,Elastic_Net,60D,Joint (Low/Norm/High),1.0,1.0,1.0,1.0,Stable insignificant
+H2: GW-CPA,LSTM,120D,Joint (Low/Norm/High),0.019786360577686568,0.43054187261422316,0.8414245768480044,1.0,Significance-sensitive
+H2: GW-CPA,LSTM,1D,Joint (Low/Norm/High),1.0,1.0,0.6217169550710953,0.1364227285578541,Stable insignificant
+H2: GW-CPA,LSTM,20D,Joint (Low/Norm/High),0.185776714852959,1.0,1.0,1.0,Stable insignificant
+H2: GW-CPA,LSTM,5D,Joint (Low/Norm/High),1.0,1.0,1.0,0.9047753404537353,Stable insignificant
+H2: GW-CPA,LSTM,60D,Joint (Low/Norm/High),0.25455585900424404,1.0,1.0,1.0,Stable insignificant
+H2: GW-CPA,PatchTST,120D,Joint (Low/Norm/High),0.0970425199224273,0.8943321163857969,1.0,1.0,Stable insignificant
+H2: GW-CPA,PatchTST,1D,Joint (Low/Norm/High),0.3080504637445314,0.27034270251509396,0.05081830268967469,0.036404456380432215,Significance-sensitive
+H2: GW-CPA,PatchTST,20D,Joint (Low/Norm/High),0.44518166711242957,1.0,1.0,0.978914788912121,Stable insignificant
+H2: GW-CPA,PatchTST,5D,Joint (Low/Norm/High),1.0,1.0,1.0,1.0,Stable insignificant
+H2: GW-CPA,PatchTST,60D,Joint (Low/Norm/High),0.009486990145736396,0.9212776047405326,1.0,1.0,Significance-sensitive
+H2: GW-CPA,Random_Forest,120D,Joint (Low/Norm/High),0.02408762614146087,0.15218432474423338,0.21515566387596818,0.03627102592944054,Significance-sensitive
+H2: GW-CPA,Random_Forest,1D,Joint (Low/Norm/High),1.0,1.0,1.0,1.0,Stable insignificant
+H2: GW-CPA,Random_Forest,20D,Joint (Low/Norm/High),1.0,1.0,1.0,1.0,Stable insignificant
+H2: GW-CPA,Random_Forest,5D,Joint (Low/Norm/High),1.0,1.0,1.0,1.0,Stable insignificant
+H2: GW-CPA,Random_Forest,60D,Joint (Low/Norm/High),0.6897773446017225,1.0,1.0,1.0,Stable insignificant
+H2: GW-CPA,Ridge,120D,Joint (Low/Norm/High),0.0970425199224273,0.8943321163857969,1.0,1.0,Stable insignificant
+H2: GW-CPA,Ridge,1D,Joint (Low/Norm/High),1.0,1.0,1.0,1.0,Stable insignificant
+H2: GW-CPA,Ridge,20D,Joint (Low/Norm/High),1.0,1.0,1.0,1.0,Stable insignificant
+H2: GW-CPA,Ridge,5D,Joint (Low/Norm/High),1.0,1.0,1.0,1.0,Stable insignificant
+H2: GW-CPA,Ridge,60D,Joint (Low/Norm/High),1.0,1.0,1.0,1.0,Stable insignificant
+H2: GW-CPA,SVR,120D,Joint (Low/Norm/High),3.1593186513578786e-06,0.048970192759863806,0.24409599026121165,0.23003696733250534,Significance-sensitive
+H2: GW-CPA,SVR,1D,Joint (Low/Norm/High),1.0,1.0,1.0,1.0,Stable insignificant
+H2: GW-CPA,SVR,20D,Joint (Low/Norm/High),1.0,1.0,1.0,1.0,Stable insignificant
+H2: GW-CPA,SVR,5D,Joint (Low/Norm/High),1.0,1.0,1.0,1.0,Stable insignificant
+H2: GW-CPA,SVR,60D,Joint (Low/Norm/High),0.003569955061037966,0.3319574587175578,1.0,1.0,Significance-sensitive
+H2: GW-CPA,TCN,120D,Joint (Low/Norm/High),1.1750762936024728e-06,0.02731778187648759,0.3476750208838282,0.2830829780242162,Significance-sensitive
+H2: GW-CPA,TCN,1D,Joint (Low/Norm/High),3.1861260296750515e-09,9.284950008847659e-08,6.985985536722694e-07,2.8489807846199255e-08,Stable significant
+H2: GW-CPA,TCN,20D,Joint (Low/Norm/High),4.0475899965031203e-08,0.0011268805414412775,0.015996165948362062,0.0023235984296055,Stable significant
+H2: GW-CPA,TCN,5D,Joint (Low/Norm/High),6.893270128038864e-07,0.00031856206882341365,0.002704460013710497,0.00037253488178179417,Stable significant
+H2: GW-CPA,TCN,60D,Joint (Low/Norm/High),7.178119778572523e-07,0.010516736563743745,0.16756020117999126,0.35378683999217353,Significance-sensitive
+H2: GW-CPA,TSMixer,120D,Joint (Low/Norm/High),0.0001440687082943093,0.15454719030090325,0.8314827052157462,1.0,Significance-sensitive
+H2: GW-CPA,TSMixer,1D,Joint (Low/Norm/High),1.0,1.0,1.0,1.0,Stable insignificant
+H2: GW-CPA,TSMixer,20D,Joint (Low/Norm/High),0.08665551968226737,0.7283444576469444,0.2813873168468428,0.08581943876687226,Stable insignificant
+H2: GW-CPA,TSMixer,5D,Joint (Low/Norm/High),1.0,1.0,1.0,0.7028336473565151,Stable insignificant
+H2: GW-CPA,TSMixer,60D,Joint (Low/Norm/High),0.9671228848956046,1.0,1.0,1.0,Stable insignificant
+H2: GW-CPA,Transformer,120D,Joint (Low/Norm/High),0.0002154655860151511,0.1447917558130033,0.8314827052157462,1.0,Significance-sensitive
+H2: GW-CPA,Transformer,1D,Joint (Low/Norm/High),2.4590816383174285e-08,9.53109750778669e-06,9.205012310609106e-05,8.843379170031529e-05,Stable significant
+H2: GW-CPA,Transformer,20D,Joint (Low/Norm/High),0.0012428547734262274,0.4291196817739843,1.0,1.0,Significance-sensitive
+H2: GW-CPA,Transformer,5D,Joint (Low/Norm/High),2.1883423719781803e-06,0.0003075862455004241,3.760386694295903e-05,1.3129745231155177e-05,Stable significant
+H2: GW-CPA,Transformer,60D,Joint (Low/Norm/High),0.4280259733987386,1.0,1.0,1.0,Stable insignificant
+H2: GW-CPA,XGBoost,120D,Joint (Low/Norm/High),0.005674545759307925,0.05451961093853708,0.23920976191674437,0.14595896916454443,Significance-sensitive
+H2: GW-CPA,XGBoost,1D,Joint (Low/Norm/High),1.0,1.0,1.0,1.0,Stable insignificant
+H2: GW-CPA,XGBoost,20D,Joint (Low/Norm/High),0.039866529870311584,0.7283444576469444,1.0,1.0,Significance-sensitive
+H2: GW-CPA,XGBoost,5D,Joint (Low/Norm/High),1.0,1.0,1.0,1.0,Stable insignificant
+H2: GW-CPA,XGBoost,60D,Joint (Low/Norm/High),0.00011981693249307757,0.23157274506632242,1.0,1.0,Significance-sensitive
+H2: Horizon x Regime Interaction,ARIMA,All (1D-120D),Low & High contrasts vs 1D,0.17355541224800863,0.2890369579929408,5.147466911381571e-05,2.1241888248368923e-09,Significance-sensitive
+H2: Horizon x Regime Interaction,ARIMAX,All (1D-120D),Low & High contrasts vs 1D,0.3893485691402149,1.0,1.0,0.007630634160084249,Significance-sensitive
+H2: Horizon x Regime Interaction,Elastic_Net,All (1D-120D),Low & High contrasts vs 1D,0.6889722541085981,1.0,1.0,0.2510775216123111,Stable insignificant
+H2: Horizon x Regime Interaction,LSTM,All (1D-120D),Low & High contrasts vs 1D,0.17355541224800863,1.0,0.4993998120833698,0.0061721034908919226,Significance-sensitive
+H2: Horizon x Regime Interaction,PatchTST,All (1D-120D),Low & High contrasts vs 1D,0.18585980936225366,1.0,1.0,0.434525294458295,Stable insignificant
+H2: Horizon x Regime Interaction,Random_Forest,All (1D-120D),Low & High contrasts vs 1D,0.009047086596556397,0.05999013710957091,0.0029371071800292636,1.7239124773693604e-05,Significance-sensitive
+H2: Horizon x Regime Interaction,Ridge,All (1D-120D),Low & High contrasts vs 1D,0.45431711965553334,1.0,1.0,0.434525294458295,Stable insignificant
+H2: Horizon x Regime Interaction,SVR,All (1D-120D),Low & High contrasts vs 1D,0.18585980936225366,1.0,1.0,0.434525294458295,Stable insignificant
+H2: Horizon x Regime Interaction,TCN,All (1D-120D),Low & High contrasts vs 1D,4.021601052173196e-08,0.0025135934390227987,0.028768210180247777,0.007630634160084249,Stable significant
+H2: Horizon x Regime Interaction,TSMixer,All (1D-120D),Low & High contrasts vs 1D,0.3893485691402149,1.0,1.0,0.12895352649493952,Stable insignificant
+H2: Horizon x Regime Interaction,Transformer,All (1D-120D),Low & High contrasts vs 1D,0.3893485691402149,1.0,0.9030998679047855,0.17995181342217836,Stable insignificant
+H2: Horizon x Regime Interaction,XGBoost,All (1D-120D),Low & High contrasts vs 1D,0.08177012688773355,0.6908968969994264,0.12394653627516472,0.005645452829172726,Significance-sensitive
+H3: Fluctuation Test,ARIMA,120D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,ARIMA,1D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,ARIMA,20D,Rolling Window (m=252),0.024,0.024,0.024,0.024,Stable significant
+H3: Fluctuation Test,ARIMA,5D,Rolling Window (m=252),0.6659999999999999,0.6659999999999999,0.6659999999999999,0.6659999999999999,Stable insignificant
+H3: Fluctuation Test,ARIMA,60D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,ARIMAX,120D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,ARIMAX,1D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,ARIMAX,20D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,ARIMAX,5D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,ARIMAX,60D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,Elastic_Net,120D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,Elastic_Net,1D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,Elastic_Net,20D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,Elastic_Net,5D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,Elastic_Net,60D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,LSTM,120D,Rolling Window (m=252),0.726,0.726,0.726,0.726,Stable insignificant
+H3: Fluctuation Test,LSTM,1D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,LSTM,20D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,LSTM,5D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,LSTM,60D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,PatchTST,120D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,PatchTST,1D,Rolling Window (m=252),0.2,0.2,0.2,0.2,Stable insignificant
+H3: Fluctuation Test,PatchTST,20D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,PatchTST,5D,Rolling Window (m=252),0.5,0.5,0.5,0.5,Stable insignificant
+H3: Fluctuation Test,PatchTST,60D,Rolling Window (m=252),0.154,0.154,0.154,0.154,Stable insignificant
+H3: Fluctuation Test,Random_Forest,120D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,Random_Forest,1D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,Random_Forest,20D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,Random_Forest,5D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,Random_Forest,60D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,Ridge,120D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,Ridge,1D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,Ridge,20D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,Ridge,5D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,Ridge,60D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,SVR,120D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,SVR,1D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,SVR,20D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,SVR,5D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,SVR,60D,Rolling Window (m=252),0.66,0.66,0.66,0.66,Stable insignificant
+H3: Fluctuation Test,TCN,120D,Rolling Window (m=252),0.21599999999999997,0.21599999999999997,0.21599999999999997,0.21599999999999997,Stable insignificant
+H3: Fluctuation Test,TCN,1D,Rolling Window (m=252),0.19799999999999998,0.19799999999999998,0.19799999999999998,0.19799999999999998,Stable insignificant
+H3: Fluctuation Test,TCN,20D,Rolling Window (m=252),0.176,0.176,0.176,0.176,Stable insignificant
+H3: Fluctuation Test,TCN,5D,Rolling Window (m=252),0.19799999999999998,0.19799999999999998,0.19799999999999998,0.19799999999999998,Stable insignificant
+H3: Fluctuation Test,TCN,60D,Rolling Window (m=252),0.048,0.048,0.048,0.048,Stable significant
+H3: Fluctuation Test,TSMixer,120D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,TSMixer,1D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,TSMixer,20D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,TSMixer,5D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,TSMixer,60D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,Transformer,120D,Rolling Window (m=252),0.726,0.726,0.726,0.726,Stable insignificant
+H3: Fluctuation Test,Transformer,1D,Rolling Window (m=252),0.0,0.0,0.0,0.0,Stable significant
+H3: Fluctuation Test,Transformer,20D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,Transformer,5D,Rolling Window (m=252),0.192,0.192,0.192,0.192,Stable insignificant
+H3: Fluctuation Test,Transformer,60D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,XGBoost,120D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,XGBoost,1D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,XGBoost,20D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,XGBoost,5D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Fluctuation Test,XGBoost,60D,Rolling Window (m=252),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,ARIMA,120D,Hold-out (3 Blocks),0.025553860895928482,0.8843685346834169,1.0,1.0,Significance-sensitive
+H3: Hold-out Subperiod Wald,ARIMA,1D,Hold-out (3 Blocks),1.0,1.0,1.0,0.9933054527632664,Stable insignificant
+H3: Hold-out Subperiod Wald,ARIMA,20D,Hold-out (3 Blocks),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,ARIMA,5D,Hold-out (3 Blocks),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,ARIMA,60D,Hold-out (3 Blocks),0.10331171243439363,0.7996349156710669,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,ARIMAX,120D,Hold-out (3 Blocks),0.296116535927886,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,ARIMAX,1D,Hold-out (3 Blocks),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,ARIMAX,20D,Hold-out (3 Blocks),0.783673139629533,1.0,1.0,0.6064810448417435,Stable insignificant
+H3: Hold-out Subperiod Wald,ARIMAX,5D,Hold-out (3 Blocks),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,ARIMAX,60D,Hold-out (3 Blocks),0.07663504288069745,0.7996349156710669,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,Elastic_Net,120D,Hold-out (3 Blocks),0.8654141339584496,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,Elastic_Net,1D,Hold-out (3 Blocks),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,Elastic_Net,20D,Hold-out (3 Blocks),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,Elastic_Net,5D,Hold-out (3 Blocks),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,Elastic_Net,60D,Hold-out (3 Blocks),0.16756883475503392,0.7996349156710669,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,LSTM,120D,Hold-out (3 Blocks),5.053103688601457e-05,0.10715447369479869,0.8006043872323039,1.0,Significance-sensitive
+H3: Hold-out Subperiod Wald,LSTM,1D,Hold-out (3 Blocks),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,LSTM,20D,Hold-out (3 Blocks),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,LSTM,5D,Hold-out (3 Blocks),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,LSTM,60D,Hold-out (3 Blocks),5.779329682598089e-07,0.008267476599147061,0.0961968524397343,0.05693541139225289,Significance-sensitive
+H3: Hold-out Subperiod Wald,PatchTST,120D,Hold-out (3 Blocks),0.0005762699211475653,0.1544181345326756,1.0,1.0,Significance-sensitive
+H3: Hold-out Subperiod Wald,PatchTST,1D,Hold-out (3 Blocks),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,PatchTST,20D,Hold-out (3 Blocks),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,PatchTST,5D,Hold-out (3 Blocks),0.7601015745557793,0.8087705535804179,0.7313035318092798,0.9202768675871905,Stable insignificant
+H3: Hold-out Subperiod Wald,PatchTST,60D,Hold-out (3 Blocks),2.6391580765228184e-06,0.04946092797551538,0.547505678946109,1.0,Significance-sensitive
+H3: Hold-out Subperiod Wald,Random_Forest,120D,Hold-out (3 Blocks),0.8654141339584496,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,Random_Forest,1D,Hold-out (3 Blocks),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,Random_Forest,20D,Hold-out (3 Blocks),0.0075204095140724014,0.11998286970130945,0.1329066607985827,0.3113857333091208,Significance-sensitive
+H3: Hold-out Subperiod Wald,Random_Forest,5D,Hold-out (3 Blocks),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,Random_Forest,60D,Hold-out (3 Blocks),0.09178279290238789,0.28756623019480765,0.2992983408288097,0.16784077038234546,Stable insignificant
+H3: Hold-out Subperiod Wald,Ridge,120D,Hold-out (3 Blocks),0.8654141339584496,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,Ridge,1D,Hold-out (3 Blocks),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,Ridge,20D,Hold-out (3 Blocks),0.06324936536282788,0.39567614055077005,0.14385370655389074,0.06875036326497819,Stable insignificant
+H3: Hold-out Subperiod Wald,Ridge,5D,Hold-out (3 Blocks),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,Ridge,60D,Hold-out (3 Blocks),0.09178279290238789,0.7996349156710669,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,SVR,120D,Hold-out (3 Blocks),0.03139424669616542,0.8184488465899357,1.0,1.0,Significance-sensitive
+H3: Hold-out Subperiod Wald,SVR,1D,Hold-out (3 Blocks),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,SVR,20D,Hold-out (3 Blocks),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,SVR,5D,Hold-out (3 Blocks),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,SVR,60D,Hold-out (3 Blocks),0.0005132763077906333,0.24535538016171987,1.0,1.0,Significance-sensitive
+H3: Hold-out Subperiod Wald,TCN,120D,Hold-out (3 Blocks),1.3672690979404933e-08,0.004747914795639296,0.3967498694500131,1.0,Significance-sensitive
+H3: Hold-out Subperiod Wald,TCN,1D,Hold-out (3 Blocks),0.1264669615818681,0.09349432344805386,0.34180009731443217,0.23110343455259885,Stable insignificant
+H3: Hold-out Subperiod Wald,TCN,20D,Hold-out (3 Blocks),9.420631680079339e-06,0.04972729948435628,0.4190349440036498,0.8589359154344685,Significance-sensitive
+H3: Hold-out Subperiod Wald,TCN,5D,Hold-out (3 Blocks),0.0009322590659484042,0.07188192741933142,0.5219609816761984,1.0,Significance-sensitive
+H3: Hold-out Subperiod Wald,TCN,60D,Hold-out (3 Blocks),5.452565066121906e-09,0.002428674386233176,0.2888129087852368,1.0,Significance-sensitive
+H3: Hold-out Subperiod Wald,TSMixer,120D,Hold-out (3 Blocks),0.8654141339584496,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,TSMixer,1D,Hold-out (3 Blocks),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,TSMixer,20D,Hold-out (3 Blocks),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,TSMixer,5D,Hold-out (3 Blocks),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,TSMixer,60D,Hold-out (3 Blocks),0.16756883475503392,0.7996349156710669,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,Transformer,120D,Hold-out (3 Blocks),0.8654141339584496,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,Transformer,1D,Hold-out (3 Blocks),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,Transformer,20D,Hold-out (3 Blocks),0.00022180729666554377,0.07718050666703313,0.21063834338152843,0.2628142843491106,Significance-sensitive
+H3: Hold-out Subperiod Wald,Transformer,5D,Hold-out (3 Blocks),0.16581308251359705,0.3869571986555934,0.18387766944137285,0.1838676518904867,Stable insignificant
+H3: Hold-out Subperiod Wald,Transformer,60D,Hold-out (3 Blocks),0.05172783638370959,0.6976373808790739,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,XGBoost,120D,Hold-out (3 Blocks),0.8654141339584496,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,XGBoost,1D,Hold-out (3 Blocks),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,XGBoost,20D,Hold-out (3 Blocks),0.024397448274457112,0.5925288286560679,1.0,1.0,Significance-sensitive
+H3: Hold-out Subperiod Wald,XGBoost,5D,Hold-out (3 Blocks),1.0,1.0,1.0,1.0,Stable insignificant
+H3: Hold-out Subperiod Wald,XGBoost,60D,Hold-out (3 Blocks),7.473961850112953e-05,0.177681611925542,1.0,1.0,Significance-sensitive

@@ -1,0 +1,16 @@
+{
+  "model_name": "N-HiTS",
+  "model_family": "Advanced Time-Series Deep Learning",
+  "model_category": "Regression",
+  "stages_available": {
+    "part_a_before_tuning": true,
+    "part_b_after_tuning": true,
+    "part_c_final_test": true
+  },
+  "best_hyperparameters": "{'lookback': 40, 'pooling_kernels': (8, 4, 1), 'num_blocks_per_stack': 1, 'hidden_dim': 64, 'dropout': 0.22701814444901136, 'learning_rate': 1.0838581269344744e-05, 'weight_decay': 0.0001, 'batch_size': 16, 'epochs': 1000, 'patience': 7, 'pooling_mode': 0}",
+  "evaluation_date_ranges": {
+    "walk_forward_validation": "2015-06-10 to 2020-10-30",
+    "independent_final_test": "2020-11-02 to 2026-04-07"
+  },
+  "verification_status": "VERIFIED"
+}

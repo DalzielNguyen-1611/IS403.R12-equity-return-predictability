@@ -1,0 +1,16 @@
+{
+  "model_name": "Historical_Mean",
+  "model_family": "Benchmark",
+  "model_category": "Benchmark",
+  "stages_available": {
+    "part_a_before_tuning": true,
+    "part_b_after_tuning": true,
+    "part_c_final_test": true
+  },
+  "best_hyperparameters": "None (Benchmark / Default)",
+  "evaluation_date_ranges": {
+    "walk_forward_validation": "2015-06-10 to 2020-10-30",
+    "independent_final_test": "2020-11-02 to 2026-04-07"
+  },
+  "verification_status": "VERIFIED"
+}

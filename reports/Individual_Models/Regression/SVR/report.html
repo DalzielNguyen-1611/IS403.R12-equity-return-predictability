@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report: SVR</title>
+    <!-- KaTeX CSS & JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #24292e;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem;
+            background-color: #ffffff;
+        }
+        h1, h2, h3, h4 {
+            color: #0d1117;
+            border-bottom: 1px solid #eaecef;
+            padding-bottom: 0.3em;
+            margin-top: 1.5em;
+            margin-bottom: 0.8em;
+        }
+        h1 { font-size: 2.1rem; border-bottom: 2px solid #0969da; }
+        h2 { font-size: 1.6rem; color: #1f2328; }
+        h3 { font-size: 1.3rem; border-bottom: none; }
+        h4 { font-size: 1.1rem; border-bottom: none; }
+        hr { height: 2px; background-color: #eaecef; border: none; margin: 2rem 0; }
+        blockquote {
+            margin: 1.2rem 0;
+            padding: 0.8rem 1.2rem;
+            color: #57606a;
+            background-color: #f6f8fa;
+            border-left: 0.25rem solid #0969da;
+            border-radius: 4px;
+        }
+        code {
+            background-color: #f6f8fa;
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-size: 88%;
+            font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+        }
+        .table-container {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+        th, td {
+            border: 1px solid #d0d7de;
+            padding: 8px 14px;
+            text-align: left;
+        }
+        th {
+            background-color: #f6f8fa;
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background-color: #fcfcfc;
+        }
+        tr:hover {
+            background-color: #f2f8fd;
+        }
+        .figure-box {
+            text-align: center;
+            margin: 2rem 0;
+            padding: 1rem;
+            background: #fafbfc;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+        }
+        .figure-box img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .figure-box .caption {
+            margin-top: 0.6rem;
+            font-size: 0.9rem;
+            color: #586069;
+            font-weight: 500;
+        }
+        a { color: #0969da; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+<h1>QUANTITATIVE RESEARCH EVALUATION REPORT: SVR</h1>
+<p><strong>Research Project:</strong> <em>When Does Equity Return Predictability Decay? A Multi-Horizon and Regime-Dependent Out-of-Sample Analysis</em></p>
+<p><strong>Model Family:</strong> Kernel & Tree-based ML | <strong>Model Category:</strong> Regression</p>
+<p><strong>Evaluation Status:</strong> Strict Walk-Forward Out-of-Sample & Independent Hold-out Verification</p>
+
+<hr/>
+
+<h2>SECTION 1 – Model Overview</h2>
+<ul>
+<li><strong>Model Identifier:</strong> <code>SVR</code></li>
+<li><strong>Architectural Classification:</strong> Kernel & Tree-based ML (Regression)</li>
+<li><strong>Primary Hyperparameter Configuration:</strong> <code>{'C': 0.1, 'epsilon': 0.01, 'gamma': 0.001, 'kernel': 'rbf'}</code></li>
+<li><strong>Validation Period (Split 2):</strong> 2015-06-10 to 2020-10-30 (5 walk-forward expanding folds, 1,360 total trading sessions)</li>
+<li><strong>Final Hold-out Test Period (Split 3):</strong> 2020-11-02 to 2026-04-07 (1,362 out-of-sample trading sessions)</li>
+<li><strong>Evaluated Forecast Horizons:</strong> 1D, 5D, 20D, 60D, 120D</li>
+<li><strong>Evaluated Volatility Regimes:</strong> Low, Normal, High (Walk-forward expanding 33% & 67% quantiles)</li>
+</ul>
+
+<hr/>
+
+<h2>SECTION 2 – Overall Performance Across Evaluation Stages</h2>
+<p>The table below synthesizes predictive performance across the three evaluation stages. Note that Part A and Part B evaluate on Walk-Forward Validation (Split 2), whereas Part C evaluates on the strictly independent hold-out test set (Split 3).</p>
+
+<div class="table-container"><table>
+<tr><th>Evaluation Stage</th><th>OOS_R2</th><th>RMSE</th><th>MAE</th><th>DA (%)</th><th>Naive Positive DA (%)</th><th>Excess DA (pp)</th><th>DM Statistic</th><th>DM p-value</th><th>Sign Test p-value</th><th>N</th></tr>
+<tr><td>Part A – Before Tuning</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td><td>54.00%</td><td>0.00</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr>
+<tr><td>Part B – After Tuning</td><td>-0.3035</td><td>0.0476</td><td>0.0374</td><td>54.41%</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td><td>1360</td></tr>
+<tr><td>Part C – Final Independent Test</td><td>-0.0159</td><td>0.0477</td><td>0.0382</td><td>63.54%</td><td>66.61%</td><td>-0.03</td><td>0.3208</td><td>0.3687</td><td>0.0048</td><td>1362</td></tr>
+</table></div>
+
+<h2>SECTION 3 – Forecast Horizon Analysis</h2>
+<p>Analysis of predictive decay across horizons from ultra-short term (1D) to long-term macroeconomic horizon (120D).</p>
+
+<div class="table-container"><table>
+<tr><th>Horizon</th><th>OOS_R2</th><th>RMSE</th><th>MAE</th><th>DA</th><th>Naive_Positive_DA</th><th>Excess_DA</th><th>DM_Stat</th><th>DM_pvalue</th><th>Sign_pvalue</th><th>Observations</th></tr>
+<tr><td>1D</td><td>0.0198</td><td>0.0104</td><td>0.0075</td><td>0.5272</td><td>0.5374</td><td>-0.0103</td><td>1.241</td><td>0.1074</td><td>0.0239</td><td>1362</td></tr>
+<tr><td>5D</td><td>0.0148</td><td>0.0222</td><td>0.0164</td><td>0.5808</td><td>0.594</td><td>-0.0132</td><td>0.6899</td><td>0.2452</td><td>0</td><td>1362</td></tr>
+<tr><td>20D</td><td>0.0305</td><td>0.041</td><td>0.0316</td><td>0.6681</td><td>0.6689</td><td>-0.0007</td><td>0.6629</td><td>0.2538</td><td>0</td><td>1362</td></tr>
+<tr><td>60D</td><td>0.0464</td><td>0.064</td><td>0.0489</td><td>0.7496</td><td>0.7496</td><td>0</td><td>0.5146</td><td>0.3035</td><td>0</td><td>1362</td></tr>
+<tr><td>120D</td><td>-0.191</td><td>0.101</td><td>0.0867</td><td>0.6512</td><td>0.7805</td><td>-0.1292</td><td>-1.5045</td><td>0.9337</td><td>0</td><td>1362</td></tr>
+</table></div>
+
+<div class="figure-box"><img src="figures/horizon_performance.png" alt="Forecast Horizon Performance"/><div class="caption">Forecast Horizon Performance</div></div>
+
+<h2>SECTION 4 – Volatility Regime Analysis</h2>
+<p>Performance breakdown conditioned on market volatility regimes (Low, Normal, High) constructed using expanding quantiles.</p>
+
+<div class="table-container"><table>
+<tr><th>Regime</th><th>OOS_R2</th><th>RMSE</th><th>MAE</th><th>DA</th></tr>
+<tr><td>Low</td><td>-0.0616</td><td>0.03722</td><td>0.03088</td><td>0.63012</td></tr>
+<tr><td>Normal</td><td>-0.0165</td><td>0.0422</td><td>0.03444</td><td>0.6848</td></tr>
+<tr><td>High</td><td>0.00046</td><td>0.05992</td><td>0.04914</td><td>0.57078</td></tr>
+</table></div>
+
+<div class="figure-box"><img src="figures/regime_performance.png" alt="Volatility Regime Performance"/><div class="caption">Volatility Regime Performance</div></div>
+
+<h2>SECTION 5 – Horizon × Regime Matrices</h2>
+<p>Multi-dimensional matrix displaying performance across the 5 × 3 Horizon × Regime state space.</p>
+
+<h3>Out-of-Sample R² Matrix (5 × 3):</h3>
+
+<div class="table-container"><table>
+<tr><th>Horizon</th><th>Low</th><th>Normal</th><th>High</th></tr>
+<tr><td>1D</td><td>-0.0021</td><td>0.0043</td><td>0.031</td></tr>
+<tr><td>5D</td><td>-0.0118</td><td>0.0089</td><td>0.0221</td></tr>
+<tr><td>20D</td><td>0.0012</td><td>0.0708</td><td>0.0139</td></tr>
+<tr><td>60D</td><td>0.0349</td><td>0.1654</td><td>-0.0349</td></tr>
+<tr><td>120D</td><td>-0.3302</td><td>-0.3319</td><td>-0.0298</td></tr>
+</table></div>
+
+<div class="figure-box"><img src="figures/horizon_regime_heatmap_oos_r2.png" alt="Horizon x Regime OOS R2"/><div class="caption">Horizon x Regime OOS R2</div></div>
+
+<div class="figure-box"><img src="figures/horizon_regime_heatmap_da.png" alt="Horizon x Regime DA"/><div class="caption">Horizon x Regime DA</div></div>
+
+<h2>SECTION 6 – Before vs After Tuning Comparison</h2>
+<blockquote>[!NOTE]</blockquote>
+<blockquote><strong>Single Tuned Workflow Execution:</strong> Traditional models in this research suite were tuned directly during Walk-Forward Validation (Lan01) using cross-validated Grid Search and Optuna TPE. A separate un-tuned baseline run was not persisted in the repository archives.</blockquote>
+
+<h2>SECTION 7 – Final Independent Hold-out Test Verification</h2>
+<p>The Final Independent Hold-out Test (Split 3: 2020–2026, 1,362 days) serves as the definitive out-of-sample empirical evidence. All preprocessing steps and hyperparameter choices were completely frozen prior to test inference.</p>
+<ul>
+<li><strong>Total Test Days:</strong> 1,362 trading sessions</li>
+<li><strong>Lead Out-of-Sample R²:</strong> 0.0464 (achieved at horizon <code>60D</code>)</li>
+<li><strong>Max Directional Accuracy:</strong> 74.96%</li>
+</ul>
+
+<h2>SECTION 8 – Walk-Forward Fold-Level Analysis</h2>
+<p>Stability evaluation across the 5 expanding walk-forward folds (Split 2):</p>
+
+<div class="table-container"><table>
+<tr><th>Horizon</th><th>Mean_OOS_R2</th><th>Std_OOS_R2</th><th>Min_OOS_R2</th><th>Max_OOS_R2</th><th>Mean_RMSE</th><th>Std_RMSE</th><th>Mean_MAE</th><th>Mean_DA</th></tr>
+<tr><td>1D</td><td>-0.0238</td><td>0.0191</td><td>-0.0448</td><td>-0.0019</td><td>0.011</td><td>0.0061</td><td>0.0073</td><td>0.4941</td></tr>
+<tr><td>5D</td><td>-0.6486</td><td>1.2277</td><td>-2.8333</td><td>0.0049</td><td>0.0252</td><td>0.0099</td><td>0.0185</td><td>0.4993</td></tr>
+<tr><td>20D</td><td>-0.2687</td><td>0.3146</td><td>-0.7114</td><td>0.0015</td><td>0.0463</td><td>0.0272</td><td>0.0352</td><td>0.4456</td></tr>
+<tr><td>60D</td><td>-0.1619</td><td>0.2726</td><td>-0.5835</td><td>0.1697</td><td>0.0708</td><td>0.0422</td><td>0.0558</td><td>0.6691</td></tr>
+<tr><td>120D</td><td>-0.4144</td><td>0.7196</td><td>-1.3773</td><td>0.3299</td><td>0.0847</td><td>0.0269</td><td>0.0702</td><td>0.6125</td></tr>
+</table></div>
+
+<div class="figure-box"><img src="figures/fold_level_performance.png" alt="Fold Trajectory"/><div class="caption">Fold Trajectory</div></div>
+
+
+<h2>SECTION 9 – Quantitative Executive Summary</h2>
+<ul>
+<li><strong>Optimal Horizon:</strong> <code>60D</code> (OOS R² = 0.0464)</li>
+<li><strong>Sub-optimal Horizon:</strong> <code>120D</code> (OOS R² = -0.1910)</li>
+<li><strong>Most Favorable Volatility Regime:</strong> <code>High</code></li>
+<li><strong>Most Challenging Volatility Regime:</strong> <code>Low</code></li>
+<li><strong>Maximum Directional Accuracy:</strong> 74.96%</li>
+<li><strong>Test Set Observations:</strong> 1362 days</li>
+</ul>
+</body>
+</html>

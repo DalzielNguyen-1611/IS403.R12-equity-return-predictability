@@ -1,0 +1,14 @@
+{
+  "total_intended_models": 20,
+  "regression_models": 19,
+  "classification_models": 1,
+  "benchmarks": 1,
+  "models_with_complete_results": 20,
+  "models_with_partial_results": 0,
+  "models_with_missing_results": 0,
+  "available_stages": {
+    "part_a_before_tuning": 7,
+    "part_b_after_tuning": 20,
+    "part_c_final_test": 20
+  }
+}

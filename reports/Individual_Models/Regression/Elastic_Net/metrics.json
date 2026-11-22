@@ -1,0 +1,14 @@
+{
+  "model_name": "Elastic_Net",
+  "model_family": "Linear Models",
+  "model_category": "Regression",
+  "best_horizon": "5D",
+  "worst_horizon": "20D",
+  "best_regime": "High",
+  "worst_regime": "Low",
+  "max_oos_r2": 0.0061,
+  "min_oos_r2": 0.0,
+  "max_da": 0.7805,
+  "total_test_observations": 1362,
+  "total_val_observations": 1360
+}

@@ -1,0 +1,16 @@
+{
+  "model_name": "TCN",
+  "model_family": "Advanced Time-Series Deep Learning",
+  "model_category": "Regression",
+  "stages_available": {
+    "part_a_before_tuning": true,
+    "part_b_after_tuning": true,
+    "part_c_final_test": true
+  },
+  "best_hyperparameters": "{'lookback': 20, 'hidden_size': 32, 'num_levels': 3, 'kernel_size': 3, 'dropout': 0.2559612698728292, 'learning_rate': 0.0002588496894717813, 'weight_decay': 0.0001, 'batch_size': 32, 'epochs': 1000, 'patience': 7, 'num_channels': [32, 32, 32]}",
+  "evaluation_date_ranges": {
+    "walk_forward_validation": "2015-06-10 to 2020-10-30",
+    "independent_final_test": "2020-11-02 to 2026-04-07"
+  },
+  "verification_status": "VERIFIED"
+}

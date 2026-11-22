@@ -24,3 +24,9 @@ scratch/
 *.toc
 *.fls
 *.fdb_latexmk
+*.bbl
+*.blg
+*.thm
+
+# MS Office temporary lock files
+~$*.docx

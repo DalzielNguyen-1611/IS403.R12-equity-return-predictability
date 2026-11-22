@@ -1,0 +1,17 @@
+project-includes = [
+    "**/*.py*",
+    "**/*.ipynb",
+]
+
+site-packages-path = [
+    "e:/Repo Project/IS403.R12-equity-return-predictability/.venv/Lib/site-packages",
+    "C:/Users/ACER/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0/LocalCache/local-packages/Python311/site-packages",
+]
+
+search-path = [
+    "e:/Repo Project/IS403.R12-equity-return-predictability",
+    "e:/Repo Project/IS403.R12-equity-return-predictability/src",
+    "e:/Repo Project/IS403.R12-equity-return-predictability/src/evaluation/hypothesis_tests",
+    "e:/Repo Project/IS403.R12-equity-return-predictability/src/training/baselines",
+    "e:/Repo Project/IS403.R12-equity-return-predictability/src/testing",
+]

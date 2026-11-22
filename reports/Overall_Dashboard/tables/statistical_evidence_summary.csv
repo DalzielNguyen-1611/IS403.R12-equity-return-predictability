@@ -1,0 +1,6 @@
+Horizon,Significant_DM_Tests,Non_Significant_DM_Tests,Significant_Sign_Tests,Non_Significant_Sign_Tests,Total_Models_Tested
+1D,0,19,8,11,19
+5D,0,19,12,7,19
+20D,0,19,15,4,19
+60D,0,19,17,2,19
+120D,0,19,19,0,19

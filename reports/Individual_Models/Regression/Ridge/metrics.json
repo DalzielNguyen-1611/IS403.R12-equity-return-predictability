@@ -1,0 +1,14 @@
+{
+  "model_name": "Ridge",
+  "model_family": "Linear Models",
+  "model_category": "Regression",
+  "best_horizon": "5D",
+  "worst_horizon": "120D",
+  "best_regime": "High",
+  "worst_regime": "Low",
+  "max_oos_r2": 0.0179,
+  "min_oos_r2": -0.0495,
+  "max_da": 0.7709,
+  "total_test_observations": 1362,
+  "total_val_observations": 1360
+}

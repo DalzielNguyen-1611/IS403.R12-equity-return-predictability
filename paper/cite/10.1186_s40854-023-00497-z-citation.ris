@@ -1,0 +1,16 @@
+TY  - JOUR
+AU  - Yae, James
+AU  - Luo, Yang
+PY  - 2023
+DA  - 2023/07/11
+TI  - Robust monitoring machine: a machine learning solution for out-of-sample R$$^2$$-hacking in return predictability monitoring
+JO  - Financial Innovation
+SP  - 94
+VL  - 9
+IS  - 1
+AB  - The out-of-sample $$R^2$$is designed to measure forecasting performance without look-ahead bias. However, researchers can hack this performance metric even without multiple tests by constructing a prediction model using the intuition derived from empirical properties that appear only in the test sample. Using ensemble machine learning techniques, we create a virtual environment that prevents researchers from peeking into the intuition in advance when performing out-of-sample prediction simulations. We apply this approach to robust monitoring, exploiting a dynamic shrinkage effect by switching between a proposed forecast and a benchmark. Considering stock return forecasting as an example, we show that the resulting robust monitoring forecast improves the average performance of the proposed forecast by 15% (in terms of mean-squared-error) and reduces the variance of its relative performance by 46% while avoiding the out-of-sample $$R^2$$-hacking problem. Our approach, as a final touch, can further enhance the performance and stability of forecasts from any models and methods.
+SN  - 2199-4730
+UR  - https://doi.org/10.1186/s40854-023-00497-z
+DO  - 10.1186/s40854-023-00497-z
+ID  - Yae2023
+ER  - 

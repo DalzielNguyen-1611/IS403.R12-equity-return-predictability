@@ -1,0 +1,1 @@
+@article{Fan_Xiao_Zhou_2022, title={Moment Risk Premia and Stock Return Predictability}, volume={57}, DOI={10.1017/S002210902000085X}, number={1}, journal={Journal of Financial and Quantitative Analysis}, author={Fan, Zhenzhen and Xiao, Xiao and Zhou, Hao}, year={2022}, pages={67–93}} <div></div>

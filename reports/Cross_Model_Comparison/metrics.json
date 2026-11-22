@@ -1,0 +1,7 @@
+{
+  "total_models_compared": 20,
+  "best_overall_model_oos_r2": "XGBoost",
+  "best_overall_oos_r2": 0.0059,
+  "best_overall_model_da": "XGBoost",
+  "best_overall_da": 0.66388
+}

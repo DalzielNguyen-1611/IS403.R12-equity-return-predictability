@@ -1,0 +1,14 @@
+{
+  "model_name": "CNN",
+  "model_family": "Advanced Time-Series Deep Learning",
+  "model_category": "Regression",
+  "best_horizon": "1D",
+  "worst_horizon": "5D",
+  "best_regime": "Normal",
+  "worst_regime": "Low",
+  "max_oos_r2": -0.1003,
+  "min_oos_r2": -0.3415,
+  "max_da": 0.6865,
+  "total_test_observations": 1362,
+  "total_val_observations": 1360
+}
