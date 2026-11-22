@@ -30,3 +30,6 @@ scratch/
 
 # MS Office temporary lock files
 ~$*.docx
+
+# Bundled submission folder for teacher
+src code/
